@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -68,37 +69,63 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trending / Carousels */}
-      <section className="w-full py-12 md:py-24">
+      {/* Trending Phones */}
+      <section className="w-full py-12 md:py-16">
         <div className="container px-4 md:px-6">
-           <Tabs defaultValue="trending">
-              <TabsList className="grid w-full grid-cols-4 md:w-auto md:grid-cols-4 mb-8">
-                <TabsTrigger value="trending">Trending Phones</TabsTrigger>
-                <TabsTrigger value="latest">Latest Launches</TabsTrigger>
-                <TabsTrigger value="flagship">Flagship Phones</TabsTrigger>
-                <TabsTrigger value="performance">Performance Phones</TabsTrigger>
-              </TabsList>
-              <TabsContent value="trending">
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-                  {popularPhones.map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
-                </div>
-              </TabsContent>
-              <TabsContent value="latest">
-                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-                  {latestPhones.map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
-                </div>
-              </TabsContent>
-               <TabsContent value="flagship">
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-                  {latestPhones.filter(p => p.price > 900).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
-                </div>
-              </TabsContent>
-              <TabsContent value="performance">
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-                  {popularPhones.slice(0,4).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
-                </div>
-              </TabsContent>
-           </Tabs>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">Trending Phones</h2>
+            <Link href="#" className="text-sm font-medium text-primary hover:underline flex items-center">
+              See All <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+            {popularPhones.map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+          </div>
+        </div>
+      </section>
+
+      {/* Latest Launches */}
+      <section className="w-full py-12 md:py-16 bg-secondary/50">
+        <div className="container px-4 md:px-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">Latest Launches</h2>
+            <Link href="#" className="text-sm font-medium text-primary hover:underline flex items-center">
+              See All <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+            {latestPhones.map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+          </div>
+        </div>
+      </section>
+
+      {/* Flagship Phones */}
+      <section className="w-full py-12 md:py-16">
+        <div className="container px-4 md:px-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">Flagship Phones</h2>
+            <Link href="#" className="text-sm font-medium text-primary hover:underline flex items-center">
+              See All <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+            {latestPhones.filter(p => p.price > 900).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+          </div>
+        </div>
+      </section>
+      
+      {/* Performance Phones */}
+      <section className="w-full py-12 md:py-16 bg-secondary/50">
+        <div className="container px-4 md:px-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">Performance Phones</h2>
+            <Link href="#" className="text-sm font-medium text-primary hover:underline flex items-center">
+              See All <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+            {popularPhones.slice(0,4).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+          </div>
         </div>
       </section>
       
