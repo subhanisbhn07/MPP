@@ -205,7 +205,7 @@ export default function Home() {
               See All <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
             {popularPhones
               .slice(0, 6)
               .map((phone) => (
@@ -233,7 +233,7 @@ export default function Home() {
               See All <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
             {latestPhones
               .slice(0, 6)
               .map((phone) => (
@@ -261,7 +261,7 @@ export default function Home() {
               See All <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
             {allPhones
               .filter((p) => p.price > 900)
               .slice(0, 6)
@@ -290,7 +290,7 @@ export default function Home() {
               See All <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
             {performancePhones
               .slice(0, 6)
               .map((phone) => (
@@ -326,7 +326,7 @@ export default function Home() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="battery">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+              <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {allPhones
                   .sort((a,b) => parseInt(b.specs.battery) - parseInt(a.specs.battery))
                   .slice(0, 6)
@@ -340,7 +340,7 @@ export default function Home() {
               </div>
             </TabsContent>
             <TabsContent value="gaming">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+              <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {performancePhones
                   .slice(0, 6)
                   .map((phone) => (
@@ -353,7 +353,7 @@ export default function Home() {
               </div>
             </TabsContent>
             <TabsContent value="camera">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+              <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {allPhones
                   .sort((a,b) => parseInt(b.specs.camera) - parseInt(a.specs.camera))
                   .slice(0, 6)
@@ -392,7 +392,7 @@ export default function Home() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="foldable">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+              <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {allPhones
                   .filter((p) => p.model.includes('Fold') || p.model.includes('Flip') || p.model.includes('Razr') || p.model.includes('Open'))
                   .slice(0, 6)
@@ -406,7 +406,7 @@ export default function Home() {
               </div>
             </TabsContent>
             <TabsContent value="rugged">
-               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+               <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {[...allPhones].slice(6, 12).map((phone) => (
                     <PhoneCard
                       key={phone.id}
@@ -417,7 +417,7 @@ export default function Home() {
               </div>
             </TabsContent>
             <TabsContent value="unique">
-               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+               <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {allPhones
                   .filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony")
                   .slice(0, 6)
