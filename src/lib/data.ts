@@ -79,6 +79,45 @@ export const latestPhones: Phone[] = [
       processor: 'Snapdragon 8 Gen 3',
       battery: '5400mAh',
     },
+  },
+  {
+    id: 17,
+    brand: 'Google',
+    model: 'Pixel Fold',
+    image: 'https://picsum.photos/400/500?phone=17',
+    price: 1799,
+    specs: {
+      display: '7.6" Foldable OLED',
+      camera: '48MP Wide',
+      processor: 'Google Tensor G2',
+      battery: '4821mAh',
+    },
+  },
+  {
+    id: 18,
+    brand: 'OnePlus',
+    model: 'Open',
+    image: 'https://picsum.photos/400/500?phone=18',
+    price: 1699,
+    specs: {
+      display: '7.82" Flexi-fluid AMOLED',
+      camera: '48MP Sony LYT-T808',
+      processor: 'Snapdragon 8 Gen 2',
+      battery: '4805mAh',
+    },
+  },
+  {
+    id: 19,
+    brand: 'Samsung',
+    model: 'Galaxy Z Flip 4',
+    image: 'https://picsum.photos/400/500?phone=19',
+    price: 899,
+    specs: {
+      display: '6.7" Foldable Dynamic AMOLED 2X',
+      camera: '12MP Wide',
+      processor: 'Snapdragon 8+ Gen 1',
+      battery: '3700mAh',
+    },
   }
 ];
 
@@ -279,3 +318,6 @@ export const allPhones: Phone[] = Array.from(new Set(combinedPhones.map(p => p.i
   .map(id => {
     return combinedPhones.find(p => p.id === id)!;
   });
+
+
+    
