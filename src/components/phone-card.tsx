@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import type { Phone } from '@/lib/types';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,9 +9,10 @@ import Link from 'next/link';
 
 interface PhoneCardProps {
   phone: Phone;
+  onAddToCompare: (phone: Phone) => void;
 }
 
-export function PhoneCard({ phone }: PhoneCardProps) {
+export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
   return (
     <Card className="flex flex-col overflow-hidden transition-all hover:shadow-lg">
       <CardHeader className="p-0">
@@ -40,7 +42,7 @@ export function PhoneCard({ phone }: PhoneCardProps) {
       <CardFooter className="flex items-center justify-between p-4 bg-secondary/30">
         <p className="text-xl font-bold text-primary">${phone.price}</p>
         <div className="flex items-center space-x-2">
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" onClick={() => onAddToCompare(phone)}>
             <Layers className="h-5 w-5" />
             <span className="sr-only">Compare</span>
           </Button>
