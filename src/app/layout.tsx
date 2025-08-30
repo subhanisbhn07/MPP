@@ -9,9 +9,9 @@ import { Toaster } from '@/components/ui/toaster';
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: 'Compare Phones - Find Your Next Mobile',
+  title: 'MobilePhonesPro - Discover, Compare, Decide',
   description:
-    'Explore mobile phones, compare up to 4 devices, and find the perfect phone for you with our comprehensive comparison tool.',
+    'AI-updated specs, comparisons & SEO-friendly landing pages for mobile phones.',
 };
 
 export default function RootLayout({
