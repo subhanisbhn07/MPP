@@ -310,7 +310,7 @@ export default function Home() {
             Power & Performance
           </h2>
           <Tabs defaultValue="battery" className="w-full">
-            <TabsList className="mb-4 flex flex-wrap h-auto justify-start">
+            <TabsList className="mb-4 flex flex-wrap h-auto justify-center">
               <TabsTrigger value="battery">
                 <Battery className="mr-2" />
                 Battery
@@ -376,7 +376,7 @@ export default function Home() {
             Specialty Phones
           </h2>
           <Tabs defaultValue="foldable" className="w-full">
-            <TabsList className="mb-4 flex flex-wrap h-auto justify-start">
+            <TabsList className="mb-4 flex flex-wrap h-auto justify-center">
               <TabsTrigger value="foldable">
                 <Smartphone className="mr-2" />
                 Foldable
