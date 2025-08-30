@@ -42,10 +42,6 @@ export default function SearchPage() {
         });
         return prevList;
       }
-      toast({
-        title: 'Added to Compare',
-        description: `${phone.model} has been added to the comparison list.`,
-      });
       return [...prevList, phone];
     });
   };
@@ -142,7 +138,7 @@ export default function SearchPage() {
           <h2 className="text-2xl font-semibold mb-4">Showing results for "Samsung"</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {allPhones.filter(p => p.brand === 'Samsung').map(phone => (
-              <PhoneCard key={phone.id} phone={phone} onAddToCompare={handleAddToCompare} />
+              <PhoneCard key={phone.id} phone={phone} onAddToCompare={() => handleAddToCompare(phone)} />
             ))}
           </div>
         </main>
