@@ -42,6 +42,7 @@ import { ComparisonBar } from '@/components/comparison-bar';
 import { useState } from 'react';
 import type { Phone } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
+import { PhoneSection } from '@/components/phone-section';
 
 const specCategories = [
   { icon: Camera, label: 'Best Camera', href: '#' },
@@ -95,7 +96,13 @@ export default function Home() {
   const popularPhones = allPhones.slice(0, 6);
   const latestPhones = [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime()).slice(0, 6);
   const flagshipPhones = allPhones.filter(p => p.price > 900).slice(0, 6);
-  const performancePhones = allPhones.filter(p => ['Snapdragon 8 Gen 3', 'Apple A17 Pro', 'Snapdragon 8 Gen 2'].some(chip => p.specs.platform.chipset.includes(chip))).slice(0, 6);
+  const performancePhones = allPhones.filter(p => p.specs.platform.chipset.includes('Snapdragon 8 Gen 3') || p.specs.platform.chipset.includes('Apple A17 Pro') || p.specs.platform.chipset.includes('Snapdragon 8 Gen 2')).slice(0, 6);
+  const batteryPhones = [...allPhones].sort((a,b) => parseInt(b.specs.battery.capacity_mah) - parseInt(a.specs.battery.capacity_mah)).slice(0, 6);
+  const cameraPhones = [...allPhones].sort((a,b) => parseInt(b.specs.main_camera.main_sensor_resolution) - parseInt(a.specs.main_camera.main_sensor_resolution)).slice(0, 6);
+  const foldablePhones = allPhones.filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip') || p.model.toLowerCase().includes('razr')).slice(0, 6);
+  const ruggedPhones = allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")).slice(0, 6);
+  const uniquePhones = allPhones.filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony").slice(0, 6);
+
 
   return (
     <div className="flex flex-col">
@@ -193,113 +200,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trending Phones */}
-      <section className="w-full py-12 md:py-16">
-        <div className="container px-4 md:px-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Trending Phones
-            </h2>
-            <Link
-              href="#"
-              className="text-sm font-medium text-primary hover:underline flex items-center"
-            >
-              See All <ArrowRight className="ml-1 h-4 w-4" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
-            {popularPhones
-              .map((phone) => (
-                <PhoneCard
-                  key={phone.id}
-                  phone={phone}
-                  onAddToCompare={() => handleAddToCompare(phone)}
-                />
-              ))}
-          </div>
-        </div>
-      </section>
+      <PhoneSection 
+        title="Trending Phones" 
+        phones={popularPhones} 
+        onAddToCompare={handleAddToCompare} 
+      />
 
-      {/* Latest Launches */}
-      <section className="w-full py-12 md:py-16 bg-secondary/50">
-        <div className="container px-4 md:px-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Latest Launches
-            </h2>
-            <Link
-              href="#"
-              className="text-sm font-medium text-primary hover:underline flex items-center"
-            >
-              See All <ArrowRight className="ml-1 h-4 w-4" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
-            {latestPhones
-              .map((phone) => (
-                <PhoneCard
-                  key={phone.id}
-                  phone={phone}
-                  onAddToCompare={() => handleAddToCompare(phone)}
-                />
-              ))}
-          </div>
-        </div>
-      </section>
+      <PhoneSection 
+        title="Latest Launches" 
+        phones={latestPhones} 
+        onAddToCompare={handleAddToCompare} 
+        className="bg-secondary/50"
+      />
+      
+      <PhoneSection 
+        title="Flagship Phones" 
+        phones={flagshipPhones} 
+        onAddToCompare={handleAddToCompare} 
+      />
 
-      {/* Flagship Phones */}
-      <section className="w-full py-12 md:py-16">
-        <div className="container px-4 md:px-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Flagship Phones
-            </h2>
-            <Link
-              href="#"
-              className="text-sm font-medium text-primary hover:underline flex items-center"
-            >
-              See All <ArrowRight className="ml-1 h-4 w-4" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
-            {flagshipPhones
-              .map((phone) => (
-                <PhoneCard
-                  key={phone.id}
-                  phone={phone}
-                  onAddToCompare={() => handleAddToCompare(phone)}
-                />
-              ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Performance Phones */}
-      <section className="w-full py-12 md:py-16 bg-secondary/50">
-        <div className="container px-4 md:px-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Performance Phones
-            </h2>
-            <Link
-              href="#"
-              className="text-sm font-medium text-primary hover:underline flex items-center"
-            >
-              See All <ArrowRight className="ml-1 h-4 w-4" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
-            {performancePhones
-              .map((phone) => (
-                <PhoneCard
-                  key={phone.id}
-                  phone={phone}
-                  onAddToCompare={() => handleAddToCompare(phone)}
-                />
-              ))}
-          </div>
-        </div>
-      </section>
+      <PhoneSection 
+        title="Performance Phones" 
+        phones={performancePhones} 
+        onAddToCompare={handleAddToCompare} 
+        className="bg-secondary/50"
+      />
 
       {/* Power & Performance Section */}
       <section className="w-full py-12 md:py-24 lg:py-32 bg-card">
@@ -323,42 +248,34 @@ export default function Home() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="battery">
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
-                {[...allPhones]
-                  .sort((a,b) => parseInt(b.specs.battery.capacity_mah) - parseInt(a.specs.battery.capacity_mah))
-                  .slice(0, 6)
-                  .map((phone) => (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+                {batteryPhones.map((phone) => (
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={() => handleAddToCompare(phone)}
+                      onAddToCompare={handleAddToCompare}
                     />
                   ))}
               </div>
             </TabsContent>
             <TabsContent value="gaming">
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
-                {performancePhones
-                  .slice(0, 6)
-                  .map((phone) => (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+                {performancePhones.map((phone) => (
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={() => handleAddToCompare(phone)}
+                      onAddToCompare={handleAddToCompare}
                     />
                   ))}
               </div>
             </TabsContent>
             <TabsContent value="camera">
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
-                {[...allPhones]
-                  .sort((a,b) => parseInt(b.specs.main_camera.main_sensor_resolution) - parseInt(a.specs.main_camera.main_sensor_resolution))
-                  .slice(0, 6)
-                  .map((phone) => (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+                {cameraPhones.map((phone) => (
                   <PhoneCard
                     key={phone.id}
                     phone={phone}
-                    onAddToCompare={() => handleAddToCompare(phone)}
+                    onAddToCompare={handleAddToCompare}
                   />
                 ))}
               </div>
@@ -389,40 +306,34 @@ export default function Home() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="foldable">
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
-                {allPhones
-                  .filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip') || p.model.toLowerCase().includes('razr'))
-                  .slice(0, 6)
-                  .map((phone) => (
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+                {foldablePhones.map((phone) => (
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={() => handleAddToCompare(phone)}
+                      onAddToCompare={handleAddToCompare}
                     />
                   ))}
               </div>
             </TabsContent>
             <TabsContent value="rugged">
-               <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
-                {allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")).slice(0, 6).map((phone) => (
+               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+                {ruggedPhones.map((phone) => (
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={() => handleAddToCompare(phone)}
+                      onAddToCompare={handleAddToCompare}
                     />
                   ))}
               </div>
             </TabsContent>
             <TabsContent value="unique">
-               <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
-                {allPhones
-                  .filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony")
-                  .slice(0, 6)
-                  .map((phone) => (
+               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+                {uniquePhones.map((phone) => (
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={() => handleAddToCompare(phone)}
+                      onAddToCompare={handleAddToCompare}
                     />
                   ))}
               </div>
