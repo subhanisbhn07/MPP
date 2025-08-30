@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function NewsGuidesPage() {
+export default function GuidesPage() {
   const articles = [
     {
       title: "How to Choose the Right Phone for You",
@@ -17,11 +17,11 @@ export default function NewsGuidesPage() {
       image: "https://picsum.photos/600/401",
       excerpt: "Unlock the full potential of your smartphone's camera with these expert tips.",
     },
-    {
-      title: "Snapdragon 8 Gen 4: What to Expect",
-      category: "Industry News",
-      image: "https://picsum.photos/600/402",
-      excerpt: "A deep dive into the next generation of mobile processors.",
+     {
+      title: "How to Maximize Your Phone's Battery Life",
+      category: "Tips & Tricks",
+      image: "https://picsum.photos/600/405",
+      excerpt: "Extend your phone's battery life with these simple but effective tricks.",
     },
   ];
 
@@ -29,10 +29,10 @@ export default function NewsGuidesPage() {
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="space-y-4 text-center mb-12">
         <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-          News & Guides
+          Helpful Guides
         </h1>
         <p className="max-w-[700px] mx-auto text-muted-foreground md:text-xl">
-          Stay updated with the latest in mobile technology.
+          Get the most out of your mobile device with our expert guides.
         </p>
       </div>
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">

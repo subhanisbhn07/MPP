@@ -10,7 +10,8 @@ export function Header() {
     { href: '/compare', label: 'Compare' },
     { href: '/upcoming', label: 'Upcoming' },
     { href: '/categories', label: 'Categories' },
-    { href: '/news-guides', label: 'News/Guides' },
+    { href: '/news', label: 'News' },
+    { href: '/guides', label: 'Guides' },
     { href: '/deals', label: 'Deals' },
   ];
 
