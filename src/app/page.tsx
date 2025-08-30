@@ -39,24 +39,24 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="w-full bg-card pt-12 md:pt-24 lg:pt-32 border-b">
+      <section className="w-full bg-[#FAD600] pt-12 md:pt-24 lg:pt-32 border-b">
         <div className="container px-4 md:px-6 text-center">
           <div className="flex flex-col items-center justify-center space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-[#22304A]">
               Discover. Compare. Decide.
             </h1>
-            <p className="max-w-[600px] text-muted-foreground md:text-xl">
+            <p className="max-w-[600px] text-[#22304A]/80 md:text-xl">
               AI-updated specs, comparisons & SEO-friendly landing pages.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-4">
               <Button size="lg" asChild><Link href="#">Latest Phones</Link></Button>
               <Button size="lg" variant="secondary" asChild><Link href="#">Upcoming</Link></Button>
-              <Button size="lg" variant="outline" asChild><Link href="/compare">Compare Mobiles</Link></Button>
+              <Button size="lg" variant="outline" className="bg-transparent border-[#334DCF] text-[#334DCF] hover:bg-[#334DCF] hover:text-white" asChild><Link href="/compare">Compare Mobiles</Link></Button>
             </div>
           </div>
         </div>
-        <div className="container mt-8">
-            <div className="relative flex items-center bg-[#FAD600] text-[#334DCF] rounded-lg p-2 text-sm overflow-hidden">
+        <div className="container mt-12 pb-12">
+            <div className="relative flex items-center bg-white text-[#334DCF] rounded-lg p-2 text-sm overflow-hidden">
                 <Rss className="h-5 w-5 mr-2 flex-shrink-0"/>
                 <div className="flex-1 overflow-hidden">
                     <div className="animate-ticker flex w-max">
@@ -171,7 +171,7 @@ export default function Home() {
         <div className="container px-4 md:px-6">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">Power & Performance</h2>
           <Tabs defaultValue="battery" className="w-full">
-            <TabsList className="mb-4 flex flex-wrap h-auto">
+            <TabsList className="mb-4 flex flex-wrap h-auto justify-start">
               <TabsTrigger value="battery"><Battery className="mr-2"/>Battery</TabsTrigger>
               <TabsTrigger value="gaming"><Gamepad2 className="mr-2"/>Gaming</TabsTrigger>
               <TabsTrigger value="camera"><Camera className="mr-2"/>Camera</TabsTrigger>
@@ -200,7 +200,7 @@ export default function Home() {
         <div className="container px-4 md:px-6">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">Specialty Phones</h2>
           <Tabs defaultValue="foldable" className="w-full">
-            <TabsList className="mb-4 flex flex-wrap h-auto">
+            <TabsList className="mb-4 flex flex-wrap h-auto justify-start">
               <TabsTrigger value="foldable"><Smartphone className="mr-2"/>Foldable</TabsTrigger>
               <TabsTrigger value="rugged"><Shield className="mr-2"/>Rugged</TabsTrigger>
               <TabsTrigger value="unique"><Sparkles className="mr-2"/>Unique</TabsTrigger>
