@@ -7,7 +7,6 @@ import { Logo } from '@/components/logo';
 
 export function Header() {
   const mainNavLinks = [
-    { href: '/brands', label: 'Brands', dropdown: true },
     { href: '/compare', label: 'Compare' },
     { href: '/upcoming', label: 'Upcoming' },
     { href: '/categories', label: 'Categories' },
