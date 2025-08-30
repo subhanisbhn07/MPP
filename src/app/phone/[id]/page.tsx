@@ -7,12 +7,14 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Image from "next/image"
-import { PlusCircle, Heart, Share2, Award, Star, CheckCircle, XCircle } from 'lucide-react'
+import { PlusCircle, Heart, Share2, Award, Star, CheckCircle, XCircle, User } from 'lucide-react'
 import { specCategoryGroups } from "@/lib/types";
 import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useParams } from "next/navigation";
+import { Progress } from "@/components/ui/progress"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function PhoneDetailsPage() {
   const params = useParams();
@@ -29,6 +31,14 @@ export default function PhoneDetailsPage() {
     if (value.toLowerCase() === 'no') return <XCircle className="text-red-500" />;
     return value;
   }
+  
+  const reviews = [
+    { name: "Alex R.", rating: 5, date: "2 weeks ago", comment: "Absolutely love the camera on this phone! The zoom is incredible and the photos are so crisp. Battery life is also a huge plus." },
+    { name: "Ben C.", rating: 4, date: "1 month ago", comment: "Great performance and beautiful display. My only complaint is that it feels a bit heavy, but you get used to it. Solid phone overall." },
+    { name: "Chloe D.", rating: 5, date: "3 months ago", comment: "The best phone I've ever owned. It's fast, the software is clean, and the build quality is top-notch. Highly recommend!" },
+  ];
+  const totalReviews = 186;
+  const ratingDistribution = [120, 45, 11, 5, 5];
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
@@ -105,6 +115,60 @@ export default function PhoneDetailsPage() {
                       </CardContent>
                     </Card>
                   ))}
+              </div>
+              
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Reviews & Ratings</h2>
+                <Card>
+                    <CardHeader>
+                        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
+                             <div className="flex flex-col items-center">
+                                <span className="text-5xl font-bold">4.6</span>
+                                <div className="flex text-yellow-400">
+                                    {[...Array(4)].map((_,i) => <Star key={i} className="fill-current" />)}
+                                    <Star />
+                                </div>
+                                <p className="text-sm text-muted-foreground mt-1">{totalReviews} ratings</p>
+                             </div>
+                             <div className="w-full flex-1">
+                                 {ratingDistribution.map((count, index) => (
+                                     <div key={index} className="flex items-center gap-2">
+                                        <span className="text-sm text-muted-foreground">{5-index} star</span>
+                                        <Progress value={(count/totalReviews) * 100} className="w-full h-2" />
+                                        <span className="text-sm text-muted-foreground w-8 text-right">{count}</span>
+                                     </div>
+                                 ))}
+                             </div>
+                        </div>
+                    </CardHeader>
+                    <CardContent>
+                       <Separator className="my-4" />
+                        <div className="space-y-6">
+                           <div className="flex justify-between items-center">
+                            <h3 className="font-semibold">Showing 3 of {totalReviews} reviews</h3>
+                            <Button variant="outline">Write a Review</Button>
+                           </div>
+                           {reviews.map((review, index) => (
+                               <div key={index} className="flex gap-4">
+                                   <Avatar>
+                                     <AvatarFallback>{review.name.charAt(0)}</AvatarFallback>
+                                   </Avatar>
+                                   <div>
+                                     <div className="flex items-center gap-2 mb-1">
+                                       <h4 className="font-semibold">{review.name}</h4>
+                                       <div className="flex text-yellow-400">
+                                          {[...Array(review.rating)].map((_,i) => <Star key={i} size={16} className="fill-current" />)}
+                                          {[...Array(5 - review.rating)].map((_,i) => <Star key={i} size={16} />)}
+                                       </div>
+                                     </div>
+                                     <p className="text-sm text-muted-foreground">{review.date}</p>
+                                     <p className="mt-2">{review.comment}</p>
+                                   </div>
+                               </div>
+                           ))}
+                        </div>
+                    </CardContent>
+                </Card>
               </div>
             </div>
         </div>
