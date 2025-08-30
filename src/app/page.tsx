@@ -48,9 +48,7 @@ export default function Home() {
             <p className="max-w-[600px] text-[#22304A]/80 md:text-xl">
               AI-updated specs, comparisons & SEO-friendly landing pages.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 mt-4">
-              <Button size="lg" asChild><Link href="#">Latest Phones</Link></Button>
-              <Button size="lg" variant="secondary" asChild><Link href="#">Upcoming</Link></Button>
+            <div className="mt-4">
               <Button size="lg" variant="outline" className="bg-transparent border-[#334DCF] text-[#334DCF] hover:bg-[#334DCF] hover:text-white" asChild><Link href="/compare">Compare Mobiles</Link></Button>
             </div>
           </div>
