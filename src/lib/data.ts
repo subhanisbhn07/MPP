@@ -1,3 +1,4 @@
+
 import type { Phone } from './types';
 
 export const latestPhones: Phone[] = [
@@ -243,4 +244,8 @@ export const performancePhones: Phone[] = [
   }
 ]
 
-export const allPhones: Phone[] = [...latestPhones, ...popularPhones, ...performancePhones];
+const combinedPhones = [...latestPhones, ...popularPhones, ...performancePhones];
+export const allPhones: Phone[] = Array.from(new Set(combinedPhones.map(p => p.id)))
+  .map(id => {
+    return combinedPhones.find(p => p.id === id)!;
+  });
