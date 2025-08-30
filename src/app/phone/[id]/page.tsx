@@ -12,15 +12,18 @@ import { specCategoryGroups } from "@/lib/types";
 import React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { useParams } from "next/navigation";
 
-export default function PhoneDetailsPage({ params }: { params: { id: string } }) {
-  const phone = allPhones.find(p => p.id === parseInt(params.id));
+export default function PhoneDetailsPage() {
+  const params = useParams();
+  const id = Array.isArray(params.id) ? params.id[0] : params.id;
+  const phone = allPhones.find(p => p.id === parseInt(id));
 
   if (!phone) {
     return <div>Phone not found</div>
   }
 
-  const renderSpecValue = (value: string | undefined) => {
+  const renderSpecValue = (value: string | undefined | null) => {
     if(!value) return 'N/A';
     if (value.toLowerCase() === 'yes') return <CheckCircle className="text-green-500" />;
     if (value.toLowerCase() === 'no') return <XCircle className="text-red-500" />;
