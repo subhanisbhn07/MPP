@@ -5,7 +5,7 @@ export const latestPhones: Phone[] = [
     id: 1,
     brand: 'Samsung',
     model: 'Galaxy S24 Ultra',
-    image: 'https://picsum.photos/400/300?phone=1',
+    image: 'https://picsum.photos/400/500?phone=1',
     price: 1299,
     specs: {
       display: '6.8" Dynamic AMOLED 2X',
@@ -18,7 +18,7 @@ export const latestPhones: Phone[] = [
     id: 2,
     brand: 'Apple',
     model: 'iPhone 15 Pro',
-    image: 'https://picsum.photos/400/300?phone=2',
+    image: 'https://picsum.photos/400/500?phone=2',
     price: 999,
     specs: {
       display: '6.1" Super Retina XDR',
@@ -31,7 +31,7 @@ export const latestPhones: Phone[] = [
     id: 3,
     brand: 'Google',
     model: 'Pixel 8 Pro',
-    image: 'https://picsum.photos/400/300?phone=3',
+    image: 'https://picsum.photos/400/500?phone=3',
     price: 999,
     specs: {
       display: '6.7" Super Actua',
@@ -44,7 +44,7 @@ export const latestPhones: Phone[] = [
     id: 4,
     brand: 'Samsung',
     model: 'Galaxy Z Fold 5',
-    image: 'https://picsum.photos/400/300?phone=4',
+    image: 'https://picsum.photos/400/500?phone=4',
     price: 1799,
     specs: {
       display: '7.6" Foldable AMOLED',
@@ -56,27 +56,27 @@ export const latestPhones: Phone[] = [
   {
     id: 9,
     brand: 'Xiaomi',
-    model: 'Redmi Note 13 Pro',
-    image: 'https://picsum.photos/400/300?phone=5',
-    price: 399,
+    model: '14 Ultra',
+    image: 'https://picsum.photos/400/500?phone=5',
+    price: 1199,
     specs: {
-      display: '6.67" AMOLED, 120Hz',
-      camera: '200MP Main',
-      processor: 'Snapdragon 7s Gen 2',
-      battery: '5100mAh',
+      display: '6.73" LTPO AMOLED',
+      camera: '50MP Leica Quad Camera',
+      processor: 'Snapdragon 8 Gen 3',
+      battery: '5000mAh',
     },
   },
   {
     id: 10,
     brand: 'OnePlus',
-    model: '12R',
-    image: 'https://picsum.photos/400/300?phone=6',
-    price: 499,
+    model: '12',
+    image: 'https://picsum.photos/400/500?phone=6',
+    price: 799,
     specs: {
-      display: '6.78" ProXDR Display, 120Hz',
-      camera: '50MP Sony IMX890',
-      processor: 'Snapdragon 8 Gen 2',
-      battery: '5500mAh',
+      display: '6.82" ProXDR Display, 120Hz',
+      camera: '50MP Sony LYT-808',
+      processor: 'Snapdragon 8 Gen 3',
+      battery: '5400mAh',
     },
   }
 ];
@@ -86,7 +86,7 @@ export const popularPhones: Phone[] = [
     id: 5,
     brand: 'Samsung',
     model: 'Galaxy S23 Ultra',
-    image: 'https://picsum.photos/400/300?phone=7',
+    image: 'https://picsum.photos/400/500?phone=7',
     price: 999,
     specs: {
       display: '6.8" Dynamic AMOLED',
@@ -99,7 +99,7 @@ export const popularPhones: Phone[] = [
     id: 6,
     brand: 'Apple',
     model: 'iPhone 14 Pro',
-    image: 'https://picsum.photos/400/300?phone=8',
+    image: 'https://picsum.photos/400/500?phone=8',
     price: 899,
     specs: {
       display: '6.1" Super Retina XDR',
@@ -112,7 +112,7 @@ export const popularPhones: Phone[] = [
     id: 7,
     brand: 'Google',
     model: 'Pixel 7a',
-    image: 'https://picsum.photos/400/300?phone=9',
+    image: 'https://picsum.photos/400/500?phone=9',
     price: 499,
     specs: {
       display: '6.1" OLED, 90Hz',
@@ -125,7 +125,7 @@ export const popularPhones: Phone[] = [
     id: 8,
     brand: 'OnePlus',
     model: '11',
-    image: 'https://picsum.photos/400/300?phone=10',
+    image: 'https://picsum.photos/400/500?phone=10',
     price: 699,
     specs: {
       display: '6.7" Fluid AMOLED, 120Hz',
@@ -138,7 +138,7 @@ export const popularPhones: Phone[] = [
     id: 11,
     brand: 'Nothing',
     model: 'Phone (2)',
-    image: 'https://picsum.photos/400/300?phone=11',
+    image: 'https://picsum.photos/400/500?phone=11',
     price: 599,
     specs: {
       display: '6.7" LTPO OLED, 120Hz',
@@ -151,7 +151,7 @@ export const popularPhones: Phone[] = [
     id: 12,
     brand: 'Asus',
     model: 'ROG Phone 8 Pro',
-    image: 'https://picsum.photos/400/300?phone=12',
+    image: 'https://picsum.photos/400/500?phone=12',
     price: 1199,
     specs: {
       display: '6.78" AMOLED, 165Hz',
@@ -162,4 +162,85 @@ export const popularPhones: Phone[] = [
   }
 ];
 
-export const allPhones: Phone[] = [...latestPhones, ...popularPhones];
+export const performancePhones: Phone[] = [
+  {
+    id: 12,
+    brand: 'Asus',
+    model: 'ROG Phone 8 Pro',
+    image: 'https://picsum.photos/400/500?phone=12',
+    price: 1199,
+    specs: {
+      display: '6.78" AMOLED, 165Hz',
+      camera: '50MP Sony IMX890',
+      processor: 'Snapdragon 8 Gen 3',
+      battery: '5500mAh',
+    },
+  },
+  {
+    id: 10,
+    brand: 'OnePlus',
+    model: '12',
+    image: 'https://picsum.photos/400/500?phone=6',
+    price: 799,
+    specs: {
+      display: '6.82" ProXDR Display, 120Hz',
+      camera: '50MP Sony LYT-808',
+      processor: 'Snapdragon 8 Gen 3',
+      battery: '5400mAh',
+    },
+  },
+  {
+    id: 1,
+    brand: 'Samsung',
+    model: 'Galaxy S24 Ultra',
+    image: 'https://picsum.photos/400/500?phone=1',
+    price: 1299,
+    specs: {
+      display: '6.8" Dynamic AMOLED 2X',
+      camera: '200MP Wide',
+      processor: 'Snapdragon 8 Gen 3 for Galaxy',
+      battery: '5000mAh',
+    },
+  },
+   {
+    id: 2,
+    brand: 'Apple',
+    model: 'iPhone 15 Pro',
+    image: 'https://picsum.photos/400/500?phone=2',
+    price: 999,
+    specs: {
+      display: '6.1" Super Retina XDR',
+      camera: '48MP Main',
+      processor: 'A17 Pro Chip',
+      battery: '3274mAh',
+    },
+  },
+  {
+    id: 13,
+    brand: 'Xiaomi',
+    model: 'Black Shark 5 Pro',
+    image: 'https://picsum.photos/400/500?phone=13',
+    price: 799,
+    specs: {
+      display: '6.67" OLED, 144Hz',
+      camera: '108MP Main',
+      processor: 'Snapdragon 8 Gen 1',
+      battery: '4650mAh',
+    },
+  },
+  {
+    id: 14,
+    brand: 'Lenovo',
+    model: 'Legion Y90',
+    image: 'https://picsum.photos/400/500?phone=14',
+    price: 730,
+    specs: {
+      display: '6.92" AMOLED, 144Hz',
+      camera: '64MP Main',
+      processor: 'Snapdragon 8 Gen 1',
+      battery: '5600mAh',
+    },
+  }
+]
+
+export const allPhones: Phone[] = [...latestPhones, ...popularPhones, ...performancePhones];

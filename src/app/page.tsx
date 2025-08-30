@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PhoneCard } from '@/components/phone-card';
-import { allPhones, latestPhones, popularPhones } from '@/lib/data';
+import { allPhones, latestPhones, popularPhones, performancePhones } from '@/lib/data';
 import {
   Search,
   Sparkles,
@@ -27,6 +27,7 @@ import {
   PlusCircle,
   Filter,
   ArrowUpDown,
+  X,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -55,15 +56,6 @@ const specCategories = [
   { icon: Smartphone, label: 'Compact Phones', href: '#' },
   { icon: Layers, label: 'Expandable Storage', href: '#' },
   { icon: null, label: 'Satellite Phones', href: '#' },
-];
-
-const brandLogos = [
-  { name: 'Apple', logo: 'https://picsum.photos/100/40' },
-  { name: 'Samsung', logo: 'https://picsum.photos/100/40' },
-  { name: 'Google', logo: 'https://picsum.photos/100/40' },
-  { name: 'OnePlus', logo: 'https://picsum.photos/100/40' },
-  { name: 'Xiaomi', logo: 'https://picsum.photos/100/40' },
-  { name: 'Vivo', logo: 'https://picsum.photos/100/40' },
 ];
 
 export default function Home() {
@@ -127,7 +119,7 @@ export default function Home() {
           </div>
         </div>
         <div className="container mt-12 pb-12">
-          <div className="relative flex items-center bg-white text-[#334DCF] rounded-lg p-2 text-sm overflow-hidden">
+           <div className="relative flex items-center bg-[#334DCF] text-white rounded-lg p-2 text-sm overflow-hidden">
             <Rss className="h-5 w-5 mr-2 flex-shrink-0" />
             <div className="flex-1 overflow-hidden">
               <div className="animate-ticker flex w-max">
@@ -176,7 +168,7 @@ export default function Home() {
                 <Filter className="mr-2 h-5 w-5" /> Filters
               </Button>
               <Select>
-                <SelectTrigger className="h-12 w-[180px] bg-background/10 text-foreground border-primary-foreground/20 focus:ring-primary-foreground">
+                <SelectTrigger className="h-12 w-[180px] bg-background text-foreground border-primary-foreground/20 focus:ring-primary-foreground">
                   <ArrowUpDown className="mr-2 h-5 w-5" />
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
@@ -298,7 +290,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
-            {popularPhones
+            {performancePhones
               .slice(0, 6)
               .map((phone) => (
                 <PhoneCard
@@ -334,9 +326,9 @@ export default function Home() {
             </TabsList>
             <TabsContent value="battery">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                {popularPhones
-                  .slice()
-                  .reverse()
+                {allPhones
+                  .sort((a,b) => parseInt(b.specs.battery) - parseInt(a.specs.battery))
+                  .slice(0, 6)
                   .map((phone) => (
                     <PhoneCard
                       key={phone.id}
@@ -348,8 +340,8 @@ export default function Home() {
             </TabsContent>
             <TabsContent value="gaming">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                {allPhones
-                  .filter((p) => p.price > 600)
+                {performancePhones
+                  .slice(0, 6)
                   .map((phone) => (
                     <PhoneCard
                       key={phone.id}
@@ -361,7 +353,10 @@ export default function Home() {
             </TabsContent>
             <TabsContent value="camera">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                {latestPhones.map((phone) => (
+                {allPhones
+                  .sort((a,b) => parseInt(b.specs.camera) - parseInt(a.specs.camera))
+                  .slice(0, 6)
+                  .map((phone) => (
                   <PhoneCard
                     key={phone.id}
                     phone={phone}
@@ -397,8 +392,9 @@ export default function Home() {
             </TabsList>
             <TabsContent value="foldable">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                {latestPhones
+                {allPhones
                   .filter((p) => p.model.includes('Fold'))
+                  .slice(0, 6)
                   .map((phone) => (
                     <PhoneCard
                       key={phone.id}
@@ -409,10 +405,8 @@ export default function Home() {
               </div>
             </TabsContent>
             <TabsContent value="rugged">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                {popularPhones
-                  .slice(0, 2)
-                  .map((phone) => (
+               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                {[...allPhones].slice(6, 12).map((phone) => (
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
@@ -422,9 +416,10 @@ export default function Home() {
               </div>
             </TabsContent>
             <TabsContent value="unique">
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                {latestPhones
-                  .slice(2, 5)
+               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                {allPhones
+                  .filter(p => p.brand === "Nothing" || p.brand === "Asus")
+                  .slice(0, 6)
                   .map((phone) => (
                     <PhoneCard
                       key={phone.id}
@@ -438,10 +433,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Quick Compare & Brand Explorer */}
+      {/* Quick Compare */}
       <section className="w-full py-12 md:py-24">
         <div className="container px-4 md:px-6">
-          {/* Quick Compare */}
           <div className="space-y-4 max-w-2xl mx-auto">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
               Quick Compare
