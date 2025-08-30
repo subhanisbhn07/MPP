@@ -393,7 +393,7 @@ export default function Home() {
             <TabsContent value="foldable">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {allPhones
-                  .filter((p) => p.model.includes('Fold'))
+                  .filter((p) => p.model.includes('Fold') || p.model.includes('Flip') || p.model.includes('Razr'))
                   .slice(0, 6)
                   .map((phone) => (
                     <PhoneCard

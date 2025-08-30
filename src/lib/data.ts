@@ -244,7 +244,37 @@ export const performancePhones: Phone[] = [
   }
 ]
 
-const combinedPhones = [...latestPhones, ...popularPhones, ...performancePhones];
+const combinedPhones: Phone[] = [
+  {
+    id: 15,
+    brand: 'Samsung',
+    model: 'Galaxy Z Flip 5',
+    image: 'https://picsum.photos/400/500?phone=15',
+    price: 999,
+    specs: {
+      display: '6.7" Foldable AMOLED',
+      camera: '12MP Wide',
+      processor: 'Snapdragon 8 Gen 2 for Galaxy',
+      battery: '3700mAh',
+    },
+  },
+  {
+    id: 16,
+    brand: 'Motorola',
+    model: 'Razr+',
+    image: 'https://picsum.photos/400/500?phone=16',
+    price: 999,
+    specs: {
+      display: '6.9" Foldable pOLED',
+      camera: '12MP Wide',
+      processor: 'Snapdragon 8+ Gen 1',
+      battery: '3800mAh',
+    },
+  },
+  ...latestPhones, 
+  ...popularPhones, 
+  ...performancePhones
+];
 export const allPhones: Phone[] = Array.from(new Set(combinedPhones.map(p => p.id)))
   .map(id => {
     return combinedPhones.find(p => p.id === id)!;
