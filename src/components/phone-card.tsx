@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 interface PhoneCardProps {
   phone: Phone;
-  onAddToCompare: () => void;
+  onAddToCompare: (phone: Phone) => void;
 }
 
 export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
@@ -17,7 +17,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
   const handleCompareClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onAddToCompare();
+    onAddToCompare(phone);
   };
 
   return (
