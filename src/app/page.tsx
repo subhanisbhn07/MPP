@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PhoneCard } from '@/components/phone-card';
 import { allPhones, latestPhones, popularPhones } from '@/lib/data';
-import { Search, Sparkles, ChevronRight, Rss, Battery, Gamepad2, Camera, Smartphone, ArrowRight, Layers, Star, Info, Mail, Calendar, Tv, Shield, Zap, PlusCircle } from 'lucide-react';
+import { Search, Sparkles, ChevronRight, Rss, Battery, Gamepad2, Camera, Smartphone, ArrowRight, Layers, Star, Info, Mail, Calendar, Tv, Shield, Zap, PlusCircle, Filter } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="w-full bg-card py-12 md:py-24 lg:py-32 border-b">
+      <section className="w-full bg-card pt-12 md:pt-24 lg:pt-32 border-b">
         <div className="container px-4 md:px-6 text-center">
           <div className="flex flex-col items-center justify-center space-y-4">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
@@ -66,6 +66,28 @@ export default function Home() {
                     <p className="whitespace-nowrap pr-12">Samsung Galaxy S25 to feature satellite connectivity.</p>
                 </div>
             </div>
+        </div>
+      </section>
+
+      {/* Search & Filter Section */}
+      <section className="w-full py-8 md:py-12 bg-background border-b">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col gap-4 md:flex-row">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search by brand, model, or feature..."
+                className="w-full pl-10 h-12 text-base"
+              />
+            </div>
+            <div className="flex gap-2">
+              <Button variant="outline" size="lg" className="h-12">
+                <Filter className="mr-2 h-5 w-5" /> Filters
+              </Button>
+              <Button size="lg" className="h-12">Search</Button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -320,49 +342,87 @@ export default function Home() {
             </div>
          </div>
       </section>
+
+      {/* Trust & Subscribe Section */}
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-card">
+        <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
+          <div className="space-y-3">
+            <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+              Your Trusted Source for Mobile Specs
+            </h2>
+            <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              We provide accurate, up-to-date information you can rely on.
+            </p>
+          </div>
+          <div className="mx-auto grid max-w-sm grid-cols-3 items-start justify-center gap-8 lg:max-w-none lg:grid-cols-3">
+            <div className="flex flex-col items-center justify-center space-y-2">
+              <Star className="h-8 w-8 text-primary" />
+              <p className="font-bold">128+ Specs</p>
+              <p className="text-sm text-muted-foreground">Per Phone</p>
+            </div>
+            <div className="flex flex-col items-center justify-center space-y-2">
+              <Info className="h-8 w-8 text-primary" />
+              <p className="font-bold">Verified Sources</p>
+              <p className="text-sm text-muted-foreground">Always Accurate</p>
+            </div>
+            <div className="flex flex-col items-center justify-center space-y-2">
+              <Calendar className="h-8 w-8 text-primary" />
+              <p className="font-bold">Daily Updates</p>
+              <p className="text-sm text-muted-foreground">Never Miss a Launch</p>
+            </div>
+          </div>
+          <div className="mx-auto w-full max-w-sm space-y-2 mt-8">
+            <form className="flex space-x-2">
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                className="max-w-lg flex-1"
+              />
+              <Button type="submit">Subscribe</Button>
+            </form>
+            <p className="text-xs text-muted-foreground">
+              Get weekly launch alerts and top news.
+            </p>
+          </div>
+        </div>
+      </section>
       
-      {/* Trust & Subscribe */}
-       <section className="w-full py-12 md:py-24 lg:py-32 bg-card">
-         <div className="container grid gap-12 px-4 md:px-6 lg:grid-cols-2 items-center">
-             <div className="space-y-4">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Trust & Transparency</h2>
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2 p-3 bg-secondary rounded-lg">
-                        <Star className="text-primary"/>
-                        <span className="font-medium">128+ specs per phone</span>
-                    </div>
-                    <div className="flex items-center gap-2 p-3 bg-secondary rounded-lg">
-                        <Info className="text-primary"/>
-                        <span className="font-medium">Verified sources</span>
-                    </div>
-                     <div className="flex items-center gap-2 p-3 bg-secondary rounded-lg">
-                        <Calendar className="text-primary"/>
-                        <span className="font-medium">Daily updates</span>
+      {/* Blog Section */}
+      <section className="w-full py-12 md:py-24">
+        <div className="container px-4 md:px-6">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">From the Blog</h2>
+            <div className="grid gap-8 lg:grid-cols-4">
+                <div className="space-y-4">
+                    <h3 className="text-xl font-bold">Categories</h3>
+                    <div className="grid gap-2">
+                        <Link href="#" className="text-muted-foreground hover:text-primary">Buying Guides</Link>
+                        <Link href="#" className="text-muted-foreground hover:text-primary">Top 10 Phones</Link>
+                        <Link href="#" className="text-muted-foreground hover:text-primary">Tips & Tricks</Link>
+                        <Link href="#" className="text-muted-foreground hover:text-primary">Industry Insights</Link>
                     </div>
                 </div>
-             </div>
-             <div className="space-y-4">
-                <h3 className="text-2xl font-semibold">Get weekly launch alerts.</h3>
-                <form className="flex space-x-2">
-                  <Input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="max-w-lg flex-1"
-                  />
-                  <Button type="submit">
-                    Subscribe
-                  </Button>
-                </form>
-             </div>
-         </div>
+                <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <Card>
+                        <Image src="https://picsum.photos/600/400" width={600} height={400} alt="Blog post" className="rounded-t-lg object-cover aspect-video" data-ai-hint="mobile technology" />
+                        <CardContent className="p-4">
+                            <Badge>Buying Guides</Badge>
+                            <h3 className="text-lg font-bold mt-2">How to Choose the Right Phone for You</h3>
+                            <p className="text-sm text-muted-foreground mt-2">A comprehensive guide to navigating the complex world of smartphones.</p>
+                        </CardContent>
+                    </Card>
+                     <Card>
+                        <Image src="https://picsum.photos/600/401" width={600} height={400} alt="Blog post" className="rounded-t-lg object-cover aspect-video" data-ai-hint="smartphone camera" />
+                        <CardContent className="p-4">
+                            <Badge>Tips & Tricks</Badge>
+                            <h3 className="text-lg font-bold mt-2">Master Your Phone's Camera: Pro Tips</h3>
+                            <p className="text-sm text-muted-foreground mt-2">Unlock the full potential of your smartphone's camera with these expert tips.</p>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+        </div>
       </section>
 
     </div>
   );
-}
-
-declare module 'react' {
-  interface CSSProperties {
-    [key: `--${string}`]: string | number;
-  }
 }

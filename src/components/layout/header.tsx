@@ -17,61 +17,53 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
-        {/* Mobile Menu */}
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Menu className="h-6 w-6" />
-              <span className="sr-only">Open menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left">
-            <Link href="/" className="flex items-center space-x-2">
+      <div className="container flex h-16 items-center justify-between">
+        {/* Mobile Menu & Logo */}
+        <div className="flex items-center">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden mr-2">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <Link href="/" className="flex items-center space-x-2">
+                <Logo />
+                <span className="font-bold">MobilePhonesPro</span>
+              </Link>
+              <div className="mt-6 flex flex-col space-y-4">
+                {mainNavLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="flex items-center text-lg font-medium transition-colors hover:text-primary"
+                  >
+                    {link.label}
+                    {link.dropdown && <ChevronDown className="ml-1 h-4 w-4" />}
+                  </Link>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+
+          {/* Desktop Logo */}
+          <div className="hidden md:flex">
+            <Link href="/" className="mr-6 flex items-center space-x-2">
               <Logo />
               <span className="font-bold">MobilePhonesPro</span>
             </Link>
-            <div className="mt-6 flex flex-col space-y-4">
-              {mainNavLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="flex items-center text-lg font-medium transition-colors hover:text-primary"
-                >
-                  {link.label}
-                  {link.dropdown && <ChevronDown className="ml-1 h-4 w-4" />}
-                </Link>
-              ))}
-            </div>
-          </SheetContent>
-        </Sheet>
-
-        {/* Desktop Logo */}
-        <div className="mr-4 hidden md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Logo />
-            <span className="font-bold">MobilePhonesPro</span>
-          </Link>
-        </div>
-
-        {/* Search Bar */}
-        <div className="flex-1 flex justify-center px-4">
-          <div className="w-full max-w-md">
-            <form>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search brand, model, or feature..."
-                  className="w-full pl-10"
-                />
-              </div>
-            </form>
           </div>
         </div>
         
         {/* Right side icons */}
         <div className="flex items-center justify-end space-x-2">
+          <Button variant="ghost" size="icon" asChild>
+              <Link href="/search">
+                  <Search className="h-5 w-5" />
+                  <span className="sr-only">Search</span>
+              </Link>
+          </Button>
           <Button variant="ghost" size="icon" asChild>
             <Link href="/notifications">
               <Bell className="h-5 w-5" />
@@ -100,6 +92,12 @@ export function Header() {
                 {link.dropdown && <ChevronDown className="ml-1 h-4 w-4" />}
               </Link>
             ))}
+             <Link
+                href='/notifications'
+                className="flex items-center transition-colors hover:text-foreground/80 text-foreground/60"
+              >
+                <Bell className="h-4 w-4" />
+              </Link>
          </div>
       </nav>
     </header>
