@@ -176,7 +176,7 @@ export default function Home() {
                 <Filter className="mr-2 h-5 w-5" /> Filters
               </Button>
               <Select>
-                <SelectTrigger className="h-12 w-[180px] bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 focus:ring-primary-foreground">
+                <SelectTrigger className="h-12 w-[180px] bg-background/10 text-foreground border-primary-foreground/20 focus:ring-primary-foreground">
                   <ArrowUpDown className="mr-2 h-5 w-5" />
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
@@ -440,15 +440,31 @@ export default function Home() {
 
       {/* Quick Compare & Brand Explorer */}
       <section className="w-full py-12 md:py-24">
-        <div className="container grid gap-12 px-4 md:px-6 lg:grid-cols-2">
+        <div className="container px-4 md:px-6">
           {/* Quick Compare */}
-          <div className="space-y-4">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
+          <div className="space-y-4 max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
               Quick Compare
             </h2>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {[...Array(4)].map((_, i) => (
-                <Card key={i}>
+              {compareList.slice(0,4).map((phone, i) => (
+                <Card key={phone.id}>
+                    <CardContent className="p-2 text-center h-32 relative">
+                        <Image src={phone.image} alt={phone.model} width={100} height={80} className="object-contain rounded-md mx-auto" />
+                        <p className="text-xs font-semibold mt-1 truncate">{phone.model}</p>
+                         <Button
+                          variant="ghost"
+                          size="icon"
+                          className="absolute -top-2 -right-2 h-6 w-6 bg-muted rounded-full"
+                          onClick={() => handleRemoveFromCompare(phone.id)}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                    </CardContent>
+                </Card>
+              ))}
+              {[...Array(4 - compareList.length)].map((_, i) => (
+                <Card key={`placeholder-${i}`}>
                   <CardContent className="p-4 flex flex-col items-center justify-center text-center border-2 border-dashed rounded-lg h-32">
                     <Button
                       variant="ghost"
@@ -463,40 +479,12 @@ export default function Home() {
                 </Card>
               ))}
             </div>
-            <Button className="w-full">Compare</Button>
+            <Button className="w-full" asChild disabled={compareList.length < 2}>
+                <Link href="/compare">Compare Now ({compareList.length})</Link>
+            </Button>
             <p className="text-sm text-muted-foreground text-center">
               Popular: iPhone 16 vs Pixel 9a
             </p>
-          </div>
-          {/* Brand Explorer */}
-          <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-                Brand Explorer
-              </h2>
-              <Link
-                href="#"
-                className="text-sm font-medium text-primary hover:underline flex items-center"
-              >
-                See All <ArrowRight className="ml-1 h-4 w-4" />
-              </Link>
-            </div>
-            <div className="grid grid-cols-3 gap-4">
-              {brandLogos.map((brand) => (
-                <Link key={brand.name} href="#">
-                  <Card className="flex items-center justify-center p-4 hover:bg-muted/50 transition-colors h-full">
-                    <Image
-                      src={brand.logo}
-                      alt={brand.name}
-                      width={100}
-                      height={40}
-                      data-ai-hint="brand logo"
-                      className="object-contain"
-                    />
-                  </Card>
-                </Link>
-              ))}
-            </div>
           </div>
         </div>
       </section>
