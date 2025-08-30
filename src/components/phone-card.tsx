@@ -34,6 +34,10 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
             />
           </div>
         </Link>
+        <Button variant="ghost" size="icon" className="absolute top-2 right-2 h-8 w-8 bg-black/20 hover:bg-black/40 text-white rounded-full">
+          <Heart className="h-4 w-4" />
+          <span className="sr-only">Wishlist</span>
+        </Button>
       </CardHeader>
       <CardContent className="flex-1 p-4">
         <Badge variant="secondary" className="mb-2">{phone.brand}</Badge>
@@ -52,14 +56,8 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
             <Layers className="h-4 w-4" />
             <span className="sr-only">Compare</span>
           </Button>
-          <Button variant="ghost" size="icon" className="h-8 w-8">
-            <Heart className="h-4 w-4" />
-            <span className="sr-only">Wishlist</span>
-          </Button>
         </div>
       </CardFooter>
     </Card>
   );
 }
-
-    
