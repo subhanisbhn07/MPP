@@ -34,7 +34,7 @@ export function PhoneSection({
             See All <ArrowRight className="ml-1 h-4 w-4" />
           </Link>
         </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
           {phones.map((phone) => (
             <PhoneCard
               key={phone.id}
@@ -47,3 +47,5 @@ export function PhoneSection({
     </section>
   );
 }
+
+    

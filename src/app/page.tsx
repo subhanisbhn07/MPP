@@ -93,15 +93,15 @@ export default function Home() {
     setCompareList([]);
   }
 
-  const popularPhones = allPhones.slice(0, 6);
-  const latestPhones = [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime()).slice(0, 6);
-  const flagshipPhones = allPhones.filter(p => p.price > 900).slice(0, 6);
-  const performancePhones = allPhones.filter(p => p.specs.platform.chipset.includes('Snapdragon 8 Gen 3') || p.specs.platform.chipset.includes('Apple A17 Pro') || p.specs.platform.chipset.includes('Snapdragon 8 Gen 2')).slice(0, 6);
-  const batteryPhones = [...allPhones].sort((a,b) => parseInt(b.specs.battery.capacity_mah) - parseInt(a.specs.battery.capacity_mah)).slice(0, 6);
-  const cameraPhones = [...allPhones].sort((a,b) => parseInt(b.specs.main_camera.main_sensor_resolution) - parseInt(a.specs.main_camera.main_sensor_resolution)).slice(0, 6);
-  const foldablePhones = allPhones.filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip') || p.model.toLowerCase().includes('razr')).slice(0, 6);
-  const ruggedPhones = allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")).slice(0, 6);
-  const uniquePhones = allPhones.filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony").slice(0, 6);
+  const popularPhones = allPhones.slice(0, 5);
+  const latestPhones = [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime()).slice(0, 5);
+  const flagshipPhones = allPhones.filter(p => p.price > 900).slice(0, 5);
+  const performancePhones = allPhones.filter(p => p.specs.platform.chipset.includes('Snapdragon 8 Gen 3') || p.specs.platform.chipset.includes('Apple A17 Pro') || p.specs.platform.chipset.includes('Snapdragon 8 Gen 2')).slice(0, 5);
+  const batteryPhones = [...allPhones].sort((a,b) => parseInt(b.specs.battery.capacity_mah) - parseInt(a.specs.battery.capacity_mah)).slice(0, 5);
+  const cameraPhones = [...allPhones].sort((a,b) => parseInt(b.specs.main_camera.main_sensor_resolution) - parseInt(a.specs.main_camera.main_sensor_resolution)).slice(0, 5);
+  const foldablePhones = allPhones.filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip') || p.model.toLowerCase().includes('razr')).slice(0, 5);
+  const ruggedPhones = allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")).slice(0, 5);
+  const uniquePhones = allPhones.filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony").slice(0, 5);
 
 
   return (
@@ -248,34 +248,34 @@ export default function Home() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="battery">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
                 {batteryPhones.map((phone) => (
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={handleAddToCompare}
+                      onAddToCompare={() => handleAddToCompare(phone)}
                     />
                   ))}
               </div>
             </TabsContent>
             <TabsContent value="gaming">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
                 {performancePhones.map((phone) => (
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={handleAddToCompare}
+                      onAddToCompare={() => handleAddToCompare(phone)}
                     />
                   ))}
               </div>
             </TabsContent>
             <TabsContent value="camera">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
                 {cameraPhones.map((phone) => (
                   <PhoneCard
                     key={phone.id}
                     phone={phone}
-                    onAddToCompare={handleAddToCompare}
+                    onAddToCompare={() => handleAddToCompare(phone)}
                   />
                 ))}
               </div>
@@ -306,34 +306,34 @@ export default function Home() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="foldable">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
                 {foldablePhones.map((phone) => (
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={handleAddToCompare}
+                      onAddToCompare={() => handleAddToCompare(phone)}
                     />
                   ))}
               </div>
             </TabsContent>
             <TabsContent value="rugged">
-               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
                 {ruggedPhones.map((phone) => (
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={handleAddToCompare}
+                      onAddToCompare={() => handleAddToCompare(phone)}
                     />
                   ))}
               </div>
             </TabsContent>
             <TabsContent value="unique">
-               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-6">
+               <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
                 {uniquePhones.map((phone) => (
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={handleAddToCompare}
+                      onAddToCompare={() => handleAddToCompare(phone)}
                     />
                   ))}
               </div>
@@ -630,3 +630,5 @@ export default function Home() {
     </div>
   );
 }
+
+    

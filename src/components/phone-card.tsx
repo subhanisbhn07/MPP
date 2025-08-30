@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 interface PhoneCardProps {
   phone: Phone;
-  onAddToCompare: () => void;
+  onAddToCompare: (phone: Phone) => void;
 }
 
 export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
@@ -17,14 +17,14 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
   const handleCompareClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onAddToCompare();
+    onAddToCompare(phone);
   };
 
   return (
     <Card className="group flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-2">
       <CardHeader className="p-0 relative">
         <Link href={`/phone/${phone.id}`}>
-          <div className="aspect-[3/4] w-full overflow-hidden">
+          <div className="aspect-[4/5] w-full overflow-hidden">
             <Image
               src={phone.image}
               alt={`${phone.brand} ${phone.model}`}
@@ -61,3 +61,5 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
     </Card>
   );
 }
+
+    
