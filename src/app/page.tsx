@@ -56,7 +56,7 @@ export default function Home() {
           </div>
         </div>
         <div className="container mt-8">
-            <div className="relative flex items-center bg-secondary text-secondary-foreground rounded-lg p-2 text-sm overflow-hidden">
+            <div className="relative flex items-center bg-[#FAD600] text-[#334DCF] rounded-lg p-2 text-sm overflow-hidden">
                 <Rss className="h-5 w-5 mr-2 flex-shrink-0"/>
                 <div className="flex-1 overflow-hidden">
                     <div className="animate-ticker flex w-max">
@@ -234,7 +234,7 @@ export default function Home() {
                 <Card className="flex-1">
                     <CardContent className="p-4 flex flex-col items-center justify-center text-center border-2 border-dashed rounded-lg h-32">
                         <Button variant="ghost" className="flex flex-col h-auto p-4">
-                          <PlusCircle className="h-8 w-8 mb-2 text-muted-foreground" />
+                          <PlusCircle className="h-8 w-8 text-muted-foreground" />
                           <span className="text-muted-foreground">Add Phone</span>
                         </Button>
                     </CardContent>
@@ -242,7 +242,7 @@ export default function Home() {
                  <Card className="flex-1">
                     <CardContent className="p-4 flex flex-col items-center justify-center text-center border-2 border-dashed rounded-lg h-32">
                         <Button variant="ghost" className="flex flex-col h-auto p-4">
-                          <PlusCircle className="h-8 w-8 mb-2 text-muted-foreground" />
+                          <PlusCircle className="h-8 w-8 text-muted-foreground" />
                           <span className="text-muted-foreground">Add Phone</span>
                         </Button>
                     </CardContent>
@@ -288,7 +288,7 @@ export default function Home() {
             {specCategories.map((cat) => (
               <Link key={cat.label} href={cat.href}>
                 <Card className="p-4 flex flex-col items-center justify-center text-center hover:bg-muted/50 transition-colors h-full">
-                  {cat.icon && <cat.icon className="h-8 w-8 mb-2 text-primary" />}
+                  {cat.icon && <cat.icon className="h-8 w-8 text-primary" />}
                   <span className="font-semibold text-sm">{cat.label}</span>
                 </Card>
               </Link>
@@ -441,5 +441,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
