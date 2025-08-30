@@ -39,7 +39,6 @@ export function Header() {
                     className="flex items-center text-lg font-medium transition-colors hover:text-primary"
                   >
                     {link.label}
-                    {link.dropdown && <ChevronDown className="ml-1 h-4 w-4" />}
                   </Link>
                 ))}
               </div>
@@ -53,6 +52,17 @@ export function Header() {
               <span className="font-bold">MobilePhonesPro</span>
             </Link>
           </div>
+           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+            {mainNavLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="transition-colors hover:text-foreground/80 text-foreground/60"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
         </div>
         
         {/* Right side icons */}
@@ -77,28 +87,6 @@ export function Header() {
           </Button>
         </div>
       </div>
-      
-      {/* Secondary Navigation */}
-      <nav className="hidden md:flex justify-center border-t">
-         <div className="container flex items-center space-x-6 text-sm font-medium h-12">
-            {mainNavLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="flex items-center transition-colors hover:text-foreground/80 text-foreground/60"
-              >
-                {link.label}
-                {link.dropdown && <ChevronDown className="ml-1 h-4 w-4" />}
-              </Link>
-            ))}
-             <Link
-                href='/notifications'
-                className="flex items-center transition-colors hover:text-foreground/80 text-foreground/60"
-              >
-                <Bell className="h-4 w-4" />
-              </Link>
-         </div>
-      </nav>
     </header>
   );
 }
