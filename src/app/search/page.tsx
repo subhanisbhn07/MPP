@@ -1,4 +1,6 @@
 
+'use client';
+
 import { allPhones } from "@/lib/data";
 import { PhoneCard } from "@/components/phone-card";
 import { Input } from "@/components/ui/input";
@@ -17,6 +19,7 @@ import {
 import { useState } from "react";
 import type { Phone } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
+import { ComparisonBar } from "@/components/comparison-bar";
 
 export default function SearchPage() {
   const brands = [...new Set(allPhones.map(p => p.brand))];
@@ -47,7 +50,16 @@ export default function SearchPage() {
     });
   };
 
+  const handleRemoveFromCompare = (phoneId: number) => {
+    setCompareList((prevList) => prevList.filter((p) => p.id !== phoneId));
+  };
+  
+  const handleClearCompare = () => {
+    setCompareList([]);
+  }
+
   return (
+    <>
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="space-y-4 mb-8">
         <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
@@ -136,5 +148,11 @@ export default function SearchPage() {
         </main>
       </div>
     </div>
+    <ComparisonBar
+      phones={compareList}
+      onRemove={handleRemoveFromCompare}
+      onClear={handleClearCompare}
+    />
+    </>
   );
 }
