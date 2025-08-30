@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PhoneCard } from '@/components/phone-card';
-import { latestPhones, popularPhones } from '@/lib/data';
+import { allPhones, latestPhones, popularPhones } from '@/lib/data';
 import { Search, Sparkles, ChevronRight, Rss, Battery, Gamepad2, Camera, Smartphone, ArrowRight, Layers, Star, Info, Mail, Calendar, Tv, Shield, Zap, PlusCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -78,8 +78,8 @@ export default function Home() {
               See All <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-            {popularPhones.map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
+            {popularPhones.slice(0, 6).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
           </div>
         </div>
       </section>
@@ -93,8 +93,8 @@ export default function Home() {
               See All <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-            {latestPhones.map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
+            {latestPhones.slice(0, 6).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
           </div>
         </div>
       </section>
@@ -108,8 +108,8 @@ export default function Home() {
               See All <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-            {latestPhones.filter(p => p.price > 900).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
+            {allPhones.filter(p => p.price > 900).slice(0, 6).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
           </div>
         </div>
       </section>
@@ -123,8 +123,8 @@ export default function Home() {
               See All <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-8">
-            {popularPhones.slice(0,4).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
+            {popularPhones.slice(0,6).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
           </div>
         </div>
       </section>
@@ -145,7 +145,7 @@ export default function Home() {
                   <TabsTrigger value="camera"><Camera className="mr-2"/>Camera</TabsTrigger>
                 </TabsList>
                 <TabsContent value="battery">
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                     {popularPhones.slice().reverse().map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
                   </div>
                 </TabsContent>
@@ -160,7 +160,7 @@ export default function Home() {
                   <TabsTrigger value="unique"><Sparkles className="mr-2"/>Unique</TabsTrigger>
                 </TabsList>
                 <TabsContent value="foldable">
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                     {latestPhones.filter(p => p.model.includes('Fold')).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
                   </div>
                 </TabsContent>
