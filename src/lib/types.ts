@@ -1,4 +1,5 @@
 
+
 export type SpecCategory = {
   title: string;
   category: keyof PhoneSpec;
@@ -276,6 +277,8 @@ export type Phone = {
   brand: string;
   model: string;
   image: string;
+  images?: string[];
+  youtubeVideoId?: string;
   price: number;
   specs: PhoneSpec;
 };
@@ -533,5 +536,3 @@ export const specCategoryGroups: SpecCategory[] = [
       ]
     }
   ];
-
-    

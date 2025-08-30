@@ -1,29 +1,41 @@
 
+
 'use client';
 
 import { allPhones } from "@/lib/data"
-import type { Phone, PhoneSpec, SpecCategory } from "@/lib/types"
+import type { Phone, PhoneSpec } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import Image from "next/image"
-import { PlusCircle, Heart, Share2, Award, Star, CheckCircle, XCircle, User } from 'lucide-react'
+import { Heart, Share2, Award, Star, CheckCircle, XCircle, ChevronLeft, ChevronRight, Play } from 'lucide-react'
 import { specCategoryGroups } from "@/lib/types";
-import React from "react";
-import { Badge } from "@/components/ui/badge";
+import React, { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 import { useParams } from "next/navigation";
 import { Progress } from "@/components/ui/progress"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { cn } from "@/lib/utils";
 
 export default function PhoneDetailsPage() {
   const params = useParams();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
   const phone = allPhones.find(p => p.id === parseInt(id));
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   if (!phone) {
     return <div>Phone not found</div>
   }
+  
+  const allImages = [phone.image, ...(phone.images || [])];
+
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % allImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + allImages.length) % allImages.length);
+  };
 
   const renderSpecValue = (value: string | undefined | null) => {
     if(!value) return 'N/A';
@@ -46,8 +58,23 @@ export default function PhoneDetailsPage() {
         <div className="md:col-span-1">
           <Card className="sticky top-24">
             <CardContent className="p-6">
-              <div className="aspect-[4/5] relative mb-4">
-                <Image src={phone.image} alt={phone.model} fill className="object-contain" data-ai-hint="mobile phone" />
+              <div className="relative mb-4">
+                <div className="aspect-[4/5] relative">
+                  <Image src={allImages[currentImageIndex]} alt={`${phone.model} image ${currentImageIndex + 1}`} fill className="object-contain rounded-md" data-ai-hint="mobile phone" />
+                </div>
+                 {allImages.length > 1 && (
+                  <>
+                    <Button variant="ghost" size="icon" className="absolute left-0 top-1/2 -translate-y-1/2" onClick={prevImage}><ChevronLeft /></Button>
+                    <Button variant="ghost" size="icon" className="absolute right-0 top-1/2 -translate-y-1/2" onClick={nextImage}><ChevronRight /></Button>
+                  </>
+                )}
+              </div>
+               <div className="flex justify-center gap-2 mb-4">
+                {allImages.map((img, index) => (
+                  <button key={index} onClick={() => setCurrentImageIndex(index)} className={cn("w-12 h-16 border-2 rounded-md overflow-hidden", index === currentImageIndex ? 'border-primary' : 'border-transparent')}>
+                    <Image src={img} alt={`${phone.model} thumbnail ${index + 1}`} width={48} height={64} className="object-cover w-full h-full" data-ai-hint="mobile phone" />
+                  </button>
+                ))}
               </div>
               <h1 className="text-2xl font-bold">{phone.brand} {phone.model}</h1>
               <p className="text-3xl font-bold text-primary mt-2">${phone.price}</p>
@@ -61,6 +88,21 @@ export default function PhoneDetailsPage() {
         </div>
         <div className="md:col-span-2">
             <div className="space-y-8">
+               {phone.youtubeVideoId && (
+                <div>
+                   <h2 className="text-2xl font-bold mb-4">Video Review</h2>
+                   <div className="aspect-video">
+                    <iframe
+                        className="w-full h-full rounded-lg"
+                        src={`https://www.youtube.com/embed/${phone.youtubeVideoId}`}
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      ></iframe>
+                   </div>
+                </div>
+              )}
               <div>
                 <h2 className="text-2xl font-bold mb-4">Key Specifications</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
