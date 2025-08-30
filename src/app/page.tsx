@@ -73,23 +73,23 @@ export default function Home() {
       </section>
 
       {/* Search & Filter Section */}
-      <section className="w-full py-8 md:py-12 bg-background border-b">
+      <section className="w-full py-8 md:py-12 bg-primary border-b">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col gap-4 md:flex-row">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/70" />
               <Input
                 type="search"
                 placeholder="Search by brand, model, or feature..."
-                className="w-full pl-10 h-12 text-base"
+                className="w-full pl-10 h-12 text-base bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 placeholder:text-primary-foreground/70 focus-visible:ring-primary-foreground"
               />
             </div>
             <div className="flex gap-2">
-               <Button variant="outline" size="lg" className="h-12">
+               <Button variant="outline" size="lg" className="h-12 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
                 <Filter className="mr-2 h-5 w-5" /> Filters
               </Button>
               <Select>
-                <SelectTrigger className="h-12 w-[180px]">
+                <SelectTrigger className="h-12 w-[180px] bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 focus:ring-primary-foreground">
                   <ArrowUpDown className="mr-2 h-5 w-5" />
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
@@ -100,7 +100,7 @@ export default function Home() {
                   <SelectItem value="price-desc">Price: High to Low</SelectItem>
                 </SelectContent>
               </Select>
-              <Button size="lg" className="h-12">Search</Button>
+              <Button size="lg" className="h-12 bg-background text-foreground hover:bg-background/90">Search</Button>
             </div>
           </div>
         </div>
