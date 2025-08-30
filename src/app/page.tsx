@@ -169,7 +169,7 @@ export default function Home() {
         <div className="container px-4 md:px-6">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">Power & Performance</h2>
           <Tabs defaultValue="battery" className="w-full">
-            <TabsList className="mb-4 flex flex-wrap h-auto justify-center">
+            <TabsList className="mb-4 flex flex-wrap h-auto">
               <TabsTrigger value="battery"><Battery className="mr-2"/>Battery</TabsTrigger>
               <TabsTrigger value="gaming"><Gamepad2 className="mr-2"/>Gaming</TabsTrigger>
               <TabsTrigger value="camera"><Camera className="mr-2"/>Camera</TabsTrigger>
@@ -198,7 +198,7 @@ export default function Home() {
         <div className="container px-4 md:px-6">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">Specialty Phones</h2>
           <Tabs defaultValue="foldable" className="w-full">
-            <TabsList className="mb-4 flex flex-wrap h-auto justify-center">
+            <TabsList className="mb-4 flex flex-wrap h-auto">
               <TabsTrigger value="foldable"><Smartphone className="mr-2"/>Foldable</TabsTrigger>
               <TabsTrigger value="rugged"><Shield className="mr-2"/>Rugged</TabsTrigger>
               <TabsTrigger value="unique"><Sparkles className="mr-2"/>Unique</TabsTrigger>
