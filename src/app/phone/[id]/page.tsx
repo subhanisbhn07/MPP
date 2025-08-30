@@ -20,7 +20,8 @@ export default function PhoneDetailsPage({ params }: { params: { id: string } })
     return <div>Phone not found</div>
   }
 
-  const renderSpecValue = (value: string) => {
+  const renderSpecValue = (value: string | undefined) => {
+    if(!value) return 'N/A';
     if (value.toLowerCase() === 'yes') return <CheckCircle className="text-green-500" />;
     if (value.toLowerCase() === 'no') return <XCircle className="text-red-500" />;
     return value;
@@ -87,7 +88,7 @@ export default function PhoneDetailsPage({ params }: { params: { id: string } })
                             {group.specs.map(spec => {
                               const category = group.category as keyof PhoneSpec;
                               const specKey = spec.key as keyof PhoneSpec[typeof category];
-                              const value = (phone.specs[category] as any)?.[specKey] || 'N/A';
+                              const value = (phone.specs[category] as any)?.[specKey];
 
                               return (
                                <TableRow key={spec.key}>
