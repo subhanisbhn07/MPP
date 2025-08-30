@@ -4,7 +4,7 @@ import type { Phone } from '@/lib/types';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Layers, Heart, Smartphone, Cpu, Battery, Camera } from 'lucide-react';
+import { Layers, Heart, Smartphone, Camera } from 'lucide-react';
 import Link from 'next/link';
 
 interface PhoneCardProps {
@@ -41,8 +41,8 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
           <Link href={`/phone/${phone.id}`}>{phone.model}</Link>
         </CardTitle>
         <div className="mt-3 space-y-1.5 text-xs text-muted-foreground">
-          <div className="flex items-center gap-2 truncate"><Smartphone size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.display}</span></div>
-          <div className="flex items-center gap-2 truncate"><Camera size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.camera}</span></div>
+          <div className="flex items-center gap-2 truncate"><Smartphone size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.display.size} {phone.specs.display.type.split(',')[0]}</span></div>
+          <div className="flex items-center gap-2 truncate"><Camera size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.mainCamera.modules.split(',')[0]}</span></div>
         </div>
       </CardContent>
       <CardFooter className="flex items-center justify-between p-4 bg-secondary/30">

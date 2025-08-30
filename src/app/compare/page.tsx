@@ -1,27 +1,14 @@
-import { popularPhones } from "@/lib/data"
-import { Phone } from "@/lib/types"
+
+import { allPhones } from "@/lib/data"
+import { Phone, PhoneSpec, specCategories } from "@/lib/types"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Image from "next/image"
-import { PlusCircle, Smartphone, Camera, Cpu, BatteryCharging } from 'lucide-react'
+import { PlusCircle } from 'lucide-react'
 
 export default function ComparePage() {
-  const comparisonPhones = popularPhones.slice(0, 3); // Example with 3 phones
-
-  const specsOrder: (keyof Phone['specs'])[] = ['display', 'camera', 'processor', 'battery'];
-  const specIcons = {
-    display: <Smartphone className="mr-2 h-4 w-4 text-muted-foreground" />,
-    camera: <Camera className="mr-2 h-4 w-4 text-muted-foreground" />,
-    processor: <Cpu className="mr-2 h-4 w-4 text-muted-foreground" />,
-    battery: <BatteryCharging className="mr-2 h-4 w-4 text-muted-foreground" />,
-  };
-  const specLabels = {
-    display: "Display",
-    camera: "Camera",
-    processor: "Processor",
-    battery: "Battery & Charging",
-  };
+  const comparisonPhones = allPhones.slice(0, 3); // Example with 3 phones
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
@@ -41,11 +28,11 @@ export default function ComparePage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[200px] min-w-[150px] font-semibold text-foreground">Feature</TableHead>
+                    <TableHead className="w-[200px] min-w-[150px] font-semibold text-foreground sticky left-0 bg-background z-10">Feature</TableHead>
                     {comparisonPhones.map(phone => (
-                      <TableHead key={phone.id} className="min-w-[200px]">
-                        <div className="flex flex-col items-center text-center">
-                           <Image src={phone.image} alt={phone.model} width={150} height={100} className="object-contain rounded-md mb-2" data-ai-hint="mobile phone" />
+                      <TableHead key={phone.id} className="min-w-[200px] text-center">
+                        <div className="flex flex-col items-center p-2">
+                           <Image src={phone.image} alt={phone.model} width={100} height={150} className="object-contain rounded-md mb-2 h-36" data-ai-hint="mobile phone" />
                            <p className="font-bold">{phone.brand}</p>
                            <p>{phone.model}</p>
                         </div>
@@ -64,29 +51,35 @@ export default function ComparePage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {specsOrder.map(specKey => (
-                     <TableRow key={specKey}>
-                        <TableCell className="font-medium">
-                          <div className="flex items-center">
-                            {specIcons[specKey]}
-                            {specLabels[specKey]}
-                          </div>
+                  {specCategories.map((category) => (
+                    <React.Fragment key={category.category}>
+                      <TableRow className="bg-muted/50">
+                        <TableCell colSpan={comparisonPhones.length + 2} className="font-bold text-primary sticky left-0 bg-muted/50 z-10">
+                          {category.title}
                         </TableCell>
-                        {comparisonPhones.map(phone => (
-                           <TableCell key={phone.id} className="text-center">{phone.specs[specKey]}</TableCell>
-                        ))}
-                         {comparisonPhones.length < 4 && <TableCell />}
-                     </TableRow>
+                      </TableRow>
+                      {category.specs.map(spec => (
+                         <TableRow key={spec.key}>
+                            <TableCell className="font-medium sticky left-0 bg-background z-10">{spec.label}</TableCell>
+                            {comparisonPhones.map(phone => (
+                               <TableCell key={phone.id} className="text-center">
+                                 {(phone.specs[category.category] as any)?.[spec.key] || 'N/A'}
+                               </TableCell>
+                            ))}
+                             {comparisonPhones.length < 4 && <TableCell />}
+                         </TableRow>
+                      ))}
+                    </React.Fragment>
                   ))}
                   <TableRow>
-                    <TableCell className="font-medium">Price</TableCell>
+                    <TableCell className="font-medium sticky left-0 bg-background z-10">Price</TableCell>
                     {comparisonPhones.map(phone => (
                        <TableCell key={phone.id} className="text-center text-lg font-bold text-primary">${phone.price}</TableCell>
                     ))}
                     {comparisonPhones.length < 4 && <TableCell />}
                   </TableRow>
-                  <TableRow>
-                    <TableCell></TableCell>
+                   <TableRow>
+                    <TableCell className="sticky left-0 bg-background z-10"></TableCell>
                     {comparisonPhones.map(phone => (
                        <TableCell key={phone.id} className="text-center">
                           <Button>View Details</Button>

@@ -5,23 +5,21 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PhoneCard } from '@/components/phone-card';
-import { allPhones, latestPhones, popularPhones, performancePhones } from '@/lib/data';
+import { allPhones } from '@/lib/data';
 import {
   Search,
   Sparkles,
-  ChevronRight,
+  ArrowRight,
   Rss,
   Battery,
   Gamepad2,
   Camera,
   Smartphone,
-  ArrowRight,
   Layers,
   Star,
   Info,
   Mail,
   Calendar,
-  Tv,
   Shield,
   Zap,
   PlusCircle,
@@ -93,6 +91,12 @@ export default function Home() {
   const handleClearCompare = () => {
     setCompareList([]);
   }
+
+  const popularPhones = allPhones.slice(0, 6);
+  const latestPhones = allPhones.sort((a, b) => new Date(b.specs.launch.announced).getTime() - new Date(a.specs.launch.announced).getTime()).slice(0, 6);
+  const flagshipPhones = allPhones.filter(p => p.price > 900).slice(0, 6);
+  const performancePhones = allPhones.filter(p => ['Snapdragon 8 Gen 3', 'A17 Pro Chip', 'Snapdragon 8 Gen 2 for Galaxy'].includes(p.specs.platform.chipset)).slice(0, 6);
+
 
   return (
     <div className="flex flex-col">
@@ -206,7 +210,6 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
             {popularPhones
-              .slice(0, 6)
               .map((phone) => (
                 <PhoneCard
                   key={phone.id}
@@ -234,7 +237,6 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
             {latestPhones
-              .slice(0, 6)
               .map((phone) => (
                 <PhoneCard
                   key={phone.id}
@@ -261,9 +263,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
-            {allPhones
-              .filter((p) => p.price > 900)
-              .slice(0, 6)
+            {flagshipPhones
               .map((phone) => (
                 <PhoneCard
                   key={phone.id}
@@ -291,7 +291,6 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:gap-8">
             {performancePhones
-              .slice(0, 6)
               .map((phone) => (
                 <PhoneCard
                   key={phone.id}
@@ -327,7 +326,7 @@ export default function Home() {
             <TabsContent value="battery">
               <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {allPhones
-                  .sort((a,b) => parseInt(b.specs.battery) - parseInt(a.specs.battery))
+                  .sort((a,b) => parseInt(b.specs.battery.type) - parseInt(a.specs.battery.type))
                   .slice(0, 6)
                   .map((phone) => (
                     <PhoneCard
@@ -354,7 +353,7 @@ export default function Home() {
             <TabsContent value="camera">
               <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {allPhones
-                  .sort((a,b) => parseInt(b.specs.camera) - parseInt(a.specs.camera))
+                  .sort((a,b) => parseInt(b.specs.mainCamera.modules) - parseInt(a.specs.mainCamera.modules))
                   .slice(0, 6)
                   .map((phone) => (
                   <PhoneCard
@@ -477,7 +476,7 @@ export default function Home() {
                 <Link href="/compare">Compare Now ({compareList.length})</Link>
             </Button>
             <p className="text-sm text-muted-foreground text-center">
-              Popular: iPhone 16 vs Pixel 9a
+              Popular: iPhone 15 vs Pixel 8 Pro
             </p>
           </div>
         </div>
