@@ -10,7 +10,7 @@ import {
   Search,
   Sparkles,
   ArrowRight,
-  Speaker,
+  Megaphone,
   Battery,
   Gamepad2,
   Camera,
@@ -49,7 +49,7 @@ const specCategories = [
   { icon: Zap, label: 'Fast Charging', href: '#' },
   { icon: Gamepad2, label: 'Gaming Phones', href: '#' },
   { icon: null, label: 'Under ₹20K', href: '#' },
-  { icon: Speaker, label: '5G Phones', href: '#' },
+  { icon: Megaphone, label: '5G Phones', href: '#' },
   { icon: Star, label: 'Flagships', href: '#' },
   { icon: Smartphone, label: 'Compact Phones', href: '#' },
   { icon: Layers, label: 'Expandable Storage', href: '#' },
@@ -123,7 +123,7 @@ export default function Home() {
         </div>
         <div className="container mt-12 pb-12">
            <div className="relative flex items-center bg-[#334DCF] text-white rounded-lg p-2 text-sm overflow-hidden">
-            <Speaker className="h-5 w-5 mr-2 flex-shrink-0" />
+            <Megaphone className="h-5 w-5 mr-2 flex-shrink-0" />
             <div className="flex-1 overflow-hidden">
               <div className="animate-ticker flex w-max">
                 <p className="whitespace-nowrap pr-12">
@@ -213,7 +213,7 @@ export default function Home() {
                 <PhoneCard
                   key={phone.id}
                   phone={phone}
-                  onAddToCompare={handleAddToCompare}
+                  onAddToCompare={() => handleAddToCompare(phone)}
                 />
               ))}
           </div>
@@ -240,7 +240,7 @@ export default function Home() {
                 <PhoneCard
                   key={phone.id}
                   phone={phone}
-                  onAddToCompare={handleAddToCompare}
+                  onAddToCompare={() => handleAddToCompare(phone)}
                 />
               ))}
           </div>
@@ -267,7 +267,7 @@ export default function Home() {
                 <PhoneCard
                   key={phone.id}
                   phone={phone}
-                  onAddToCompare={handleAddToCompare}
+                  onAddToCompare={() => handleAddToCompare(phone)}
                 />
               ))}
           </div>
@@ -294,7 +294,7 @@ export default function Home() {
                 <PhoneCard
                   key={phone.id}
                   phone={phone}
-                  onAddToCompare={handleAddToCompare}
+                  onAddToCompare={() => handleAddToCompare(phone)}
                 />
               ))}
           </div>
@@ -331,7 +331,7 @@ export default function Home() {
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={handleAddToCompare}
+                      onAddToCompare={() => handleAddToCompare(phone)}
                     />
                   ))}
               </div>
@@ -344,7 +344,7 @@ export default function Home() {
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={handleAddToCompare}
+                      onAddToCompare={() => handleAddToCompare(phone)}
                     />
                   ))}
               </div>
@@ -358,7 +358,7 @@ export default function Home() {
                   <PhoneCard
                     key={phone.id}
                     phone={phone}
-                    onAddToCompare={handleAddToCompare}
+                    onAddToCompare={() => handleAddToCompare(phone)}
                   />
                 ))}
               </div>
@@ -397,7 +397,7 @@ export default function Home() {
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={handleAddToCompare}
+                      onAddToCompare={() => handleAddToCompare(phone)}
                     />
                   ))}
               </div>
@@ -408,7 +408,7 @@ export default function Home() {
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={handleAddToCompare}
+                      onAddToCompare={() => handleAddToCompare(phone)}
                     />
                   ))}
               </div>
@@ -422,7 +422,7 @@ export default function Home() {
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
-                      onAddToCompare={handleAddToCompare}
+                      onAddToCompare={() => handleAddToCompare(phone)}
                     />
                   ))}
               </div>
@@ -719,5 +719,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
