@@ -8,14 +8,14 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
       height="24"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="currentColor"
+      stroke="hsl(var(--primary))"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}
     >
       <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
-      <path d="M12 18h.01" />
+      <path d="M12 18h.01" stroke="hsl(var(--accent))" fill="hsl(var(--accent))" />
     </svg>
   );
 }
