@@ -283,6 +283,12 @@ export const allPhones: Phone[] = [
     brand: 'Apple',
     model: 'iPhone 15 Pro',
     image: 'https://picsum.photos/400/500?phone=2',
+    images: [
+        'https://picsum.photos/400/500?phone=2a',
+        'https://picsum.photos/400/500?phone=2b',
+        'https://picsum.photos/400/500?phone=2c',
+        'https://picsum.photos/400/500?phone=2d',
+    ],
     price: 999,
     specs: {
       network: {
@@ -455,7 +461,7 @@ export const allPhones: Phone[] = [
         wired_charging_wattage: '20W',
         wired_charging_standard: 'USB PD2.0',
         '0_50_time_mins': '30',
-        full_charge_time_mins: '90',
+        'full_charge_time_mins': '90',
         wireless_charging_wattage: '15W (MagSafe), 7.5W (Qi)',
         wireless_standards: 'MagSafe, Qi',
         reverse_wireless_charging_wattage: 'No',
@@ -551,6 +557,12 @@ export const allPhones: Phone[] = [
     brand: 'Google',
     model: 'Pixel 8 Pro',
     image: 'https://picsum.photos/400/500?phone=3',
+    images: [
+        'https://picsum.photos/400/500?phone=3a',
+        'https://picsum.photos/400/500?phone=3b',
+        'https://picsum.photos/400/500?phone=3c',
+        'https://picsum.photos/400/500?phone=3d',
+    ],
     price: 999,
     specs: {
       network: {
@@ -723,7 +735,7 @@ export const allPhones: Phone[] = [
         wired_charging_wattage: '30W',
         wired_charging_standard: 'PD3.0, PPS',
         '0_50_time_mins': '30',
-        full_charge_time_mins: '80',
+        'full_charge_time_mins': '80',
         wireless_charging_wattage: '23W (Pixel Stand)',
         wireless_standards: 'Qi (12W)',
         reverse_wireless_charging_wattage: 'Yes',
@@ -819,6 +831,12 @@ export const allPhones: Phone[] = [
     brand: 'Samsung',
     model: 'Galaxy Z Fold 5',
     image: 'https://picsum.photos/400/500?phone=4',
+    images: [
+        'https://picsum.photos/400/500?phone=4a',
+        'https://picsum.photos/400/500?phone=4b',
+        'https://picsum.photos/400/500?phone=4c',
+        'https://picsum.photos/400/500?phone=4d',
+    ],
     price: 1799,
     specs: {
       network: {
@@ -991,7 +1009,7 @@ export const allPhones: Phone[] = [
         wired_charging_wattage: '25W',
         wired_charging_standard: 'PD3.0, PPS',
         '0_50_time_mins': '30',
-        full_charge_time_mins: '85',
+        'full_charge_time_mins': '85',
         wireless_charging_wattage: '15W',
         wireless_standards: 'Qi',
         reverse_wireless_charging_wattage: '4.5W',
@@ -1087,6 +1105,12 @@ export const allPhones: Phone[] = [
     brand: 'Samsung',
     model: 'Galaxy Z Flip 5',
     image: 'https://picsum.photos/400/500?phone=5',
+    images: [
+        'https://picsum.photos/400/500?phone=5a',
+        'https://picsum.photos/400/500?phone=5b',
+        'https://picsum.photos/400/500?phone=5c',
+        'https://picsum.photos/400/500?phone=5d',
+    ],
     price: 999,
     specs: {
        network: {
@@ -1259,7 +1283,7 @@ export const allPhones: Phone[] = [
         wired_charging_wattage: '25W',
         wired_charging_standard: 'PD3.0, PPS',
         '0_50_time_mins': '30',
-        full_charge_time_mins: '75',
+        'full_charge_time_mins': '75',
         wireless_charging_wattage: '15W',
         wireless_standards: 'Qi',
         reverse_wireless_charging_wattage: '4.5W',
@@ -1355,6 +1379,12 @@ export const allPhones: Phone[] = [
     brand: 'Google',
     model: 'Pixel Fold',
     image: 'https://picsum.photos/400/500?phone=6',
+    images: [
+        'https://picsum.photos/400/500?phone=6a',
+        'https://picsum.photos/400/500?phone=6b',
+        'https://picsum.photos/400/500?phone=6c',
+        'https://picsum.photos/400/500?phone=6d',
+    ],
     price: 1799,
     specs: {
        network: {
@@ -1527,7 +1557,7 @@ export const allPhones: Phone[] = [
         wired_charging_wattage: '30W',
         wired_charging_standard: 'PD3.0, PPS',
         '0_50_time_mins': '30',
-        full_charge_time_mins: '90',
+        'full_charge_time_mins': '90',
         wireless_charging_wattage: 'Yes (Pixel Stand)',
         wireless_standards: 'Qi',
         reverse_wireless_charging_wattage: 'No',
@@ -1623,6 +1653,12 @@ export const allPhones: Phone[] = [
     brand: 'Motorola',
     model: 'Razr+ 2023',
     image: 'https://picsum.photos/400/500?phone=7',
+    images: [
+        'https://picsum.photos/400/500?phone=7a',
+        'https://picsum.photos/400/500?phone=7b',
+        'https://picsum.photos/400/500?phone=7c',
+        'https://picsum.photos/400/500?phone=7d',
+    ],
     price: 999,
      specs: {
        network: {
@@ -1891,6 +1927,12 @@ export const allPhones: Phone[] = [
     brand: 'Oppo',
     model: 'Find N3',
     image: 'https://picsum.photos/400/500?phone=8',
+    images: [
+        'https://picsum.photos/400/500?phone=8a',
+        'https://picsum.photos/400/500?phone=8b',
+        'https://picsum.photos/400/500?phone=8c',
+        'https://picsum.photos/400/500?phone=8d',
+    ],
     price: 1899,
      specs: {
        network: {
@@ -2159,6 +2201,12 @@ export const allPhones: Phone[] = [
     brand: 'Xiaomi',
     model: '14 Ultra',
     image: 'https://picsum.photos/400/500?phone=9',
+    images: [
+        'https://picsum.photos/400/500?phone=9a',
+        'https://picsum.photos/400/500?phone=9b',
+        'https://picsum.photos/400/500?phone=9c',
+        'https://picsum.photos/400/500?phone=9d',
+    ],
     price: 1199,
      specs: {
       network: {
@@ -2427,6 +2475,12 @@ export const allPhones: Phone[] = [
     brand: 'OnePlus',
     model: '12',
     image: 'https://picsum.photos/400/500?phone=10',
+    images: [
+        'https://picsum.photos/400/500?phone=10a',
+        'https://picsum.photos/400/500?phone=10b',
+        'https://picsum.photos/400/500?phone=10c',
+        'https://picsum.photos/400/500?phone=10d',
+    ],
     price: 799,
      specs: {
        network: {
@@ -2695,6 +2749,12 @@ export const allPhones: Phone[] = [
     brand: 'Nothing',
     model: 'Phone (2a)',
     image: 'https://picsum.photos/400/500?phone=11',
+    images: [
+        'https://picsum.photos/400/500?phone=11a',
+        'https://picsum.photos/400/500?phone=11b',
+        'https://picsum.photos/400/500?phone=11c',
+        'https://picsum.photos/400/500?phone=11d',
+    ],
     price: 349,
      specs: {
        network: {
@@ -2963,6 +3023,12 @@ export const allPhones: Phone[] = [
     brand: 'Asus',
     model: 'ROG Phone 8 Pro',
     image: 'https://picsum.photos/400/500?phone=12',
+    images: [
+        'https://picsum.photos/400/500?phone=12a',
+        'https://picsum.photos/400/500?phone=12b',
+        'https://picsum.photos/400/500?phone=12c',
+        'https://picsum.photos/400/500?phone=12d',
+    ],
     price: 1199,
      specs: {
        network: {
@@ -3231,6 +3297,12 @@ export const allPhones: Phone[] = [
     brand: 'Sony',
     model: 'Xperia 1 VI',
     image: 'https://picsum.photos/400/500?phone=13',
+    images: [
+        'https://picsum.photos/400/500?phone=13a',
+        'https://picsum.photos/400/500?phone=13b',
+        'https://picsum.photos/400/500?phone=13c',
+        'https://picsum.photos/400/500?phone=13d',
+    ],
     price: 1399,
      specs: {
       network: {
@@ -3499,6 +3571,12 @@ export const allPhones: Phone[] = [
     brand: 'Fairphone',
     model: '5',
     image: 'https://picsum.photos/400/500?phone=14',
+    images: [
+        'https://picsum.photos/400/500?phone=14a',
+        'https://picsum.photos/400/500?phone=14b',
+        'https://picsum.photos/400/500?phone=14c',
+        'https://picsum.photos/400/500?phone=14d',
+    ],
     price: 750,
      specs: {
        network: {
@@ -3767,6 +3845,12 @@ export const allPhones: Phone[] = [
     brand: 'Ulefone',
     model: 'Armor 23 Ultra',
     image: 'https://picsum.photos/400/500?phone=15',
+    images: [
+        'https://picsum.photos/400/500?phone=15a',
+        'https://picsum.photos/400/500?phone=15b',
+        'https://picsum.photos/400/500?phone=15c',
+        'https://picsum.photos/400/500?phone=15d',
+    ],
     price: 600,
     specs: {
        network: {
@@ -4035,6 +4119,12 @@ export const allPhones: Phone[] = [
     brand: 'CAT',
     model: 'S75',
     image: 'https://picsum.photos/400/500?phone=16',
+    images: [
+        'https://picsum.photos/400/500?phone=16a',
+        'https://picsum.photos/400/500?phone=16b',
+        'https://picsum.photos/400/500?phone=16c',
+        'https://picsum.photos/400/500?phone=16d',
+    ],
     price: 650,
      specs: {
       main_camera: {
@@ -4303,6 +4393,12 @@ export const allPhones: Phone[] = [
     brand: 'Apple',
     model: 'iPhone 15 Pro Max',
     image: 'https://picsum.photos/400/500?phone=17',
+    images: [
+        'https://picsum.photos/400/500?phone=17a',
+        'https://picsum.photos/400/500?phone=17b',
+        'https://picsum.photos/400/500?phone=17c',
+        'https://picsum.photos/400/500?phone=17d',
+    ],
     price: 1199,
      specs: {
       network: {
@@ -4571,6 +4667,12 @@ export const allPhones: Phone[] = [
     brand: 'Samsung',
     model: 'Galaxy S24',
     image: 'https://picsum.photos/400/500?phone=18',
+    images: [
+        'https://picsum.photos/400/500?phone=18a',
+        'https://picsum.photos/400/500?phone=18b',
+        'https://picsum.photos/400/500?phone=18c',
+        'https://picsum.photos/400/500?phone=18d',
+    ],
     price: 799,
      specs: {
       network: {
@@ -4839,6 +4941,12 @@ export const allPhones: Phone[] = [
     brand: 'Oppo',
     model: 'Find N3 Flip',
     image: 'https://picsum.photos/400/500?phone=19',
+    images: [
+        'https://picsum.photos/400/500?phone=19a',
+        'https://picsum.photos/400/500?phone=19b',
+        'https://picsum.photos/400/500?phone=19c',
+        'https://picsum.photos/400/500?phone=19d',
+    ],
     price: 1099,
     specs: {
       network: {
@@ -5107,6 +5215,12 @@ export const allPhones: Phone[] = [
     brand: 'Motorola',
     model: 'Razr 40 Ultra',
     image: 'https://picsum.photos/400/500?phone=20',
+    images: [
+        'https://picsum.photos/400/500?phone=20a',
+        'https://picsum.photos/400/500?phone=20b',
+        'https://picsum.photos/400/500?phone=20c',
+        'https://picsum.photos/400/500?phone=20d',
+    ],
     price: 999,
     specs: {
        network: {
@@ -5375,3 +5489,4 @@ export const allPhones: Phone[] = [
     
 
     
+
