@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from 'next/image';
@@ -393,7 +394,7 @@ export default function Home() {
             <TabsContent value="foldable">
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {allPhones
-                  .filter((p) => p.model.includes('Fold') || p.model.includes('Flip') || p.model.includes('Razr'))
+                  .filter((p) => p.model.includes('Fold') || p.model.includes('Flip') || p.model.includes('Razr') || p.model.includes('Open'))
                   .slice(0, 6)
                   .map((phone) => (
                     <PhoneCard
@@ -418,7 +419,7 @@ export default function Home() {
             <TabsContent value="unique">
                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {allPhones
-                  .filter(p => p.brand === "Nothing" || p.brand === "Asus")
+                  .filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony")
                   .slice(0, 6)
                   .map((phone) => (
                     <PhoneCard
