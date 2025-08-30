@@ -4,11 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PhoneCard } from '@/components/phone-card';
 import { allPhones, latestPhones, popularPhones } from '@/lib/data';
-import { Search, Sparkles, ChevronRight, Rss, Battery, Gamepad2, Camera, Smartphone, ArrowRight, Layers, Star, Info, Mail, Calendar, Tv, Shield, Zap, PlusCircle, Filter } from 'lucide-react';
+import { Search, Sparkles, ChevronRight, Rss, Battery, Gamepad2, Camera, Smartphone, ArrowRight, Layers, Star, Info, Mail, Calendar, Tv, Shield, Zap, PlusCircle, Filter, ArrowUpDown } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 
 const specCategories = [
@@ -82,9 +83,21 @@ export default function Home() {
               />
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="lg" className="h-12">
+               <Button variant="outline" size="lg" className="h-12">
                 <Filter className="mr-2 h-5 w-5" /> Filters
               </Button>
+              <Select>
+                <SelectTrigger className="h-12 w-[180px]">
+                  <ArrowUpDown className="mr-2 h-5 w-5" />
+                  <SelectValue placeholder="Sort By" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="popular">Popularity</SelectItem>
+                  <SelectItem value="latest">Latest</SelectItem>
+                  <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                  <SelectItem value="price-desc">Price: High to Low</SelectItem>
+                </SelectContent>
+              </Select>
               <Button size="lg" className="h-12">Search</Button>
             </div>
           </div>
