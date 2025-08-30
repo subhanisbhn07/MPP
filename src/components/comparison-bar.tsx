@@ -11,9 +11,10 @@ import Link from 'next/link';
 interface ComparisonBarProps {
   phones: Phone[];
   onRemove: (phoneId: number) => void;
+  onClear: () => void;
 }
 
-export function ComparisonBar({ phones, onRemove }: ComparisonBarProps) {
+export function ComparisonBar({ phones, onRemove, onClear }: ComparisonBarProps) {
   if (phones.length === 0) {
     return null;
   }
@@ -54,7 +55,7 @@ export function ComparisonBar({ phones, onRemove }: ComparisonBarProps) {
             <Button asChild>
                 <Link href="/compare">Compare Now</Link>
             </Button>
-            <Button variant="ghost" onClick={() => onRemove(phones[0].id)}>Clear all</Button>
+            <Button variant="ghost" onClick={onClear}>Clear all</Button>
           </div>
         </CardContent>
       </Card>

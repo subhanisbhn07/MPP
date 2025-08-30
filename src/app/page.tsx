@@ -97,6 +97,10 @@ export default function Home() {
   const handleRemoveFromCompare = (phoneId: number) => {
     setCompareList((prevList) => prevList.filter((p) => p.id !== phoneId));
   };
+  
+  const handleClearCompare = () => {
+    setCompareList([]);
+  }
 
   return (
     <div className="flex flex-col">
@@ -172,7 +176,7 @@ export default function Home() {
                 <Filter className="mr-2 h-5 w-5" /> Filters
               </Button>
               <Select>
-                <SelectTrigger className="h-12 w-[180px] bg-white text-black border-primary-foreground/20 focus:ring-primary-foreground">
+                <SelectTrigger className="h-12 w-[180px] bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 focus:ring-primary-foreground">
                   <ArrowUpDown className="mr-2 h-5 w-5" />
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
@@ -730,6 +734,7 @@ export default function Home() {
       <ComparisonBar
         phones={compareList}
         onRemove={handleRemoveFromCompare}
+        onClear={handleClearCompare}
       />
     </div>
   );

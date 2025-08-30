@@ -13,6 +13,12 @@ interface PhoneCardProps {
 }
 
 export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
+  const handleCompareClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onAddToCompare(phone);
+  };
+
   return (
     <Card className="flex flex-col overflow-hidden transition-all hover:shadow-lg">
       <CardHeader className="p-0">
@@ -42,7 +48,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
       <CardFooter className="flex items-center justify-between p-4 bg-secondary/30">
         <p className="text-xl font-bold text-primary">${phone.price}</p>
         <div className="flex items-center space-x-2">
-          <Button variant="ghost" size="icon" onClick={() => onAddToCompare(phone)}>
+          <Button variant="ghost" size="icon" onClick={handleCompareClick}>
             <Layers className="h-5 w-5" />
             <span className="sr-only">Compare</span>
           </Button>
