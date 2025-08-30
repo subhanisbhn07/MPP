@@ -56,7 +56,7 @@ export default function Home() {
           </div>
         </div>
         <div className="container mt-8 overflow-hidden">
-            <div className="relative flex items-center bg-secondary text-secondary-foreground rounded-lg p-2 text-sm">
+            <div className="relative flex items-center bg-secondary text-secondary-foreground rounded-lg p-2 text-sm overflow-hidden">
                 <Rss className="h-5 w-5 mr-2 flex-shrink-0"/>
                 <div className="animate-ticker flex w-max">
                     <p className="whitespace-nowrap pr-12">Pixel 9a announced with new Tensor G4 chip.</p>
