@@ -1,3 +1,4 @@
+
 import { allPhones } from "@/lib/data";
 import { PhoneCard } from "@/components/phone-card";
 import { Input } from "@/components/ui/input";
@@ -13,9 +14,38 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { useState } from "react";
+import type { Phone } from "@/lib/types";
+import { useToast } from "@/hooks/use-toast";
 
 export default function SearchPage() {
   const brands = [...new Set(allPhones.map(p => p.brand))];
+  const [compareList, setCompareList] = useState<Phone[]>([]);
+  const { toast } = useToast();
+
+  const handleAddToCompare = (phone: Phone) => {
+    setCompareList((prevList) => {
+      if (prevList.find((p) => p.id === phone.id)) {
+        toast({
+          description: `${phone.model} is already in the comparison list.`,
+        });
+        return prevList;
+      }
+      if (prevList.length >= 4) {
+        toast({
+          variant: 'destructive',
+          title: 'Comparison Limit Reached',
+          description: 'You can only compare up to 4 phones at a time.',
+        });
+        return prevList;
+      }
+      toast({
+        title: 'Added to Compare',
+        description: `${phone.model} has been added to the comparison list.`,
+      });
+      return [...prevList, phone];
+    });
+  };
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
@@ -29,7 +59,7 @@ export default function SearchPage() {
                 type="search"
                 placeholder="Search by name, brand, or feature..."
                 className="max-w-lg flex-1"
-                defaultValue="Nova"
+                defaultValue="Samsung"
               />
               <Button type="submit" variant="default">
                 <Search className="mr-2 h-4 w-4" />
@@ -53,7 +83,7 @@ export default function SearchPage() {
                     <div className="space-y-2 pt-2">
                       {brands.map(brand => (
                         <div key={brand} className="flex items-center space-x-2">
-                          <Checkbox id={brand} defaultChecked={brand === 'Nova'} />
+                          <Checkbox id={brand} defaultChecked={brand === 'Samsung'} />
                           <Label htmlFor={brand} className="font-normal">{brand}</Label>
                         </div>
                       ))}
@@ -97,10 +127,10 @@ export default function SearchPage() {
         </aside>
 
         <main className="md:col-span-3">
-          <h2 className="text-2xl font-semibold mb-4">Showing results for "Nova"</h2>
+          <h2 className="text-2xl font-semibold mb-4">Showing results for "Samsung"</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {allPhones.filter(p => p.brand === 'Nova').map(phone => (
-              <PhoneCard key={phone.id} phone={phone} />
+            {allPhones.filter(p => p.brand === 'Samsung').map(phone => (
+              <PhoneCard key={phone.id} phone={phone} onAddToCompare={handleAddToCompare} />
             ))}
           </div>
         </main>

@@ -41,8 +41,8 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
           <Link href={`/phone/${phone.id}`}>{phone.model}</Link>
         </CardTitle>
         <div className="mt-3 space-y-1.5 text-xs text-muted-foreground">
-          <div className="flex items-center gap-2 truncate"><Smartphone size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.display.size} {phone.specs.display.type.split(',')[0]}</span></div>
-          <div className="flex items-center gap-2 truncate"><Camera size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.mainCamera.modules.split(',')[0]}</span></div>
+          <div className="flex items-center gap-2 truncate"><Smartphone size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.display.size_inches} {phone.specs.display.panel_type.split(',')[0]}</span></div>
+          <div className="flex items-center gap-2 truncate"><Camera size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.main_camera.main_sensor_resolution}MP Main</span></div>
         </div>
       </CardContent>
       <CardFooter className="flex items-center justify-between p-4 bg-secondary/30">

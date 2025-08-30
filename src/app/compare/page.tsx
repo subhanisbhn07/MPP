@@ -1,11 +1,15 @@
 
+'use client';
+
 import { allPhones } from "@/lib/data"
-import { Phone, PhoneSpec, specCategories } from "@/lib/types"
+import type { Phone, PhoneSpec, SpecCategory } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Image from "next/image"
 import { PlusCircle } from 'lucide-react'
+import { specCategoryGroups } from "@/lib/types";
+import React from "react";
 
 export default function ComparePage() {
   const comparisonPhones = allPhones.slice(0, 3); // Example with 3 phones
@@ -51,24 +55,29 @@ export default function ComparePage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {specCategories.map((category) => (
-                    <React.Fragment key={category.category}>
+                  {specCategoryGroups.map((group) => (
+                    <React.Fragment key={group.title}>
                       <TableRow className="bg-muted/50">
                         <TableCell colSpan={comparisonPhones.length + 2} className="font-bold text-primary sticky left-0 bg-muted/50 z-10">
-                          {category.title}
+                          {group.title}
                         </TableCell>
                       </TableRow>
-                      {category.specs.map(spec => (
+                      {group.specs.map(spec => {
+                        const category = group.category as keyof PhoneSpec;
+                        const specKey = spec.key as keyof PhoneSpec[typeof category];
+
+                        return (
                          <TableRow key={spec.key}>
                             <TableCell className="font-medium sticky left-0 bg-background z-10">{spec.label}</TableCell>
                             {comparisonPhones.map(phone => (
                                <TableCell key={phone.id} className="text-center">
-                                 {(phone.specs[category.category] as any)?.[spec.key] || 'N/A'}
+                                 {(phone.specs[category] as any)?.[specKey] || 'N/A'}
                                </TableCell>
                             ))}
                              {comparisonPhones.length < 4 && <TableCell />}
                          </TableRow>
-                      ))}
+                        )
+                      })}
                     </React.Fragment>
                   ))}
                   <TableRow>

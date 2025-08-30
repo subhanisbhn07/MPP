@@ -93,10 +93,9 @@ export default function Home() {
   }
 
   const popularPhones = allPhones.slice(0, 6);
-  const latestPhones = allPhones.sort((a, b) => new Date(b.specs.launch.announced).getTime() - new Date(a.specs.launch.announced).getTime()).slice(0, 6);
+  const latestPhones = [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime()).slice(0, 6);
   const flagshipPhones = allPhones.filter(p => p.price > 900).slice(0, 6);
-  const performancePhones = allPhones.filter(p => ['Snapdragon 8 Gen 3', 'A17 Pro Chip', 'Snapdragon 8 Gen 2 for Galaxy'].includes(p.specs.platform.chipset)).slice(0, 6);
-
+  const performancePhones = allPhones.filter(p => ['Snapdragon 8 Gen 3', 'Apple A17 Pro', 'Snapdragon 8 Gen 2'].some(chip => p.specs.platform.chipset.includes(chip))).slice(0, 6);
 
   return (
     <div className="flex flex-col">
@@ -325,8 +324,8 @@ export default function Home() {
             </TabsList>
             <TabsContent value="battery">
               <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                {allPhones
-                  .sort((a,b) => parseInt(b.specs.battery.type) - parseInt(a.specs.battery.type))
+                {[...allPhones]
+                  .sort((a,b) => parseInt(b.specs.battery.capacity_mah) - parseInt(a.specs.battery.capacity_mah))
                   .slice(0, 6)
                   .map((phone) => (
                     <PhoneCard
@@ -352,8 +351,8 @@ export default function Home() {
             </TabsContent>
             <TabsContent value="camera">
               <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                {allPhones
-                  .sort((a,b) => parseInt(b.specs.mainCamera.modules) - parseInt(a.specs.mainCamera.modules))
+                {[...allPhones]
+                  .sort((a,b) => parseInt(b.specs.main_camera.main_sensor_resolution) - parseInt(a.specs.main_camera.main_sensor_resolution))
                   .slice(0, 6)
                   .map((phone) => (
                   <PhoneCard
@@ -392,7 +391,7 @@ export default function Home() {
             <TabsContent value="foldable">
               <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
                 {allPhones
-                  .filter((p) => p.model.includes('Fold') || p.model.includes('Flip') || p.model.includes('Razr') || p.model.includes('Open'))
+                  .filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip'))
                   .slice(0, 6)
                   .map((phone) => (
                     <PhoneCard
@@ -405,7 +404,7 @@ export default function Home() {
             </TabsContent>
             <TabsContent value="rugged">
                <div className="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                {[...allPhones].slice(6, 12).map((phone) => (
+                {allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")).slice(6, 12).map((phone) => (
                     <PhoneCard
                       key={phone.id}
                       phone={phone}
