@@ -129,43 +129,59 @@ export default function Home() {
         </div>
       </section>
       
-       {/* Specialty Sections */}
+       {/* Power & Performance Section */}
       <section className="w-full py-12 md:py-24 lg:py-32 bg-card">
         <div className="container px-4 md:px-6">
-          <Tabs defaultValue="power" className="w-full">
-            <TabsList className="mb-6">
-              <TabsTrigger value="power">Power & Performance</TabsTrigger>
-              <TabsTrigger value="specialty">Specialty Phones</TabsTrigger>
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">Power & Performance</h2>
+          <Tabs defaultValue="battery" className="w-full">
+            <TabsList className="mb-4 justify-center">
+              <TabsTrigger value="battery"><Battery className="mr-2"/>Battery</TabsTrigger>
+              <TabsTrigger value="gaming"><Gamepad2 className="mr-2"/>Gaming</TabsTrigger>
+              <TabsTrigger value="camera"><Camera className="mr-2"/>Camera</TabsTrigger>
             </TabsList>
-            <TabsContent value="power">
-              <Tabs defaultValue="battery" className="w-full">
-                <TabsList className="mb-4">
-                  <TabsTrigger value="battery"><Battery className="mr-2"/>Battery</TabsTrigger>
-                  <TabsTrigger value="gaming"><Gamepad2 className="mr-2"/>Gaming</TabsTrigger>
-                  <TabsTrigger value="camera"><Camera className="mr-2"/>Camera</TabsTrigger>
-                </TabsList>
-                <TabsContent value="battery">
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                    {popularPhones.slice().reverse().map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
-                  </div>
-                </TabsContent>
-                {/* Other tabs content */}
-              </Tabs>
+            <TabsContent value="battery">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                {popularPhones.slice().reverse().map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+              </div>
             </TabsContent>
-            <TabsContent value="specialty">
-               <Tabs defaultValue="foldable" className="w-full">
-                <TabsList className="mb-4">
-                  <TabsTrigger value="foldable"><Smartphone className="mr-2"/>Foldable</TabsTrigger>
-                  <TabsTrigger value="rugged"><Shield className="mr-2"/>Rugged</TabsTrigger>
-                  <TabsTrigger value="unique"><Sparkles className="mr-2"/>Unique</TabsTrigger>
-                </TabsList>
-                <TabsContent value="foldable">
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-                    {latestPhones.filter(p => p.model.includes('Fold')).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
-                  </div>
-                </TabsContent>
-                {/* Other tabs content */}
-              </Tabs>
+            <TabsContent value="gaming">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                {allPhones.filter(p => p.price > 600).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+              </div>
+            </TabsContent>
+            <TabsContent value="camera">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                {latestPhones.map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </section>
+
+      {/* Specialty Phones Section */}
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-secondary/50">
+        <div className="container px-4 md:px-6">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">Specialty Phones</h2>
+          <Tabs defaultValue="foldable" className="w-full">
+            <TabsList className="mb-4 justify-center">
+              <TabsTrigger value="foldable"><Smartphone className="mr-2"/>Foldable</TabsTrigger>
+              <TabsTrigger value="rugged"><Shield className="mr-2"/>Rugged</TabsTrigger>
+              <TabsTrigger value="unique"><Sparkles className="mr-2"/>Unique</TabsTrigger>
+            </TabsList>
+            <TabsContent value="foldable">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                {latestPhones.filter(p => p.model.includes('Fold')).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+              </div>
+            </TabsContent>
+             <TabsContent value="rugged">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                {popularPhones.slice(0,2).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+              </div>
+            </TabsContent>
+             <TabsContent value="unique">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+                {latestPhones.slice(2,5).map((phone) => <PhoneCard key={phone.id} phone={phone} />)}
+              </div>
             </TabsContent>
           </Tabs>
         </div>
