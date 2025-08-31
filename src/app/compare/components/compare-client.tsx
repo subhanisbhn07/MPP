@@ -26,11 +26,19 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
     handleSetCompareList
   } = useCompare();
   
-  // On initial render of this component, sync the context with the phones from the URL.
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
-    handleSetCompareList(initialPhones);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialPhones]);
+    // When the component mounts for the first time on the client,
+    // sync the context with the phones from the URL slug.
+    // This should only happen once.
+    if (!isMounted) {
+      handleSetCompareList(initialPhones);
+      setIsMounted(true);
+    }
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialPhones, handleSetCompareList]);
+
 
   const handleAddPhone = (phone: Phone) => {
     if (compareList.length < 4) {
@@ -40,6 +48,9 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
   };
   
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  // Use compareList from context as the source of truth
+  const phonesToRender = compareList;
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
@@ -60,7 +71,7 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[200px] min-w-[150px] font-semibold text-foreground sticky left-0 bg-background z-10">Feature</TableHead>
-                    {compareList.map(phone => (
+                    {phonesToRender.map(phone => (
                       <TableHead key={phone.id} className="min-w-[200px] text-center">
                         <div className="flex flex-col items-center p-2 relative group">
                            <Image src={phone.image} alt={phone.model} width={100} height={150} className="object-contain rounded-md mb-2 h-36" data-ai-hint="mobile phone" />
@@ -77,7 +88,7 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
                         </div>
                       </TableHead>
                     ))}
-                    {compareList.length < 4 && (
+                    {phonesToRender.length < 4 && (
                        <TableHead className="min-w-[200px]">
                         <div className="flex flex-col items-center justify-center h-full text-center p-4 border-2 border-dashed rounded-lg">
                            <Button variant="ghost" className="flex flex-col h-auto p-4" onClick={() => setIsDialogOpen(true)}>
@@ -93,7 +104,7 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
                   {specCategoryGroups.map((group) => (
                     <React.Fragment key={group.title}>
                       <TableRow className="bg-muted/50">
-                        <TableCell colSpan={compareList.length + 2} className="font-bold text-primary sticky left-0 bg-muted/50 z-10">
+                        <TableCell colSpan={phonesToRender.length + 2} className="font-bold text-primary sticky left-0 bg-muted/50 z-10">
                           {group.title}
                         </TableCell>
                       </TableRow>
@@ -104,12 +115,12 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
                         return (
                          <TableRow key={spec.key}>
                             <TableCell className="font-medium sticky left-0 bg-background z-10">{spec.label}</TableCell>
-                            {compareList.map(phone => (
+                            {phonesToRender.map(phone => (
                                <TableCell key={phone.id} className="text-center">
                                  {(phone.specs[category] as any)?.[specKey] || 'N/A'}
                                </TableCell>
                             ))}
-                             {compareList.length < 4 && <TableCell />}
+                             {phonesToRender.length < 4 && <TableCell />}
                          </TableRow>
                         )
                       })}
@@ -117,21 +128,21 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
                   ))}
                   <TableRow>
                     <TableCell className="font-medium sticky left-0 bg-background z-10">Price</TableCell>
-                    {compareList.map(phone => (
+                    {phonesToRender.map(phone => (
                        <TableCell key={phone.id} className="text-center text-lg font-bold text-primary">${phone.price}</TableCell>
                     ))}
-                    {compareList.length < 4 && <TableCell />}
+                    {phonesToRender.length < 4 && <TableCell />}
                   </TableRow>
                    <TableRow>
                     <TableCell className="sticky left-0 bg-background z-10"></TableCell>
-                    {compareList.map(phone => (
+                    {phonesToRender.map(phone => (
                        <TableCell key={phone.id} className="text-center">
                           <Button asChild>
                             <Link href={`/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`}>View Details</Link>
                           </Button>
                        </TableCell>
                     ))}
-                    {compareList.length < 4 && <TableCell />}
+                    {phonesToRender.length < 4 && <TableCell />}
                   </TableRow>
                 </TableBody>
               </Table>
@@ -144,7 +155,7 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
         onOpenChange={setIsDialogOpen}
         onSelectPhone={handleAddPhone}
         allPhones={allPhones}
-        currentPhones={compareList}
+        currentPhones={phonesToRender}
       />
     </div>
   )

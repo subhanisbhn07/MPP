@@ -39,33 +39,41 @@ export function CompareProvider({ children }: { children: ReactNode }) {
         });
         return prevList;
       }
-      return [...prevList, phone];
+      const newList = [...prevList, phone];
+      // Only update URL if on a compare page
+      if (pathname.startsWith('/compare')) {
+        const newUrl = generateCompareUrl(newList);
+        router.replace(newUrl, { scroll: false });
+      }
+      return newList;
     });
-  }, [toast]);
+  }, [toast, pathname, router]);
 
   const handleRemoveFromCompare = useCallback((phoneId: number) => {
-    setCompareList((prevList) => prevList.filter((p) => p.id !== phoneId));
-  }, []);
+    setCompareList((prevList) => {
+       const newList = prevList.filter((p) => p.id !== phoneId);
+       // Only update URL if on a compare page
+       if (pathname.startsWith('/compare')) {
+        const newUrl = generateCompareUrl(newList);
+        router.replace(newUrl, { scroll: false });
+      }
+       return newList;
+    });
+  }, [pathname, router]);
   
   const handleClearCompare = useCallback(() => {
     setCompareList([]);
-  }, []);
+     // Only update URL if on a compare page
+    if (pathname.startsWith('/compare')) {
+        const newUrl = generateCompareUrl([]);
+        router.replace(newUrl, { scroll: false });
+    }
+  }, [pathname, router]);
 
   const handleSetCompareList = useCallback((phones: Phone[]) => {
       setCompareList(phones);
   }, []);
-
-  // Centralized URL update logic
-  useEffect(() => {
-    // Only update the URL if the user is on the compare page itself.
-    // This prevents the URL from changing on other pages like the homepage.
-    if (pathname.startsWith('/compare')) {
-        const newUrl = generateCompareUrl(compareList);
-        router.replace(newUrl, { scroll: false });
-    }
-  }, [compareList, router, pathname]);
-
-
+  
   const value = {
     compareList,
     handleAddToCompare,
@@ -88,3 +96,4 @@ export function useCompare() {
   }
   return context;
 }
+
