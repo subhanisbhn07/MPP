@@ -14,41 +14,55 @@ import { AddPhoneDialog } from "./add-phone-dialog";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { generateCompareUrl } from "@/lib/utils";
+import { useCompare } from "@/contexts/compare-context";
 
 interface CompareClientProps {
   initialPhones: Phone[];
 }
 
 export function CompareClient({ initialPhones }: CompareClientProps) {
-  const [comparisonPhones, setComparisonPhones] = useState<Phone[]>(initialPhones);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const router = useRouter();
+  const { 
+    compareList: contextPhones, 
+    handleAddToCompare: contextAdd, 
+    handleRemoveFromCompare: contextRemove,
+    handleSetCompareList: contextSet
+  } = useCompare();
+  
+  // The component's state is now derived from EITHER the initialPhones prop (from URL)
+  // OR the global context. This ensures the component can be used on both the main page
+  // and the direct /compare/[slug] page.
+  const [comparisonPhones, setComparisonPhones] = useState(initialPhones);
 
+  // Sync with global context if it changes (e.g., user adds phone from another page)
   useEffect(() => {
-    // Only update the comparison list if the initialPhones from the URL changes
-    setComparisonPhones(initialPhones);
-  }, [initialPhones]);
-
-  useEffect(() => {
-    // Only push URL updates if the list is manually changed by the user on the client
-    // This prevents an unnecessary initial replace
-    if (JSON.stringify(initialPhones) !== JSON.stringify(comparisonPhones)) {
-        const newUrl = generateCompareUrl(comparisonPhones);
-        router.replace(newUrl, { scroll: false });
+    // This logic prevents the shared URL phones from being overwritten by an empty context on first load.
+    if (initialPhones.length === 0) {
+      setComparisonPhones(contextPhones);
     }
-  }, [comparisonPhones, initialPhones, router]);
+  }, [contextPhones, initialPhones.length]);
+  
+  // Update the global context and URL when the local comparison list changes.
+  useEffect(() => {
+    contextSet(comparisonPhones);
+    const newUrl = generateCompareUrl(comparisonPhones);
+    // Use replace instead of push to avoid polluting browser history on every change.
+    router.replace(newUrl, { scroll: false });
+  }, [comparisonPhones, contextSet, router]);
 
 
   const handleAddPhone = (phone: Phone) => {
     if (comparisonPhones.length < 4 && !comparisonPhones.find(p => p.id === phone.id)) {
-      setComparisonPhones([...comparisonPhones, phone]);
+      setComparisonPhones(prev => [...prev, phone]);
     }
     setIsDialogOpen(false);
   };
   
   const handleRemovePhone = (phoneId: number) => {
-    setComparisonPhones(comparisonPhones.filter(p => p.id !== phoneId));
+    setComparisonPhones(prev => prev.filter(p => p.id !== phoneId));
   }
+  
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">

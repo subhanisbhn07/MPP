@@ -1,6 +1,7 @@
+
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
 import type { Phone } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 
@@ -9,6 +10,7 @@ interface CompareContextType {
   handleAddToCompare: (phone: Phone) => void;
   handleRemoveFromCompare: (phoneId: number) => void;
   handleClearCompare: () => void;
+  handleSetCompareList: (phones: Phone[]) => void;
 }
 
 const CompareContext = createContext<CompareContextType | undefined>(undefined);
@@ -17,7 +19,7 @@ export function CompareProvider({ children }: { children: ReactNode }) {
   const [compareList, setCompareList] = useState<Phone[]>([]);
   const { toast } = useToast();
 
-  const handleAddToCompare = (phone: Phone) => {
+  const handleAddToCompare = useCallback((phone: Phone) => {
     setCompareList((prevList) => {
       if (prevList.find((p) => p.id === phone.id)) {
         toast({
@@ -35,21 +37,27 @@ export function CompareProvider({ children }: { children: ReactNode }) {
       }
       return [...prevList, phone];
     });
-  };
+  }, [toast]);
 
-  const handleRemoveFromCompare = (phoneId: number) => {
+  const handleRemoveFromCompare = useCallback((phoneId: number) => {
     setCompareList((prevList) => prevList.filter((p) => p.id !== phoneId));
-  };
+  }, []);
   
-  const handleClearCompare = () => {
+  const handleClearCompare = useCallback(() => {
     setCompareList([]);
-  }
+  }, []);
+
+  const handleSetCompareList = useCallback((phones: Phone[]) => {
+      setCompareList(phones);
+  }, []);
+
 
   const value = {
     compareList,
     handleAddToCompare,
     handleRemoveFromCompare,
     handleClearCompare,
+    handleSetCompareList,
   };
 
   return (
