@@ -5,7 +5,7 @@ import { allPhones } from "@/lib/data";
 import { PhoneCard } from "@/components/phone-card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, X } from "lucide-react";
+import { Search } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -22,7 +22,7 @@ import { useCompare } from "@/contexts/compare-context";
 import { useSearchParams } from "next/navigation";
 import type { Phone } from "@/lib/types";
 
-// Define a type for our filters to make it manageable
+// Define a detailed type for our filters based on the PRD
 type Filters = {
   brands: string[];
   priceRange: [number, number];
@@ -64,7 +64,11 @@ export default function SearchPage() {
         ? [...currentValues, value]
         : currentValues.filter(v => v !== value);
       
-      return { ...prev, [category]: newValues };
+      // Ensure the category is handled as an array
+      if (Array.isArray(prev[category])) {
+          return { ...prev, [category]: newValues };
+      }
+      return prev;
     });
   }, []);
   
@@ -278,4 +282,5 @@ export default function SearchPage() {
     />
     </>
   );
-}
+
+    
