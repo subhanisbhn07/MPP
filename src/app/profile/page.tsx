@@ -6,17 +6,29 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Heart, Star, Layers, LogOut, Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { allPhones } from "@/lib/data";
+import type { Phone } from "@/lib/types";
+import { PhoneCard } from "@/components/phone-card";
+import { useCompare } from "@/contexts/compare-context";
 
 export default function ProfilePage() {
-  const { user, loading, signOut } = useAuth();
+  const { user, loading, signOut, wishlist } = useAuth();
+  const { handleAddToCompare } = useCompare();
+
   const router = useRouter();
+  const [wishlistPhones, setWishlistPhones] = useState<Phone[]>([]);
 
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
     }
   }, [user, loading, router]);
+
+  useEffect(() => {
+      const phones = allPhones.filter(p => wishlist.includes(p.id));
+      setWishlistPhones(phones);
+  }, [wishlist])
 
   if (loading || !user) {
     return (
@@ -31,7 +43,7 @@ export default function ProfilePage() {
       <div className="flex flex-col md:flex-row items-start gap-8">
         
         <div className="w-full md:w-1/3">
-          <Card>
+          <Card className="sticky top-24">
             <CardContent className="p-6 flex flex-col items-center text-center">
               <Avatar className="w-24 h-24 mb-4">
                 <AvatarImage src={user.photoURL || undefined} alt={user.displayName || "User"} data-ai-hint="person face" />
@@ -39,57 +51,69 @@ export default function ProfilePage() {
               </Avatar>
               <h2 className="text-xl font-bold">{user.displayName}</h2>
               <p className="text-muted-foreground">{user.email}</p>
+                 <Button variant="destructive" className="w-full mt-6" onClick={signOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log Out
+                 </Button>
             </CardContent>
           </Card>
         </div>
 
         <div className="w-full md:w-2/3">
-          <Card>
-            <CardHeader>
-              <CardTitle>My Account</CardTitle>
-              <CardDescription>Manage your profile and activity.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between p-4 rounded-lg border hover:bg-secondary/50 transition-colors">
+          <div className="space-y-8">
+            <Card>
+                <CardHeader>
                   <div className="flex items-center gap-4">
-                    <Heart className="w-6 h-6 text-primary" />
-                    <div>
-                      <h3 className="font-semibold">My Wishlist</h3>
-                      <p className="text-sm text-muted-foreground">0 phones saved</p>
-                    </div>
+                     <Heart className="w-6 h-6 text-primary" />
+                     <div>
+                       <CardTitle>My Wishlist</CardTitle>
+                       <CardDescription>{wishlist.length} phones saved</CardDescription>
+                     </div>
                   </div>
-                  <Button variant="outline" size="sm" disabled>View</Button>
-                </div>
-                <div className="flex items-center justify-between p-4 rounded-lg border hover:bg-secondary/50 transition-colors">
-                  <div className="flex items-center gap-4">
-                    <Star className="w-6 h-6 text-primary" />
-                    <div>
-                      <h3 className="font-semibold">My Reviews</h3>
-                      <p className="text-sm text-muted-foreground">0 reviews written</p>
+                </CardHeader>
+                <CardContent>
+                    {wishlistPhones.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {wishlistPhones.map(phone => (
+                                <PhoneCard key={phone.id} phone={phone} onAddToCompare={handleAddToCompare} />
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="text-muted-foreground text-center py-8">Your wishlist is empty.</p>
+                    )}
+                </CardContent>
+            </Card>
+
+            <Card>
+                 <CardHeader>
+                    <div className="flex items-center gap-4">
+                      <Star className="w-6 h-6 text-primary" />
+                       <div>
+                         <CardTitle>My Reviews</CardTitle>
+                         <CardDescription>0 reviews written</CardDescription>
+                       </div>
                     </div>
-                  </div>
-                  <Button variant="outline" size="sm" disabled>View</Button>
-                </div>
-                <div className="flex items-center justify-between p-4 rounded-lg border hover:bg-secondary/50 transition-colors">
-                  <div className="flex items-center gap-4">
-                    <Layers className="w-6 h-6 text-primary" />
-                    <div>
-                      <h3 className="font-semibold">Saved Comparisons</h3>
-                      <p className="text-sm text-muted-foreground">0 comparisons saved</p>
-                    </div>
-                  </div>
-                  <Button variant="outline" size="sm" disabled>View</Button>
-                </div>
-              </div>
-              <div className="mt-6 pt-6 border-t">
-                 <Button variant="destructive" className="w-full md:w-auto" onClick={signOut}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Log Out
-                 </Button>
-              </div>
-            </CardContent>
-          </Card>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground text-center py-8">You haven't written any reviews yet.</p>
+                </CardContent>
+            </Card>
+            
+             <Card>
+                 <CardHeader>
+                   <div className="flex items-center gap-4">
+                     <Layers className="w-6 h-6 text-primary" />
+                     <div>
+                        <CardTitle>Saved Comparisons</CardTitle>
+                        <CardDescription>0 comparisons saved</CardDescription>
+                     </div>
+                   </div>
+                </CardHeader>
+                <CardContent>
+                    <p className="text-muted-foreground text-center py-8">You don't have any saved comparisons.</p>
+                </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
