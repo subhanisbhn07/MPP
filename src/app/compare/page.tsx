@@ -2,20 +2,53 @@
 'use client';
 
 import { allPhones } from "@/lib/data"
-import type { Phone, PhoneSpec, SpecCategory } from "@/lib/types"
+import type { Phone, PhoneSpec } from "@/lib/types"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Image from "next/image"
 import { PlusCircle, X } from 'lucide-react'
 import { specCategoryGroups } from "@/lib/types";
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { AddPhoneDialog } from "./components/add-phone-dialog";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ComparePage() {
-  const [comparisonPhones, setComparisonPhones] = useState<Phone[]>(allPhones.slice(0, 2)); 
+  const [comparisonPhones, setComparisonPhones] = useState<Phone[]>([]); 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const phoneIds = searchParams.get('phones');
+    if (phoneIds) {
+      const ids = phoneIds.split(',').map(id => parseInt(id, 10));
+      const phones = allPhones.filter(p => ids.includes(p.id));
+      // Ensure the order is the same as in the URL
+      const sortedPhones = ids.map(id => phones.find(p => p.id === id)).filter(Boolean) as Phone[];
+      setComparisonPhones(sortedPhones);
+    } else {
+       // Default phones if URL is empty
+       setComparisonPhones(allPhones.slice(0, 2));
+    }
+  }, []); // Run only once on mount to initialize state from URL
+
+  useEffect(() => {
+    const updateUrl = () => {
+      if (comparisonPhones.length > 0) {
+        const phoneIds = comparisonPhones.map(p => p.id).join(',');
+        const currentPath = window.location.pathname;
+        const newUrl = `${currentPath}?phones=${phoneIds}`;
+        // Use replace to avoid polluting browser history on every change
+        router.replace(newUrl, { scroll: false });
+      } else {
+        router.replace(window.location.pathname, { scroll: false });
+      }
+    };
+    updateUrl();
+  }, [comparisonPhones, router]);
+
 
   const handleAddPhone = (phone: Phone) => {
     if (comparisonPhones.length < 4 && !comparisonPhones.find(p => p.id === phone.id)) {

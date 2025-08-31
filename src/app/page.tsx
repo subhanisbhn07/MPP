@@ -379,7 +379,7 @@ export default function Home() {
               ))}
             </div>
             <Button className="w-full" asChild disabled={compareList.length < 2}>
-                <Link href="/compare">Compare Now ({compareList.length})</Link>
+                <Link href={`/compare?phones=${compareList.map(p => p.id).join(',')}`}>Compare Now ({compareList.length})</Link>
             </Button>
             <p className="text-sm text-muted-foreground text-center">
               Popular: iPhone 15 vs Pixel 8 Pro
@@ -626,5 +626,3 @@ export default function Home() {
     </div>
   );
 }
-
-    

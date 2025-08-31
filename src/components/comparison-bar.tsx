@@ -18,6 +18,8 @@ export function ComparisonBar({ phones, onRemove, onClear }: ComparisonBarProps)
   if (phones.length === 0) {
     return null;
   }
+  
+  const compareUrl = `/compare?phones=${phones.map(p => p.id).join(',')}`;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-background/80 backdrop-blur-sm">
@@ -54,8 +56,8 @@ export function ComparisonBar({ phones, onRemove, onClear }: ComparisonBarProps)
             </div>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-2">
-            <Button asChild>
-                <Link href="/compare">Compare Now</Link>
+            <Button asChild disabled={phones.length < 2}>
+                <Link href={compareUrl}>Compare Now</Link>
             </Button>
             <Button variant="ghost" onClick={onClear}>Clear all</Button>
           </div>
@@ -64,4 +66,3 @@ export function ComparisonBar({ phones, onRemove, onClear }: ComparisonBarProps)
     </div>
   );
 }
-
