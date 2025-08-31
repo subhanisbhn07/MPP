@@ -23,13 +23,13 @@ export function CompareProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Effect to sync URL with compareList changes, ONLY on compare pages
+  // This is the key change: A single useEffect to handle the side-effect of URL synchronization.
+  // It runs AFTER the state has been updated, preventing the "update during render" error.
   useEffect(() => {
-    // Only run this effect on the client after the initial render
-    // and only on the /compare pages to avoid changing URL on the homepage.
+    // Only update the URL on the compare pages to avoid changing the URL on the homepage etc.
     if (pathname.startsWith('/compare')) {
       const newUrl = generateCompareUrl(compareList);
-      // use replace to avoid adding to history, making back button work as expected.
+      // Use replace to avoid adding to history, making the back button work as expected.
       router.replace(newUrl, { scroll: false });
     }
   }, [compareList, pathname, router]);
@@ -51,21 +51,23 @@ export function CompareProvider({ children }: { children: ReactNode }) {
         });
         return prevList;
       }
+      // This function now ONLY updates state. The useEffect will handle the URL.
       return [...prevList, phone];
     });
   }, [toast]);
 
   const handleRemoveFromCompare = useCallback((phoneId: number) => {
+    // This function now ONLY updates state. The useEffect will handle the URL.
     setCompareList((prevList) => prevList.filter((p) => p.id !== phoneId));
   }, []);
   
   const handleClearCompare = useCallback(() => {
+    // This function now ONLY updates state. The useEffect will handle the URL.
     setCompareList([]);
   }, []);
 
   const handleSetCompareList = useCallback((phones: Phone[]) => {
-    // This function is used to set the initial list from the URL slug.
-    // It should not be reactive to compareList changes itself.
+    // This function is used to set the initial list from the URL slug on page load.
     setCompareList(phones);
   }, []);
   
