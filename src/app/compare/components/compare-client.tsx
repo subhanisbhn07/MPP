@@ -15,17 +15,17 @@ import Link from "next/link";
 import { useCompare } from "@/contexts/compare-context";
 
 interface CompareClientProps {
-  initialPhones: Phone[];
+  initialPhones?: Phone[];
 }
 
-// This component is now much simpler. It just displays the phones and handles adding/removing.
-// The context and the page component handle the URL synchronization.
-export function CompareClient({ initialPhones }: CompareClientProps) {
+// This component displays the phones and handles adding/removing.
+// The context handles the state and URL synchronization.
+export function CompareClient({ initialPhones = [] }: CompareClientProps) {
   const { 
     compareList,
     handleAddToCompare, 
     handleRemoveFromCompare,
-    handleSetCompareList
+    setCompareList // Use the context's setter
   } = useCompare();
   
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -33,9 +33,9 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
   // On initial mount, sync the context with the phones from the URL slug.
   // This should only happen once to avoid overriding user actions.
   useEffect(() => {
-    handleSetCompareList(initialPhones);
+    setCompareList(initialPhones);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialPhones]);
+  }, [initialPhones, setCompareList]);
 
 
   const handleAddPhone = (phone: Phone) => {

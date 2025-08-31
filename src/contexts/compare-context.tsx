@@ -6,13 +6,14 @@ import type { Phone } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { usePathname, useRouter } from 'next/navigation';
 import { generateCompareUrl } from '@/lib/utils';
+import { allPhones } from '@/lib/data';
 
 interface CompareContextType {
   compareList: Phone[];
   handleAddToCompare: (phone: Phone) => void;
   handleRemoveFromCompare: (phoneId: number) => void;
   handleClearCompare: () => void;
-  handleSetCompareList: (phones: Phone[]) => void;
+  setCompareList: (phones: Phone[]) => void;
 }
 
 const CompareContext = createContext<CompareContextType | undefined>(undefined);
@@ -65,18 +66,13 @@ export function CompareProvider({ children }: { children: ReactNode }) {
     // This function now ONLY updates state. The useEffect will handle the URL.
     setCompareList([]);
   }, []);
-
-  const handleSetCompareList = useCallback((phones: Phone[]) => {
-    // This function is used to set the initial list from the URL slug on page load.
-    setCompareList(phones);
-  }, []);
   
   const value = {
     compareList,
     handleAddToCompare,
     handleRemoveFromCompare,
     handleClearCompare,
-    handleSetCompareList,
+    setCompareList,
   };
 
   return (
