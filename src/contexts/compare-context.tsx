@@ -23,6 +23,16 @@ export function CompareProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
 
+  // Effect to sync URL with compareList changes, ONLY on compare pages
+  useEffect(() => {
+    if (pathname.startsWith('/compare')) {
+      const newUrl = generateCompareUrl(compareList);
+      // use replace to avoid adding to history
+      router.replace(newUrl, { scroll: false });
+    }
+  }, [compareList, pathname, router]);
+
+
   const handleAddToCompare = useCallback((phone: Phone) => {
     setCompareList((prevList) => {
       if (prevList.find((p) => p.id === phone.id)) {
@@ -39,36 +49,17 @@ export function CompareProvider({ children }: { children: ReactNode }) {
         });
         return prevList;
       }
-      const newList = [...prevList, phone];
-      // Only update URL if on a compare page
-      if (pathname.startsWith('/compare')) {
-        const newUrl = generateCompareUrl(newList);
-        router.replace(newUrl, { scroll: false });
-      }
-      return newList;
+      return [...prevList, phone];
     });
-  }, [toast, pathname, router]);
+  }, [toast]);
 
   const handleRemoveFromCompare = useCallback((phoneId: number) => {
-    setCompareList((prevList) => {
-       const newList = prevList.filter((p) => p.id !== phoneId);
-       // Only update URL if on a compare page
-       if (pathname.startsWith('/compare')) {
-        const newUrl = generateCompareUrl(newList);
-        router.replace(newUrl, { scroll: false });
-      }
-       return newList;
-    });
-  }, [pathname, router]);
+    setCompareList((prevList) => prevList.filter((p) => p.id !== phoneId));
+  }, []);
   
   const handleClearCompare = useCallback(() => {
     setCompareList([]);
-     // Only update URL if on a compare page
-    if (pathname.startsWith('/compare')) {
-        const newUrl = generateCompareUrl([]);
-        router.replace(newUrl, { scroll: false });
-    }
-  }, [pathname, router]);
+  }, []);
 
   const handleSetCompareList = useCallback((phones: Phone[]) => {
       setCompareList(phones);
@@ -96,4 +87,3 @@ export function useCompare() {
   }
   return context;
 }
-
