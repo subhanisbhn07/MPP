@@ -23,19 +23,9 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
   const [comparisonPhones, setComparisonPhones] = useState<Phone[]>(initialPhones);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const router = useRouter();
-  
-  useEffect(() => {
-    // Only update state if initialPhones has actually changed.
-    // This prevents wiping the state on re-renders where initialPhones is an empty array.
-    if (initialPhones.length > 0) {
-      setComparisonPhones(initialPhones);
-    }
-  }, [initialPhones]);
 
   useEffect(() => {
     const newUrl = generateCompareUrl(comparisonPhones);
-    // Use router.replace to update the URL without adding a new entry to the history stack.
-    // This is better for UX as the back button will work as expected.
     router.replace(newUrl, { scroll: false });
   }, [comparisonPhones, router]);
 
