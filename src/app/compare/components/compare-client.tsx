@@ -12,8 +12,6 @@ import { specCategoryGroups } from "@/lib/types";
 import React, { useState, useEffect } from "react";
 import { AddPhoneDialog } from "./add-phone-dialog";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { generateCompareUrl } from "@/lib/utils";
 import { useCompare } from "@/contexts/compare-context";
 
 interface CompareClientProps {
@@ -21,46 +19,25 @@ interface CompareClientProps {
 }
 
 export function CompareClient({ initialPhones }: CompareClientProps) {
-  const router = useRouter();
   const { 
-    compareList: contextPhones, 
-    handleAddToCompare: contextAdd, 
-    handleRemoveFromCompare: contextRemove,
-    handleSetCompareList: contextSet
+    compareList,
+    handleAddToCompare, 
+    handleRemoveFromCompare,
+    handleSetCompareList
   } = useCompare();
   
-  // The component's state is now derived from EITHER the initialPhones prop (from URL)
-  // OR the global context. This ensures the component can be used on both the main page
-  // and the direct /compare/[slug] page.
-  const [comparisonPhones, setComparisonPhones] = useState(initialPhones);
-
-  // Sync with global context if it changes (e.g., user adds phone from another page)
+  // On initial render of this component, sync the context with the phones from the URL.
   useEffect(() => {
-    // This logic prevents the shared URL phones from being overwritten by an empty context on first load.
-    if (initialPhones.length === 0) {
-      setComparisonPhones(contextPhones);
-    }
-  }, [contextPhones, initialPhones.length]);
-  
-  // Update the global context and URL when the local comparison list changes.
-  useEffect(() => {
-    contextSet(comparisonPhones);
-    const newUrl = generateCompareUrl(comparisonPhones);
-    // Use replace instead of push to avoid polluting browser history on every change.
-    router.replace(newUrl, { scroll: false });
-  }, [comparisonPhones, contextSet, router]);
-
+    handleSetCompareList(initialPhones);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialPhones]);
 
   const handleAddPhone = (phone: Phone) => {
-    if (comparisonPhones.length < 4 && !comparisonPhones.find(p => p.id === phone.id)) {
-      setComparisonPhones(prev => [...prev, phone]);
+    if (compareList.length < 4) {
+      handleAddToCompare(phone);
     }
     setIsDialogOpen(false);
   };
-  
-  const handleRemovePhone = (phoneId: number) => {
-    setComparisonPhones(prev => prev.filter(p => p.id !== phoneId));
-  }
   
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -83,7 +60,7 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[200px] min-w-[150px] font-semibold text-foreground sticky left-0 bg-background z-10">Feature</TableHead>
-                    {comparisonPhones.map(phone => (
+                    {compareList.map(phone => (
                       <TableHead key={phone.id} className="min-w-[200px] text-center">
                         <div className="flex flex-col items-center p-2 relative group">
                            <Image src={phone.image} alt={phone.model} width={100} height={150} className="object-contain rounded-md mb-2 h-36" data-ai-hint="mobile phone" />
@@ -93,14 +70,14 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
                              variant="destructive" 
                              size="icon" 
                              className="absolute top-0 right-0 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                             onClick={() => handleRemovePhone(phone.id)}
+                             onClick={() => handleRemoveFromCompare(phone.id)}
                            >
                              <X className="h-4 w-4" />
                            </Button>
                         </div>
                       </TableHead>
                     ))}
-                    {comparisonPhones.length < 4 && (
+                    {compareList.length < 4 && (
                        <TableHead className="min-w-[200px]">
                         <div className="flex flex-col items-center justify-center h-full text-center p-4 border-2 border-dashed rounded-lg">
                            <Button variant="ghost" className="flex flex-col h-auto p-4" onClick={() => setIsDialogOpen(true)}>
@@ -116,7 +93,7 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
                   {specCategoryGroups.map((group) => (
                     <React.Fragment key={group.title}>
                       <TableRow className="bg-muted/50">
-                        <TableCell colSpan={comparisonPhones.length + 2} className="font-bold text-primary sticky left-0 bg-muted/50 z-10">
+                        <TableCell colSpan={compareList.length + 2} className="font-bold text-primary sticky left-0 bg-muted/50 z-10">
                           {group.title}
                         </TableCell>
                       </TableRow>
@@ -127,12 +104,12 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
                         return (
                          <TableRow key={spec.key}>
                             <TableCell className="font-medium sticky left-0 bg-background z-10">{spec.label}</TableCell>
-                            {comparisonPhones.map(phone => (
+                            {compareList.map(phone => (
                                <TableCell key={phone.id} className="text-center">
                                  {(phone.specs[category] as any)?.[specKey] || 'N/A'}
                                </TableCell>
                             ))}
-                             {comparisonPhones.length < 4 && <TableCell />}
+                             {compareList.length < 4 && <TableCell />}
                          </TableRow>
                         )
                       })}
@@ -140,21 +117,21 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
                   ))}
                   <TableRow>
                     <TableCell className="font-medium sticky left-0 bg-background z-10">Price</TableCell>
-                    {comparisonPhones.map(phone => (
+                    {compareList.map(phone => (
                        <TableCell key={phone.id} className="text-center text-lg font-bold text-primary">${phone.price}</TableCell>
                     ))}
-                    {comparisonPhones.length < 4 && <TableCell />}
+                    {compareList.length < 4 && <TableCell />}
                   </TableRow>
                    <TableRow>
                     <TableCell className="sticky left-0 bg-background z-10"></TableCell>
-                    {comparisonPhones.map(phone => (
+                    {compareList.map(phone => (
                        <TableCell key={phone.id} className="text-center">
                           <Button asChild>
                             <Link href={`/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`}>View Details</Link>
                           </Button>
                        </TableCell>
                     ))}
-                    {comparisonPhones.length < 4 && <TableCell />}
+                    {compareList.length < 4 && <TableCell />}
                   </TableRow>
                 </TableBody>
               </Table>
@@ -167,7 +144,7 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
         onOpenChange={setIsDialogOpen}
         onSelectPhone={handleAddPhone}
         allPhones={allPhones}
-        currentPhones={comparisonPhones}
+        currentPhones={compareList}
       />
     </div>
   )

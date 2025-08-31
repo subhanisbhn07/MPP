@@ -1,9 +1,11 @@
 
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode, useCallback } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useCallback, useEffect } from 'react';
 import type { Phone } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
+import { usePathname, useRouter } from 'next/navigation';
+import { generateCompareUrl } from '@/lib/utils';
 
 interface CompareContextType {
   compareList: Phone[];
@@ -18,6 +20,8 @@ const CompareContext = createContext<CompareContextType | undefined>(undefined);
 export function CompareProvider({ children }: { children: ReactNode }) {
   const [compareList, setCompareList] = useState<Phone[]>([]);
   const { toast } = useToast();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleAddToCompare = useCallback((phone: Phone) => {
     setCompareList((prevList) => {
@@ -50,6 +54,16 @@ export function CompareProvider({ children }: { children: ReactNode }) {
   const handleSetCompareList = useCallback((phones: Phone[]) => {
       setCompareList(phones);
   }, []);
+
+  // Centralized URL update logic
+  useEffect(() => {
+    // Only update the URL if the user is on the compare page itself.
+    // This prevents the URL from changing on other pages like the homepage.
+    if (pathname.startsWith('/compare')) {
+        const newUrl = generateCompareUrl(compareList);
+        router.replace(newUrl, { scroll: false });
+    }
+  }, [compareList, router, pathname]);
 
 
   const value = {
