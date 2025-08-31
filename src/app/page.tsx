@@ -42,6 +42,8 @@ import { ComparisonBar } from '@/components/comparison-bar';
 import { useCompare } from '@/contexts/compare-context';
 import { PhoneSection } from '@/components/phone-section';
 import { generateCompareUrl } from '@/lib/utils';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const specCategories = [
   { icon: Camera, label: 'Best Camera', href: '#' },
@@ -58,6 +60,10 @@ const specCategories = [
 
 export default function Home() {
   const { compareList, handleAddToCompare, handleRemoveFromCompare, handleClearCompare } = useCompare();
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('');
+
 
   const popularPhones = allPhones.slice(0, 5);
   const latestPhones = [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime()).slice(0, 5);
@@ -69,6 +75,16 @@ export default function Home() {
   const ruggedPhones = allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")).slice(0, 5);
   const uniquePhones = allPhones.filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony").slice(0, 5);
 
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (searchQuery) {
+      params.set('q', searchQuery);
+    }
+    if (sortBy) {
+      params.set('sort', sortBy);
+    }
+    router.push(`/search?${params.toString()}`);
+  };
 
   return (
     <div className="flex flex-col">
@@ -133,6 +149,9 @@ export default function Home() {
                 type="search"
                 placeholder="Search by brand, model, or feature..."
                 className="w-full pl-10 h-12 text-base bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 placeholder:text-primary-foreground/70 focus-visible:ring-primary-foreground"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               />
             </div>
             <div className="flex gap-2">
@@ -143,7 +162,7 @@ export default function Home() {
               >
                 <Filter className="mr-2 h-5 w-5" /> Filters
               </Button>
-              <Select>
+              <Select value={sortBy} onValueChange={setSortBy}>
                 <SelectTrigger className="h-12 w-[180px] bg-background text-foreground border-primary-foreground/20 focus:ring-primary-foreground">
                   <ArrowUpDown className="mr-2 h-5 w-5" />
                   <SelectValue placeholder="Sort By" />
@@ -158,6 +177,7 @@ export default function Home() {
               <Button
                 size="lg"
                 className="h-12 bg-background text-foreground hover:bg-background/90"
+                onClick={handleSearch}
               >
                 Search
               </Button>
