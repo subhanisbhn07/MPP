@@ -25,9 +25,11 @@ export function CompareProvider({ children }: { children: ReactNode }) {
 
   // Effect to sync URL with compareList changes, ONLY on compare pages
   useEffect(() => {
+    // Only run this effect on the client after the initial render
+    // and only on the /compare pages to avoid changing URL on the homepage.
     if (pathname.startsWith('/compare')) {
       const newUrl = generateCompareUrl(compareList);
-      // use replace to avoid adding to history
+      // use replace to avoid adding to history, making back button work as expected.
       router.replace(newUrl, { scroll: false });
     }
   }, [compareList, pathname, router]);
@@ -62,7 +64,9 @@ export function CompareProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const handleSetCompareList = useCallback((phones: Phone[]) => {
-      setCompareList(phones);
+    // This function is used to set the initial list from the URL slug.
+    // It should not be reactive to compareList changes itself.
+    setCompareList(phones);
   }, []);
   
   const value = {
