@@ -6,6 +6,7 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
 import { CompareProvider } from '@/contexts/compare-context';
+import { AuthProvider } from '@/contexts/auth-context';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -36,14 +37,16 @@ export default function RootLayout({
           inter.variable
         )}
       >
-        <CompareProvider>
-          <div className="relative flex min-h-screen flex-col">
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
-          <Toaster />
-        </CompareProvider>
+        <AuthProvider>
+          <CompareProvider>
+            <div className="relative flex min-h-screen flex-col">
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+            </div>
+            <Toaster />
+          </CompareProvider>
+        </AuthProvider>
       </body>
     </html>
   );
