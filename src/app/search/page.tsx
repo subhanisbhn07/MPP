@@ -22,7 +22,7 @@ import { useCompare } from "@/contexts/compare-context";
 import { useSearchParams } from "next/navigation";
 import type { Phone } from "@/lib/types";
 
-// Define a detailed type for our filters based on the PRD
+
 type Filters = {
   brands: string[];
   priceRange: [number, number];
@@ -31,6 +31,9 @@ type Filters = {
   battery: number[];
   mainCamera: number[];
   refreshRate: number[];
+  displayPanel: string[];
+  chipsetBrand: string[];
+  ipRating: string[];
 };
 
 const initialFilters: Filters = {
@@ -41,6 +44,9 @@ const initialFilters: Filters = {
   battery: [],
   mainCamera: [],
   refreshRate: [],
+  displayPanel: [],
+  chipsetBrand: [],
+  ipRating: [],
 };
 
 
@@ -57,18 +63,17 @@ export default function SearchPage() {
     setQuery(searchParams.get('q') || '');
   }, [searchParams]);
 
-  const handleFilterChange = useCallback((category: keyof Filters, value: string | number, isChecked: boolean) => {
+ const handleFilterChange = useCallback((category: keyof Filters, value: string | number, isChecked: boolean) => {
     setFilters(prev => {
       const currentValues = prev[category] as (string | number)[];
+      // Type guard to ensure we're working with an array
+      if (!Array.isArray(currentValues)) return prev;
+
       const newValues = isChecked
         ? [...currentValues, value]
         : currentValues.filter(v => v !== value);
-      
-      // Ensure the category is handled as an array
-      if (Array.isArray(prev[category])) {
-          return { ...prev, [category]: newValues };
-      }
-      return prev;
+
+      return { ...prev, [category]: newValues };
     });
   }, []);
   
@@ -115,19 +120,31 @@ export default function SearchPage() {
         const phoneRate = parseInt(phone.specs.display.refresh_rate_hz);
         return phoneRate >= rate;
       });
+      
+      const matchesPanel = filters.displayPanel.length === 0 || filters.displayPanel.some(panel => {
+        return phone.specs.display.panel_type.toLowerCase().includes(panel.toLowerCase());
+      });
+      
+      const matchesChipset = filters.chipsetBrand.length === 0 || filters.chipsetBrand.some(brand => {
+        return phone.specs.platform.chipset.toLowerCase().includes(brand.toLowerCase());
+      });
 
-      return matchesQuery && matchesBrand && matchesPrice && matchesRam && matchesStorage && matchesBattery && matchesCamera && matchesRefreshRate;
+      const matchesIpRating = filters.ipRating.length === 0 || filters.ipRating.some(rating => {
+        return phone.specs.body.ip_rating.toLowerCase().includes(rating.toLowerCase());
+      });
+
+      return matchesQuery && matchesBrand && matchesPrice && matchesRam && matchesStorage && matchesBattery && matchesCamera && matchesRefreshRate && matchesPanel && matchesChipset && matchesIpRating;
     });
   }, [query, filters]);
 
-  const FilterCheckbox = ({ category, value, label }: { category: keyof Filters, value: number, label: string }) => (
+  const FilterCheckbox = ({ category, value, label }: { category: keyof Filters, value: string | number, label: string }) => (
      <div className="flex items-center space-x-2">
         <Checkbox 
-          id={`${category}-${value}`}
-          checked={(filters[category] as number[]).includes(value)}
+          id={`${String(category)}-${value}`}
+          checked={(filters[category] as (string|number)[]).includes(value)}
           onCheckedChange={(checked) => handleFilterChange(category, value, !!checked)}
         />
-        <Label htmlFor={`${category}-${value}`} className="font-normal">{label}</Label>
+        <Label htmlFor={`${String(category)}-${value}`} className="font-normal">{label}</Label>
       </div>
   );
 
@@ -164,24 +181,18 @@ export default function SearchPage() {
               <Button variant="ghost" size="sm" onClick={resetFilters}>Reset All</Button>
             </CardHeader>
             <CardContent>
-              <Accordion type="multiple" defaultValue={['brand', 'price']} className="w-full">
+              <Accordion type="multiple" defaultValue={['brand', 'price', 'memory', 'display', 'platform', 'camera', 'battery', 'build']} className="w-full">
                 <AccordionItem value="brand">
                   <AccordionTrigger className="text-base font-semibold">Brand</AccordionTrigger>
                   <AccordionContent>
                     <div className="space-y-2 pt-2 max-h-60 overflow-y-auto">
                       {uniqueBrands.map(brand => (
-                        <div key={brand} className="flex items-center space-x-2">
-                          <Checkbox 
-                            id={brand} 
-                            checked={filters.brands.includes(brand)}
-                            onCheckedChange={(checked) => handleFilterChange('brands', brand, !!checked)}
-                          />
-                          <Label htmlFor={brand} className="font-normal">{brand}</Label>
-                        </div>
+                        <FilterCheckbox key={brand} category="brands" value={brand} label={brand} />
                       ))}
                     </div>
                   </AccordionContent>
                 </AccordionItem>
+
                 <AccordionItem value="price">
                   <AccordionTrigger className="text-base font-semibold">Price Range</AccordionTrigger>
                   <AccordionContent>
@@ -199,40 +210,66 @@ export default function SearchPage() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
-                 <AccordionItem value="ram">
-                  <AccordionTrigger className="text-base font-semibold">RAM</AccordionTrigger>
+
+                <AccordionItem value="memory">
+                  <AccordionTrigger className="text-base font-semibold">Memory & Storage</AccordionTrigger>
                   <AccordionContent>
-                    <div className="space-y-2 pt-2">
-                      <FilterCheckbox category="ram" value={8} label="8GB & above" />
-                      <FilterCheckbox category="ram" value={12} label="12GB & above" />
-                      <FilterCheckbox category="ram" value={16} label="16GB & above" />
+                    <div className="space-y-4 pt-2">
+                        <div>
+                            <h4 className="font-medium text-sm mb-2">RAM</h4>
+                            <FilterCheckbox category="ram" value={8} label="8GB & above" />
+                            <FilterCheckbox category="ram" value={12} label="12GB & above" />
+                            <FilterCheckbox category="ram" value={16} label="16GB & above" />
+                        </div>
+                        <div>
+                            <h4 className="font-medium text-sm mb-2">Internal Storage</h4>
+                            <FilterCheckbox category="storage" value={256} label="256GB & above" />
+                            <FilterCheckbox category="storage" value={512} label="512GB & above" />
+                            <FilterCheckbox category="storage" value={1024} label="1TB & above" />
+                        </div>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
-                 <AccordionItem value="storage">
-                  <AccordionTrigger className="text-base font-semibold">Internal Storage</AccordionTrigger>
+
+                <AccordionItem value="display">
+                  <AccordionTrigger className="text-base font-semibold">Display</AccordionTrigger>
                   <AccordionContent>
-                    <div className="space-y-2 pt-2">
-                      <FilterCheckbox category="storage" value={256} label="256GB & above" />
-                      <FilterCheckbox category="storage" value={512} label="512GB & above" />
-                      <FilterCheckbox category="storage" value={1024} label="1TB & above" />
+                     <div className="space-y-4 pt-2">
+                        <div>
+                            <h4 className="font-medium text-sm mb-2">Refresh Rate</h4>
+                            <FilterCheckbox category="refreshRate" value={90} label="90Hz & above" />
+                            <FilterCheckbox category="refreshRate" value={120} label="120Hz & above" />
+                            <FilterCheckbox category="refreshRate" value={144} label="144Hz & above" />
+                        </div>
+                         <div>
+                            <h4 className="font-medium text-sm mb-2">Panel Type</h4>
+                            <FilterCheckbox category="displayPanel" value="AMOLED" label="AMOLED" />
+                            <FilterCheckbox category="displayPanel" value="OLED" label="OLED" />
+                            <FilterCheckbox category="displayPanel" value="LCD" label="LCD" />
+                        </div>
                     </div>
                   </AccordionContent>
                 </AccordionItem>
-                <AccordionItem value="battery">
-                  <AccordionTrigger className="text-base font-semibold">Battery</AccordionTrigger>
+
+                <AccordionItem value="platform">
+                  <AccordionTrigger className="text-base font-semibold">Processor</AccordionTrigger>
                   <AccordionContent>
-                     <div className="space-y-2 pt-2">
-                        <FilterCheckbox category="battery" value={4000} label="4000mAh & above" />
-                        <FilterCheckbox category="battery" value={5000} label="5000mAh & above" />
-                        <FilterCheckbox category="battery" value={6000} label="6000mAh & above" />
-                      </div>
+                    <div className="space-y-2 pt-2">
+                      <h4 className="font-medium text-sm mb-2">Chipset Brand</h4>
+                      <FilterCheckbox category="chipsetBrand" value="snapdragon" label="Snapdragon" />
+                      <FilterCheckbox category="chipsetBrand" value="mediatek" label="MediaTek" />
+                      <FilterCheckbox category="chipsetBrand" value="exynos" label="Exynos" />
+                      <FilterCheckbox category="chipsetBrand" value="apple" label="Apple A-series" />
+                      <FilterCheckbox category="chipsetBrand" value="google" label="Google Tensor" />
+                    </div>
                   </AccordionContent>
                 </AccordionItem>
+                
                 <AccordionItem value="camera">
-                  <AccordionTrigger className="text-base font-semibold">Main Camera</AccordionTrigger>
+                  <AccordionTrigger className="text-base font-semibold">Camera</AccordionTrigger>
                   <AccordionContent>
                     <div className="space-y-2 pt-2">
+                       <h4 className="font-medium text-sm mb-2">Main Camera</h4>
                        <FilterCheckbox category="mainCamera" value={48} label="48MP & above" />
                        <FilterCheckbox category="mainCamera" value={64} label="64MP & above" />
                        <FilterCheckbox category="mainCamera" value={108} label="108MP & above" />
@@ -240,16 +277,31 @@ export default function SearchPage() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
-                <AccordionItem value="refreshRate">
-                  <AccordionTrigger className="text-base font-semibold">Refresh Rate</AccordionTrigger>
+
+                <AccordionItem value="battery">
+                  <AccordionTrigger className="text-base font-semibold">Battery</AccordionTrigger>
                   <AccordionContent>
-                    <div className="space-y-2 pt-2">
-                       <FilterCheckbox category="refreshRate" value={90} label="90Hz & above" />
-                       <FilterCheckbox category="refreshRate" value={120} label="120Hz & above" />
-                       <FilterCheckbox category="refreshRate" value={144} label="144Hz & above" />
-                    </div>
+                     <div className="space-y-2 pt-2">
+                        <h4 className="font-medium text-sm mb-2">Capacity</h4>
+                        <FilterCheckbox category="battery" value={4000} label="4000mAh & above" />
+                        <FilterCheckbox category="battery" value={5000} label="5000mAh & above" />
+                        <FilterCheckbox category="battery" value={6000} label="6000mAh & above" />
+                      </div>
                   </AccordionContent>
                 </AccordionItem>
+                
+                 <AccordionItem value="build">
+                  <AccordionTrigger className="text-base font-semibold">Build & Durability</AccordionTrigger>
+                  <AccordionContent>
+                     <div className="space-y-2 pt-2">
+                        <h4 className="font-medium text-sm mb-2">Water Resistance</h4>
+                        <FilterCheckbox category="ipRating" value="ip54" label="IP54 (Splash Proof)" />
+                        <FilterCheckbox category="ipRating" value="ip67" label="IP67" />
+                        <FilterCheckbox category="ipRating" value="ip68" label="IP68" />
+                      </div>
+                  </AccordionContent>
+                </AccordionItem>
+
               </Accordion>
             </CardContent>
           </Card>
@@ -282,5 +334,4 @@ export default function SearchPage() {
     />
     </>
   );
-
-    
+}
