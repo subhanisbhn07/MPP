@@ -43,6 +43,7 @@ import { useState } from 'react';
 import type { Phone } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { PhoneSection } from '@/components/phone-section';
+import { generateCompareUrl } from '@/lib/utils';
 
 const specCategories = [
   { icon: Camera, label: 'Best Camera', href: '#' },
@@ -379,7 +380,7 @@ export default function Home() {
               ))}
             </div>
             <Button className="w-full" asChild disabled={compareList.length < 2}>
-                <Link href={`/compare?phones=${compareList.map(p => p.id).join(',')}`}>Compare Now ({compareList.length})</Link>
+                <Link href={generateCompareUrl(compareList)}>Compare Now ({compareList.length})</Link>
             </Button>
             <p className="text-sm text-muted-foreground text-center">
               Popular: iPhone 15 vs Pixel 8 Pro

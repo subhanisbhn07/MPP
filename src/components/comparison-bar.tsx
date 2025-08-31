@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { X, PlusCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { generateCompareUrl } from '@/lib/utils';
 
 interface ComparisonBarProps {
   phones: Phone[];
@@ -19,7 +20,7 @@ export function ComparisonBar({ phones, onRemove, onClear }: ComparisonBarProps)
     return null;
   }
   
-  const compareUrl = `/compare?phones=${phones.map(p => p.id).join(',')}`;
+  const compareUrl = generateCompareUrl(phones);
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-background/80 backdrop-blur-sm">
