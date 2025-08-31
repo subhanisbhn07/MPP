@@ -25,9 +25,18 @@ export function CompareClient({ initialPhones }: CompareClientProps) {
   const router = useRouter();
 
   useEffect(() => {
-    const newUrl = generateCompareUrl(comparisonPhones);
-    router.replace(newUrl, { scroll: false });
-  }, [comparisonPhones, router]);
+    // Only update the comparison list if the initialPhones from the URL changes
+    setComparisonPhones(initialPhones);
+  }, [initialPhones]);
+
+  useEffect(() => {
+    // Only push URL updates if the list is manually changed by the user on the client
+    // This prevents an unnecessary initial replace
+    if (JSON.stringify(initialPhones) !== JSON.stringify(comparisonPhones)) {
+        const newUrl = generateCompareUrl(comparisonPhones);
+        router.replace(newUrl, { scroll: false });
+    }
+  }, [comparisonPhones, initialPhones, router]);
 
 
   const handleAddPhone = (phone: Phone) => {
