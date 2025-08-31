@@ -10,18 +10,42 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import Image from "next/image"
 import { Heart, Share2, Award, Star, CheckCircle, XCircle, ChevronLeft, ChevronRight, Play } from 'lucide-react'
 import { specCategoryGroups } from "@/lib/types";
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Separator } from "@/components/ui/separator";
 import { useParams } from "next/navigation";
 import { Progress } from "@/components/ui/progress"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel"
 
 export default function PhoneDetailsPage() {
   const params = useParams();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
   const phone = allPhones.find(p => p.id === parseInt(id));
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  const [api, setApi] = useState<CarouselApi>()
+  const [current, setCurrent] = useState(0)
+  const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    if (!api) {
+      return
+    }
+
+    setCount(api.scrollSnapList().length)
+    setCurrent(api.selectedScrollSnap() + 1)
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1)
+    })
+  }, [api])
 
   if (!phone) {
     return <div>Phone not found</div>
@@ -50,15 +74,23 @@ export default function PhoneDetailsPage() {
         <div className="md:col-span-1">
           <Card className="sticky top-24">
             <CardContent className="p-6">
-              <div className="relative mb-4">
-                <div className="aspect-[4/5] relative">
-                  <Image src={allImages[currentImageIndex]} alt={`${phone.model} image ${currentImageIndex + 1}`} fill className="object-contain rounded-md" data-ai-hint="mobile phone" />
-                </div>
-              </div>
-               <div className="flex justify-center gap-2 mb-4">
-                {allImages.map((img, index) => (
-                  <button key={index} onClick={() => setCurrentImageIndex(index)} className={cn("w-12 h-16 border-2 rounded-md overflow-hidden", index === currentImageIndex ? 'border-primary' : 'border-transparent')}>
-                    <Image src={img} alt={`${phone.model} thumbnail ${index + 1}`} width={48} height={64} className="object-cover w-full h-full" data-ai-hint="mobile phone" />
+              <Carousel setApi={setApi} className="relative mb-4">
+                  <CarouselContent>
+                    {allImages.map((img, index) => (
+                      <CarouselItem key={index}>
+                         <div className="aspect-[4/5] relative">
+                            <Image src={img} alt={`${phone.model} image ${index + 1}`} fill className="object-contain rounded-md" data-ai-hint="mobile phone" />
+                          </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
+                  <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
+              </Carousel>
+              <div className="flex justify-center gap-2 mb-4">
+                {allImages.map((_, index) => (
+                  <button key={index} onClick={() => api?.scrollTo(index)} className={cn("w-12 h-16 border-2 rounded-md overflow-hidden", (current -1) === index ? 'border-primary' : 'border-transparent')}>
+                    <Image src={allImages[index]} alt={`${phone.model} thumbnail ${index + 1}`} width={48} height={64} className="object-cover w-full h-full" data-ai-hint="mobile phone" />
                   </button>
                 ))}
               </div>
@@ -204,3 +236,5 @@ export default function PhoneDetailsPage() {
     </div>
   )
 }
+
+    
