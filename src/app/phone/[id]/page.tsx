@@ -29,14 +29,6 @@ export default function PhoneDetailsPage() {
   
   const allImages = [phone.image, ...(phone.images || [])];
 
-  const nextImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % allImages.length);
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + allImages.length) % allImages.length);
-  };
-
   const renderSpecValue = (value: string | undefined | null) => {
     if(!value) return 'N/A';
     if (value.toLowerCase() === 'yes') return <CheckCircle className="text-green-500" />;
@@ -62,12 +54,6 @@ export default function PhoneDetailsPage() {
                 <div className="aspect-[4/5] relative">
                   <Image src={allImages[currentImageIndex]} alt={`${phone.model} image ${currentImageIndex + 1}`} fill className="object-contain rounded-md" data-ai-hint="mobile phone" />
                 </div>
-                 {allImages.length > 1 && (
-                  <>
-                    <Button variant="ghost" size="icon" className="absolute left-0 top-1/2 -translate-y-1/2" onClick={prevImage}><ChevronLeft /></Button>
-                    <Button variant="ghost" size="icon" className="absolute right-0 top-1/2 -translate-y-1/2" onClick={nextImage}><ChevronRight /></Button>
-                  </>
-                )}
               </div>
                <div className="flex justify-center gap-2 mb-4">
                 {allImages.map((img, index) => (
