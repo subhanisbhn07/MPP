@@ -66,7 +66,6 @@ export default function SearchPage() {
  const handleFilterChange = useCallback((category: keyof Filters, value: string | number, isChecked: boolean) => {
     setFilters(prev => {
       const currentValues = prev[category] as (string | number)[];
-      // Type guard to ensure we're working with an array
       if (!Array.isArray(currentValues)) return prev;
 
       const newValues = isChecked
@@ -335,3 +334,5 @@ export default function SearchPage() {
     </>
   );
 }
+
+    
