@@ -20,7 +20,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
     onAddToCompare(phone);
   };
   
-  const phoneUrl = `/phone/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`;
+  const phoneUrl = `/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`;
 
   return (
     <Card className="group flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-2">
