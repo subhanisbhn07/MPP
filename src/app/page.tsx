@@ -316,7 +316,7 @@ export default function Home() {
         </section>
 
         {/* Trending Phones */}
-        <section className="w-full py-12 md:py-16 bg-accent border-y border-accent-foreground/20" aria-labelledby="trending-heading">
+        <section className="w-full py-12 md:py-16 bg-accent border-y" aria-labelledby="trending-heading">
           <div className="container px-4 md:px-6">
             <div className="flex justify-between items-center mb-6">
               <h2 id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-accent-foreground">
@@ -326,7 +326,7 @@ export default function Home() {
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-[#000000] hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
@@ -377,7 +377,7 @@ export default function Home() {
         <section className="w-full py-12 md:py-16 bg-accent text-accent-foreground" aria-labelledby="flagship-heading">
           <div className="container px-4 md:px-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+              <h2 id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-accent-foreground">
                 Flagship Phones
               </h2>
               <Link
@@ -638,7 +638,7 @@ export default function Home() {
         <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground" aria-labelledby="browse-heading">
           <div className="container px-4 md:px-6">
             <div className="space-y-3 mb-8 text-center">
-              <h2 id="browse-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+              <h2 id="browse-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-primary-foreground">
                 Browse by Specs
               </h2>
               <p className="mx-auto max-w-[600px] text-primary-foreground/80 md:text-xl/relaxed">
@@ -738,32 +738,32 @@ export default function Home() {
         </section>
 
         {/* Trust & Subscribe */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5" aria-labelledby="trust-heading">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground" aria-labelledby="trust-heading">
           <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
             <div className="space-y-3">
-              <h2 id="trust-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+              <h2 id="trust-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-primary-foreground">
                 Your Trusted Source for Mobile Specs
               </h2>
-              <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+              <p className="mx-auto max-w-[600px] text-primary-foreground/80 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 We provide accurate, up-to-date information you can rely on.
               </p>
             </div>
 
             <div className="mx-auto grid max-w-sm grid-cols-3 items-start justify-center gap-8 lg:max-w-none lg:grid-cols-3">
               <div className="flex flex-col items-center justify-center space-y-2">
-                <Star className="h-8 w-8 text-primary" aria-hidden="true" />
+                <Star className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
                 <p className="font-bold">128+ Specs</p>
-                <p className="text-sm text-muted-foreground">Per Phone</p>
+                <p className="text-sm text-primary-foreground/80">Per Phone</p>
               </div>
               <div className="flex flex-col items-center justify-center space-y-2">
-                <Info className="h-8 w-8 text-primary" aria-hidden="true" />
+                <Info className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
                 <p className="font-bold">Verified Sources</p>
-                <p className="text-sm text-muted-foreground">Always Accurate</p>
+                <p className="text-sm text-primary-foreground/80">Always Accurate</p>
               </div>
               <div className="flex flex-col items-center justify-center space-y-2">
-                <Calendar className="h-8 w-8 text-primary" aria-hidden="true" />
+                <Calendar className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
                 <p className="font-bold">Daily Updates</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-primary-foreground/80">
                   Never Miss a Launch
                 </p>
               </div>
@@ -772,10 +772,10 @@ export default function Home() {
             <div className="mx-auto w-full max-w-sm space-y-2 mt-8">
               <form className="flex space-x-2">
                 <label htmlFor="email" className="sr-only">Enter your email</label>
-                <Input id="email" type="email" placeholder="Enter your email" className="max-w-lg flex-1" />
-                <Button type="submit" aria-label="Subscribe for weekly launch alerts">Subscribe</Button>
+                <Input id="email" type="email" placeholder="Enter your email" className="max-w-lg flex-1 bg-primary-foreground text-primary" />
+                <Button type="submit" variant="secondary" aria-label="Subscribe for weekly launch alerts">Subscribe</Button>
               </form>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-primary-foreground/80">
                 Get weekly launch alerts and top news.
               </p>
             </div>
@@ -866,6 +866,7 @@ export default function Home() {
 }
 
     
+
 
 
 
