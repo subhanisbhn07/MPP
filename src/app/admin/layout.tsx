@@ -23,6 +23,7 @@ import {
   FileUp,
   Shield,
 } from 'lucide-react';
+import { SheetTitle } from '@/components/ui/sheet';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Logo } from '@/components/logo';
@@ -48,6 +49,7 @@ export default function AdminLayout({
     <SidebarProvider>
       <Sidebar>
         <SidebarHeader>
+          <SheetTitle className="sr-only">Admin Menu</SheetTitle>
           <div className="flex items-center gap-2">
              <Logo />
              <span className="text-lg font-semibold">Admin Panel</span>
