@@ -40,11 +40,10 @@ import {
 } from '@/components/ui/select';
 import { ComparisonBar } from '@/components/comparison-bar';
 import { useCompare } from '@/contexts/compare-context';
-import { PhoneSection } from '@/components/phone-section';
 import { generateCompareUrl } from '@/lib/utils';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { HeroSection } from '@/components/layout/hero-section';
+import { cn } from '@/lib/utils';
 
 const specCategories = [
   { icon: Camera, label: 'Best Camera', href: '#' },
@@ -89,7 +88,55 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <HeroSection />
+       <section className="w-full bg-[#FAD600] pt-12 md:pt-24 lg:pt-32 border-b group/hero">
+        <div className="container px-4 md:px-6 text-center">
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-[#22304A]">
+              Discover. Compare. Decide.
+            </h1>
+            <p className="max-w-[600px] text-[#22304A]/80 md:text-xl">
+              AI-updated specs, comparisons & SEO-friendly landing pages.
+            </p>
+            <div className="mt-4">
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-transparent border-[#334DCF] text-[#334DCF] hover:bg-[#334DCF] hover:text-white"
+                asChild
+              >
+                <Link href="/compare">Compare Mobiles</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className="container mt-12 pb-12">
+          <div className="relative flex items-center bg-[#334DCF] text-white rounded-lg p-2 text-sm overflow-hidden group/ticker">
+            <Megaphone className="h-5 w-5 mr-2 flex-shrink-0" />
+            <div className="flex-1 overflow-hidden">
+              <div className="group-hover/ticker:[animation-play-state:paused] animate-ticker flex w-max">
+                <p className="whitespace-nowrap pr-12">
+                  Pixel 9a announced with new Tensor G4 chip.
+                </p>
+                <p className="whitespace-nowrap pr-12">
+                  iPhone 16 Pro leaks suggest a larger display.
+                </p>
+                <p className="whitespace-nowrap pr-12">
+                  Samsung Galaxy S25 to feature satellite connectivity.
+                </p>
+                <p className="whitespace-nowrap pr-12">
+                  Pixel 9a announced with new Tensor G4 chip.
+                </p>
+                <p className="whitespace-nowrap pr-12">
+                  iPhone 16 Pro leaks suggest a larger display.
+                </p>
+                <p className="whitespace-nowrap pr-12">
+                  Samsung Galaxy S25 to feature satellite connectivity.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Search & Filter Section */}
       <section className="w-full py-8 md:py-12 bg-primary border-b">
@@ -138,31 +185,105 @@ export default function Home() {
         </div>
       </section>
 
-      <PhoneSection 
-        title="Trending Phones" 
-        phones={popularPhones} 
-        onAddToCompare={handleAddToCompare} 
-      />
+      <section className={cn("w-full py-12 md:py-16")}>
+        <div className="container px-4 md:px-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">
+              Trending Phones
+            </h2>
+            <Link
+              href={"#"}
+              className="text-sm font-medium text-primary hover:underline flex items-center"
+            >
+              See All <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+            {popularPhones.map((phone) => (
+              <PhoneCard
+                key={phone.id}
+                phone={phone}
+                onAddToCompare={handleAddToCompare}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <PhoneSection 
-        title="Latest Launches" 
-        phones={latestPhones} 
-        onAddToCompare={handleAddToCompare} 
-        className="bg-secondary/50"
-      />
+      <section className={cn("w-full py-12 md:py-16", "bg-secondary/50")}>
+        <div className="container px-4 md:px-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">
+              Latest Launches
+            </h2>
+            <Link
+              href={"#"}
+              className="text-sm font-medium text-primary hover:underline flex items-center"
+            >
+              See All <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+            {latestPhones.map((phone) => (
+              <PhoneCard
+                key={phone.id}
+                phone={phone}
+                onAddToCompare={handleAddToCompare}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
       
-      <PhoneSection 
-        title="Flagship Phones" 
-        phones={flagshipPhones} 
-        onAddToCompare={handleAddToCompare} 
-      />
+      <section className={cn("w-full py-12 md:py-16")}>
+        <div className="container px-4 md:px-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">
+              Flagship Phones
+            </h2>
+            <Link
+              href={"#"}
+              className="text-sm font-medium text-primary hover:underline flex items-center"
+            >
+              See All <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+            {flagshipPhones.map((phone) => (
+              <PhoneCard
+                key={phone.id}
+                phone={phone}
+                onAddToCompare={handleAddToCompare}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
 
-      <PhoneSection 
-        title="Performance Phones" 
-        phones={performancePhones} 
-        onAddToCompare={handleAddToCompare} 
-        className="bg-secondary/50"
-      />
+      <section className={cn("w-full py-12 md:py-16", "bg-secondary/50")}>
+        <div className="container px-4 md:px-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">
+              Performance Phones
+            </h2>
+            <Link
+              href={"#"}
+              className="text-sm font-medium text-primary hover:underline flex items-center"
+            >
+              See All <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+            {performancePhones.map((phone) => (
+              <PhoneCard
+                key={phone.id}
+                phone={phone}
+                onAddToCompare={handleAddToCompare}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Power & Performance Section */}
       <section className="w-full py-12 md:py-24 lg:py-32 bg-card">
