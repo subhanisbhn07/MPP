@@ -315,7 +315,7 @@ export default function Home() {
         </section>
 
         {/* Trending Phones */}
-        <section className="w-full py-12 md:py-16" aria-labelledby="trending-heading">
+        <section className="w-full py-12 md:py-16 bg-accent/10 border-y border-accent" aria-labelledby="trending-heading">
           <div className="container px-4 md:px-6">
             <div className="flex justify-between items-center mb-6">
               <h2 id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -863,3 +863,5 @@ export default function Home() {
     </>
   );
 }
+
+    
