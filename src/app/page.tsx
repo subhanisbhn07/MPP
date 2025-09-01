@@ -43,7 +43,7 @@ import {
 import { ComparisonBar } from '@/components/comparison-bar';
 import { useCompare } from '@/contexts/compare-context';
 import { generateCompareUrl } from '@/lib/utils';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import type { Phone } from '@/lib/types';
@@ -189,6 +189,9 @@ export default function Home() {
       </Card>
     );
   };
+  
+    const SectionSeparator = () => <div className="h-16 w-full bg-white" />;
+
 
   return (
     <>
@@ -201,7 +204,7 @@ export default function Home() {
       </a>
 
       {/* Header / Hero */}
-      <header role="banner" className="w-full bg-accent text-accent-foreground pt-12 md:pt-24 lg:pt-32 border-b">
+      <header role="banner" className="w-full bg-accent text-accent-foreground pt-12 md:pt-24 lg:pt-32 rounded-b-2xl">
         <div className="container px-4 md:px-6 text-center">
           <div className="flex flex-col items-center justify-center space-y-4">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-accent-foreground">
@@ -242,7 +245,7 @@ export default function Home() {
        <main id="main" role="main">
         {/* Search & Filter */}
         <section
-          className="w-full py-8 md:py-12 bg-primary border-b"
+          className="w-full py-8 md:py-12 bg-primary border-y"
           aria-labelledby="search-heading"
         >
           <div className="container px-4 md:px-6">
@@ -302,6 +305,8 @@ export default function Home() {
           </div>
         </section>
 
+        <SectionSeparator />
+
         {/* Trending Phones */}
         <section className="w-full py-12 md:py-16 bg-accent border-y" aria-labelledby="trending-heading">
           <div className="container px-4 md:px-6">
@@ -331,6 +336,8 @@ export default function Home() {
           </div>
         </section>
 
+        <SectionSeparator />
+
         {/* Latest Launches */}
         <section className="w-full py-12 md:py-16 bg-primary text-primary-foreground" aria-labelledby="latest-heading">
           <div className="container px-4 md:px-6">
@@ -359,6 +366,8 @@ export default function Home() {
             </ul>
           </div>
         </section>
+        
+        <SectionSeparator />
 
         {/* Flagship Phones */}
         <section className="w-full py-12 md:py-16 bg-accent" aria-labelledby="flagship-heading">
@@ -389,6 +398,8 @@ export default function Home() {
           </div>
         </section>
 
+        <SectionSeparator />
+
         {/* Performance Phones */}
         <section className="w-full py-12 md:py-16 bg-primary text-primary-foreground" aria-labelledby="performance-heading">
           <div className="container px-4 md:px-6">
@@ -417,6 +428,8 @@ export default function Home() {
             </ul>
           </div>
         </section>
+
+        <SectionSeparator />
 
         {/* Power & Performance Tabs */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-accent text-accent-foreground" aria-labelledby="power-heading">
@@ -479,6 +492,8 @@ export default function Home() {
           </div>
         </section>
 
+        <SectionSeparator />
+
         {/* Specialty Phones Tabs */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground" aria-labelledby="specialty-heading">
           <div className="container px-4 md:px-6">
@@ -539,6 +554,8 @@ export default function Home() {
             </Tabs>
           </div>
         </section>
+
+        <SectionSeparator />
 
         {/* Quick Compare */}
         <section className="w-full py-12 md:py-24 bg-accent" aria-labelledby="quick-compare-heading">
@@ -621,6 +638,8 @@ export default function Home() {
           </div>
         </section>
 
+        <SectionSeparator />
+
         {/* Browse by Specs */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground" aria-labelledby="browse-heading">
           <div className="container px-4 md:px-6">
@@ -646,6 +665,8 @@ export default function Home() {
             </ul>
           </div>
         </section>
+
+        <SectionSeparator />
 
         {/* Upcoming & Editorial */}
         <section className="w-full py-12 md:py-24 bg-accent" aria-labelledby="upcoming-editorial-heading">
@@ -724,6 +745,8 @@ export default function Home() {
           </div>
         </section>
 
+        <SectionSeparator />
+
         {/* Trust & Subscribe */}
         <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground" aria-labelledby="trust-heading">
           <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
@@ -768,6 +791,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <SectionSeparator />
 
         {/* Blog */}
         <section className="w-full py-12 md:py-24 bg-accent" aria-labelledby="blog-heading">
@@ -854,3 +879,6 @@ export default function Home() {
 
     
 
+
+
+    
