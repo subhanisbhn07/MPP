@@ -10,7 +10,7 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import Image from "next/image"
 import { Heart, Share2, Award, Star, CheckCircle, XCircle, ChevronLeft, ChevronRight, Play } from 'lucide-react'
 import { specCategoryGroups } from "@/lib/types";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, use } from "react";
 import { Separator } from "@/components/ui/separator";
 import { useParams } from "next/navigation";
 import { Progress } from "@/components/ui/progress"
@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/carousel"
 
 export default function PhoneDetailsPage() {
-  const params = useParams();
+  const params = use(useParams());
   const brand = Array.isArray(params.brand) ? params.brand[0] : params.brand;
   const model = Array.isArray(params.model) ? params.model[0] : params.model;
 
