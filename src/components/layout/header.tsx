@@ -39,6 +39,7 @@ export function Header() {
     { href: '/news', label: 'News' },
     { href: '/guides', label: 'Guides' },
     { href: '/deals', label: 'Deals' },
+    { href: '/admin', label: 'Admin' },
   ];
 
   return (
@@ -54,7 +55,7 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-              <SheetTitle className="sr-only">Main Menu</SheetTitle>
+               <SheetTitle className="sr-only">Main Menu</SheetTitle>
               <Link href="/" className="flex items-center space-x-2">
                 <Logo />
                 <span className="font-bold">MobilePhonesPro</span>
