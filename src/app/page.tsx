@@ -345,7 +345,7 @@ export default function Home() {
         </section>
 
         {/* Latest Launches */}
-        <section className="w-full py-12 md:py-16 bg-primary/5" aria-labelledby="latest-heading">
+        <section className="w-full py-12 md:py-16 bg-primary text-primary-foreground" aria-labelledby="latest-heading">
           <div className="container px-4 md:px-6">
             <div className="flex justify-between items-center mb-6">
               <h2 id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -355,7 +355,7 @@ export default function Home() {
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-primary-foreground hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
@@ -866,6 +866,7 @@ export default function Home() {
 }
 
     
+
 
 
 
