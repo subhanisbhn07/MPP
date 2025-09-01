@@ -374,7 +374,7 @@ export default function Home() {
         </section>
 
         {/* Flagship Phones */}
-        <section className="w-full py-12 md:py-16 bg-accent text-accent-foreground" aria-labelledby="flagship-heading">
+        <section className="w-full py-12 md:py-16 bg-accent" aria-labelledby="flagship-heading">
           <div className="container px-4 md:px-6">
             <div className="flex justify-between items-center mb-6">
               <h2 id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-accent-foreground">
@@ -661,7 +661,7 @@ export default function Home() {
         </section>
 
         {/* Upcoming & Editorial */}
-        <section className="w-full py-12 md:py-24" aria-labelledby="upcoming-editorial-heading">
+        <section className="w-full py-12 md:py-24 bg-accent" aria-labelledby="upcoming-editorial-heading">
           <div className="container grid gap-12 px-4 md:px-6 lg:grid-cols-2">
             <h2 id="upcoming-editorial-heading" className="sr-only">Upcoming and editorial</h2>
 
@@ -783,7 +783,7 @@ export default function Home() {
         </section>
 
         {/* Blog */}
-        <section className="w-full py-12 md:py-24" aria-labelledby="blog-heading">
+        <section className="w-full py-12 md:py-24 bg-accent" aria-labelledby="blog-heading">
           <div className="container px-4 md:px-6">
             <h2 id="blog-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">
               From the Blog
@@ -866,6 +866,7 @@ export default function Home() {
 }
 
     
+
 
 
 
