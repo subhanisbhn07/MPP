@@ -8,7 +8,7 @@
 # Testing
 /coverage
 
-# Next.js build output
+# Next.js
 /.next/
 /out/
 
@@ -19,25 +19,16 @@
 .DS_Store
 *.pem
 
-# Local secrets
+# Local Environment Variables
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
 # Firebase
+firebase-debug.log
 .firebase
-firebase.json
-database.rules.json
-storage.rules
-functions/node_modules
-functions/lib
-apphosting.yaml
-components.json
 
-# Vercel
-.vercel
-
-# genkit
+# Genkit
 .genkit/
 .genkit-cache/
