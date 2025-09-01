@@ -73,7 +73,6 @@ export default function Home() {
   const [compareSlot, setCompareSlot] = useState<number | null>(null);
   const [phone1, setPhone1] = useState<Phone | null>(null);
   const [phone2, setPhone2] = useState<Phone | null>(null);
-  const [tickerPaused, setTickerPaused] = useState(false);
 
   const popularPhones = allPhones.slice(0, 5);
   const latestPhones = [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime()).slice(0, 5);
@@ -227,10 +226,7 @@ export default function Home() {
               <div
                 role="status"
                 aria-live="polite"
-                className={cn(
-                  'flex w-max',
-                  tickerPaused ? 'animate-none' : 'motion-safe:animate-[ticker_30s_linear_infinite] motion-reduce:animate-none'
-                )}
+                className="flex w-max motion-safe:animate-ticker motion-reduce:animate-none"
               >
                 <p className="whitespace-nowrap pr-12">Pixel 9a announced with new Tensor G4 chip.</p>
                 <p className="whitespace-nowrap pr-12">iPhone 16 Pro leaks suggest a larger display.</p>
@@ -240,15 +236,6 @@ export default function Home() {
                 <p className="whitespace-nowrap pr-12">Samsung Galaxy S25 to feature satellite connectivity.</p>
               </div>
             </div>
-            <Button
-              variant="secondary"
-              size="sm"
-              className="ml-2"
-              aria-pressed={!tickerPaused}
-              onClick={() => setTickerPaused(p => !p)}
-            >
-              {tickerPaused ? 'Play' : 'Pause'}
-            </Button>
           </div>
         </div>
       </header>
@@ -866,6 +853,7 @@ export default function Home() {
 }
 
     
+
 
 
 
