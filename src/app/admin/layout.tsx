@@ -9,7 +9,6 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarInset,
   SidebarTrigger,
   SidebarFooter,
 } from '@/components/ui/sidebar';
@@ -52,50 +51,50 @@ export default function AdminLayout({
 
   return (
     <SidebarProvider>
-      <Sidebar>
-        <SidebarHeader>
-          <div className="flex items-center gap-2">
-             <Logo />
-             <span className="text-lg font-semibold">Admin Panel</span>
-          </div>
-        </SidebarHeader>
-        <SidebarContent>
-          <SidebarMenu>
-            {navItems.map((item) => (
-              <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname.startsWith(item.href) && (item.href !== '/admin' || pathname === '/admin')}
-                  tooltip={item.label}
-                >
-                  <Link href={item.href}>
-                    <item.icon />
-                    <span>{item.label}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarContent>
-        <SidebarFooter>
-           <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/">
-                    <Shield />
-                    <span>Back to Site</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-        </SidebarFooter>
-      </Sidebar>
-      <SidebarInset>
-        <div className="p-4 sm:p-6 lg:p-8">
-            {isClient && <SidebarTrigger className="md:hidden mb-4" />}
-            {children}
-        </div>
-      </SidebarInset>
+       <div className="flex min-h-screen">
+          <Sidebar>
+            <SidebarHeader>
+              <div className="flex items-center gap-2">
+                 <Logo />
+                 <span className="text-lg font-semibold">Admin Panel</span>
+              </div>
+            </SidebarHeader>
+            <SidebarContent>
+              <SidebarMenu>
+                {navItems.map((item) => (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname.startsWith(item.href) && (item.href !== '/admin' || pathname === '/admin')}
+                      tooltip={item.label}
+                    >
+                      <Link href={item.href}>
+                        <item.icon />
+                        <span>{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarContent>
+            <SidebarFooter>
+               <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link href="/">
+                        <Shield />
+                        <span>Back to Site</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarFooter>
+          </Sidebar>
+           <div className="flex-1 p-4 sm:p-6 lg:p-8">
+                {isClient && <SidebarTrigger className="md:hidden mb-4" />}
+                {children}
+           </div>
+       </div>
     </SidebarProvider>
   );
 }
