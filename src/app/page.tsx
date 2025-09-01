@@ -133,6 +133,9 @@ export default function Home() {
       ["Galaxy Z Flip 5", "Motorola Razr 40 Ultra"],
       ["Asus ROG Phone 8 Pro", "OnePlus 12"],
       ["Sony Xperia 1 VI", "iPhone 15 Pro Max"],
+      ["Google Pixel 8 Pro", "Samsung Galaxy S24 Ultra"],
+      ["OnePlus 12", "Samsung Galaxy S24"],
+      ["Xiaomi 14 Ultra", "iPhone 15 Pro Max"],
   ];
 
   const getPhoneByName = (name: string) => allPhones.find(p => p.model === name);
@@ -205,7 +208,7 @@ export default function Home() {
           </div>
         </div>
         <div className="container mt-12 pb-12">
-          <div className="relative flex items-center bg-primary text-primary-foreground rounded-lg p-2 text-sm overflow-hidden group-hover/ticker:animation-pause">
+          <div className="relative flex items-center bg-primary text-primary-foreground rounded-lg p-2 text-sm overflow-hidden group-hover/hero:animation-pause group-hover/ticker:animation-pause">
             <Megaphone className="h-5 w-5 mr-2 flex-shrink-0" />
             <div className="flex-1 overflow-hidden">
               <div className="animate-ticker flex w-max">
@@ -797,4 +800,5 @@ export default function Home() {
 }
 
     
+
 
