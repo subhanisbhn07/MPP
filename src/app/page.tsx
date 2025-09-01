@@ -186,13 +186,13 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-       <section className="w-full bg-accent pt-12 md:pt-24 lg:pt-32 border-b group/hero">
+       <section className="w-full bg-accent text-accent-foreground pt-12 md:pt-24 lg:pt-32 border-b">
         <div className="container px-4 md:px-6 text-center">
           <div className="flex flex-col items-center justify-center space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-accent-foreground">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
               Discover. Compare. Decide.
             </h1>
-            <p className="max-w-[600px] text-accent-foreground/80 md:text-xl">
+            <p className="max-w-[600px] md:text-xl">
               AI-updated specs, comparisons & SEO-friendly landing pages.
             </p>
             <div className="mt-4">
@@ -796,3 +796,4 @@ export default function Home() {
     </div>
   );
 }
+
