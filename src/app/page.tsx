@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from 'next/image';
@@ -47,6 +48,7 @@ import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import type { Phone } from '@/lib/types';
 import { AddPhoneDialog } from '@/app/compare/components/add-phone-dialog';
+import { Separator } from '@/components/ui/separator';
 
 
 const specCategories = [
@@ -115,6 +117,26 @@ export default function Home() {
     return '#';
   }, [phone1, phone2]);
   
+  const popularComparisons = [
+    ["iPhone 15 Pro Max", "Galaxy S24 Ultra"],
+    ["Pixel 8 Pro", "iPhone 15 Pro"],
+    ["OnePlus 12", "Xiaomi 14 Ultra"],
+    ["Galaxy Z Fold 5", "Pixel Fold"],
+    ["Galaxy S24", "Pixel 8 Pro"],
+    ["Nothing Phone (2a)", "Motorola Razr+ 2023"],
+  ];
+  
+  const trendingComparisons = [
+      ["Galaxy S24 Ultra", "Xiaomi 14 Ultra"],
+      ["iPhone 15 Pro Max", "OnePlus 12"],
+      ["Pixel 8 Pro", "Galaxy S24"],
+      ["Galaxy Z Flip 5", "Motorola Razr 40 Ultra"],
+      ["Asus ROG Phone 8 Pro", "OnePlus 12"],
+      ["Sony Xperia 1 VI", "iPhone 15 Pro Max"],
+  ];
+
+  const getPhoneByName = (name: string) => allPhones.find(p => p.model === name);
+  
   const CompareSlot = ({ phone, onAdd, onRemove }: { phone: Phone | null, onAdd: () => void, onRemove: () => void }) => {
     if (!phone) {
       return (
@@ -163,20 +185,18 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-       <section className="w-full bg-[#FAD600] pt-12 md:pt-24 lg:pt-32 border-b group/hero">
+       <section className="w-full bg-secondary/30 pt-12 md:pt-24 lg:pt-32 border-b group/hero">
         <div className="container px-4 md:px-6 text-center">
           <div className="flex flex-col items-center justify-center space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-[#22304A]">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-foreground">
               Discover. Compare. Decide.
             </h1>
-            <p className="max-w-[600px] text-[#22304A]/80 md:text-xl">
+            <p className="max-w-[600px] text-muted-foreground md:text-xl">
               AI-updated specs, comparisons & SEO-friendly landing pages.
             </p>
             <div className="mt-4">
               <Button
                 size="lg"
-                variant="outline"
-                className="bg-transparent border-[#334DCF] text-[#334DCF] hover:bg-[#334DCF] hover:text-white"
                 asChild
               >
                 <Link href="/compare">Compare Mobiles</Link>
@@ -185,10 +205,10 @@ export default function Home() {
           </div>
         </div>
         <div className="container mt-12 pb-12">
-          <div className="relative flex items-center bg-[#334DCF] text-white rounded-lg p-2 text-sm overflow-hidden group/ticker">
+          <div className="relative flex items-center bg-primary text-primary-foreground rounded-lg p-2 text-sm overflow-hidden group-hover/ticker:animation-pause">
             <Megaphone className="h-5 w-5 mr-2 flex-shrink-0" />
             <div className="flex-1 overflow-hidden">
-              <div className="group-hover/ticker:[animation-play-state:paused] animate-ticker flex w-max">
+              <div className="animate-ticker flex w-max">
                 <p className="whitespace-nowrap pr-12">
                   Pixel 9a announced with new Tensor G4 chip.
                 </p>
@@ -214,15 +234,15 @@ export default function Home() {
       </section>
 
       {/* Search & Filter Section */}
-      <section className="w-full py-8 md:py-12 bg-primary border-b">
+      <section className="w-full py-8 md:py-12 bg-primary/10 border-b">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col gap-4 md:flex-row">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/70" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary/70" />
               <Input
                 type="search"
                 placeholder="Search by brand, model, or feature..."
-                className="w-full pl-10 h-12 text-base bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 placeholder:text-primary-foreground/70 focus-visible:ring-primary-foreground"
+                className="w-full pl-10 h-12 text-base bg-background border-primary/20 placeholder:text-muted-foreground focus-visible:ring-primary"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -232,12 +252,12 @@ export default function Home() {
               <Button
                 variant="outline"
                 size="lg"
-                className="h-12 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+                className="h-12"
               >
                 <Filter className="mr-2 h-5 w-5" /> Filters
               </Button>
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="h-12 w-[180px] bg-background text-foreground border-primary-foreground/20 focus:ring-primary-foreground">
+                <SelectTrigger className="h-12 w-[180px] bg-background border-primary/20 focus:ring-primary">
                   <ArrowUpDown className="mr-2 h-5 w-5" />
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
@@ -250,7 +270,7 @@ export default function Home() {
               </Select>
               <Button
                 size="lg"
-                className="h-12 bg-background text-foreground hover:bg-background/90"
+                className="h-12"
                 onClick={handleSearch}
               >
                 Search
@@ -488,15 +508,42 @@ export default function Home() {
                 <div className="flex flex-col items-center justify-center">
                     <Shuffle className="text-muted-foreground" />
                     <p className="text-2xl font-bold my-2">VS</p>
-                    <Button asChild disabled={!phone1 || !phone2} href={quickCompareUrl}>
+                    <Button asChild disabled={!phone1 || !phone2}>
                        <Link href={quickCompareUrl}>Compare Now</Link>
                     </Button>
                 </div>
                 <CompareSlot phone={phone2} onAdd={() => handleOpenDialog(2)} onRemove={() => setPhone2(null)} />
             </div>
-             <p className="text-sm text-muted-foreground text-center mt-4">
-              Popular: iPhone 15 Pro vs Pixel 8 Pro
-            </p>
+
+            <Separator className="my-8" />
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                 <div>
+                    <h3 className="font-semibold mb-3 text-center md:text-left">Popular Comparisons</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                      {popularComparisons.map(([p1, p2]) => {
+                          const phone1 = getPhoneByName(p1);
+                          const phone2 = getPhoneByName(p2);
+                          if (!phone1 || !phone2) return null;
+                          const url = generateCompareUrl([phone1, phone2]);
+                          return <Link key={url} href={url} className="text-muted-foreground hover:text-primary text-center p-1.5 rounded-md hover:bg-muted">{p1} vs {p2}</Link>
+                      })}
+                    </div>
+                </div>
+                 <div>
+                    <h3 className="font-semibold mb-3 text-center md:text-left">Trending Comparisons</h3>
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+                      {trendingComparisons.map(([p1, p2]) => {
+                          const phone1 = getPhoneByName(p1);
+                          const phone2 = getPhoneByName(p2);
+                          if (!phone1 || !phone2) return null;
+                          const url = generateCompareUrl([phone1, phone2]);
+                          return <Link key={url} href={url} className="text-muted-foreground hover:text-primary text-center p-1.5 rounded-md hover:bg-muted">{p1} vs {p2}</Link>
+                      })}
+                    </div>
+                </div>
+            </div>
+            
           </div>
         </div>
       </section>
