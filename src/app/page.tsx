@@ -172,7 +172,7 @@ export default function Home() {
               <X className="h-4 w-4" />
             </Button>
           <div className="relative w-full h-40 mb-4">
-            <Image src={phone.image} alt={phone.model} fill className="object-contain" />
+            <Image src={phone.image} alt={phone.model} fill className="object-contain" data-ai-hint="mobile phone" />
           </div>
           <p className="font-bold text-lg truncate">{phone.brand}</p>
           <p className="text-muted-foreground truncate">{phone.model}</p>
@@ -208,7 +208,7 @@ export default function Home() {
           </div>
         </div>
         <div className="container mt-12 pb-12">
-          <div className="relative flex items-center bg-primary text-primary-foreground rounded-lg p-2 text-sm overflow-hidden group-hover/hero:animation-pause group-hover/ticker:animation-pause">
+          <div className="relative flex items-center bg-primary text-primary-foreground rounded-lg p-2 text-sm overflow-hidden hover:[animation-play-state:paused]">
             <Megaphone className="h-5 w-5 mr-2 flex-shrink-0" />
             <div className="flex-1 overflow-hidden">
               <div className="animate-ticker flex w-max">
@@ -800,5 +800,6 @@ export default function Home() {
 }
 
     
+
 
 
