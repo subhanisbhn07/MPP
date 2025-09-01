@@ -22,7 +22,7 @@ export function Header() {
   const mainNavLinks = [
     { href: '/compare', label: 'Compare' },
     { href: '/upcoming', label: 'Upcoming' },
-    { href: '/categories', label: 'Categories' },
+    { href: '/brands', label: 'Brands' },
     { href: '/news', label: 'News' },
     { href: '/guides', label: 'Guides' },
     { href: '/deals', label: 'Deals' },
