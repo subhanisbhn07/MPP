@@ -239,11 +239,11 @@ export default function Home() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col gap-4 md:flex-row">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/70" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="search"
                 placeholder="Search by brand, model, or feature..."
-                className="w-full pl-10 h-12 text-base bg-background/20 text-primary-foreground border-primary-foreground/20 placeholder:text-primary-foreground/70 focus-visible:ring-primary-foreground"
+                className="w-full pl-10 h-12 text-base bg-white text-foreground border-input placeholder:text-muted-foreground focus-visible:ring-primary"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
