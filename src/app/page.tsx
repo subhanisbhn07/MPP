@@ -68,7 +68,6 @@ export default function Home() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('');
-  const [tickerPaused, setTickerPaused] = useState(false);
 
   const [isCompareDialogOpen, setIsCompareDialogOpen] = useState(false);
   const [compareSlot, setCompareSlot] = useState<number | null>(null);
@@ -191,9 +190,6 @@ export default function Home() {
     );
   };
   
-    const SectionSeparator = () => <div className="h-8 w-full bg-white" />;
-
-
   return (
     <>
        {/* Skip link */}
@@ -205,13 +201,13 @@ export default function Home() {
       </a>
 
       {/* Header / Hero */}
-      <header role="banner" className="w-full bg-accent text-accent-foreground pt-12 md:pt-24 lg:pt-32 rounded-b-2xl">
+      <header role="banner" className="w-full bg-accent text-accent-foreground pt-12 md:pt-24 lg:pt-32 rounded-2xl">
         <div className="container px-4 md:px-6 text-center">
           <div className="flex flex-col items-center justify-center space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-accent-foreground">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-black">
               Discover. Compare. Decide.
             </h1>
-            <p className="max-w-[600px] md:text-xl text-accent-foreground/70">
+            <p className="max-w-[600px] md:text-xl text-black/70">
               AI-updated specs, comparisons & SEO-friendly landing pages.
             </p>
             <div className="mt-4">
@@ -230,7 +226,7 @@ export default function Home() {
               <div
                 role="status"
                 aria-live="polite"
-                className={cn("flex w-max motion-safe:animate-ticker motion-reduce:animate-none", tickerPaused && "pause")}
+                className={cn("flex w-max motion-safe:animate-ticker motion-reduce:animate-none")}
               >
                 <p className="whitespace-nowrap pr-12">Pixel 9a announced with new Tensor G4 chip.</p>
                 <p className="whitespace-nowrap pr-12">iPhone 16 Pro leaks suggest a larger display.</p>
@@ -243,10 +239,11 @@ export default function Home() {
           </div>
         </div>
       </header>
-       <main id="main" role="main">
+       <main id="main" role="main" className="container py-8 space-y-8">
         {/* Search & Filter */}
+        <Card className="bg-primary text-primary-foreground rounded-2xl">
         <section
-          className="w-full py-8 md:py-12 bg-primary border-y rounded-2xl"
+          className="w-full py-8 md:py-12"
           aria-labelledby="search-heading"
         >
           <div className="container px-4 md:px-6">
@@ -305,26 +302,26 @@ export default function Home() {
             </form>
           </div>
         </section>
-
-        <SectionSeparator />
+        </Card>
 
         {/* Trending Phones */}
-        <section className="w-full py-12 md:py-16 bg-accent border-y rounded-2xl" aria-labelledby="trending-heading">
-          <div className="container px-4 md:px-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-accent-foreground">
-                Trending Phones
-              </h2>
-              <Link
-                href="#"
-                aria-disabled
-                tabIndex={-1}
-                className="text-sm font-medium text-accent-foreground hover:underline flex items-center aria-disabled:opacity-50"
-              >
-                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-              </Link>
+        <Card className="bg-accent rounded-2xl" aria-labelledby="trending-heading">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+                <CardTitle id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-accent-foreground">
+                    Trending Phones
+                </CardTitle>
+                 <Link
+                    href="#"
+                    aria-disabled
+                    tabIndex={-1}
+                    className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
+                  >
+                    See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
+                  </Link>
             </div>
-
+          </CardHeader>
+          <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {popularPhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
@@ -334,28 +331,27 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-          </div>
-        </section>
-
-        <SectionSeparator />
+          </CardContent>
+        </Card>
 
         {/* Latest Launches */}
-        <section className="w-full py-12 md:py-16 bg-primary text-primary-foreground rounded-2xl" aria-labelledby="latest-heading">
-          <div className="container px-4 md:px-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="latest-heading">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+               <CardTitle id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                 Latest Launches
-              </h2>
+               </CardTitle>
               <Link
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-primary-foreground hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
-
+          </CardHeader>
+          <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {latestPhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
@@ -365,28 +361,27 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-          </div>
-        </section>
+          </CardContent>
+        </Card>
         
-        <SectionSeparator />
-
         {/* Flagship Phones */}
-        <section className="w-full py-12 md:py-16 bg-accent rounded-2xl" aria-labelledby="flagship-heading">
-          <div className="container px-4 md:px-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-accent-foreground">
+         <Card className="bg-accent rounded-2xl" aria-labelledby="flagship-heading">
+           <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-accent-foreground">
                 Flagship Phones
-              </h2>
+              </CardTitle>
               <Link
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-accent-foreground hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
-
+          </CardHeader>
+          <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {flagshipPhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
@@ -396,28 +391,27 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-          </div>
-        </section>
-
-        <SectionSeparator />
+          </CardContent>
+        </Card>
 
         {/* Performance Phones */}
-        <section className="w-full py-12 md:py-16 bg-primary text-primary-foreground rounded-2xl" aria-labelledby="performance-heading">
-          <div className="container px-4 md:px-6">
-            <div className="flex justify-between items-center mb-6">
-              <h2 id="performance-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-primary-foreground">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="performance-heading">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle id="performance-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                 Performance Phones
-              </h2>
+              </CardTitle>
               <Link
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-primary-foreground hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
-
+          </CardHeader>
+          <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {performancePhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
@@ -427,19 +421,19 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-          </div>
-        </section>
-
-        <SectionSeparator />
+          </CardContent>
+        </Card>
 
         {/* Power & Performance Tabs */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-accent text-accent-foreground rounded-2xl" aria-labelledby="power-heading">
-          <div className="container px-4 md:px-6">
-            <h2 id="power-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center text-accent-foreground">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="power-heading">
+          <CardHeader>
+            <h2 id="power-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-accent-foreground">
               Power & Performance
             </h2>
+          </CardHeader>
+          <CardContent>
             <Tabs defaultValue="battery" className="w-full" aria-label="Power and performance categories">
-              <TabsList className="mb-4 flex flex-wrap h-auto justify-center bg-accent-foreground/10 text-accent-foreground">
+              <TabsList className="mb-4 grid grid-cols-3 w-full">
                 <TabsTrigger value="battery" aria-controls="panel-battery" className="data-[state=active]:bg-background data-[state=active]:text-foreground">
                   <Battery className="mr-2" aria-hidden="true" />
                   Battery
@@ -490,19 +484,19 @@ export default function Home() {
                 </ul>
               </TabsContent>
             </Tabs>
-          </div>
-        </section>
-
-        <SectionSeparator />
+          </CardContent>
+        </Card>
 
         {/* Specialty Phones Tabs */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground rounded-2xl" aria-labelledby="specialty-heading">
-          <div className="container px-4 md:px-6">
-            <h2 id="specialty-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="specialty-heading">
+           <CardHeader>
+            <h2 id="specialty-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
               Specialty Phones
             </h2>
+          </CardHeader>
+          <CardContent>
             <Tabs defaultValue="foldable" className="w-full" aria-label="Specialty categories">
-              <TabsList className="mb-4 flex flex-wrap h-auto justify-center bg-primary-foreground/10 text-primary-foreground">
+              <TabsList className="mb-4 grid grid-cols-3 w-full">
                 <TabsTrigger value="foldable" aria-controls="panel-foldable" className="data-[state=active]:bg-primary-foreground data-[state=active]:text-primary">
                   <Smartphone className="mr-2" aria-hidden="true" />
                   Foldable
@@ -553,19 +547,18 @@ export default function Home() {
                 </ul>
               </TabsContent>
             </Tabs>
-          </div>
-        </section>
-
-        <SectionSeparator />
+          </CardContent>
+        </Card>
 
         {/* Quick Compare */}
-        <section className="w-full py-12 md:py-24 bg-accent rounded-2xl" aria-labelledby="quick-compare-heading">
-          <div className="container px-4 md:px-6">
+        <Card className="bg-accent rounded-2xl" aria-labelledby="quick-compare-heading">
+          <CardHeader>
+            <h2 id="quick-compare-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-accent-foreground">
+              Quick Compare
+            </h2>
+          </CardHeader>
+          <CardContent>
             <div className="max-w-4xl mx-auto">
-              <h2 id="quick-compare-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center mb-8">
-                Quick Compare
-              </h2>
-
               <div className="flex items-stretch gap-4 md:gap-8">
                 <CompareSlot phone={phone1} onAdd={() => handleOpenDialog(1)} onRemove={() => setPhone1(null)} />
                 <div className="flex flex-col items-center justify-center">
@@ -590,7 +583,7 @@ export default function Home() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div>
-                  <h3 className="font-semibold mb-3 text-center md:text-left">Popular Comparisons</h3>
+                  <h3 className="font-semibold mb-3 text-center md:text-left text-accent-foreground">Popular Comparisons</h3>
                   <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                     {popularComparisons.map(([p1, p2]) => {
                       const phone1 = getPhoneByName(p1);
@@ -613,7 +606,7 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-center md:text-left">Trending Comparisons</h3>
+                  <h3 className="font-semibold mb-3 text-center md:text-left text-accent-foreground">Trending Comparisons</h3>
                   <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                     {trendingComparisons.map(([p1, p2]) => {
                       const phone1 = getPhoneByName(p1);
@@ -636,15 +629,14 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        <SectionSeparator />
+          </CardContent>
+        </Card>
+        
 
         {/* Browse by Specs */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground rounded-2xl" aria-labelledby="browse-heading">
-          <div className="container px-4 md:px-6">
-            <div className="space-y-3 mb-8 text-center">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="browse-heading">
+          <CardHeader>
+            <div className="space-y-3 text-center">
               <h2 id="browse-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-primary-foreground">
                 Browse by Specs
               </h2>
@@ -652,6 +644,8 @@ export default function Home() {
                 Find the perfect phone tailored to your needs.
               </p>
             </div>
+          </CardHeader>
+          <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
               {specCategories.map((cat) => (
                 <li role="listitem" key={cat.label}>
@@ -664,146 +658,146 @@ export default function Home() {
                 </li>
               ))}
             </ul>
-          </div>
-        </section>
-
-        <SectionSeparator />
+          </CardContent>
+        </Card>
 
         {/* Upcoming & Editorial */}
-        <section className="w-full py-12 md:py-24 bg-accent rounded-2xl" aria-labelledby="upcoming-editorial-heading">
-          <div className="container grid gap-12 px-4 md:px-6 lg:grid-cols-2">
-            <h2 id="upcoming-editorial-heading" className="sr-only">Upcoming and editorial</h2>
+        <Card className="bg-accent rounded-2xl" aria-labelledby="upcoming-editorial-heading">
+          <CardContent className="p-6">
+            <div className="grid gap-12 lg:grid-cols-2">
+              <h2 id="upcoming-editorial-heading" className="sr-only">Upcoming and editorial</h2>
 
-            {/* Upcoming Calendar */}
-            <section aria-labelledby="upcoming-heading">
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <h3 id="upcoming-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl">
-                    Upcoming Calendar
+              {/* Upcoming Calendar */}
+              <section aria-labelledby="upcoming-heading">
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <h3 id="upcoming-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-accent-foreground">
+                      Upcoming Calendar
+                    </h3>
+                    <Link
+                      href="/upcoming"
+                      className="text-sm font-medium text-black hover:underline flex items-center"
+                    >
+                      View All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
+                    </Link>
+                  </div>
+
+                  <div className="space-y-4">
+                    <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
+                      <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
+                        <p className="font-bold text-lg text-primary">28</p>
+                        <p className="text-xs text-primary/80">AUG</p>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-foreground">Galaxy S25 India Launch</h4>
+                        <p className="text-sm text-muted-foreground">Expected to be announced online.</p>
+                      </div>
+                    </article>
+
+                    <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
+                      <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
+                        <p className="font-bold text-lg text-primary">05</p>
+                        <p className="text-xs text-primary/80">SEP</p>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-foreground">Apple iPhone Event</h4>
+                        <p className="text-sm text-muted-foreground">The official reveal of the new iPhone 17 series.</p>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+              </section>
+
+              {/* Editorial */}
+              <section aria-labelledby="news-guides-heading">
+                <div className="space-y-4">
+                  <h3 id="news-guides-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-accent-foreground">
+                    News & Guides
                   </h3>
-                  <Link
-                    href="/upcoming"
-                    className="text-sm font-medium text-primary hover:underline flex items-center"
-                  >
-                    View All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  <div className="space-y-4">
+                    <Card className="hover:bg-muted/50 transition-colors bg-background">
+                      <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                        <Badge>Deep Dive</Badge>
+                        <h4 className="font-semibold mt-2 text-foreground">iPhone 16 Explained: Everything We Know</h4>
+                      </Link>
+                    </Card>
+                    <Card className="hover:bg-muted/50 transition-colors bg-background">
+                      <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                        <Badge>Industry News</Badge>
+                        <h4 className="font-semibold mt-2 text-foreground">Snapdragon 8 Gen 4: What to Expect</h4>
+                      </Link>
+                    </Card>
+                    <Card className="hover:bg-muted/50 transition-colors bg-background">
+                      <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                        <Badge>Guides</Badge>
+                        <h4 className="font-semibold mt-2 text-foreground">Top Phones to Buy in September</h4>
+                      </Link>
+                    </Card>
+                  </div>
                 </div>
-
-                <div className="space-y-4">
-                  <article className="flex items-center gap-4 p-4 border rounded-lg">
-                    <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
-                      <p className="font-bold text-lg text-primary">28</p>
-                      <p className="text-xs text-primary/80">AUG</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">Galaxy S25 India Launch</h4>
-                      <p className="text-sm text-muted-foreground">Expected to be announced online.</p>
-                    </div>
-                  </article>
-
-                  <article className="flex items-center gap-4 p-4 border rounded-lg">
-                    <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
-                      <p className="font-bold text-lg text-primary">05</p>
-                      <p className="text-xs text-primary/80">SEP</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">Apple iPhone Event</h4>
-                      <p className="text-sm text-muted-foreground">The official reveal of the new iPhone 17 series.</p>
-                    </div>
-                  </article>
-                </div>
-              </div>
-            </section>
-
-            {/* Editorial */}
-            <section aria-labelledby="news-guides-heading">
-              <div className="space-y-4">
-                <h3 id="news-guides-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl">
-                  News & Guides
-                </h3>
-                <div className="space-y-4">
-                  <Card className="hover:bg-muted/50 transition-colors">
-                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
-                      <Badge>Deep Dive</Badge>
-                      <h4 className="font-semibold mt-2">iPhone 16 Explained: Everything We Know</h4>
-                    </Link>
-                  </Card>
-                  <Card className="hover:bg-muted/50 transition-colors">
-                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
-                      <Badge>Industry News</Badge>
-                      <h4 className="font-semibold mt-2">Snapdragon 8 Gen 4: What to Expect</h4>
-                    </Link>
-                  </Card>
-                  <Card className="hover:bg-muted/50 transition-colors">
-                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
-                      <Badge>Guides</Badge>
-                      <h4 className="font-semibold mt-2">Top Phones to Buy in September</h4>
-                    </Link>
-                  </Card>
-                </div>
-              </div>
-            </section>
-          </div>
-        </section>
-
-        <SectionSeparator />
+              </section>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Trust & Subscribe */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground rounded-2xl" aria-labelledby="trust-heading">
-          <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
-            <div className="space-y-3">
-              <h2 id="trust-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-primary-foreground">
-                Your Trusted Source for Mobile Specs
-              </h2>
-              <p className="mx-auto max-w-[600px] text-primary-foreground/80 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                We provide accurate, up-to-date information you can rely on.
-              </p>
-            </div>
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="trust-heading">
+            <CardContent className="p-6">
+                <div className="grid items-center justify-center gap-4 text-center">
+                    <div className="space-y-3">
+                      <h2 id="trust-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-primary-foreground">
+                        Your Trusted Source for Mobile Specs
+                      </h2>
+                      <p className="mx-auto max-w-[600px] text-primary-foreground/80 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                        We provide accurate, up-to-date information you can rely on.
+                      </p>
+                    </div>
 
-            <div className="mx-auto grid max-w-sm grid-cols-3 items-start justify-center gap-8 lg:max-w-none lg:grid-cols-3">
-              <div className="flex flex-col items-center justify-center space-y-2">
-                <Star className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
-                <p className="font-bold">128+ Specs</p>
-                <p className="text-sm text-primary-foreground/80">Per Phone</p>
-              </div>
-              <div className="flex flex-col items-center justify-center space-y-2">
-                <Info className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
-                <p className="font-bold">Verified Sources</p>
-                <p className="text-sm text-primary-foreground/80">Always Accurate</p>
-              </div>
-              <div className="flex flex-col items-center justify-center space-y-2">
-                <Calendar className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
-                <p className="font-bold">Daily Updates</p>
-                <p className="text-sm text-primary-foreground/80">
-                  Never Miss a Launch
-                </p>
-              </div>
-            </div>
+                    <div className="mx-auto grid max-w-sm grid-cols-3 items-start justify-center gap-8 lg:max-w-none lg:grid-cols-3">
+                      <div className="flex flex-col items-center justify-center space-y-2">
+                        <Star className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
+                        <p className="font-bold">128+ Specs</p>
+                        <p className="text-sm text-primary-foreground/80">Per Phone</p>
+                      </div>
+                      <div className="flex flex-col items-center justify-center space-y-2">
+                        <Info className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
+                        <p className="font-bold">Verified Sources</p>
+                        <p className="text-sm text-primary-foreground/80">Always Accurate</p>
+                      </div>
+                      <div className="flex flex-col items-center justify-center space-y-2">
+                        <Calendar className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
+                        <p className="font-bold">Daily Updates</p>
+                        <p className="text-sm text-primary-foreground/80">
+                          Never Miss a Launch
+                        </p>
+                      </div>
+                    </div>
 
-            <div className="mx-auto w-full max-w-sm space-y-2 mt-8">
-              <form className="flex space-x-2">
-                <label htmlFor="email" className="sr-only">Enter your email</label>
-                <Input id="email" type="email" placeholder="Enter your email" className="max-w-lg flex-1 bg-primary-foreground text-primary" />
-                <Button type="submit" variant="secondary" aria-label="Subscribe for weekly launch alerts">Subscribe</Button>
-              </form>
-              <p className="text-xs text-primary-foreground/80">
-                Get weekly launch alerts and top news.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <SectionSeparator />
+                    <div className="mx-auto w-full max-w-sm space-y-2 mt-8">
+                      <form className="flex space-x-2">
+                        <label htmlFor="email" className="sr-only">Enter your email</label>
+                        <Input id="email" type="email" placeholder="Enter your email" className="max-w-lg flex-1 bg-primary-foreground text-primary" />
+                        <Button type="submit" variant="secondary" aria-label="Subscribe for weekly launch alerts">Subscribe</Button>
+                      </form>
+                      <p className="text-xs text-primary-foreground/80">
+                        Get weekly launch alerts and top news.
+                      </p>
+                    </div>
+                  </div>
+            </CardContent>
+        </Card>
 
         {/* Blog */}
-        <section className="w-full py-12 md:py-24 bg-accent rounded-2xl" aria-labelledby="blog-heading">
-          <div className="container px-4 md:px-6">
-            <h2 id="blog-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">
+        <Card className="bg-accent rounded-2xl" aria-labelledby="blog-heading">
+          <CardHeader>
+             <h2 id="blog-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-accent-foreground">
               From the Blog
             </h2>
+          </CardHeader>
+          <CardContent>
             <div className="grid gap-8 lg:grid-cols-4">
               <div className="space-y-4">
-                <h3 className="text-xl font-bold">Categories</h3>
+                <h3 className="text-xl font-bold text-accent-foreground">Categories</h3>
                 <nav aria-label="Blog categories">
                   <ul role="list" className="grid gap-2">
                     <li role="listitem"><Link href="#" aria-disabled tabIndex={-1} className="text-muted-foreground hover:text-primary">Buying Guides</Link></li>
@@ -856,8 +850,8 @@ export default function Home() {
                 </Card>
               </div>
             </div>
-          </div>
-        </section>
+          </CardContent>
+        </Card>
       </main>
 
       {/* Compare bar and dialog */}
@@ -877,11 +871,3 @@ export default function Home() {
     </>
   );
 }
-
-    
-
-
-
-    
-
-    
