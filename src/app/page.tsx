@@ -263,13 +263,13 @@ export default function Home() {
             <form className="flex flex-col gap-4 md:flex-row" role="search" method="get" action="/search" onSubmit={onSubmitSearch}>
               <div className="relative flex-1">
                 <label htmlFor="q" className="sr-only">Search by brand, model, or feature</label>
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/70" aria-hidden="true" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary/70" aria-hidden="true" />
                 <Input
                   id="q"
                   name="q"
                   type="search"
                   placeholder="Search by brand, model, or feature..."
-                  className="w-full pl-10 h-12 text-base bg-background text-foreground border-input placeholder:text-muted-foreground focus-visible:ring-primary"
+                  className="w-full pl-10 h-12 text-base bg-white text-foreground border-input placeholder:text-muted-foreground focus-visible:ring-primary"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -866,4 +866,5 @@ export default function Home() {
 }
 
     
+
 
