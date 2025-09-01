@@ -16,10 +16,10 @@ import {
   Home,
   Smartphone,
   Sparkles,
-  Newspaper,
-  PenSquare,
-  BarChart2,
   FileUp,
+  BarChart2,
+  PenSquare,
+  Newspaper,
   Shield,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -51,50 +51,56 @@ export default function AdminLayout({
 
   return (
     <SidebarProvider>
-       <div className="flex min-h-screen">
-          <Sidebar>
-            <SidebarHeader>
-              <div className="flex items-center gap-2">
-                 <Logo />
-                 <span className="text-lg font-semibold">Admin Panel</span>
-              </div>
-            </SidebarHeader>
-            <SidebarContent>
-              <SidebarMenu>
-                {navItems.map((item) => (
-                  <SidebarMenuItem key={item.href}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={pathname.startsWith(item.href) && (item.href !== '/admin' || pathname === '/admin')}
-                      tooltip={item.label}
-                    >
-                      <Link href={item.href}>
-                        <item.icon />
-                        <span>{item.label}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarContent>
-            <SidebarFooter>
-               <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <Link href="/">
-                        <Shield />
-                        <span>Back to Site</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </SidebarMenu>
-            </SidebarFooter>
-          </Sidebar>
-           <div className="flex-1 py-4 pr-4 sm:py-6 sm:pr-6 lg:py-8 lg:pr-8">
-                {isClient && <SidebarTrigger className="md:hidden mb-4" />}
-                {children}
-           </div>
-       </div>
+      <div className="flex min-h-screen">
+        <Sidebar>
+          <SidebarHeader className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Logo />
+              <span className="font-semibold text-lg">Admin Panel</span>
+            </div>
+             <SidebarTrigger className="hidden md:flex" />
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarMenu>
+              {navItems.map((item) => (
+                <SidebarMenuItem key={item.href}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={
+                      pathname.startsWith(item.href) &&
+                      (item.href !== '/admin' || pathname === '/admin')
+                    }
+                    tooltip={item.label}
+                  >
+                    <Link href={item.href}>
+                      <item.icon />
+                      <span>{item.label}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarContent>
+          <SidebarFooter>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/">
+                    <Shield />
+                    <span>Back to Site</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarFooter>
+        </Sidebar>
+        <div className="flex-1">
+            <div className="p-4 sm:p-6 lg:p-8">
+              {isClient && <SidebarTrigger className="md:hidden mb-4" />}
+              {children}
+            </div>
+        </div>
+      </div>
     </SidebarProvider>
   );
 }
