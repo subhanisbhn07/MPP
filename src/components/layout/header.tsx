@@ -21,7 +21,6 @@ export function Header() {
   const { user, loading, signOut } = useAuth();
   const mainNavLinks = [
     { href: '/compare', label: 'Compare' },
-    { href: '/upcoming', label: 'Upcoming' },
     { href: '/brands', label: 'Brands' },
     { href: '/news', label: 'News' },
     { href: '/guides', label: 'Guides' },
