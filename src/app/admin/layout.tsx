@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -25,6 +26,7 @@ import {
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Logo } from '@/components/logo';
+import { useState, useEffect } from 'react';
 
 export default function AdminLayout({
   children,
@@ -32,6 +34,11 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const navItems = [
     { href: '/admin', label: 'Dashboard', icon: Home },
@@ -85,8 +92,8 @@ export default function AdminLayout({
       </Sidebar>
       <SidebarInset>
         <div className="p-4 sm:p-6 lg:p-8">
-          <SidebarTrigger className="md:hidden mb-4" />
-          {children}
+            {isClient && <SidebarTrigger className="md:hidden mb-4" />}
+            {children}
         </div>
       </SidebarInset>
     </SidebarProvider>
