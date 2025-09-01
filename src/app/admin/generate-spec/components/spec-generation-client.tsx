@@ -58,7 +58,7 @@ export function SpecGenerationClient() {
           description: `Specifications for ${values.name} ${values.model} generated.`,
         });
       } else {
-        throw new Error(response.error || 'An unknown error occurred.');
+         throw new Error(response.error || 'An unknown error occurred.');
       }
     } catch (error: any) {
       console.error(error);

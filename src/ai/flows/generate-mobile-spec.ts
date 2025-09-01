@@ -12,13 +12,13 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GenerateMobileSpecInputSchema = z.object({
-  name: z.string().describe('The name of the mobile phone.'),
-  model: z.string().describe('The model of the mobile phone.'),
+  name: z.string(),
+  model: z.string(),
 });
 export type GenerateMobileSpecInput = z.infer<typeof GenerateMobileSpecInputSchema>;
 
-const GenerateMobileSpecOutputSchema = z.object({
-  network: z.object({
+// Define schemas for each category
+const NetworkSpecSchema = z.object({
     network_technology: z.string(),
     '2g_bands': z.string(),
     '3g_bands': z.string(),
@@ -33,15 +33,17 @@ const GenerateMobileSpecOutputSchema = z.object({
     volte_support: z.string(),
     vowifi: z.string(),
     nr_ca_support: z.string(),
-  }),
-  launch: z.object({
+});
+
+const LaunchSpecSchema = z.object({
     announced_date: z.string(),
     market_status: z.string(),
     regions_available: z.string(),
     model_variants: z.string(),
     launch_price: z.string(),
-  }),
-  body: z.object({
+});
+
+const BodySpecSchema = z.object({
     dimensions_mm: z.string(),
     weight_g: z.string(),
     build_materials: z.string(),
@@ -57,8 +59,9 @@ const GenerateMobileSpecOutputSchema = z.object({
     thermal_solution: z.string(),
     notification_led_alert_slider: z.string(),
     haptics_class: z.string(),
-  }),
-  display: z.object({
+});
+
+const DisplaySpecSchema = z.object({
     panel_type: z.string(),
     size_inches: z.string(),
     screen_to_body_ratio_pct: z.string(),
@@ -66,7 +69,7 @@ const GenerateMobileSpecOutputSchema = z.object({
     aspect_ratio: z.string(),
     pixel_density_ppi: z.string(),
     refresh_rate_hz: z.string(),
-    adaptive_refresh_rate_range: z.string(),
+    adaptive_refresh_rate_range: zstring(),
     touch_sampling_rate_hz: z.string(),
     peak_brightness_nits: z.string(),
     hdr_standards: z.string(),
@@ -79,8 +82,9 @@ const GenerateMobileSpecOutputSchema = z.object({
     always_on_display: z.string(),
     display_driver_ic: z.string(),
     cover_display_specs: z.string(),
-  }),
-  platform: z.object({
+});
+
+const PlatformSpecSchema = z.object({
     os_at_launch: z.string(),
     update_policy: z.string(),
     chipset: z.string(),
@@ -95,8 +99,9 @@ const GenerateMobileSpecOutputSchema = z.object({
     geekbench_multi_core: z.string(),
     antutu_score: z.string(),
     '3dmark_scores': z.string(),
-  }),
-  memory: z.object({
+});
+
+const MemorySpecSchema = z.object({
     ram_capacities: z.string(),
     ram_type: z.string(),
     storage_capacities: z.string(),
@@ -106,8 +111,9 @@ const GenerateMobileSpecOutputSchema = z.object({
     slot_type: z.string(),
     usb_otg_support: z.string(),
     filesystem_encryption: z.string(),
-  }),
-  main_camera: z.object({
+});
+
+const MainCameraSpecSchema = z.object({
     rear_camera_count: z.string(),
     main_sensor_resolution: z.string(),
     main_sensor_size_and_pitch: z.string(),
@@ -129,8 +135,9 @@ const GenerateMobileSpecOutputSchema = z.object({
     night_mode_computational_features: z.string(),
     raw_pro_controls: z.string(),
     flash_type: z.string(),
-  }),
-  selfie_camera: z.object({
+});
+
+const SelfieCameraSpecSchema = z.object({
     front_camera_resolution: z.string(),
     sensor_size_pixel_pitch: z.string(),
     autofocus_ois_on_front: z.string(),
@@ -140,8 +147,9 @@ const GenerateMobileSpecOutputSchema = z.object({
     front_video_resolutions_fps: z.string(),
     hdr_dolby_vision_selfie: z.string(),
     face_unlock_hardware: z.string(),
-  }),
-  audio: z.object({
+});
+
+const AudioSpecSchema = z.object({
     loudspeakers: z.string(),
     '3.5mm_jack': z.string(),
     hi_res_audio_support: z.string(),
@@ -149,8 +157,9 @@ const GenerateMobileSpecOutputSchema = z.object({
     mics_count_and_placement: z.string(),
     audio_codecs: z.string(),
     dac_amp_details: z.string(),
-  }),
-  connectivity: z.object({
+});
+
+const ConnectivitySpecSchema = z.object({
     wifi_versions: z.string(),
     wifi_mimo_triband: z.string(),
     bluetooth_version_profiles: z.string(),
@@ -163,8 +172,9 @@ const GenerateMobileSpecOutputSchema = z.object({
     usb_type_and_speed: z.string(),
     displayport_hdmi_out: z.string(),
     esim_profile_capacity: z.string(),
-  }),
-  sensors: z.object({
+});
+
+const SensorsSpecSchema = z.object({
     fingerprint_type: z.string(),
     face_id_3d_depth: z.string(),
     accelerometer: z.string(),
@@ -179,8 +189,9 @@ const GenerateMobileSpecOutputSchema = z.object({
     color_temperature_sensor: z.string(),
     step_counter_health_sensors: z.string(),
     satellite_sos_modem: z.string(),
-  }),
-  battery: z.object({
+});
+
+const BatterySpecSchema = z.object({
     capacity_mah: z.string(),
     battery_type: z.string(),
     removable_battery: z.string(),
@@ -195,8 +206,9 @@ const GenerateMobileSpecOutputSchema = z.object({
     reverse_wired_charging: z.string(),
     charger_in_box: z.string(),
     battery_health_features: z.string(),
-  }),
-  software: z.object({
+});
+
+const SoftwareSpecSchema = z.object({
     os_version_at_ship: z.string(),
     update_window: z.string(),
     skin_launcher: z.string(),
@@ -206,77 +218,98 @@ const GenerateMobileSpecOutputSchema = z.object({
     privacy_dashboard_features: z.string(),
     accessibility_features: z.string(),
     satellite_messaging_ui: z.string(),
-  }),
-  packaging: z.object({
-      in_box_contents: z.string(),
-      recycled_materials_pct: z.string(),
-      repairability_score_modularity: z.string(),
-      warranty_length_accidental_plans: z.string(),
-  }),
-  build_quality: z.object({
-    drop_resistance: z.string(),
-    scratch_resistance: z.string(),
-    dust_water_ingress_specifics: z.string(),
-    temperature_operating_range: z.string(),
-    button_actuation_cycles: z.string(),
-    port_wear_tests: z.string(),
-  }),
-  thermal_performance: z.object({
-    sustained_performance_pct: z.string(),
-    surface_temps_under_load: z.string(),
-    throttle_curve_characterization: z.string(),
-  }),
-  imaging_features: z.object({
-    multi_frame_hdr_versions: z.string(),
-    night_mode_gen_algorithms: z.string(),
-    portrait_pipeline: z.string(),
-    astro_milky_way_modes: z.string(),
-    macro_focus_distance: z.string(),
-    sensor_crop_2x_lossless_mode: z.string(),
-    video_hdr_curves: z.string(),
-    log_profiles_and_lut_export: z.string(),
-    audio_zoom_wind_filter: z.string(),
-  }),
-  display_extras: z.object({
-    dc_dimming_toggle: z.string(),
-    anti_flicker_mode: z.string(),
-    color_profiles: z.string(),
-    truetone_ambient_white_balance: z.string(),
-    glove_mode_high_brightness_mode: z.string(),
-  }),
-  gaming_input: z.object({
-    touch_sampling_peak_hz: z.string(),
-    shoulder_triggers: z.string(),
-    game_plugins: z.string(),
-    haptic_latency_profile: z.string(),
-    frame_interpolation_memc: z.string(),
-  }),
-  wireless_positioning: z.object({
-    wifi_7_features: z.string(),
-    bluetooth_le_audio_lc3_opus: z.string(),
-    uwb_use_cases: z.string(),
-    dual_frequency_gnss: z.string(),
-    rtk_precision_positioning_support: z.string(),
-  }),
-  security: z.object({
-    biometric_class: z.string(),
-    secure_enclave_tee_version: z.string(),
-    firmware_integrity_verified_boot: z.string(),
-    esim_profiles_security: z.string(),
-    sos_satellite_emergency_stack: z.string(),
-  }),
-  pricing_retail: z.object({
-    msrp_by_sku_region: z.string(),
-    street_price_trend: z.string(),
-    retailer_links: z.string(),
-    finance_emi_availability: z.string(),
-  }),
-  value_ratings: z.object({
-    overall_spec_score: z.string(),
-    category_scores: z.string(),
-    value_index: z.string(),
-    update_value: z.string(),
-  }),
+});
+
+const PackagingSpecSchema = z.object({
+    in_box_contents: z.string(),
+    recycled_materials_pct: z.string(),
+    repairability_score_modularity: z.string(),
+    warranty_length_accidental_plans: z.string(),
+});
+
+const MiscSpecSchema = z.object({
+    build_quality: z.object({
+        drop_resistance: z.string(),
+        scratch_resistance: z.string(),
+        dust_water_ingress_specifics: z.string(),
+        temperature_operating_range: z.string(),
+        button_actuation_cycles: z.string(),
+        port_wear_tests: z.string(),
+    }),
+    thermal_performance: z.object({
+        sustained_performance_pct: z.string(),
+        surface_temps_under_load: z.string(),
+        throttle_curve_characterization: z.string(),
+    }),
+    imaging_features: z.object({
+        multi_frame_hdr_versions: z.string(),
+        night_mode_gen_algorithms: z.string(),
+        portrait_pipeline: z.string(),
+        astro_milky_way_modes: z.string(),
+        macro_focus_distance: z.string(),
+        sensor_crop_2x_lossless_mode: z.string(),
+        video_hdr_curves: z.string(),
+        log_profiles_and_lut_export: z.string(),
+        audio_zoom_wind_filter: z.string(),
+    }),
+    display_extras: z.object({
+        dc_dimming_toggle: z.string(),
+        anti_flicker_mode: z.string(),
+        color_profiles: z.string(),
+        truetone_ambient_white_balance: z.string(),
+        glove_mode_high_brightness_mode: z.string(),
+    }),
+    gaming_input: z.object({
+        touch_sampling_peak_hz: z.string(),
+        shoulder_triggers: z.string(),
+        game_plugins: z.string(),
+        haptic_latency_profile: z.string(),
+        frame_interpolation_memc: z.string(),
+    }),
+    wireless_positioning: z.object({
+        wifi_7_features: z.string(),
+        bluetooth_le_audio_lc3_opus: z.string(),
+        uwb_use_cases: z.string(),
+        dual_frequency_gnss: z.string(),
+        rtk_precision_positioning_support: z.string(),
+    }),
+    security: z.object({
+        biometric_class: z.string(),
+        secure_enclave_tee_version: z.string(),
+        firmware_integrity_verified_boot: z.string(),
+        esim_profiles_security: z.string(),
+        sos_satellite_emergency_stack: z.string(),
+    }),
+    pricing_retail: z.object({
+        msrp_by_sku_region: z.string(),
+        street_price_trend: z.string(),
+        retailer_links: z.string(),
+        finance_emi_availability: z.string(),
+    }),
+    value_ratings: z.object({
+        overall_spec_score: z.string(),
+        category_scores: z.string(),
+        value_index: z.string(),
+        update_value: z.string(),
+    }),
+});
+
+const GenerateMobileSpecOutputSchema = z.object({
+  network: NetworkSpecSchema,
+  launch: LaunchSpecSchema,
+  body: BodySpecSchema,
+  display: DisplaySpecSchema,
+  platform: PlatformSpecSchema,
+  memory: MemorySpecSchema,
+  main_camera: MainCameraSpecSchema,
+  selfie_camera: SelfieCameraSpecSchema,
+  audio: AudioSpecSchema,
+  connectivity: ConnectivitySpecSchema,
+  sensors: SensorsSpecSchema,
+  battery: BatterySpecSchema,
+  software: SoftwareSpecSchema,
+  packaging: PackagingSpecSchema,
+  ...MiscSpecSchema.shape,
 });
 export type GenerateMobileSpecOutput = z.infer<typeof GenerateMobileSpecOutputSchema>;
 
@@ -284,37 +317,54 @@ export async function generateMobileSpec(input: GenerateMobileSpecInput): Promis
   return generateMobileSpecFlow(input);
 }
 
-const prompt = ai.definePrompt({
-  name: 'generateMobileSpecPrompt',
-  input: {schema: GenerateMobileSpecInputSchema},
-  output: {schema: GenerateMobileSpecOutputSchema},
-  prompt: `You are a mobile phone expert. Generate the specifications for the following mobile phone:
+const safetySettings = [
+  {
+    category: 'HARM_CATEGORY_HATE_SPEECH',
+    threshold: 'BLOCK_ONLY_HIGH',
+  },
+  {
+    category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+    threshold: 'BLOCK_NONE',
+  },
+  {
+    category: 'HARM_CATEGORY_HARASSMENT',
+    threshold: 'BLOCK_MEDIUM_AND_ABOVE',
+  },
+  {
+    category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+    threshold: 'BLOCK_LOW_AND_ABOVE',
+  },
+];
+
+const generationConfig = {
+  safetySettings,
+};
+
+// Define a reusable prompter function
+async function generateSpecCategory<T extends z.ZodTypeAny>(
+  categoryName: string,
+  input: GenerateMobileSpecInput,
+  schema: T
+): Promise<z.infer<T>> {
+  const prompt = ai.definePrompt({
+    name: `generate${categoryName}Prompt`,
+    input: { schema: GenerateMobileSpecInputSchema },
+    output: { schema },
+    prompt: `You are a mobile phone expert. Generate the specifications for the "${categoryName}" category for the following mobile phone:
 
 Name: {{{name}}}
 Model: {{{model}}}
 
 Ensure the specifications are detailed and accurate. Provide specifications for all fields in the schema. If a value is not available or not applicable, use "N/A". Output should be a valid JSON conforming to the schema.`,
-  config: {
-    safetySettings: [
-      {
-        category: 'HARM_CATEGORY_HATE_SPEECH',
-        threshold: 'BLOCK_ONLY_HIGH',
-      },
-      {
-        category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
-        threshold: 'BLOCK_NONE',
-      },
-      {
-        category: 'HARM_CATEGORY_HARASSMENT',
-        threshold: 'BLOCK_MEDIUM_AND_ABOVE',
-      },
-      {
-        category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-        threshold: 'BLOCK_LOW_AND_ABOVE',
-      },
-    ],
-  },
-});
+    config: generationConfig,
+  });
+
+  const { output } = await prompt(input);
+  if (!output) {
+    throw new Error(`Failed to generate specifications for category: ${categoryName}`);
+  }
+  return output;
+}
 
 const generateMobileSpecFlow = ai.defineFlow(
   {
@@ -322,8 +372,59 @@ const generateMobileSpecFlow = ai.defineFlow(
     inputSchema: GenerateMobileSpecInputSchema,
     outputSchema: GenerateMobileSpecOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
+  async (input) => {
+    // Generate all specs in parallel
+    const [
+      network,
+      launch,
+      body,
+      display,
+      platform,
+      memory,
+      main_camera,
+      selfie_camera,
+      audio,
+      connectivity,
+      sensors,
+      battery,
+      software,
+      packaging,
+      misc,
+    ] = await Promise.all([
+      generateSpecCategory('Network', input, NetworkSpecSchema),
+      generateSpecCategory('Launch', input, LaunchSpecSchema),
+      generateSpecCategory('Body', input, BodySpecSchema),
+      generateSpecCategory('Display', input, DisplaySpecSchema),
+      generateSpecCategory('Platform', input, PlatformSpecSchema),
+      generateSpecCategory('Memory', input, MemorySpecSchema),
+      generateSpecCategory('Main Camera', input, MainCameraSpecSchema),
+      generateSpecCategory('Selfie Camera', input, SelfieCameraSpecSchema),
+      generateSpecCategory('Audio', input, AudioSpecSchema),
+      generateSpecCategory('Connectivity', input, ConnectivitySpecSchema),
+      generateSpecCategory('Sensors', input, SensorsSpecSchema),
+      generateSpecCategory('Battery', input, BatterySpecSchema),
+      generateSpecCategory('Software', input, SoftwareSpecSchema),
+      generateSpecCategory('Packaging', input, PackagingSpecSchema),
+      generateSpecCategory('Miscellaneous', input, MiscSpecSchema),
+    ]);
+
+    // Combine the results
+    return {
+      network,
+      launch,
+      body,
+      display,
+      platform,
+      memory,
+      main_camera,
+      selfie_camera,
+      audio,
+      connectivity,
+      sensors,
+      battery,
+      software,
+      packaging,
+      ...misc,
+    };
   }
 );
