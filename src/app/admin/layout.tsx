@@ -59,7 +59,7 @@ export default function AdminLayout({
               <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton
                   asChild
-                  isActive={pathname === item.href}
+                  isActive={pathname.startsWith(item.href) && (item.href !== '/admin' || pathname === '/admin')}
                   tooltip={item.label}
                 >
                   <Link href={item.href}>
