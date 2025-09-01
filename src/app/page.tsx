@@ -253,12 +253,12 @@ export default function Home() {
               <Button
                 variant="secondary"
                 size="lg"
-                className="h-12"
+                className="h-12 bg-white text-primary hover:bg-white/90"
               >
                 <Filter className="mr-2 h-5 w-5" /> Filters
               </Button>
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="h-12 w-[180px] bg-background/20 text-primary-foreground border-primary-foreground/20 focus:ring-primary-foreground data-[placeholder]:text-primary-foreground/70">
+                <SelectTrigger className="h-12 w-[180px] bg-white text-primary border-none focus:ring-primary-foreground data-[placeholder]:text-primary">
                   <ArrowUpDown className="mr-2 h-5 w-5" />
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
@@ -271,7 +271,7 @@ export default function Home() {
               </Select>
               <Button
                 size="lg"
-                className="h-12"
+                className="h-12 bg-white text-primary hover:bg-white/90"
                 variant="secondary"
                 onClick={handleSearch}
               >
