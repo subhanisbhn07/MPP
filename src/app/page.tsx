@@ -393,7 +393,7 @@ export default function Home() {
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {flagshipPhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
-                  <article aria-label={`${phone.brand} ${phone.model}`}>
+                  <article aria-label={`${phone.brand} ${phone.model}`} style={{backgroundColor: '#334DCF'}}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
                 </li>
@@ -866,5 +866,6 @@ export default function Home() {
 }
 
     
+
 
 
