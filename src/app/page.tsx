@@ -205,10 +205,10 @@ export default function Home() {
       <header role="banner" className="w-full bg-accent text-accent-foreground pt-12 md:pt-24 lg:pt-32 border-b">
         <div className="container px-4 md:px-6 text-center">
           <div className="flex flex-col items-center justify-center space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-black">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-accent-foreground">
               Discover. Compare. Decide.
             </h1>
-            <p className="max-w-[600px] md:text-xl text-black/70">
+            <p className="max-w-[600px] md:text-xl text-accent-foreground/70">
               AI-updated specs, comparisons & SEO-friendly landing pages.
             </p>
             <div className="mt-4">
@@ -326,7 +326,7 @@ export default function Home() {
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-[#000000] hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
@@ -432,22 +432,22 @@ export default function Home() {
         </section>
 
         {/* Power & Performance Tabs */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-card" aria-labelledby="power-heading">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-accent text-accent-foreground" aria-labelledby="power-heading">
           <div className="container px-4 md:px-6">
-            <h2 id="power-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">
+            <h2 id="power-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center text-accent-foreground">
               Power & Performance
             </h2>
             <Tabs defaultValue="battery" className="w-full" aria-label="Power and performance categories">
-              <TabsList className="mb-4 flex flex-wrap h-auto justify-center">
-                <TabsTrigger value="battery" aria-controls="panel-battery">
+              <TabsList className="mb-4 flex flex-wrap h-auto justify-center bg-accent-foreground/10 text-accent-foreground">
+                <TabsTrigger value="battery" aria-controls="panel-battery" className="data-[state=active]:bg-background data-[state=active]:text-foreground">
                   <Battery className="mr-2" aria-hidden="true" />
                   Battery
                 </TabsTrigger>
-                <TabsTrigger value="gaming" aria-controls="panel-gaming">
+                <TabsTrigger value="gaming" aria-controls="panel-gaming" className="data-[state=active]:bg-background data-[state=active]:text-foreground">
                   <Gamepad2 className="mr-2" aria-hidden="true" />
                     Gaming
                 </TabsTrigger>
-                <TabsTrigger value="camera" aria-controls="panel-camera">
+                <TabsTrigger value="camera" aria-controls="panel-camera" className="data-[state=active]:bg-background data-[state=active]:text-foreground">
                   <Camera className="mr-2" aria-hidden="true" />
                   Camera
                 </TabsTrigger>
@@ -866,6 +866,7 @@ export default function Home() {
 }
 
     
+
 
 
 
