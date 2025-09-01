@@ -342,7 +342,7 @@ export default function Home() {
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-primary-foreground hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
@@ -371,7 +371,7 @@ export default function Home() {
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-accent-foreground hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
@@ -400,7 +400,7 @@ export default function Home() {
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-primary-foreground hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
@@ -853,6 +853,7 @@ export default function Home() {
 }
 
     
+
 
 
 
