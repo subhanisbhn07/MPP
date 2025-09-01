@@ -326,7 +326,7 @@ export default function Home() {
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-[#000000] hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
@@ -554,7 +554,7 @@ export default function Home() {
         </section>
 
         {/* Quick Compare */}
-        <section className="w-full py-12 md:py-24" aria-labelledby="quick-compare-heading">
+        <section className="w-full py-12 md:py-24 bg-accent" aria-labelledby="quick-compare-heading">
           <div className="container px-4 md:px-6">
             <div className="max-w-4xl mx-auto">
               <h2 id="quick-compare-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center mb-8">
@@ -866,6 +866,7 @@ export default function Home() {
 }
 
     
+
 
 
 
