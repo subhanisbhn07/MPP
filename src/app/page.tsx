@@ -635,13 +635,13 @@ export default function Home() {
         </section>
 
         {/* Browse by Specs */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5" aria-labelledby="browse-heading">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground" aria-labelledby="browse-heading">
           <div className="container px-4 md:px-6">
             <div className="space-y-3 mb-8 text-center">
               <h2 id="browse-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
                 Browse by Specs
               </h2>
-              <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed">
+              <p className="mx-auto max-w-[600px] text-primary-foreground/80 md:text-xl/relaxed">
                 Find the perfect phone tailored to your needs.
               </p>
             </div>
@@ -649,7 +649,7 @@ export default function Home() {
               {specCategories.map((cat) => (
                 <li role="listitem" key={cat.label}>
                   <Link href={cat.href} aria-disabled tabIndex={-1}>
-                    <Card className="p-4 flex flex-col items-center justify-center text-center hover:bg-muted/50 transition-colors h-full">
+                    <Card className="p-4 flex flex-col items-center justify-center text-center text-primary bg-primary-foreground hover:bg-primary-foreground/90 transition-colors h-full">
                       {cat.icon && <cat.icon className="h-8 w-8 text-primary" aria-hidden="true" />}
                       <span className="font-semibold text-sm">{cat.label}</span>
                     </Card>
@@ -866,6 +866,7 @@ export default function Home() {
 }
 
     
+
 
 
 
