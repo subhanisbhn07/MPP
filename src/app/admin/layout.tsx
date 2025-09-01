@@ -16,7 +16,6 @@ import {
   Home,
   Smartphone,
   Sparkles,
-  Settings,
   Newspaper,
   PenSquare,
   BarChart2,
