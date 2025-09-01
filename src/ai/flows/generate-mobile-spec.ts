@@ -340,31 +340,6 @@ const generationConfig = {
   safetySettings,
 };
 
-// Define a reusable prompter function
-async function generateSpecCategory<T extends z.ZodTypeAny>(
-  categoryName: string,
-  input: GenerateMobileSpecInput,
-  schema: T
-): Promise<z.infer<T>> {
-  const prompt = ai.definePrompt({
-    name: `generate${categoryName}Prompt`,
-    input: { schema: GenerateMobileSpecInputSchema },
-    output: { schema },
-    prompt: `You are a mobile phone expert. Generate the specifications for the "${categoryName}" category for the following mobile phone:
-
-Name: {{{name}}}
-Model: {{{model}}}
-
-Ensure the specifications are detailed and accurate. Provide specifications for all fields in the schema. If a value is not available or not applicable, use "N/A". Output should be a valid JSON conforming to the schema.`,
-    config: generationConfig,
-  });
-
-  const { output } = await prompt(input);
-  if (!output) {
-    throw new Error(`Failed to generate specifications for category: ${categoryName}`);
-  }
-  return output;
-}
 
 const generateMobileSpecFlow = ai.defineFlow(
   {
@@ -373,60 +348,23 @@ const generateMobileSpecFlow = ai.defineFlow(
     outputSchema: GenerateMobileSpecOutputSchema,
   },
   async (input) => {
-    // Generate all specs in parallel
-    const [
-      network,
-      launch,
-      body,
-      display,
-      platform,
-      memory,
-      main_camera,
-      selfie_camera,
-      audio,
-      connectivity,
-      sensors,
-      battery,
-      software,
-      packaging,
-      misc,
-    ] = await Promise.all([
-      generateSpecCategory('Network', input, NetworkSpecSchema),
-      generateSpecCategory('Launch', input, LaunchSpecSchema),
-      generateSpecCategory('Body', input, BodySpecSchema),
-      generateSpecCategory('Display', input, DisplaySpecSchema),
-      generateSpecCategory('Platform', input, PlatformSpecSchema),
-      generateSpecCategory('Memory', input, MemorySpecSchema),
-      generateSpecCategory('Main Camera', input, MainCameraSpecSchema),
-      generateSpecCategory('Selfie Camera', input, SelfieCameraSpecSchema),
-      generateSpecCategory('Audio', input, AudioSpecSchema),
-      generateSpecCategory('Connectivity', input, ConnectivitySpecSchema),
-      generateSpecCategory('Sensors', input, SensorsSpecSchema),
-      generateSpecCategory('Battery', input, BatterySpecSchema),
-      generateSpecCategory('Software', input, SoftwareSpecSchema),
-      generateSpecCategory('Packaging', input, PackagingSpecSchema),
-      generateSpecCategory('Miscellaneous', input, MiscSpecSchema),
-    ]);
+    const prompt = ai.definePrompt({
+      name: `generateAllSpecsPrompt`,
+      input: { schema: GenerateMobileSpecInputSchema },
+      output: { schema: GenerateMobileSpecOutputSchema },
+      prompt: `You are a mobile phone expert. Generate the specifications for all categories for the following mobile phone:
 
-    // Combine the results
-    return {
-      network,
-      launch,
-      body,
-      display,
-      platform,
-      memory,
-      main_camera,
-      selfie_camera,
-      audio,
-      connectivity,
-      sensors,
-      battery,
-      software,
-      packaging,
-      ...misc,
-    };
+Name: {{{name}}}
+Model: {{{model}}}
+
+Ensure the specifications are detailed and accurate. Provide specifications for all fields in the schema. If a value is not available or not applicable, use "N/A". Output should be a valid JSON conforming to the schema.`,
+      config: generationConfig,
+    });
+
+    const { output } = await prompt(input);
+    if (!output) {
+      throw new Error(`Failed to generate specifications.`);
+    }
+    return output;
   }
 );
-
-    
