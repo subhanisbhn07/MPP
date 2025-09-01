@@ -69,7 +69,7 @@ const DisplaySpecSchema = z.object({
     aspect_ratio: z.string(),
     pixel_density_ppi: z.string(),
     refresh_rate_hz: z.string(),
-    adaptive_refresh_rate_range: zstring(),
+    adaptive_refresh_rate_range: z.string(),
     touch_sampling_rate_hz: z.string(),
     peak_brightness_nits: z.string(),
     hdr_standards: z.string(),
@@ -428,3 +428,5 @@ const generateMobileSpecFlow = ai.defineFlow(
     };
   }
 );
+
+    
