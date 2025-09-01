@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Image from 'next/image';
@@ -49,7 +48,6 @@ import { cn } from '@/lib/utils';
 import type { Phone } from '@/lib/types';
 import { AddPhoneDialog } from '@/app/compare/components/add-phone-dialog';
 import { Separator } from '@/components/ui/separator';
-
 
 const specCategories = [
   { icon: Camera, label: 'Best Camera', href: '#' },
@@ -798,8 +796,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-
-
