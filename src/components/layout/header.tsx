@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Search, Bell, User, LogOut, UserCircle } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import { useAuth } from '@/contexts/auth-context';
@@ -40,6 +40,7 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
+                <SheetTitle className="sr-only">Main Menu</SheetTitle>
               <Link href="/" className="flex items-center space-x-2">
                 <Logo />
                 <span className="font-bold">MobilePhonesPro</span>
