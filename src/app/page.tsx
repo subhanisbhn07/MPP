@@ -189,10 +189,10 @@ export default function Home() {
        <section className="w-full bg-accent text-accent-foreground pt-12 md:pt-24 lg:pt-32 border-b">
         <div className="container px-4 md:px-6 text-center">
           <div className="flex flex-col items-center justify-center space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-black">
               Discover. Compare. Decide.
             </h1>
-            <p className="max-w-[600px] md:text-xl">
+            <p className="max-w-[600px] md:text-xl text-black/70">
               AI-updated specs, comparisons & SEO-friendly landing pages.
             </p>
             <div className="mt-4">
@@ -205,7 +205,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="container mt-12 pb-12">
+         <div className="container mt-12 pb-12">
           <div className="relative flex items-center bg-primary text-primary-foreground rounded-lg p-2 text-sm overflow-hidden hover:[animation-play-state:paused]">
             <Megaphone className="h-5 w-5 mr-2 flex-shrink-0" />
             <div className="flex-1 overflow-hidden">
@@ -306,7 +306,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={cn("w-full py-12 md:py-16", "bg-secondary/50")}>
+      <section className={cn("w-full py-12 md:py-16", "bg-primary/5")}>
         <div className="container px-4 md:px-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -356,7 +356,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={cn("w-full py-12 md:py-16", "bg-secondary/50")}>
+      <section className={cn("w-full py-12 md:py-16", "bg-primary/5")}>
         <div className="container px-4 md:px-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -440,7 +440,7 @@ export default function Home() {
       </section>
 
       {/* Specialty Phones Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-secondary/50">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
         <div className="container px-4 md:px-6">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">
             Specialty Phones
@@ -551,7 +551,7 @@ export default function Home() {
 
 
       {/* Browse by Specs */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-card">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
         <div className="container px-4 md:px-6">
           <div className="space-y-3 mb-8 text-center">
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
@@ -653,7 +653,7 @@ export default function Home() {
       </section>
 
       {/* Trust & Subscribe Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-card">
+      <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5">
         <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
           <div className="space-y-3">
             <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
@@ -796,4 +796,3 @@ export default function Home() {
     </div>
   );
 }
-
