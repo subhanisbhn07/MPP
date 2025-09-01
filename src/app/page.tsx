@@ -393,7 +393,7 @@ export default function Home() {
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {flagshipPhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
-                  <article aria-label={`${phone.brand} ${phone.model}`}>
+                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
                 </li>
@@ -406,7 +406,7 @@ export default function Home() {
         <section className="w-full py-12 md:py-16 bg-primary text-primary-foreground" aria-labelledby="performance-heading">
           <div className="container px-4 md:px-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 id="performance-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+              <h2 id="performance-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-primary-foreground">
                 Performance Phones
               </h2>
               <Link
@@ -493,22 +493,22 @@ export default function Home() {
         </section>
 
         {/* Specialty Phones Tabs */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary/5" aria-labelledby="specialty-heading">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground" aria-labelledby="specialty-heading">
           <div className="container px-4 md:px-6">
             <h2 id="specialty-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">
               Specialty Phones
             </h2>
             <Tabs defaultValue="foldable" className="w-full" aria-label="Specialty categories">
-              <TabsList className="mb-4 flex flex-wrap h-auto justify-center">
-                <TabsTrigger value="foldable" aria-controls="panel-foldable">
+              <TabsList className="mb-4 flex flex-wrap h-auto justify-center bg-primary-foreground/10 text-primary-foreground">
+                <TabsTrigger value="foldable" aria-controls="panel-foldable" className="data-[state=active]:bg-primary-foreground data-[state=active]:text-primary">
                   <Smartphone className="mr-2" aria-hidden="true" />
                   Foldable
                 </TabsTrigger>
-                <TabsTrigger value="rugged" aria-controls="panel-rugged">
+                <TabsTrigger value="rugged" aria-controls="panel-rugged" className="data-[state=active]:bg-primary-foreground data-[state=active]:text-primary">
                   <Shield className="mr-2" aria-hidden="true" />
                   Rugged
                 </TabsTrigger>
-                <TabsTrigger value="unique" aria-controls="panel-unique">
+                <TabsTrigger value="unique" aria-controls="panel-unique" className="data-[state=active]:bg-primary-foreground data-[state=active]:text-primary">
                   <Sparkles className="mr-2" aria-hidden="true" />
                   Unique
                 </TabsTrigger>
@@ -866,6 +866,7 @@ export default function Home() {
 }
 
     
+
 
 
 
