@@ -186,7 +186,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-       <section className="w-full bg-accent/20 pt-12 md:pt-24 lg:pt-32 border-b group/hero">
+       <section className="w-full bg-accent pt-12 md:pt-24 lg:pt-32 border-b group/hero">
         <div className="container px-4 md:px-6 text-center">
           <div className="flex flex-col items-center justify-center space-y-4">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-accent-foreground">
