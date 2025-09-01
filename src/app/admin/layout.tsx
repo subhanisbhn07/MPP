@@ -85,9 +85,7 @@ export default function AdminLayout({
       </Sidebar>
       <SidebarInset>
         <div className="p-4 sm:p-6 lg:p-8">
-          <div className="mb-4">
-             <SidebarTrigger className="md:hidden" />
-          </div>
+          <SidebarTrigger className="md:hidden mb-4" />
           {children}
         </div>
       </SidebarInset>
