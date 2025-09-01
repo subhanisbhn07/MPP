@@ -14,11 +14,24 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Sparkles, Loader2, Save } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Brand name must be at least 2 characters.' }),
   model: z.string().min(1, { message: 'Model name is required.' }),
 });
+
+// Function to convert camelCase or snake_case to Title Case
+const toTitleCase = (str: string) => {
+  return str
+    .replace(/([A-Z])/g, ' $1') // insert a space before all caps
+    .replace(/_/g, ' ') // replace underscores with a space
+    .replace(/\w\S*/g, (txt) => { // capitalize the first letter of each word
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    })
+    .trim();
+};
+
 
 export function SpecGenerationClient() {
   const [loading, setLoading] = useState(false);
@@ -42,7 +55,7 @@ export function SpecGenerationClient() {
         setResult(response.data);
         toast({
           title: 'Success!',
-          description: `Specifications for ${response.data.brand} ${response.data.model} generated.`,
+          description: `Specifications for ${values.name} ${values.model} generated.`,
         });
       } else {
         throw new Error(response.error || 'An unknown error occurred.');
@@ -135,19 +148,29 @@ export function SpecGenerationClient() {
               </div>
             )}
             {result && (
-              <div className="space-y-4">
-                {Object.entries(result).map(([key, value]) => (
-                  <div key={key}>
-                    <div className="grid grid-cols-3 gap-4">
-                      <span className="font-semibold capitalize text-muted-foreground">
-                        {key.replace(/([A-Z])/g, ' $1').trim()}
-                      </span>
-                      <span className="col-span-2">{value}</span>
-                    </div>
-                    <Separator className="mt-2" />
-                  </div>
+              <Accordion type="multiple" className="w-full" defaultValue={Object.keys(result)}>
+                {Object.entries(result).map(([category, specs]) => (
+                   <AccordionItem value={category} key={category}>
+                     <AccordionTrigger className="text-lg font-semibold capitalize">{toTitleCase(category)}</AccordionTrigger>
+                     <AccordionContent>
+                        <div className="space-y-3 pt-2">
+                           {typeof specs === 'object' && specs !== null ? (
+                            Object.entries(specs).map(([key, value]) => (
+                               <div key={key} className="grid grid-cols-3 gap-4 text-sm">
+                                  <span className="font-medium text-muted-foreground col-span-1">
+                                      {toTitleCase(key)}
+                                  </span>
+                                  <span className="col-span-2">{String(value)}</span>
+                               </div>
+                            ))
+                           ) : (
+                             <p>{String(specs)}</p>
+                           )}
+                        </div>
+                     </AccordionContent>
+                   </AccordionItem>
                 ))}
-              </div>
+              </Accordion>
             )}
           </CardContent>
         </Card>
