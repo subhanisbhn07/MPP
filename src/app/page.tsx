@@ -68,6 +68,7 @@ export default function Home() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('');
+  const [tickerPaused, setTickerPaused] = useState(false);
 
   const [isCompareDialogOpen, setIsCompareDialogOpen] = useState(false);
   const [compareSlot, setCompareSlot] = useState<number | null>(null);
@@ -201,13 +202,13 @@ export default function Home() {
       </a>
 
       {/* Header / Hero */}
-      <header role="banner" className="w-full bg-accent text-accent-foreground pt-12 md:pt-24 lg:pt-32 rounded-2xl">
-        <div className="container px-4 md:px-6 text-center">
+      <header role="banner" className="w-full bg-card pt-12 md:pt-24 lg:pt-32 rounded-2xl">
+        <div className="text-center">
           <div className="flex flex-col items-center justify-center space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-black">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-foreground">
               Discover. Compare. Decide.
             </h1>
-            <p className="max-w-[600px] md:text-xl text-black/70">
+            <p className="max-w-[600px] md:text-xl text-muted-foreground">
               AI-updated specs, comparisons & SEO-friendly landing pages.
             </p>
             <div className="mt-4">
@@ -219,14 +220,21 @@ export default function Home() {
         </div>
 
         {/* News Ticker with live region + reduced motion support */}
-        <div className="container mt-12 pb-12">
+        <div className="mt-12 pb-12 px-4 md:px-6">
           <div className="relative flex items-center bg-primary text-primary-foreground rounded-lg p-2 text-sm overflow-hidden">
             <Megaphone className="h-5 w-5 mr-2 flex-shrink-0" aria-hidden="true" />
-            <div className="flex-1 overflow-hidden">
+            <div
+              className="flex-1 overflow-hidden"
+              onMouseEnter={() => setTickerPaused(true)}
+              onMouseLeave={() => setTickerPaused(false)}
+            >
               <div
                 role="status"
                 aria-live="polite"
-                className={cn("flex w-max motion-safe:animate-ticker motion-reduce:animate-none")}
+                className={cn(
+                  "flex w-max motion-safe:animate-ticker",
+                  tickerPaused && "motion-safe:[animation-play-state:paused]"
+                )}
               >
                 <p className="whitespace-nowrap pr-12">Pixel 9a announced with new Tensor G4 chip.</p>
                 <p className="whitespace-nowrap pr-12">iPhone 16 Pro leaks suggest a larger display.</p>
@@ -239,25 +247,25 @@ export default function Home() {
           </div>
         </div>
       </header>
-       <main id="main" role="main" className="container py-8 space-y-8">
+       <main id="main" role="main" className="py-8 space-y-4">
         {/* Search & Filter */}
-        <Card className="bg-primary text-primary-foreground rounded-2xl">
+        <Card className="bg-card text-foreground rounded-2xl">
         <section
           className="w-full py-8 md:py-12"
           aria-labelledby="search-heading"
         >
-          <div className="container px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <h2 id="search-heading" className="sr-only">Search and filters</h2>
             <form className="flex flex-col gap-4 md:flex-row" role="search" method="get" action="/search" onSubmit={onSubmitSearch}>
               <div className="relative flex-1">
                 <label htmlFor="q" className="sr-only">Search by brand, model, or feature</label>
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary/70" aria-hidden="true" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
                 <Input
                   id="q"
                   name="q"
                   type="search"
                   placeholder="Search by brand, model, or feature..."
-                  className="w-full pl-10 h-12 text-base bg-white text-foreground border-input placeholder:text-muted-foreground focus-visible:ring-primary"
+                  className="w-full pl-10 h-12 text-base bg-background text-foreground border-input placeholder:text-muted-foreground focus-visible:ring-primary"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -265,9 +273,9 @@ export default function Home() {
               <div className="flex gap-2">
                 <Button
                   type="button"
-                  variant="secondary"
+                  variant="outline"
                   size="lg"
-                  className="h-12 bg-white text-primary hover:bg-white/90"
+                  className="h-12"
                   aria-label="Open filters"
                 >
                   <Filter className="mr-2 h-5 w-5" aria-hidden="true" /> Filters
@@ -276,7 +284,7 @@ export default function Home() {
                 <div>
                   <label htmlFor="sort" className="sr-only">Sort by</label>
                   <Select value={sortBy} onValueChange={setSortBy} name="sort">
-                    <SelectTrigger id="sort" className="h-12 w-[180px] bg-white text-primary border-none focus:ring-primary-foreground data-[placeholder]:text-primary" aria-label="Sort By">
+                    <SelectTrigger id="sort" className="h-12 w-[180px] bg-background text-foreground border-input focus:ring-primary data-[placeholder]:text-muted-foreground" aria-label="Sort By">
                       <ArrowUpDown className="mr-2 h-5 w-5" aria-hidden="true" />
                       <SelectValue placeholder="Sort By" />
                     </SelectTrigger>
@@ -292,8 +300,8 @@ export default function Home() {
                 <Button
                   type="submit"
                   size="lg"
-                  className="h-12 bg-white text-primary hover:bg-white/90"
-                  variant="secondary"
+                  className="h-12"
+                  variant="default"
                   aria-label="Search phones"
                 >
                   Search
@@ -305,17 +313,17 @@ export default function Home() {
         </Card>
 
         {/* Trending Phones */}
-        <Card className="bg-accent rounded-2xl" aria-labelledby="trending-heading">
+        <Card className="bg-card rounded-2xl" aria-labelledby="trending-heading">
           <CardHeader>
             <div className="flex justify-between items-center">
-                <CardTitle id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-accent-foreground">
+                <CardTitle id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
                     Trending Phones
                 </CardTitle>
                  <Link
                     href="#"
                     aria-disabled
                     tabIndex={-1}
-                    className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
+                    className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
                   >
                     See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
                   </Link>
@@ -335,7 +343,7 @@ export default function Home() {
         </Card>
 
         {/* Latest Launches */}
-        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="latest-heading">
+        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="latest-heading">
           <CardHeader>
             <div className="flex justify-between items-center">
                <CardTitle id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -345,7 +353,7 @@ export default function Home() {
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
@@ -365,17 +373,17 @@ export default function Home() {
         </Card>
         
         {/* Flagship Phones */}
-         <Card className="bg-accent rounded-2xl" aria-labelledby="flagship-heading">
+         <Card className="bg-card rounded-2xl" aria-labelledby="flagship-heading">
            <CardHeader>
             <div className="flex justify-between items-center">
-              <CardTitle id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-accent-foreground">
+              <CardTitle id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
                 Flagship Phones
               </CardTitle>
               <Link
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
@@ -395,7 +403,7 @@ export default function Home() {
         </Card>
 
         {/* Performance Phones */}
-        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="performance-heading">
+        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="performance-heading">
           <CardHeader>
             <div className="flex justify-between items-center">
               <CardTitle id="performance-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -405,7 +413,7 @@ export default function Home() {
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
@@ -425,24 +433,24 @@ export default function Home() {
         </Card>
 
         {/* Power & Performance Tabs */}
-        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="power-heading">
+        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="power-heading">
           <CardHeader>
-            <h2 id="power-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-accent-foreground">
+            <h2 id="power-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-foreground">
               Power & Performance
             </h2>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="battery" className="w-full" aria-label="Power and performance categories">
               <TabsList className="mb-4 grid grid-cols-3 w-full">
-                <TabsTrigger value="battery" aria-controls="panel-battery" className="data-[state=active]:bg-background data-[state=active]:text-foreground">
+                <TabsTrigger value="battery" aria-controls="panel-battery">
                   <Battery className="mr-2" aria-hidden="true" />
                   Battery
                 </TabsTrigger>
-                <TabsTrigger value="gaming" aria-controls="panel-gaming" className="data-[state=active]:bg-background data-[state=active]:text-foreground">
+                <TabsTrigger value="gaming" aria-controls="panel-gaming">
                   <Gamepad2 className="mr-2" aria-hidden="true" />
                     Gaming
                 </TabsTrigger>
-                <TabsTrigger value="camera" aria-controls="panel-camera" className="data-[state=active]:bg-background data-[state=active]:text-foreground">
+                <TabsTrigger value="camera" aria-controls="panel-camera">
                   <Camera className="mr-2" aria-hidden="true" />
                   Camera
                 </TabsTrigger>
@@ -488,7 +496,7 @@ export default function Home() {
         </Card>
 
         {/* Specialty Phones Tabs */}
-        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="specialty-heading">
+        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="specialty-heading">
            <CardHeader>
             <h2 id="specialty-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
               Specialty Phones
@@ -497,15 +505,15 @@ export default function Home() {
           <CardContent>
             <Tabs defaultValue="foldable" className="w-full" aria-label="Specialty categories">
               <TabsList className="mb-4 grid grid-cols-3 w-full">
-                <TabsTrigger value="foldable" aria-controls="panel-foldable" className="data-[state=active]:bg-primary-foreground data-[state=active]:text-primary">
+                <TabsTrigger value="foldable" aria-controls="panel-foldable">
                   <Smartphone className="mr-2" aria-hidden="true" />
                   Foldable
                 </TabsTrigger>
-                <TabsTrigger value="rugged" aria-controls="panel-rugged" className="data-[state=active]:bg-primary-foreground data-[state=active]:text-primary">
+                <TabsTrigger value="rugged" aria-controls="panel-rugged">
                   <Shield className="mr-2" aria-hidden="true" />
                   Rugged
                 </TabsTrigger>
-                <TabsTrigger value="unique" aria-controls="panel-unique" className="data-[state=active]:bg-primary-foreground data-[state=active]:text-primary">
+                <TabsTrigger value="unique" aria-controls="panel-unique">
                   <Sparkles className="mr-2" aria-hidden="true" />
                   Unique
                 </TabsTrigger>
@@ -551,9 +559,9 @@ export default function Home() {
         </Card>
 
         {/* Quick Compare */}
-        <Card className="bg-accent rounded-2xl" aria-labelledby="quick-compare-heading">
+        <Card className="bg-card rounded-2xl" aria-labelledby="quick-compare-heading">
           <CardHeader>
-            <h2 id="quick-compare-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-accent-foreground">
+            <h2 id="quick-compare-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-foreground">
               Quick Compare
             </h2>
           </CardHeader>
@@ -583,7 +591,7 @@ export default function Home() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div>
-                  <h3 className="font-semibold mb-3 text-center md:text-left text-accent-foreground">Popular Comparisons</h3>
+                  <h3 className="font-semibold mb-3 text-center md:text-left text-foreground">Popular Comparisons</h3>
                   <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                     {popularComparisons.map(([p1, p2]) => {
                       const phone1 = getPhoneByName(p1);
@@ -606,7 +614,7 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-center md:text-left text-accent-foreground">Trending Comparisons</h3>
+                  <h3 className="font-semibold mb-3 text-center md:text-left text-foreground">Trending Comparisons</h3>
                   <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                     {trendingComparisons.map(([p1, p2]) => {
                       const phone1 = getPhoneByName(p1);
@@ -634,13 +642,13 @@ export default function Home() {
         
 
         {/* Browse by Specs */}
-        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="browse-heading">
+        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="browse-heading">
           <CardHeader>
             <div className="space-y-3 text-center">
-              <h2 id="browse-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-primary-foreground">
+              <h2 id="browse-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-foreground">
                 Browse by Specs
               </h2>
-              <p className="mx-auto max-w-[600px] text-primary-foreground/80 md:text-xl/relaxed">
+              <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed">
                 Find the perfect phone tailored to your needs.
               </p>
             </div>
@@ -650,7 +658,7 @@ export default function Home() {
               {specCategories.map((cat) => (
                 <li role="listitem" key={cat.label}>
                   <Link href={cat.href} aria-disabled tabIndex={-1}>
-                    <Card className="p-4 flex flex-col items-center justify-center text-center text-primary bg-primary-foreground hover:bg-primary-foreground/90 transition-colors h-full">
+                    <Card className="p-4 flex flex-col items-center justify-center text-center text-primary bg-card hover:bg-muted transition-colors h-full">
                       {cat.icon && <cat.icon className="h-8 w-8 text-primary" aria-hidden="true" />}
                       <span className="font-semibold text-sm">{cat.label}</span>
                     </Card>
@@ -662,7 +670,7 @@ export default function Home() {
         </Card>
 
         {/* Upcoming & Editorial */}
-        <Card className="bg-accent rounded-2xl" aria-labelledby="upcoming-editorial-heading">
+        <Card className="bg-card rounded-2xl" aria-labelledby="upcoming-editorial-heading">
           <CardContent className="p-6">
             <div className="grid gap-12 lg:grid-cols-2">
               <h2 id="upcoming-editorial-heading" className="sr-only">Upcoming and editorial</h2>
@@ -671,12 +679,12 @@ export default function Home() {
               <section aria-labelledby="upcoming-heading">
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
-                    <h3 id="upcoming-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-accent-foreground">
+                    <h3 id="upcoming-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-foreground">
                       Upcoming Calendar
                     </h3>
                     <Link
                       href="/upcoming"
-                      className="text-sm font-medium text-black hover:underline flex items-center"
+                      className="text-sm font-medium text-primary hover:underline flex items-center"
                     >
                       View All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
                     </Link>
@@ -711,7 +719,7 @@ export default function Home() {
               {/* Editorial */}
               <section aria-labelledby="news-guides-heading">
                 <div className="space-y-4">
-                  <h3 id="news-guides-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-accent-foreground">
+                  <h3 id="news-guides-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-foreground">
                     News & Guides
                   </h3>
                   <div className="space-y-4">
@@ -741,33 +749,33 @@ export default function Home() {
         </Card>
 
         {/* Trust & Subscribe */}
-        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="trust-heading">
+        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="trust-heading">
             <CardContent className="p-6">
                 <div className="grid items-center justify-center gap-4 text-center">
                     <div className="space-y-3">
-                      <h2 id="trust-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-primary-foreground">
+                      <h2 id="trust-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-foreground">
                         Your Trusted Source for Mobile Specs
                       </h2>
-                      <p className="mx-auto max-w-[600px] text-primary-foreground/80 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                      <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                         We provide accurate, up-to-date information you can rely on.
                       </p>
                     </div>
 
                     <div className="mx-auto grid max-w-sm grid-cols-3 items-start justify-center gap-8 lg:max-w-none lg:grid-cols-3">
                       <div className="flex flex-col items-center justify-center space-y-2">
-                        <Star className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
+                        <Star className="h-8 w-8 text-primary" aria-hidden="true" />
                         <p className="font-bold">128+ Specs</p>
-                        <p className="text-sm text-primary-foreground/80">Per Phone</p>
+                        <p className="text-sm text-muted-foreground">Per Phone</p>
                       </div>
                       <div className="flex flex-col items-center justify-center space-y-2">
-                        <Info className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
+                        <Info className="h-8 w-8 text-primary" aria-hidden="true" />
                         <p className="font-bold">Verified Sources</p>
-                        <p className="text-sm text-primary-foreground/80">Always Accurate</p>
+                        <p className="text-sm text-muted-foreground">Always Accurate</p>
                       </div>
                       <div className="flex flex-col items-center justify-center space-y-2">
-                        <Calendar className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
+                        <Calendar className="h-8 w-8 text-primary" aria-hidden="true" />
                         <p className="font-bold">Daily Updates</p>
-                        <p className="text-sm text-primary-foreground/80">
+                        <p className="text-sm text-muted-foreground">
                           Never Miss a Launch
                         </p>
                       </div>
@@ -776,10 +784,10 @@ export default function Home() {
                     <div className="mx-auto w-full max-w-sm space-y-2 mt-8">
                       <form className="flex space-x-2">
                         <label htmlFor="email" className="sr-only">Enter your email</label>
-                        <Input id="email" type="email" placeholder="Enter your email" className="max-w-lg flex-1 bg-primary-foreground text-primary" />
-                        <Button type="submit" variant="secondary" aria-label="Subscribe for weekly launch alerts">Subscribe</Button>
+                        <Input id="email" type="email" placeholder="Enter your email" className="max-w-lg flex-1 bg-background text-foreground" />
+                        <Button type="submit" variant="default" aria-label="Subscribe for weekly launch alerts">Subscribe</Button>
                       </form>
-                      <p className="text-xs text-primary-foreground/80">
+                      <p className="text-xs text-muted-foreground">
                         Get weekly launch alerts and top news.
                       </p>
                     </div>
@@ -788,16 +796,16 @@ export default function Home() {
         </Card>
 
         {/* Blog */}
-        <Card className="bg-accent rounded-2xl" aria-labelledby="blog-heading">
+        <Card className="bg-card rounded-2xl" aria-labelledby="blog-heading">
           <CardHeader>
-             <h2 id="blog-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-accent-foreground">
+             <h2 id="blog-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-foreground">
               From the Blog
             </h2>
           </CardHeader>
           <CardContent>
             <div className="grid gap-8 lg:grid-cols-4">
               <div className="space-y-4">
-                <h3 className="text-xl font-bold text-accent-foreground">Categories</h3>
+                <h3 className="text-xl font-bold text-foreground">Categories</h3>
                 <nav aria-label="Blog categories">
                   <ul role="list" className="grid gap-2">
                     <li role="listitem"><Link href="#" aria-disabled tabIndex={-1} className="text-muted-foreground hover:text-primary">Buying Guides</Link></li>
