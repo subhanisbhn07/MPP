@@ -235,15 +235,15 @@ export default function Home() {
       </section>
 
       {/* Search & Filter Section */}
-      <section className="w-full py-8 md:py-12 bg-primary/10 border-b">
+      <section className="w-full py-8 md:py-12 bg-primary border-b">
         <div className="container px-4 md:px-6">
           <div className="flex flex-col gap-4 md:flex-row">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary/70" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-foreground/70" />
               <Input
                 type="search"
                 placeholder="Search by brand, model, or feature..."
-                className="w-full pl-10 h-12 text-base bg-background border-primary/20 placeholder:text-muted-foreground focus-visible:ring-primary"
+                className="w-full pl-10 h-12 text-base bg-background/20 text-primary-foreground border-primary-foreground/20 placeholder:text-primary-foreground/70 focus-visible:ring-primary-foreground"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -251,14 +251,14 @@ export default function Home() {
             </div>
             <div className="flex gap-2">
               <Button
-                variant="outline"
+                variant="secondary"
                 size="lg"
                 className="h-12"
               >
                 <Filter className="mr-2 h-5 w-5" /> Filters
               </Button>
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="h-12 w-[180px] bg-background border-primary/20 focus:ring-primary">
+                <SelectTrigger className="h-12 w-[180px] bg-background/20 text-primary-foreground border-primary-foreground/20 focus:ring-primary-foreground data-[placeholder]:text-primary-foreground/70">
                   <ArrowUpDown className="mr-2 h-5 w-5" />
                   <SelectValue placeholder="Sort By" />
                 </SelectTrigger>
@@ -272,6 +272,7 @@ export default function Home() {
               <Button
                 size="lg"
                 className="h-12"
+                variant="secondary"
                 onClick={handleSearch}
               >
                 Search
