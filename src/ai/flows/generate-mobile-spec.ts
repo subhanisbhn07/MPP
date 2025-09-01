@@ -115,7 +115,7 @@ const GenerateMobileSpecOutputSchema = z.object({
     lens_aperture_and_focal_length: z.string(),
     ois_type: z.string(),
     autofocus_type: z.string(),
-    pixel_binning_mode: zstring(),
+    pixel_binning_mode: z.string(),
     ultrawide_camera_specs: z.string(),
     telephoto_specs: z.string(),
     macro_tele_macro_specs: z.string(),
