@@ -26,6 +26,7 @@ import {
   Filter,
   ArrowUpDown,
   X,
+  Shuffle,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -41,9 +42,12 @@ import {
 import { ComparisonBar } from '@/components/comparison-bar';
 import { useCompare } from '@/contexts/compare-context';
 import { generateCompareUrl } from '@/lib/utils';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import type { Phone } from '@/lib/types';
+import { AddPhoneDialog } from '@/app/compare/components/add-phone-dialog';
+
 
 const specCategories = [
   { icon: Camera, label: 'Best Camera', href: '#' },
@@ -64,6 +68,10 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('');
 
+  const [isCompareDialogOpen, setIsCompareDialogOpen] = useState(false);
+  const [compareSlot, setCompareSlot] = useState<number | null>(null);
+  const [phone1, setPhone1] = useState<Phone | null>(null);
+  const [phone2, setPhone2] = useState<Phone | null>(null);
 
   const popularPhones = allPhones.slice(0, 5);
   const latestPhones = [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime()).slice(0, 5);
@@ -84,6 +92,73 @@ export default function Home() {
       params.set('sort', sortBy);
     }
     router.push(`/search?${params.toString()}`);
+  };
+
+  const handleOpenDialog = (slot: number) => {
+    setCompareSlot(slot);
+    setIsCompareDialogOpen(true);
+  };
+
+  const handleSelectPhone = (phone: Phone) => {
+    if (compareSlot === 1) {
+      setPhone1(phone);
+    } else {
+      setPhone2(phone);
+    }
+    setIsCompareDialogOpen(false);
+  };
+  
+  const quickCompareUrl = useMemo(() => {
+    if (phone1 && phone2) {
+      return generateCompareUrl([phone1, phone2]);
+    }
+    return '#';
+  }, [phone1, phone2]);
+  
+  const CompareSlot = ({ phone, onAdd, onRemove }: { phone: Phone | null, onAdd: () => void, onRemove: () => void }) => {
+    if (!phone) {
+      return (
+        <Card className="flex-1">
+          <CardContent className="p-4 flex flex-col items-center justify-center text-center border-2 border-dashed rounded-lg h-full">
+            <Button
+              variant="ghost"
+              className="flex flex-col h-auto p-4 w-full h-full"
+              onClick={onAdd}
+            >
+              <PlusCircle className="h-8 w-8 text-muted-foreground" />
+              <span className="text-muted-foreground mt-2 text-sm font-semibold">
+                Add Phone
+              </span>
+            </Button>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    return (
+      <Card className="flex-1 relative group/compare-card">
+        <CardContent className="p-4 text-center">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-2 right-2 h-6 w-6 bg-muted rounded-full opacity-0 group-hover/compare-card:opacity-100 transition-opacity z-10"
+              onClick={onRemove}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          <div className="relative w-full h-40 mb-4">
+            <Image src={phone.image} alt={phone.model} fill className="object-contain" />
+          </div>
+          <p className="font-bold text-lg truncate">{phone.brand}</p>
+          <p className="text-muted-foreground truncate">{phone.model}</p>
+          <div className="text-left mt-4 space-y-1 text-sm">
+            <div className="flex items-center gap-2"><Smartphone size={14} /> <span>{phone.specs.display.size_inches}" {phone.specs.display.panel_type.split(',')[0]}</span></div>
+            <div className="flex items-center gap-2"><Camera size={14} /> <span>{phone.specs.main_camera.main_sensor_resolution} Main</span></div>
+            <div className="flex items-center gap-2"><Battery size={14} /> <span>{phone.specs.battery.capacity_mah} mAh</span></div>
+          </div>
+        </CardContent>
+      </Card>
+    );
   };
 
   return (
@@ -404,52 +479,28 @@ export default function Home() {
       {/* Quick Compare */}
       <section className="w-full py-12 md:py-24">
         <div className="container px-4 md:px-6">
-          <div className="space-y-4 max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
+          <div className="max-w-4xl mx-auto">
+             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center mb-8">
               Quick Compare
             </h2>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {compareList.slice(0,4).map((phone, i) => (
-                <Card key={phone.id}>
-                    <CardContent className="p-2 text-center h-32 relative">
-                        <Image src={phone.image} alt={phone.model} width={100} height={80} className="object-contain rounded-md mx-auto" />
-                        <p className="text-xs font-semibold mt-1 truncate">{phone.model}</p>
-                         <Button
-                          variant="ghost"
-                          size="icon"
-                          className="absolute -top-2 -right-2 h-6 w-6 bg-muted rounded-full"
-                          onClick={() => handleRemoveFromCompare(phone.id)}
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
-                    </CardContent>
-                </Card>
-              ))}
-              {[...Array(4 - compareList.length)].map((_, i) => (
-                <Card key={`placeholder-${i}`}>
-                  <CardContent className="p-4 flex flex-col items-center justify-center text-center border-2 border-dashed rounded-lg h-32">
-                    <Button
-                      variant="ghost"
-                      className="flex flex-col h-auto p-4"
-                    >
-                      <PlusCircle className="h-8 w-8 text-muted-foreground" />
-                      <span className="text-muted-foreground mt-2 text-xs">
-                        Add Phone
-                      </span>
+            <div className="flex items-stretch gap-4 md:gap-8">
+                <CompareSlot phone={phone1} onAdd={() => handleOpenDialog(1)} onRemove={() => setPhone1(null)} />
+                <div className="flex flex-col items-center justify-center">
+                    <Shuffle className="text-muted-foreground" />
+                    <p className="text-2xl font-bold my-2">VS</p>
+                    <Button asChild disabled={!phone1 || !phone2} href={quickCompareUrl}>
+                       <Link href={quickCompareUrl}>Compare Now</Link>
                     </Button>
-                  </CardContent>
-                </Card>
-              ))}
+                </div>
+                <CompareSlot phone={phone2} onAdd={() => handleOpenDialog(2)} onRemove={() => setPhone2(null)} />
             </div>
-            <Button className="w-full" asChild disabled={compareList.length < 2}>
-                <Link href={generateCompareUrl(compareList)}>Compare Now ({compareList.length})</Link>
-            </Button>
-            <p className="text-sm text-muted-foreground text-center">
-              Popular: iPhone 15 vs Pixel 8 Pro
+             <p className="text-sm text-muted-foreground text-center mt-4">
+              Popular: iPhone 15 Pro vs Pixel 8 Pro
             </p>
           </div>
         </div>
       </section>
+
 
       {/* Browse by Specs */}
       <section className="w-full py-12 md:py-24 lg:py-32 bg-card">
@@ -485,7 +536,7 @@ export default function Home() {
                 Upcoming Calendar
               </h2>
               <Link
-                href="#"
+                href="/upcoming"
                 className="text-sm font-medium text-primary hover:underline flex items-center"
               >
                 View All <ArrowRight className="ml-1 h-4 w-4" />
@@ -686,6 +737,16 @@ export default function Home() {
         onRemove={handleRemoveFromCompare}
         onClear={handleClearCompare}
       />
+      
+      <AddPhoneDialog 
+        isOpen={isCompareDialogOpen} 
+        onOpenChange={setIsCompareDialogOpen}
+        onSelectPhone={handleSelectPhone}
+        allPhones={allPhones}
+        currentPhones={[phone1, phone2].filter(Boolean) as Phone[]}
+      />
     </div>
   );
 }
+
+    
