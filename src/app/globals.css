@@ -8,27 +8,27 @@ body {
 
 @layer base {
   :root {
-    --background: 220 13% 98%; /* Lighter, almost white blue-gray */
-    --foreground: 222 47% 11%; /* Dark Blue */
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 243 91% 58%; /* Vibrant Royal Blue */
-    --primary-foreground: 0 0% 100%;
+    --background: 60 33% 99%; /* White: #FEFEFD */
+    --foreground: 222 24% 8%; /* Rich Black: #10131A */
+    --card: 60 33% 99%;
+    --card-foreground: 222 24% 8%;
+    --popover: 60 33% 99%;
+    --popover-foreground: 222 24% 8%;
+    --primary: 230 61% 50%; /* Byzantine Blue: #324CCE */
+    --primary-foreground: 60 33% 99%; /* White */
     --secondary: 220 13% 91%;
-    --secondary-foreground: 219 37% 21%;
+    --secondary-foreground: 222 47% 11%;
     --muted: 220 13% 91%;
     --muted-foreground: 219 37% 41%;
-    --accent: 45 100% 51%; /* Bright Sunshine Yellow */
-    --accent-foreground: 222 47% 11%; /* Dark text on yellow for contrast */
+    --accent: 52 100% 49%; /* School Bus Yellow: #F9D600 */
+    --accent-foreground: 222 24% 8%; /* Rich Black */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 13% 88%;
     --input: 220 13% 88%;
-    --ring: 243 91% 58%;
-    --chart-1: 243 91% 58%;
-    --chart-2: 45 100% 51%;
+    --ring: 230 61% 50%;
+    --chart-1: 230 61% 50%;
+    --chart-2: 52 100% 49%;
     --chart-3: 201 46% 49%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
@@ -36,27 +36,27 @@ body {
   }
 
   .dark {
-    --background: 222 47% 11%; /* Dark Blue */
-    --foreground: 210 40% 98%; /* Light Gray */
-    --card: 222 47% 15%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 243 91% 68%; /* Lighter vibrant blue for dark mode */
-    --primary-foreground: 222 47% 11%;
+    --background: 222 24% 8%; /* Rich Black: #10131A */
+    --foreground: 60 33% 99%; /* White: #FEFEFD */
+    --card: 222 24% 8%;
+    --card-foreground: 60 33% 99%;
+    --popover: 222 24% 8%;
+    --popover-foreground: 60 33% 99%;
+    --primary: 230 61% 50%; /* Byzantine Blue */
+    --primary-foreground: 60 33% 99%; /* White */
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
-    --accent: 45 100% 51%; /* Bright Sunshine Yellow */
-    --accent-foreground: 222 47% 11%; /* Dark text on yellow for contrast */
+    --accent: 52 100% 49%; /* School Bus Yellow */
+    --accent-foreground: 222 24% 8%; /* Rich Black */
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
     --border: 217 33% 27%;
     --input: 217 33% 27%;
-    --ring: 243 91% 68%;
-    --chart-1: 243 91% 68%;
-    --chart-2: 45 100% 51%;
+    --ring: 230 61% 50%;
+    --chart-1: 230 61% 50%;
+    --chart-2: 52 100% 49%;
     --chart-3: 201 46% 49%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
