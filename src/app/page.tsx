@@ -68,6 +68,7 @@ export default function Home() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('');
+  const [tickerPaused, setTickerPaused] = useState(false);
 
   const [isCompareDialogOpen, setIsCompareDialogOpen] = useState(false);
   const [compareSlot, setCompareSlot] = useState<number | null>(null);
@@ -190,7 +191,7 @@ export default function Home() {
     );
   };
   
-    const SectionSeparator = () => <div className="h-16 w-full bg-white" />;
+    const SectionSeparator = () => <div className="h-8 w-full bg-white" />;
 
 
   return (
@@ -229,7 +230,7 @@ export default function Home() {
               <div
                 role="status"
                 aria-live="polite"
-                className="flex w-max motion-safe:animate-ticker motion-reduce:animate-none"
+                className={cn("flex w-max motion-safe:animate-ticker motion-reduce:animate-none", tickerPaused && "pause")}
               >
                 <p className="whitespace-nowrap pr-12">Pixel 9a announced with new Tensor G4 chip.</p>
                 <p className="whitespace-nowrap pr-12">iPhone 16 Pro leaks suggest a larger display.</p>
@@ -245,7 +246,7 @@ export default function Home() {
        <main id="main" role="main">
         {/* Search & Filter */}
         <section
-          className="w-full py-8 md:py-12 bg-primary border-y"
+          className="w-full py-8 md:py-12 bg-primary border-y rounded-2xl"
           aria-labelledby="search-heading"
         >
           <div className="container px-4 md:px-6">
@@ -308,7 +309,7 @@ export default function Home() {
         <SectionSeparator />
 
         {/* Trending Phones */}
-        <section className="w-full py-12 md:py-16 bg-accent border-y" aria-labelledby="trending-heading">
+        <section className="w-full py-12 md:py-16 bg-accent border-y rounded-2xl" aria-labelledby="trending-heading">
           <div className="container px-4 md:px-6">
             <div className="flex justify-between items-center mb-6">
               <h2 id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-accent-foreground">
@@ -339,7 +340,7 @@ export default function Home() {
         <SectionSeparator />
 
         {/* Latest Launches */}
-        <section className="w-full py-12 md:py-16 bg-primary text-primary-foreground" aria-labelledby="latest-heading">
+        <section className="w-full py-12 md:py-16 bg-primary text-primary-foreground rounded-2xl" aria-labelledby="latest-heading">
           <div className="container px-4 md:px-6">
             <div className="flex justify-between items-center mb-6">
               <h2 id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -349,7 +350,7 @@ export default function Home() {
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-primary-foreground hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
@@ -370,7 +371,7 @@ export default function Home() {
         <SectionSeparator />
 
         {/* Flagship Phones */}
-        <section className="w-full py-12 md:py-16 bg-accent" aria-labelledby="flagship-heading">
+        <section className="w-full py-12 md:py-16 bg-accent rounded-2xl" aria-labelledby="flagship-heading">
           <div className="container px-4 md:px-6">
             <div className="flex justify-between items-center mb-6">
               <h2 id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-accent-foreground">
@@ -401,7 +402,7 @@ export default function Home() {
         <SectionSeparator />
 
         {/* Performance Phones */}
-        <section className="w-full py-12 md:py-16 bg-primary text-primary-foreground" aria-labelledby="performance-heading">
+        <section className="w-full py-12 md:py-16 bg-primary text-primary-foreground rounded-2xl" aria-labelledby="performance-heading">
           <div className="container px-4 md:px-6">
             <div className="flex justify-between items-center mb-6">
               <h2 id="performance-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-primary-foreground">
@@ -411,7 +412,7 @@ export default function Home() {
                 href="#"
                 aria-disabled
                 tabIndex={-1}
-                className="text-sm font-medium text-black hover:underline flex items-center aria-disabled:opacity-50"
+                className="text-sm font-medium text-primary-foreground hover:underline flex items-center aria-disabled:opacity-50"
               >
                 See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
               </Link>
@@ -432,7 +433,7 @@ export default function Home() {
         <SectionSeparator />
 
         {/* Power & Performance Tabs */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-accent text-accent-foreground" aria-labelledby="power-heading">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-accent text-accent-foreground rounded-2xl" aria-labelledby="power-heading">
           <div className="container px-4 md:px-6">
             <h2 id="power-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center text-accent-foreground">
               Power & Performance
@@ -495,7 +496,7 @@ export default function Home() {
         <SectionSeparator />
 
         {/* Specialty Phones Tabs */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground" aria-labelledby="specialty-heading">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground rounded-2xl" aria-labelledby="specialty-heading">
           <div className="container px-4 md:px-6">
             <h2 id="specialty-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">
               Specialty Phones
@@ -558,7 +559,7 @@ export default function Home() {
         <SectionSeparator />
 
         {/* Quick Compare */}
-        <section className="w-full py-12 md:py-24 bg-accent" aria-labelledby="quick-compare-heading">
+        <section className="w-full py-12 md:py-24 bg-accent rounded-2xl" aria-labelledby="quick-compare-heading">
           <div className="container px-4 md:px-6">
             <div className="max-w-4xl mx-auto">
               <h2 id="quick-compare-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center mb-8">
@@ -641,7 +642,7 @@ export default function Home() {
         <SectionSeparator />
 
         {/* Browse by Specs */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground" aria-labelledby="browse-heading">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground rounded-2xl" aria-labelledby="browse-heading">
           <div className="container px-4 md:px-6">
             <div className="space-y-3 mb-8 text-center">
               <h2 id="browse-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-primary-foreground">
@@ -669,7 +670,7 @@ export default function Home() {
         <SectionSeparator />
 
         {/* Upcoming & Editorial */}
-        <section className="w-full py-12 md:py-24 bg-accent" aria-labelledby="upcoming-editorial-heading">
+        <section className="w-full py-12 md:py-24 bg-accent rounded-2xl" aria-labelledby="upcoming-editorial-heading">
           <div className="container grid gap-12 px-4 md:px-6 lg:grid-cols-2">
             <h2 id="upcoming-editorial-heading" className="sr-only">Upcoming and editorial</h2>
 
@@ -748,7 +749,7 @@ export default function Home() {
         <SectionSeparator />
 
         {/* Trust & Subscribe */}
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground" aria-labelledby="trust-heading">
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground rounded-2xl" aria-labelledby="trust-heading">
           <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
             <div className="space-y-3">
               <h2 id="trust-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-primary-foreground">
@@ -795,7 +796,7 @@ export default function Home() {
         <SectionSeparator />
 
         {/* Blog */}
-        <section className="w-full py-12 md:py-24 bg-accent" aria-labelledby="blog-heading">
+        <section className="w-full py-12 md:py-24 bg-accent rounded-2xl" aria-labelledby="blog-heading">
           <div className="container px-4 md:px-6">
             <h2 id="blog-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8 text-center">
               From the Blog
@@ -880,5 +881,7 @@ export default function Home() {
     
 
 
+
+    
 
     
