@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { allPhones } from "@/lib/data";
@@ -16,7 +17,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, use } from "react";
 import { ComparisonBar } from "@/components/comparison-bar";
 import { useCompare } from "@/contexts/compare-context";
 import { useSearchParams } from "next/navigation";
@@ -54,7 +55,7 @@ export default function SearchPage() {
   const uniqueBrands = [...new Set(allPhones.map(p => p.brand))].sort();
   const { compareList, handleAddToCompare, handleRemoveFromCompare, handleClearCompare } = useCompare();
   
-  const searchParams = useSearchParams();
+  const searchParams = use(useSearchParams());
 
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const [filters, setFilters] = useState<Filters>(initialFilters);
@@ -334,4 +335,5 @@ export default function SearchPage() {
     </>
   );
 }
+
 
