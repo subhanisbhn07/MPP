@@ -37,20 +37,22 @@ export function SpecGenerationClient() {
     setLoading(true);
     setResult(null);
     try {
-      const specResult = await handleGenerateSpec(values);
-      if (specResult) {
-        setResult(specResult);
+      const response = await handleGenerateSpec(values);
+      if (response.success && response.data) {
+        setResult(response.data);
         toast({
           title: 'Success!',
-          description: `Specifications for ${specResult.brand} ${specResult.model} generated.`,
+          description: `Specifications for ${response.data.brand} ${response.data.model} generated.`,
         });
+      } else {
+        throw new Error(response.error || 'An unknown error occurred.');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       toast({
         variant: 'destructive',
         title: 'An error occurred.',
-        description: 'Failed to generate specifications. Please try again.',
+        description: error.message || 'Failed to generate specifications. Please try again.',
       });
     } finally {
       setLoading(false);

@@ -5,10 +5,9 @@ import { generateMobileSpec, GenerateMobileSpecInput } from '@/ai/flows/generate
 export async function handleGenerateSpec(input: GenerateMobileSpecInput) {
   try {
     const result = await generateMobileSpec(input);
-    return result;
-  } catch (error) {
+    return { success: true, data: result };
+  } catch (error: any) {
     console.error('Error generating mobile spec:', error);
-    // You might want to throw a more specific error or handle it differently
-    throw new Error('Failed to generate specification from AI flow.');
+    return { success: false, error: error.message || 'Failed to generate specification from AI flow.' };
   }
 }
