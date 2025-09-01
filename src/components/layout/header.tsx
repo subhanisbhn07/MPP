@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -11,8 +12,21 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Search, Bell, User, LogOut, UserCircle } from 'lucide-react';
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import {
+  Menu,
+  Search,
+  Bell,
+  User,
+  LogOut,
+  UserCircle,
+  Shield,
+} from 'lucide-react';
 import { Logo } from '@/components/logo';
 import { useAuth } from '@/contexts/auth-context';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -21,7 +35,7 @@ export function Header() {
   const { user, loading, signOut } = useAuth();
   const mainNavLinks = [
     { href: '/compare', label: 'Compare' },
-    { href: '/brands', label: 'Brands' },
+    { href: '/categories', label: 'Brands' },
     { href: '/news', label: 'News' },
     { href: '/guides', label: 'Guides' },
     { href: '/deals', label: 'Deals' },
@@ -40,7 +54,7 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
-                <SheetTitle className="sr-only">Main Menu</SheetTitle>
+              <SheetTitle className="sr-only">Main Menu</SheetTitle>
               <Link href="/" className="flex items-center space-x-2">
                 <Logo />
                 <span className="font-bold">MobilePhonesPro</span>
@@ -133,6 +147,12 @@ export function Header() {
                     <Link href="/profile">
                       <UserCircle className="mr-2" />
                       <span>Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+                   <DropdownMenuItem asChild>
+                    <Link href="/admin">
+                      <Shield className="mr-2" />
+                      <span>Admin Panel</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
