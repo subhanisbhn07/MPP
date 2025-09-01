@@ -294,6 +294,14 @@ const MiscSpecSchema = z.object({
     }),
 });
 
+// Chunk schemas
+const Chunk1Schema = z.object({ network: NetworkSpecSchema, launch: LaunchSpecSchema, body: BodySpecSchema });
+const Chunk2Schema = z.object({ display: DisplaySpecSchema, platform: PlatformSpecSchema, memory: MemorySpecSchema });
+const Chunk3Schema = z.object({ main_camera: MainCameraSpecSchema, selfie_camera: SelfieCameraSpecSchema, audio: AudioSpecSchema });
+const Chunk4Schema = z.object({ connectivity: ConnectivitySpecSchema, sensors: SensorsSpecSchema, battery: BatterySpecSchema });
+const Chunk5Schema = z.object({ software: SoftwareSpecSchema, packaging: PackagingSpecSchema, misc: MiscSpecSchema });
+
+
 const GenerateMobileSpecOutputSchema = z.object({
   network: NetworkSpecSchema,
   launch: LaunchSpecSchema,
@@ -340,27 +348,28 @@ const generationConfig = {
   safetySettings,
 };
 
-async function generateSpecCategory<T extends z.ZodTypeAny>(
-  category: string,
+async function generateSpecChunk<T extends z.ZodTypeAny>(
+  chunkName: string,
   schema: T,
-  input: GenerateMobileSpecInput
+  input: GenerateMobileSpecInput,
+  categoryNames: string[]
 ): Promise<z.infer<T>> {
   const prompt = ai.definePrompt({
-    name: `generate${category}SpecPrompt`,
+    name: `generate${chunkName}SpecPrompt`,
     input: { schema: GenerateMobileSpecInputSchema },
     output: { schema },
-    prompt: `You are a mobile phone expert. Generate the specifications for the "${category}" category for the following mobile phone:
+    prompt: `You are a mobile phone expert. Generate the specifications for the following categories: ${categoryNames.join(', ')} for the mobile phone:
 
 Name: {{{name}}}
 Model: {{{model}}}
 
-Ensure the specifications are detailed and accurate. Provide specifications for all fields in the schema. If a value is not available or not applicable, use "N/A". Output should be a valid JSON conforming to the schema.`,
+Ensure the specifications are detailed and accurate. Provide specifications for all fields in the schema. If a value is not available or not applicable, use "N/A". Output should be a valid JSON conforming to the provided schema.`,
     config: generationConfig,
   });
 
   const { output } = await prompt(input);
   if (!output) {
-    throw new Error(`Failed to generate specifications for category: ${category}`);
+    throw new Error(`Failed to generate specifications for chunk: ${chunkName}`);
   }
   return output;
 }
@@ -372,38 +381,24 @@ const generateMobileSpecFlow = ai.defineFlow(
     outputSchema: GenerateMobileSpecOutputSchema,
   },
   async (input) => {
-    const network = await generateSpecCategory('Network', NetworkSpecSchema, input);
-    const launch = await generateSpecCategory('Launch', LaunchSpecSchema, input);
-    const body = await generateSpecCategory('Body', BodySpecSchema, input);
-    const display = await generateSpecCategory('Display', DisplaySpecSchema, input);
-    const platform = await generateSpecCategory('Platform', PlatformSpecSchema, input);
-    const memory = await generateSpecCategory('Memory', MemorySpecSchema, input);
-    const main_camera = await generateSpecCategory('MainCamera', MainCameraSpecSchema, input);
-    const selfie_camera = await generateSpecCategory('SelfieCamera', SelfieCameraSpecSchema, input);
-    const audio = await generateSpecCategory('Audio', AudioSpecSchema, input);
-    const connectivity = await generateSpecCategory('Connectivity', ConnectivitySpecSchema, input);
-    const sensors = await generateSpecCategory('Sensors', SensorsSpecSchema, input);
-    const battery = await generateSpecCategory('Battery', BatterySpecSchema, input);
-    const software = await generateSpecCategory('Software', SoftwareSpecSchema, input);
-    const packaging = await generateSpecCategory('Packaging', PackagingSpecSchema, input);
-    const misc = await generateSpecCategory('Misc', MiscSpecSchema, input);
+    // Generate each chunk sequentially to avoid rate limiting
+    const chunk1 = await generateSpecChunk('Chunk1', Chunk1Schema, input, ['Network', 'Launch', 'Body']);
+    const chunk2 = await generateSpecChunk('Chunk2', Chunk2Schema, input, ['Display', 'Platform', 'Memory']);
+    const chunk3 = await generateSpecChunk('Chunk3', Chunk3Schema, input, ['Main Camera', 'Selfie Camera', 'Audio']);
+    const chunk4 = await generateSpecChunk('Chunk4', Chunk4Schema, input, ['Connectivity', 'Sensors', 'Battery']);
+    const chunk5 = await generateSpecChunk('Chunk5', Chunk5Schema, input, ['Software', 'Packaging', 'Misc']);
 
+    // Combine the results
     return {
-      network,
-      launch,
-      body,
-      display,
-      platform,
-      memory,
-      main_camera,
-      selfie_camera,
-      audio,
-      connectivity,
-      sensors,
-      battery,
-      software,
-      packaging,
-      ...misc,
+      ...chunk1,
+      ...chunk2,
+      ...chunk3,
+      ...chunk4,
+      ...chunk5.misc,
+      software: chunk5.software,
+      packaging: chunk5.packaging,
     };
   }
 );
+
+    
