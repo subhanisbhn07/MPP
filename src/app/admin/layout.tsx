@@ -90,7 +90,7 @@ export default function AdminLayout({
                 </SidebarMenu>
             </SidebarFooter>
           </Sidebar>
-           <div className="flex-1 p-4 sm:p-6 lg:p-8">
+           <div className="flex-1 py-4 pr-4 sm:py-6 sm:pr-6 lg:py-8 lg:pr-8">
                 {isClient && <SidebarTrigger className="md:hidden mb-4" />}
                 {children}
            </div>
