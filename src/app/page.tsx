@@ -526,7 +526,7 @@ export default function Home() {
                           const phone2 = getPhoneByName(p2);
                           if (!phone1 || !phone2) return null;
                           const url = generateCompareUrl([phone1, phone2]);
-                          return <Link key={url} href={url} className="text-muted-foreground hover:text-primary text-center p-1.5 rounded-md hover:bg-muted">{p1} vs {p2}</Link>
+                          return <Link key={url} href={url} className="text-muted-foreground hover:text-primary text-center p-1.5 rounded-md hover:bg-muted border">{p1} vs {p2}</Link>
                       })}
                     </div>
                 </div>
@@ -538,7 +538,7 @@ export default function Home() {
                           const phone2 = getPhoneByName(p2);
                           if (!phone1 || !phone2) return null;
                           const url = generateCompareUrl([phone1, phone2]);
-                          return <Link key={url} href={url} className="text-muted-foreground hover:text-primary text-center p-1.5 rounded-md hover:bg-muted">{p1} vs {p2}</Link>
+                          return <Link key={url} href={url} className="text-muted-foreground hover:text-primary text-center p-1.5 rounded-md hover:bg-muted border">{p1} vs {p2}</Link>
                       })}
                     </div>
                 </div>
@@ -797,3 +797,4 @@ export default function Home() {
 }
 
     
+
