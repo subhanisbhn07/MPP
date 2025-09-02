@@ -192,7 +192,7 @@ export default function Home() {
   };
   
   return (
-    <div className="container space-y-4">
+    <div className="space-y-4">
        {/* Skip link */}
       <a
         href="#main"
@@ -249,7 +249,7 @@ export default function Home() {
           </div>
         </div>
       </header>
-       <main id="main" role="main" className="container py-8 space-y-4">
+      <main id="main" role="main" className="container py-8 space-y-4">
         {/* Search & Filter */}
         <Card className="bg-card text-foreground rounded-2xl">
         <section
@@ -719,54 +719,6 @@ export default function Home() {
             </Card>
         </div>
 
-
-        {/* Trust & Subscribe */}
-        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="trust-heading">
-            <CardContent className="p-6">
-                <div className="grid items-center justify-center gap-4 text-center">
-                    <div className="space-y-3">
-                      <h2 id="trust-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-foreground">
-                        Your Trusted Source for Mobile Specs
-                      </h2>
-                      <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                        We provide accurate, up-to-date information you can rely on.
-                      </p>
-                    </div>
-
-                    <div className="mx-auto grid max-w-sm grid-cols-3 items-start justify-center gap-8 lg:max-w-none lg:grid-cols-3">
-                      <div className="flex flex-col items-center justify-center space-y-2">
-                        <Star className="h-8 w-8 text-primary" aria-hidden="true" />
-                        <p className="font-bold">128+ Specs</p>
-                        <p className="text-sm text-muted-foreground">Per Phone</p>
-                      </div>
-                      <div className="flex flex-col items-center justify-center space-y-2">
-                        <Info className="h-8 w-8 text-primary" aria-hidden="true" />
-                        <p className="font-bold">Verified Sources</p>
-                        <p className="text-sm text-muted-foreground">Always Accurate</p>
-                      </div>
-                      <div className="flex flex-col items-center justify-center space-y-2">
-                        <Calendar className="h-8 w-8 text-primary" aria-hidden="true" />
-                        <p className="font-bold">Daily Updates</p>
-                        <p className="text-sm text-muted-foreground">
-                          Never Miss a Launch
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mx-auto w-full max-w-sm space-y-2 mt-8">
-                      <form className="flex space-x-2">
-                        <label htmlFor="email" className="sr-only">Enter your email</label>
-                        <Input id="email" type="email" placeholder="Enter your email" className="max-w-lg flex-1 bg-background text-foreground" />
-                        <Button type="submit" variant="default" aria-label="Subscribe for weekly launch alerts">Subscribe</Button>
-                      </form>
-                      <p className="text-xs text-muted-foreground">
-                        Get weekly launch alerts and top news.
-                      </p>
-                    </div>
-                  </div>
-            </CardContent>
-        </Card>
-
         {/* Blog */}
         <Card className="bg-card rounded-2xl" aria-labelledby="blog-heading">
           <CardHeader>
@@ -832,6 +784,53 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
+        
+        {/* Trust & Subscribe */}
+        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="trust-heading">
+            <CardContent className="p-6">
+                <div className="grid items-center justify-center gap-4 text-center">
+                    <div className="space-y-3">
+                      <h2 id="trust-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-foreground">
+                        Your Trusted Source for Mobile Specs
+                      </h2>
+                      <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                        We provide accurate, up-to-date information you can rely on.
+                      </p>
+                    </div>
+
+                    <div className="mx-auto grid max-w-sm grid-cols-3 items-start justify-center gap-8 lg:max-w-none lg:grid-cols-3">
+                      <div className="flex flex-col items-center justify-center space-y-2">
+                        <Star className="h-8 w-8 text-primary" aria-hidden="true" />
+                        <p className="font-bold">128+ Specs</p>
+                        <p className="text-sm text-muted-foreground">Per Phone</p>
+                      </div>
+                      <div className="flex flex-col items-center justify-center space-y-2">
+                        <Info className="h-8 w-8 text-primary" aria-hidden="true" />
+                        <p className="font-bold">Verified Sources</p>
+                        <p className="text-sm text-muted-foreground">Always Accurate</p>
+                      </div>
+                      <div className="flex flex-col items-center justify-center space-y-2">
+                        <Calendar className="h-8 w-8 text-primary" aria-hidden="true" />
+                        <p className="font-bold">Daily Updates</p>
+                        <p className="text-sm text-muted-foreground">
+                          Never Miss a Launch
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mx-auto w-full max-w-sm space-y-2 mt-8">
+                      <form className="flex space-x-2">
+                        <label htmlFor="email" className="sr-only">Enter your email</label>
+                        <Input id="email" type="email" placeholder="Enter your email" className="max-w-lg flex-1 bg-background text-foreground" />
+                        <Button type="submit" variant="default" aria-label="Subscribe for weekly launch alerts">Subscribe</Button>
+                      </form>
+                      <p className="text-xs text-muted-foreground">
+                        Get weekly launch alerts and top news.
+                      </p>
+                    </div>
+                  </div>
+            </CardContent>
+        </Card>
       </main>
 
       {/* Compare bar and dialog */}
@@ -851,4 +850,3 @@ export default function Home() {
     </div>
   );
 }
-
