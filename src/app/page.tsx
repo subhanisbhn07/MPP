@@ -674,12 +674,12 @@ export default function Home() {
             </Card>
 
              {/* News & Guides */}
-            <Card className="bg-card rounded-2xl" aria-labelledby="news-guides-heading">
+            <Card className="bg-card rounded-2xl" aria-labelledby="guides-heading">
                 <CardHeader>
                   <div className="flex items-center gap-2">
-                    <Newspaper className="h-7 w-7 text-primary" />
-                    <h3 id="news-guides-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
-                      News & Guides
+                    <BookOpen className="h-7 w-7 text-primary" />
+                    <h3 id="guides-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+                      Guides
                     </h3>
                   </div>
                 </CardHeader>
@@ -912,3 +912,4 @@ export default function Home() {
     </div>
   );
 }
+
