@@ -79,7 +79,7 @@ export default function Home() {
   const flagshipPhones = allPhones.filter(p => p.price > 900).slice(0, 5);
   const performancePhones = allPhones.filter(p => p.specs.platform.chipset.includes('Snapdragon 8 Gen 3') || p.specs.platform.chipset.includes('Apple A17 Pro') || p.specs.platform.chipset.includes('Snapdragon 8 Gen 2')).slice(0, 5);
   const batteryPhones = [...allPhones].sort((a,b) => parseInt(b.specs.battery.capacity_mah) - parseInt(a.specs.battery.capacity_mah)).slice(0, 5);
-  const cameraPhones = [...allPhones].sort((a,b) => parseInt(a.specs.main_camera.main_sensor_resolution) - parseInt(b.specs.main_camera.main_sensor_resolution)).slice(0, 5);
+  const cameraPhones = [...allPhones].sort((a,b) => parseInt(b.specs.main_camera.main_sensor_resolution) - parseInt(a.specs.main_camera.main_sensor_resolution)).slice(0, 5);
   const foldablePhones = allPhones.filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip') || p.model.toLowerCase().includes('razr')).slice(0, 5);
   const ruggedPhones = allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")).slice(0, 5);
   const uniquePhones = allPhones.filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony").slice(0, 5);
@@ -191,7 +191,7 @@ export default function Home() {
   };
   
   return (
-    <>
+    <div className="container">
        {/* Skip link */}
       <a
         href="#main"
@@ -403,12 +403,42 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        {/* Performance Phones */}
-        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="performance-heading">
+        {/* Battery Phones */}
+        <Card className="bg-card rounded-2xl" aria-labelledby="battery-heading">
           <CardHeader>
             <div className="flex justify-between items-center">
-              <CardTitle id="performance-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
-                Performance Phones
+              <CardTitle id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+                Longest Battery Life
+              </CardTitle>
+              <Link
+                href="#"
+                aria-disabled
+                tabIndex={-1}
+                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
+              >
+                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+              {batteryPhones.map((phone) => (
+                <li role="listitem" key={phone.id}>
+                  <article aria-label={`${phone.brand} ${phone.model}`}>
+                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
+                  </article>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+        
+        {/* Gaming Phones */}
+        <Card className="bg-card rounded-2xl" aria-labelledby="gaming-heading">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+                Best for Gaming
               </CardTitle>
               <Link
                 href="#"
@@ -433,66 +463,33 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        {/* Power & Performance Tabs */}
-        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="power-heading">
+        {/* Camera Phones */}
+        <Card className="bg-card rounded-2xl" aria-labelledby="camera-heading">
           <CardHeader>
-            <h2 id="power-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-foreground">
-              Power & Performance
-            </h2>
+            <div className="flex justify-between items-center">
+              <CardTitle id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+                Top Camera Phones
+              </CardTitle>
+              <Link
+                href="#"
+                aria-disabled
+                tabIndex={-1}
+                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
+              >
+                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent>
-            <Tabs defaultValue="battery" className="w-full" aria-label="Power and performance categories">
-              <TabsList className="mb-4 grid w-full max-w-md mx-auto grid-cols-3">
-                <TabsTrigger value="battery" aria-controls="panel-battery">
-                  <Battery className="mr-2" aria-hidden="true" />
-                  Battery
-                </TabsTrigger>
-                <TabsTrigger value="gaming" aria-controls="panel-gaming">
-                  <Gamepad2 className="mr-2" aria-hidden="true" />
-                    Gaming
-                </TabsTrigger>
-                <TabsTrigger value="camera" aria-controls="panel-camera">
-                  <Camera className="mr-2" aria-hidden="true" />
-                  Camera
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="battery" id="panel-battery" role="tabpanel" aria-labelledby="battery">
-                <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-                  {batteryPhones.map((phone) => (
-                    <li role="listitem" key={phone.id}>
-                      <article aria-label={`${phone.brand} ${phone.model}`}>
-                        <PhoneCard phone={phone} onAddToCompare={() => handleAddToCompare(phone)} />
-                      </article>
-                    </li>
-                  ))}
-                </ul>
-              </TabsContent>
-
-              <TabsContent value="gaming" id="panel-gaming" role="tabpanel" aria-labelledby="gaming">
-                <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-                  {performancePhones.map((phone) => (
-                    <li role="listitem" key={phone.id}>
-                      <article aria-label={`${phone.brand} ${phone.model}`}>
-                        <PhoneCard phone={phone} onAddToCompare={() => handleAddToCompare(phone)} />
-                      </article>
-                    </li>
-                  ))}
-                </ul>
-              </TabsContent>
-
-              <TabsContent value="camera" id="panel-camera" role="tabpanel" aria-labelledby="camera">
-                <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-                  {cameraPhones.map((phone) => (
-                    <li role="listitem" key={phone.id}>
-                      <article aria-label={`${phone.brand} ${phone.model}`}>
-                        <PhoneCard phone={phone} onAddToCompare={() => handleAddToCompare(phone)} />
-                      </article>
-                    </li>
-                  ))}
-                </ul>
-              </TabsContent>
-            </Tabs>
+            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+              {cameraPhones.map((phone) => (
+                <li role="listitem" key={phone.id}>
+                  <article aria-label={`${phone.brand} ${phone.model}`}>
+                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
+                  </article>
+                </li>
+              ))}
+            </ul>
           </CardContent>
         </Card>
 
@@ -861,7 +858,6 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
-      </main>
 
       {/* Compare bar and dialog */}
       <ComparisonBar
@@ -877,8 +873,7 @@ export default function Home() {
         allPhones={allPhones}
         currentPhones={[phone1, phone2].filter(Boolean) as Phone[]}
       />
-    </>
+      </main>
+    </div>
   );
 }
-
-    
