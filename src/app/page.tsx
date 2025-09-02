@@ -30,7 +30,6 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import {
   Select,
@@ -79,7 +78,7 @@ export default function Home() {
   const flagshipPhones = allPhones.filter(p => p.price > 900).slice(0, 5);
   const performancePhones = allPhones.filter(p => p.specs.platform.chipset.includes('Snapdragon 8 Gen 3') || p.specs.platform.chipset.includes('Apple A17 Pro') || p.specs.platform.chipset.includes('Snapdragon 8 Gen 2')).slice(0, 5);
   const batteryPhones = [...allPhones].sort((a,b) => parseInt(b.specs.battery.capacity_mah) - parseInt(a.specs.battery.capacity_mah)).slice(0, 5);
-  const cameraPhones = [...allPhones].sort((a,b) => parseInt(b.specs.main_camera.main_sensor_resolution) - parseInt(a.specs.main_camera.main_sensor_resolution)).slice(0, 5);
+  const cameraPhones = [...allPhones].sort((a,b) => parseInt(a.specs.main_camera.main_sensor_resolution) - parseInt(b.specs.main_camera.main_sensor_resolution)).slice(0, 5);
   const foldablePhones = allPhones.filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip') || p.model.toLowerCase().includes('razr')).slice(0, 5);
   const ruggedPhones = allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")).slice(0, 5);
   const uniquePhones = allPhones.filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony").slice(0, 5);
@@ -191,7 +190,7 @@ export default function Home() {
   };
   
   return (
-    <div className="container">
+    <div>
        {/* Skip link */}
       <a
         href="#main"
@@ -493,66 +492,93 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        {/* Specialty Phones Tabs */}
-        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="specialty-heading">
-           <CardHeader>
-            <h2 id="specialty-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
-              Specialty Phones
-            </h2>
+        {/* Foldable Phones */}
+        <Card className="bg-card rounded-2xl" aria-labelledby="foldable-heading">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+                Foldable Phones
+              </CardTitle>
+              <Link
+                href="#"
+                aria-disabled
+                tabIndex={-1}
+                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
+              >
+                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent>
-            <Tabs defaultValue="foldable" className="w-full" aria-label="Specialty categories">
-              <TabsList className="mb-4 grid w-full max-w-md mx-auto grid-cols-3">
-                <TabsTrigger value="foldable" aria-controls="panel-foldable">
-                  <Smartphone className="mr-2" aria-hidden="true" />
-                  Foldable
-                </TabsTrigger>
-                <TabsTrigger value="rugged" aria-controls="panel-rugged">
-                  <Shield className="mr-2" aria-hidden="true" />
-                  Rugged
-                </TabsTrigger>
-                <TabsTrigger value="unique" aria-controls="panel-unique">
-                  <Sparkles className="mr-2" aria-hidden="true" />
-                  Unique
-                </TabsTrigger>
-              </TabsList>
+            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+              {foldablePhones.map((phone) => (
+                <li role="listitem" key={phone.id}>
+                  <article aria-label={`${phone.brand} ${phone.model}`}>
+                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
+                  </article>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
 
-              <TabsContent value="foldable" id="panel-foldable" role="tabpanel" aria-labelledby="foldable">
-                <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-                  {foldablePhones.map((phone) => (
-                    <li role="listitem" key={phone.id}>
-                      <article aria-label={`${phone.brand} ${phone.model}`}>
-                        <PhoneCard phone={phone} onAddToCompare={() => handleAddToCompare(phone)} />
-                      </article>
-                    </li>
-                  ))}
-                </ul>
-              </TabsContent>
+        {/* Rugged Phones */}
+        <Card className="bg-card rounded-2xl" aria-labelledby="rugged-heading">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+                Rugged Phones
+              </CardTitle>
+              <Link
+                href="#"
+                aria-disabled
+                tabIndex={-1}
+                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
+              >
+                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+              {ruggedPhones.map((phone) => (
+                <li role="listitem" key={phone.id}>
+                  <article aria-label={`${phone.brand} ${phone.model}`}>
+                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
+                  </article>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
 
-              <TabsContent value="rugged" id="panel-rugged" role="tabpanel" aria-labelledby="rugged">
-                <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-                  {ruggedPhones.map((phone) => (
-                    <li role="listitem" key={phone.id}>
-                      <article aria-label={`${phone.brand} ${phone.model}`}>
-                        <PhoneCard phone={phone} onAddToCompare={() => handleAddToCompare(phone)} />
-                      </article>
-                    </li>
-                  ))}
-                </ul>
-              </TabsContent>
-
-              <TabsContent value="unique" id="panel-unique" role="tabpanel" aria-labelledby="unique">
-                <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-                  {uniquePhones.map((phone) => (
-                    <li role="listitem" key={phone.id}>
-                      <article aria-label={`${phone.brand} ${phone.model}`}>
-                        <PhoneCard phone={phone} onAddToCompare={() => handleAddToCompare(phone)} />
-                      </article>
-                    </li>
-                  ))}
-                </ul>
-              </TabsContent>
-            </Tabs>
+        {/* Unique Phones */}
+        <Card className="bg-card rounded-2xl" aria-labelledby="unique-heading">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+                Unique Phones
+              </CardTitle>
+              <Link
+                href="#"
+                aria-disabled
+                tabIndex={-1}
+                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
+              >
+                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+              {uniquePhones.map((phone) => (
+                <li role="listitem" key={phone.id}>
+                  <article aria-label={`${phone.brand} ${phone.model}`}>
+                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
+                  </article>
+                </li>
+              ))}
+            </ul>
           </CardContent>
         </Card>
 
@@ -858,6 +884,7 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
+      </main>
 
       {/* Compare bar and dialog */}
       <ComparisonBar
@@ -873,7 +900,6 @@ export default function Home() {
         allPhones={allPhones}
         currentPhones={[phone1, phone2].filter(Boolean) as Phone[]}
       />
-      </main>
     </div>
   );
 }
