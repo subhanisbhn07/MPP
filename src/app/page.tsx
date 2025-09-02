@@ -203,18 +203,18 @@ export default function Home() {
       </a>
 
       {/* Header / Hero */}
-      <header role="banner" className="w-full bg-card pt-12 md:pt-24 lg:pt-32 rounded-2xl">
+      <header role="banner" className="w-full bg-accent text-accent-foreground pt-12 md:pt-24 lg:pt-32 rounded-2xl">
         <div className="container">
           <div className="text-center">
             <div className="flex flex-col items-center justify-center space-y-4">
-              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-foreground">
+              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
                 Discover. Compare. Decide.
               </h1>
-              <p className="max-w-[600px] md:text-xl text-muted-foreground">
+              <p className="max-w-[600px] md:text-xl">
                 AI-updated specs, comparisons & SEO-friendly landing pages.
               </p>
               <div className="mt-4">
-                <Button asChild size="lg">
+                <Button asChild size="lg" variant="secondary">
                   <Link href="/compare">Compare Mobiles</Link>
                 </Button>
               </div>
@@ -223,7 +223,7 @@ export default function Home() {
 
           {/* News Ticker with live region + reduced motion support */}
           <div className="mt-12 pb-12 px-4 md:px-6">
-            <div className="relative flex items-center bg-primary text-primary-foreground rounded-lg p-2 text-sm overflow-hidden">
+            <div className="relative flex items-center bg-background text-foreground rounded-lg p-2 text-sm overflow-hidden">
               <Megaphone className="h-5 w-5 mr-2 flex-shrink-0" aria-hidden="true" />
               <div
                 className="flex-1 overflow-hidden"
@@ -252,7 +252,7 @@ export default function Home() {
       </header>
       <main id="main" role="main" className="space-y-4">
         {/* Search & Filter */}
-        <Card className="bg-card text-foreground rounded-2xl">
+        <Card className="bg-primary text-primary-foreground rounded-2xl">
           <section
             className="w-full py-8 md:py-12"
             aria-labelledby="search-heading"
@@ -268,7 +268,7 @@ export default function Home() {
                     name="q"
                     type="search"
                     placeholder="Search by brand, model, or feature..."
-                    className="w-full pl-10 h-12 text-base bg-background text-foreground border-input placeholder:text-muted-foreground focus-visible:ring-primary"
+                    className="w-full pl-10 h-12 text-base bg-background text-foreground border-input placeholder:text-muted-foreground focus-visible:ring-ring"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
@@ -276,7 +276,7 @@ export default function Home() {
                 <div className="grid grid-cols-2 gap-2 md:flex md:flex-row">
                   <Button
                     type="button"
-                    variant="outline"
+                    variant="secondary"
                     size="lg"
                     className="h-12 w-full"
                     aria-label="Open filters"
@@ -287,7 +287,7 @@ export default function Home() {
                   <div className="w-full">
                     <label htmlFor="sort" className="sr-only">Sort by</label>
                     <Select value={sortBy} onValueChange={setSortBy} name="sort">
-                      <SelectTrigger id="sort" className="h-12 w-full bg-background text-foreground border-input focus:ring-primary data-[placeholder]:text-muted-foreground" aria-label="Sort By">
+                      <SelectTrigger id="sort" className="h-12 w-full bg-background text-foreground border-input focus:ring-ring data-[placeholder]:text-muted-foreground" aria-label="Sort By">
                         <ArrowUpDown className="mr-2 h-5 w-5" aria-hidden="true" />
                         <SelectValue placeholder="Sort By" />
                       </SelectTrigger>
@@ -317,16 +317,16 @@ export default function Home() {
 
 
         {/* Trending Phones */}
-        <Card className="bg-card rounded-2xl" aria-labelledby="trending-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="trending-heading">
           <CardHeader>
-            <CardTitle id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+            <CardTitle id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                 Trending Phones
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {popularPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -337,7 +337,7 @@ export default function Home() {
         </Card>
 
         {/* Latest Launches */}
-        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="latest-heading">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="latest-heading">
           <CardHeader>
             <CardTitle id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Latest Launches
@@ -346,7 +346,7 @@ export default function Home() {
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {latestPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -357,16 +357,16 @@ export default function Home() {
         </Card>
         
         {/* Flagship Phones */}
-         <Card className="bg-card rounded-2xl" aria-labelledby="flagship-heading">
+         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="flagship-heading">
            <CardHeader>
-            <CardTitle id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+            <CardTitle id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Flagship Phones
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {flagshipPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
                    <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -377,16 +377,16 @@ export default function Home() {
         </Card>
         
         {/* Battery Phones */}
-        <Card className="bg-card rounded-2xl" aria-labelledby="battery-heading">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="battery-heading">
           <CardHeader>
-            <CardTitle id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+            <CardTitle id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Longest Battery Life
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {batteryPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -397,16 +397,16 @@ export default function Home() {
         </Card>
         
         {/* Gaming Phones */}
-        <Card className="bg-card rounded-2xl" aria-labelledby="gaming-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="gaming-heading">
           <CardHeader>
-            <CardTitle id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+            <CardTitle id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Best for Gaming
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {performancePhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -417,16 +417,16 @@ export default function Home() {
         </Card>
 
         {/* Camera Phones */}
-        <Card className="bg-card rounded-2xl" aria-labelledby="camera-heading">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="camera-heading">
           <CardHeader>
-            <CardTitle id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+            <CardTitle id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top Camera Phones
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {cameraPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -437,16 +437,16 @@ export default function Home() {
         </Card>
 
         {/* Foldable Phones */}
-        <Card className="bg-card rounded-2xl" aria-labelledby="foldable-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="foldable-heading">
           <CardHeader>
-            <CardTitle id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+            <CardTitle id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Foldable Phones
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {foldablePhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -457,16 +457,16 @@ export default function Home() {
         </Card>
 
         {/* Rugged Phones */}
-        <Card className="bg-card rounded-2xl" aria-labelledby="rugged-heading">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="rugged-heading">
           <CardHeader>
-            <CardTitle id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+            <CardTitle id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Rugged Phones
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {ruggedPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -477,16 +477,16 @@ export default function Home() {
         </Card>
 
         {/* Unique Phones */}
-        <Card className="bg-card rounded-2xl" aria-labelledby="unique-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="unique-heading">
           <CardHeader>
-            <CardTitle id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+            <CardTitle id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Unique Phones
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {uniquePhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -497,9 +497,9 @@ export default function Home() {
         </Card>
 
         {/* Quick Compare */}
-        <Card className="bg-card rounded-2xl" aria-labelledby="quick-compare-heading">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="quick-compare-heading">
           <CardHeader>
-            <h2 id="quick-compare-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-foreground">
+            <h2 id="quick-compare-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
               Quick Compare
             </h2>
           </CardHeader>
@@ -508,7 +508,7 @@ export default function Home() {
               <div className="flex flex-col md:flex-row items-stretch gap-4 md:gap-8">
                 <CompareSlot phone={phone1} onAdd={() => handleOpenDialog(1)} onRemove={() => setPhone1(null)} />
                 <div className="flex flex-col items-center justify-center my-4 md:my-0">
-                  <Shuffle className="text-muted-foreground hidden md:block" aria-hidden="true" />
+                  <Shuffle className="hidden md:block" aria-hidden="true" />
                   <p className="text-2xl font-bold my-2">VS</p>
                   {phone1 && phone2 ? (
                     <Button asChild>
@@ -529,7 +529,7 @@ export default function Home() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div>
-                  <h3 className="font-semibold mb-3 text-center md:text-left text-foreground">Popular Comparisons</h3>
+                  <h3 className="font-semibold mb-3 text-center md:text-left">Popular Comparisons</h3>
                   <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                     {popularComparisons.map(([p1, p2]) => {
                       const phone1 = getPhoneByName(p1);
@@ -540,7 +540,7 @@ export default function Home() {
                         <li role="listitem" key={url}>
                           <Link
                             href={url}
-                            className="block text-muted-foreground hover:text-primary text-center p-1.5 rounded-md hover:bg-muted border"
+                            className="block hover:text-primary-foreground/80 text-center p-1.5 rounded-md hover:bg-white/10 border border-primary-foreground/20"
                             aria-label={`Compare ${p1} and ${p2}`}
                           >
                             {p1} vs {p2}
@@ -552,7 +552,7 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <h3 className="font-semibold mb-3 text-center md:text-left text-foreground">Trending Comparisons</h3>
+                  <h3 className="font-semibold mb-3 text-center md:text-left">Trending Comparisons</h3>
                   <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
                     {trendingComparisons.map(([p1, p2]) => {
                       const phone1 = getPhoneByName(p1);
@@ -563,7 +563,7 @@ export default function Home() {
                         <li role="listitem" key={url}>
                           <Link
                             href={url}
-                            className="block text-muted-foreground hover:text-primary text-center p-1.5 rounded-md hover:bg-muted border"
+                            className="block hover:text-primary-foreground/80 text-center p-1.5 rounded-md hover:bg-white/10 border border-primary-foreground/20"
                             aria-label={`Compare ${p1} and ${p2}`}
                           >
                             {p1} vs {p2}
@@ -580,13 +580,13 @@ export default function Home() {
         
 
         {/* Browse by Specs */}
-        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="browse-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="browse-heading">
           <CardHeader>
             <div className="space-y-3 text-center">
-              <h2 id="browse-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-foreground">
+              <h2 id="browse-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
                 Browse by Specs
               </h2>
-              <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed">
+              <p className="mx-auto max-w-[600px] md:text-xl/relaxed">
                 Find the perfect phone tailored to your needs.
               </p>
             </div>
@@ -596,8 +596,8 @@ export default function Home() {
               {specCategories.map((cat) => (
                 <li role="listitem" key={cat.label}>
                   <Link href={cat.href} aria-disabled tabIndex={-1}>
-                    <Card className="p-4 flex flex-col items-center justify-center text-center text-primary bg-card hover:bg-muted transition-colors h-full">
-                      {cat.icon && <cat.icon className="h-8 w-8 text-primary" aria-hidden="true" />}
+                    <Card className="p-4 flex flex-col items-center justify-center text-center text-accent-foreground bg-accent hover:bg-background/20 transition-colors h-full">
+                      {cat.icon && <cat.icon className="h-8 w-8" aria-hidden="true" />}
                       <span className="font-semibold text-sm">{cat.label}</span>
                     </Card>
                   </Link>
@@ -609,65 +609,65 @@ export default function Home() {
         
         <div className="grid gap-4 lg:grid-cols-2">
             {/* Upcoming Calendar */}
-            <Card className="bg-card rounded-2xl" aria-labelledby="upcoming-heading">
+            <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="upcoming-heading">
               <CardHeader>
                  <div className="flex items-center gap-2">
-                    <Calendar className="h-7 w-7 text-primary" />
-                    <h3 id="upcoming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+                    <Calendar className="h-7 w-7" />
+                    <h3 id="upcoming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                       Upcoming Calendar
                     </h3>
                   </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                      <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
-                        <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
-                          <p className="font-bold text-lg text-primary">28</p>
-                          <p className="text-xs text-primary/80">AUG</p>
+                      <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
+                        <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
+                          <p className="font-bold text-lg">28</p>
+                          <p className="text-xs opacity-80">AUG</p>
                         </div>
                         <div>
-                          <h4 className="font-semibold text-foreground">Galaxy S25 India Launch</h4>
-                          <p className="text-sm text-muted-foreground">Expected to be announced online.</p>
+                          <h4 className="font-semibold">Galaxy S25 India Launch</h4>
+                          <p className="text-sm opacity-80">Expected to be announced online.</p>
                         </div>
                       </article>
-                      <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
-                        <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
-                          <p className="font-bold text-lg text-primary">05</p>
-                          <p className="text-xs text-primary/80">SEP</p>
+                      <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
+                        <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
+                          <p className="font-bold text-lg">05</p>
+                          <p className="text-xs opacity-80">SEP</p>
                         </div>
                         <div>
-                          <h4 className="font-semibold text-foreground">Apple iPhone 17 Event</h4>
-                          <p className="text-sm text-muted-foreground">The official reveal of the new iPhone series.</p>
+                          <h4 className="font-semibold">Apple iPhone 17 Event</h4>
+                          <p className="text-sm opacity-80">The official reveal of the new iPhone series.</p>
                         </div>
                       </article>
-                      <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
-                        <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
-                          <p className="font-bold text-lg text-primary">15</p>
-                          <p className="text-xs text-primary/80">SEP</p>
+                      <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
+                        <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
+                          <p className="font-bold text-lg">15</p>
+                          <p className="text-xs opacity-80">SEP</p>
                         </div>
                         <div>
-                          <h4 className="font-semibold text-foreground">OnePlus 13 Series</h4>
-                          <p className="text-sm text-muted-foreground">Global launch event for the next flagship killer.</p>
+                          <h4 className="font-semibold">OnePlus 13 Series</h4>
+                          <p className="text-sm opacity-80">Global launch event for the next flagship killer.</p>
                         </div>
                       </article>
-                      <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
-                        <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
-                          <p className="font-bold text-lg text-primary">04</p>
-                          <p className="text-xs text-primary/80">OCT</p>
+                      <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
+                        <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
+                          <p className="font-bold text-lg">04</p>
+                          <p className="text-xs opacity-80">OCT</p>
                         </div>
                         <div>
-                          <h4 className="font-semibold text-foreground">Google Pixel 9 Event</h4>
-                          <p className="text-sm text-muted-foreground">Launch of Pixel 9, Pixel 9 Pro, and Pixel Watch 3.</p>
+                          <h4 className="font-semibold">Google Pixel 9 Event</h4>
+                          <p className="text-sm opacity-80">Launch of Pixel 9, Pixel 9 Pro, and Pixel Watch 3.</p>
                         </div>
                       </article>
-                      <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
-                        <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
-                          <p className="font-bold text-lg text-primary">28</p>
-                          <p className="text-xs text-primary/80">OCT</p>
+                      <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
+                        <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
+                          <p className="font-bold text-lg">28</p>
+                          <p className="text-xs opacity-80">OCT</p>
                         </div>
                         <div>
-                          <h4 className="font-semibold text-foreground">Xiaomi 15 Series China Launch</h4>
-                          <p className="text-sm text-muted-foreground">First look at the Snapdragon 8 Gen 4 phones.</p>
+                          <h4 className="font-semibold">Xiaomi 15 Series China Launch</h4>
+                          <p className="text-sm opacity-80">First look at the Snapdragon 8 Gen 4 phones.</p>
                         </div>
                       </article>
                   </div>
@@ -675,45 +675,45 @@ export default function Home() {
             </Card>
 
              {/* Guides */}
-            <Card className="bg-card rounded-2xl" aria-labelledby="guides-heading">
+            <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="guides-heading">
                 <CardHeader>
                   <div className="flex items-center gap-2">
-                    <BookOpen className="h-7 w-7 text-primary" />
-                    <h3 id="guides-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+                    <BookOpen className="h-7 w-7" />
+                    <h3 id="guides-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                       Guides
                     </h3>
                   </div>
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-4">
-                      <Card className="hover:bg-muted/50 transition-colors bg-background">
+                      <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
                         <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
-                          <Badge>Deep Dive</Badge>
-                          <h4 className="font-semibold mt-2 text-foreground">iPhone 16 Explained: Everything We Know</h4>
+                          <Badge variant="secondary">Deep Dive</Badge>
+                          <h4 className="font-semibold mt-2">iPhone 16 Explained: Everything We Know</h4>
                         </Link>
                       </Card>
-                      <Card className="hover:bg-muted/50 transition-colors bg-background">
+                      <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
                         <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
-                          <Badge>Industry News</Badge>
-                          <h4 className="font-semibold mt-2 text-foreground">Snapdragon 8 Gen 4: What to Expect</h4>
+                          <Badge variant="secondary">Industry News</Badge>
+                          <h4 className="font-semibold mt-2">Snapdragon 8 Gen 4: What to Expect</h4>
                         </Link>
                       </Card>
-                      <Card className="hover:bg-muted/50 transition-colors bg-background">
+                      <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
                         <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
-                          <Badge>Guides</Badge>
-                          <h4 className="font-semibold mt-2 text-foreground">Top Phones to Buy in September</h4>
+                          <Badge variant="secondary">Guides</Badge>
+                          <h4 className="font-semibold mt-2">Top Phones to Buy in September</h4>
                         </Link>
                       </Card>
-                       <Card className="hover:bg-muted/50 transition-colors bg-background">
+                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
                         <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
-                          <Badge>Guides</Badge>
-                          <h4 className="font-semibold mt-2 text-foreground">How to Maximize Your Phone's Battery Life</h4>
+                          <Badge variant="secondary">Guides</Badge>
+                          <h4 className="font-semibold mt-2">How to Maximize Your Phone's Battery Life</h4>
                         </Link>
                       </Card>
-                       <Card className="hover:bg-muted/50 transition-colors bg-background">
+                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
                         <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
-                          <Badge>Tips & Tricks</Badge>
-                          <h4 className="font-semibold mt-2 text-foreground">Mastering ProRAW on Your iPhone</h4>
+                          <Badge variant="secondary">Tips & Tricks</Badge>
+                          <h4 className="font-semibold mt-2">Mastering ProRAW on Your iPhone</h4>
                         </Link>
                       </Card>
                     </div>
@@ -722,9 +722,9 @@ export default function Home() {
         </div>
 
         {/* Blog */}
-        <Card className="bg-card rounded-2xl" aria-labelledby="blog-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="blog-heading">
           <CardHeader>
-             <h2 id="blog-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-foreground">
+             <h2 id="blog-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
               From the Blog
             </h2>
           </CardHeader>
@@ -739,7 +739,7 @@ export default function Home() {
                     className="rounded-t-lg object-cover aspect-video"
                     data-ai-hint="mobile technology"
                   />
-                  <CardContent className="p-4">
+                  <CardContent className="p-4 bg-background text-foreground">
                     <Badge>Buying Guides</Badge>
                     <h3 className="text-lg font-bold mt-2">
                       How to Choose the Right Phone for You
@@ -758,7 +758,7 @@ export default function Home() {
                     className="rounded-t-lg object-cover aspect-video"
                     data-ai-hint="smartphone camera"
                   />
-                  <CardContent className="p-4">
+                  <CardContent className="p-4 bg-background text-foreground">
                     <Badge>Tips & Tricks</Badge>
                     <h3 className="text-lg font-bold mt-2">
                       Master Your Phone&apos;s Camera: Pro Tips
@@ -777,7 +777,7 @@ export default function Home() {
                     className="rounded-t-lg object-cover aspect-video"
                     data-ai-hint="smartphone battery"
                   />
-                  <CardContent className="p-4">
+                  <CardContent className="p-4 bg-background text-foreground">
                     <Badge>Tips & Tricks</Badge>
                     <h3 className="text-lg font-bold mt-2">
                       Maximize Your Phone's Battery Life
@@ -796,7 +796,7 @@ export default function Home() {
                     className="rounded-t-lg object-cover aspect-video"
                     data-ai-hint="mobile gaming"
                   />
-                  <CardContent className="p-4">
+                  <CardContent className="p-4 bg-background text-foreground">
                     <Badge>Gaming</Badge>
                     <h3 className="text-lg font-bold mt-2">
                       The Rise of Mobile Esports
@@ -815,7 +815,7 @@ export default function Home() {
                     className="rounded-t-lg object-cover aspect-video"
                     data-ai-hint="foldable phone"
                   />
-                  <CardContent className="p-4">
+                  <CardContent className="p-4 bg-background text-foreground">
                     <Badge>Industry Insights</Badge>
                     <h3 className="text-lg font-bold mt-2">
                       Are Foldable Phones the Future?
@@ -834,7 +834,7 @@ export default function Home() {
                     className="rounded-t-lg object-cover aspect-video"
                     data-ai-hint="data privacy"
                   />
-                  <CardContent className="p-4">
+                  <CardContent className="p-4 bg-background text-foreground">
                     <Badge>Security</Badge>
                     <h3 className="text-lg font-bold mt-2">
                       Protecting Your Digital Privacy
@@ -849,9 +849,9 @@ export default function Home() {
         </Card>
         
         {/* News Section */}
-        <Card className="bg-card rounded-2xl" aria-labelledby="news-heading">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="news-heading">
           <CardHeader>
-            <h2 id="news-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-foreground">
+            <h2 id="news-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
               Latest News
             </h2>
           </CardHeader>
@@ -902,7 +902,7 @@ export default function Home() {
                  </Link>
               </Card>
               
-              <Card>
+              <Card className="bg-background text-foreground">
                 <CardContent className="p-4 flex flex-col justify-between h-full">
                   <div>
                     <Badge>Software</Badge>
@@ -911,7 +911,7 @@ export default function Home() {
                   <Button variant="link" className="p-0 h-auto self-start mt-2">Read More <ArrowRight className="ml-1" /></Button>
                 </CardContent>
               </Card>
-               <Card>
+               <Card className="bg-background text-foreground">
                 <CardContent className="p-4 flex flex-col justify-between h-full">
                   <div>
                     <Badge>Analysis</Badge>
@@ -920,7 +920,7 @@ export default function Home() {
                   <Button variant="link" className="p-0 h-auto self-start mt-2">Read More <ArrowRight className="ml-1" /></Button>
                 </CardContent>
               </Card>
-               <Card>
+               <Card className="bg-background text-foreground">
                 <CardContent className="p-4 flex flex-col justify-between h-full">
                   <div>
                     <Badge>Gaming</Badge>
@@ -929,7 +929,7 @@ export default function Home() {
                   <Button variant="link" className="p-0 h-auto self-start mt-2">Read More <ArrowRight className="ml-1" /></Button>
                 </CardContent>
               </Card>
-               <Card>
+               <Card className="bg-background text-foreground">
                 <CardContent className="p-4 flex flex-col justify-between h-full">
                   <div>
                     <Badge>Deals</Badge>
@@ -944,33 +944,33 @@ export default function Home() {
         </Card>
 
         {/* Trust & Subscribe */}
-        <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="trust-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="trust-heading">
             <CardContent className="p-6">
                 <div className="grid items-center justify-center gap-4 text-center">
                     <div className="space-y-3">
-                      <h2 id="trust-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight text-foreground">
+                      <h2 id="trust-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
                         Your Trusted Source for Mobile Specs
                       </h2>
-                      <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                      <p className="mx-auto max-w-[600px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                         We provide accurate, up-to-date information you can rely on.
                       </p>
                     </div>
 
                     <div className="mx-auto grid max-w-sm grid-cols-3 items-start justify-center gap-8 lg:max-w-none lg:grid-cols-3">
                       <div className="flex flex-col items-center justify-center space-y-2">
-                        <Star className="h-8 w-8 text-primary" aria-hidden="true" />
+                        <Star className="h-8 w-8 text-current" aria-hidden="true" />
                         <p className="font-bold">128+ Specs</p>
-                        <p className="text-sm text-muted-foreground">Per Phone</p>
+                        <p className="text-sm">Per Phone</p>
                       </div>
                       <div className="flex flex-col items-center justify-center space-y-2">
-                        <Info className="h-8 w-8 text-primary" aria-hidden="true" />
+                        <Info className="h-8 w-8 text-current" aria-hidden="true" />
                         <p className="font-bold">Verified Sources</p>
-                        <p className="text-sm text-muted-foreground">Always Accurate</p>
+                        <p className="text-sm">Always Accurate</p>
                       </div>
                       <div className="flex flex-col items-center justify-center space-y-2">
-                        <Calendar className="h-8 w-8 text-primary" aria-hidden="true" />
+                        <Calendar className="h-8 w-8 text-current" aria-hidden="true" />
                         <p className="font-bold">Daily Updates</p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm">
                           Never Miss a Launch
                         </p>
                       </div>
@@ -980,9 +980,9 @@ export default function Home() {
                       <form className="flex space-x-2">
                         <label htmlFor="email" className="sr-only">Enter your email</label>
                         <Input id="email" type="email" placeholder="Enter your email" className="max-w-lg flex-1 bg-background text-foreground" />
-                        <Button type="submit" variant="default" aria-label="Subscribe for weekly launch alerts">Subscribe</Button>
+                        <Button type="submit" variant="secondary" aria-label="Subscribe for weekly launch alerts">Subscribe</Button>
                       </form>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs">
                         Get weekly launch alerts and top news.
                       </p>
                     </div>
@@ -1011,6 +1011,7 @@ export default function Home() {
 
 
     
+
 
 
 
