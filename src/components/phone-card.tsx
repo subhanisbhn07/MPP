@@ -58,9 +58,9 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
           </Button>
         )}
       </CardHeader>
-      <CardContent className="flex-1 p-4">
+      <CardContent className="flex flex-col flex-1 p-4">
         <Badge variant="secondary" className="mb-2 self-start">{phone.brand}</Badge>
-        <CardTitle className="text-base font-bold leading-tight">
+        <CardTitle className="text-base font-bold leading-tight flex-1">
           <Link href={phoneUrl}>{phone.model}</Link>
         </CardTitle>
         <div className="mt-3 space-y-1.5 text-xs text-muted-foreground">
@@ -69,8 +69,8 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
         </div>
       </CardContent>
       <CardFooter className="flex items-center justify-between p-4 bg-secondary/30">
-        <p className="text-lg font-bold text-primary flex-shrink-0">${phone.price}</p>
-        <Button variant="outline" size="sm" onClick={handleCompareClick}>
+        <p className="text-base font-bold text-primary flex-shrink-0">${phone.price}</p>
+        <Button variant="outline" size="sm" className="px-2" onClick={handleCompareClick}>
           Compare
         </Button>
       </CardFooter>
