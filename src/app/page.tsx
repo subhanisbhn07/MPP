@@ -76,15 +76,15 @@ export default function Home() {
   const [phone1, setPhone1] = useState<Phone | null>(null);
   const [phone2, setPhone2] = useState<Phone | null>(null);
 
-  const popularPhones = allPhones.slice(0, 5);
-  const latestPhones = [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime()).slice(0, 5);
-  const flagshipPhones = allPhones.filter(p => p.price > 900).slice(0, 5);
-  const performancePhones = allPhones.filter(p => p.specs.platform.chipset.includes('Snapdragon 8 Gen 3') || p.specs.platform.chipset.includes('Apple A17 Pro') || p.specs.platform.chipset.includes('Snapdragon 8 Gen 2')).slice(0, 5);
-  const batteryPhones = [...allPhones].sort((a,b) => parseInt(b.specs.battery.capacity_mah) - parseInt(a.specs.battery.capacity_mah)).slice(0, 5);
-  const cameraPhones = [...allPhones].sort((a,b) => parseInt(a.specs.main_camera.main_sensor_resolution) - parseInt(b.specs.main_camera.main_sensor_resolution)).slice(0, 5);
-  const foldablePhones = allPhones.filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip') || p.model.toLowerCase().includes('razr')).slice(0, 5);
-  const ruggedPhones = allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")).slice(0, 5);
-  const uniquePhones = allPhones.filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony").slice(0, 5);
+  const popularPhones = allPhones.slice(0, 6);
+  const latestPhones = [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime()).slice(0, 6);
+  const flagshipPhones = allPhones.filter(p => p.price > 900).slice(0, 6);
+  const performancePhones = allPhones.filter(p => p.specs.platform.chipset.includes('Snapdragon 8 Gen 3') || p.specs.platform.chipset.includes('Apple A17 Pro') || p.specs.platform.chipset.includes('Snapdragon 8 Gen 2')).slice(0, 6);
+  const batteryPhones = [...allPhones].sort((a,b) => parseInt(b.specs.battery.capacity_mah) - parseInt(a.specs.battery.capacity_mah)).slice(0, 6);
+  const cameraPhones = [...allPhones].sort((a,b) => parseInt(a.specs.main_camera.main_sensor_resolution) - parseInt(b.specs.main_camera.main_sensor_resolution)).slice(0, 6);
+  const foldablePhones = allPhones.filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip') || p.model.toLowerCase().includes('razr')).slice(0, 6);
+  const ruggedPhones = allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")).slice(0, 6);
+  const uniquePhones = allPhones.filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony").slice(0, 6);
   
   const onSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -273,21 +273,21 @@ export default function Home() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] md:flex md:flex-row gap-2">
+                <div className="grid grid-cols-2 gap-2 md:flex md:flex-row">
                   <Button
                     type="button"
                     variant="outline"
                     size="lg"
-                    className="h-12 w-full md:w-auto"
+                    className="h-12 w-full"
                     aria-label="Open filters"
                   >
                     <Filter className="mr-2 h-5 w-5" aria-hidden="true" /> Filters
                   </Button>
 
-                  <div className="w-full md:w-auto">
+                  <div className="w-full">
                     <label htmlFor="sort" className="sr-only">Sort by</label>
                     <Select value={sortBy} onValueChange={setSortBy} name="sort">
-                      <SelectTrigger id="sort" className="h-12 w-full md:w-[180px] bg-background text-foreground border-input focus:ring-primary data-[placeholder]:text-muted-foreground" aria-label="Sort By">
+                      <SelectTrigger id="sort" className="h-12 w-full bg-background text-foreground border-input focus:ring-primary data-[placeholder]:text-muted-foreground" aria-label="Sort By">
                         <ArrowUpDown className="mr-2 h-5 w-5" aria-hidden="true" />
                         <SelectValue placeholder="Sort By" />
                       </SelectTrigger>
@@ -303,7 +303,7 @@ export default function Home() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="h-12 w-full md:w-auto sm:col-span-2"
+                    className="h-12 w-full col-span-2"
                     variant="default"
                     aria-label="Search phones"
                   >
@@ -324,9 +324,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-              {popularPhones.map((phone) => (
-                <li role="listitem" key={phone.id}>
+            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+              {popularPhones.map((phone, index) => (
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -344,9 +344,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-              {latestPhones.map((phone) => (
-                <li role="listitem" key={phone.id}>
+            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+              {latestPhones.map((phone, index) => (
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -364,9 +364,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-              {flagshipPhones.map((phone) => (
-                <li role="listitem" key={phone.id}>
+            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+              {flagshipPhones.map((phone, index) => (
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                    <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -384,9 +384,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-              {batteryPhones.map((phone) => (
-                <li role="listitem" key={phone.id}>
+            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+              {batteryPhones.map((phone, index) => (
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -404,9 +404,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-              {performancePhones.map((phone) => (
-                <li role="listitem" key={phone.id}>
+            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+              {performancePhones.map((phone, index) => (
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -424,9 +424,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-              {cameraPhones.map((phone) => (
-                <li role="listitem" key={phone.id}>
+            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+              {cameraPhones.map((phone, index) => (
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -444,9 +444,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-              {foldablePhones.map((phone) => (
-                <li role="listitem" key={phone.id}>
+            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+              {foldablePhones.map((phone, index) => (
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -464,9 +464,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-              {ruggedPhones.map((phone) => (
-                <li role="listitem" key={phone.id}>
+            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+              {ruggedPhones.map((phone, index) => (
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -484,9 +484,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-              {uniquePhones.map((phone) => (
-                <li role="listitem" key={phone.id}>
+            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+              {uniquePhones.map((phone, index) => (
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -1011,5 +1011,6 @@ export default function Home() {
 
 
     
+
 
 
