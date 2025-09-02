@@ -214,7 +214,7 @@ export default function Home() {
                 AI-updated specs, comparisons & SEO-friendly landing pages.
               </p>
               <div className="mt-4">
-                <Button asChild size="lg">
+                <Button asChild size="lg" variant="default">
                   <Link href="/compare">Compare Mobiles</Link>
                 </Button>
               </div>
@@ -223,7 +223,7 @@ export default function Home() {
 
           {/* News Ticker with live region + reduced motion support */}
           <div className="mt-12 pb-12 px-4 md:px-6">
-            <div className="relative flex items-center bg-background text-foreground rounded-lg p-2 text-sm overflow-hidden">
+            <div className="relative flex items-center bg-primary text-primary-foreground rounded-lg p-2 text-sm overflow-hidden">
               <Megaphone className="h-5 w-5 mr-2 flex-shrink-0" aria-hidden="true" />
               <div
                 className="flex-1 overflow-hidden"
@@ -1018,3 +1018,4 @@ export default function Home() {
 
 
     
+
