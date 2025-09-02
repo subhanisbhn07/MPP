@@ -304,9 +304,10 @@ export default function Home() {
                     type="submit"
                     size="lg"
                     className="h-12 w-full col-span-2"
-                    variant="default"
+                    variant="secondary"
                     aria-label="Search phones"
                   >
+                    <Search className="mr-2 h-4 w-4" />
                     Search
                   </Button>
                 </div>
@@ -1018,4 +1019,5 @@ export default function Home() {
 
 
     
+
 
