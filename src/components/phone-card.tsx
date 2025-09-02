@@ -58,9 +58,9 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
           </Button>
         )}
       </CardHeader>
-      <CardContent className="flex-1 p-4 flex flex-col">
+      <CardContent className="flex-1 p-4">
         <Badge variant="secondary" className="mb-2 self-start">{phone.brand}</Badge>
-        <CardTitle className="text-base font-bold leading-tight flex-1">
+        <CardTitle className="text-base font-bold leading-tight">
           <Link href={phoneUrl}>{phone.model}</Link>
         </CardTitle>
         <div className="mt-3 space-y-1.5 text-xs text-muted-foreground">
