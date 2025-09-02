@@ -673,7 +673,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-             {/* News & Guides */}
+             {/* Guides */}
             <Card className="bg-card rounded-2xl" aria-labelledby="guides-heading">
                 <CardHeader>
                   <div className="flex items-center gap-2">
@@ -847,6 +847,101 @@ export default function Home() {
           </CardContent>
         </Card>
         
+        {/* News Section */}
+        <Card className="bg-card rounded-2xl" aria-labelledby="news-heading">
+          <CardHeader>
+            <h2 id="news-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center text-foreground">
+              Latest News
+            </h2>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[250px]">
+              
+              <Card className="lg:col-span-2 lg:row-span-2 group relative overflow-hidden rounded-lg">
+                <Link href="#" className="block h-full w-full">
+                  <Image src="https://picsum.photos/800/800?v=n1" alt="Featured news" fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint="mobile technology" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                  <div className="absolute bottom-0 p-4 md:p-6 text-white">
+                    <Badge variant="destructive">BREAKING</Badge>
+                    <h3 className="text-lg md:text-2xl font-bold mt-2 leading-tight">Pixel 9 Pro Leaks Reveal Complete Redesign and Tensor G4 Specs</h3>
+                  </div>
+                </Link>
+              </Card>
+
+              <Card className="lg:col-span-2 group relative overflow-hidden rounded-lg">
+                <Link href="#" className="block h-full w-full">
+                  <Image src="https://picsum.photos/800/400?v=n2" alt="News item" fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint="smartphone chipset" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                  <div className="absolute bottom-0 p-4 text-white">
+                    <Badge>Industry News</Badge>
+                    <h3 className="text-md font-bold mt-1">Snapdragon 8 Gen 4 to Ditch Efficiency Cores for All-Out Performance</h3>
+                  </div>
+                </Link>
+              </Card>
+
+              <Card className="group relative overflow-hidden rounded-lg">
+                 <Link href="#" className="block h-full w-full">
+                    <Image src="https://picsum.photos/400/400?v=n3" alt="News item" fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint="smartphone event" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                    <div className="absolute bottom-0 p-4 text-white">
+                      <Badge>Events</Badge>
+                      <h3 className="text-sm font-bold mt-1">Apple Confirms September 10th for iPhone 16 Reveal</h3>
+                    </div>
+                 </Link>
+              </Card>
+              
+               <Card className="group relative overflow-hidden rounded-lg">
+                 <Link href="#" className="block h-full w-full">
+                    <Image src="https://picsum.photos/400/400?v=n4" alt="News item" fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint="foldable phone" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                    <div className="absolute bottom-0 p-4 text-white">
+                      <Badge>Rumors</Badge>
+                      <h3 className="text-sm font-bold mt-1">Samsung Galaxy Z Fold 6 to be Thinner and Lighter</h3>
+                    </div>
+                 </Link>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-4 flex flex-col justify-between h-full">
+                  <div>
+                    <Badge>Software</Badge>
+                    <h3 className="font-bold mt-2">Android 15 Beta 3 Adds New Privacy Features</h3>
+                  </div>
+                  <Button variant="link" className="p-0 h-auto self-start mt-2">Read More <ArrowRight className="ml-1" /></Button>
+                </CardContent>
+              </Card>
+               <Card>
+                <CardContent className="p-4 flex flex-col justify-between h-full">
+                  <div>
+                    <Badge>Analysis</Badge>
+                    <h3 className="font-bold mt-2">Is the AI Phone Trend a Gimmick or the Future?</h3>
+                  </div>
+                  <Button variant="link" className="p-0 h-auto self-start mt-2">Read More <ArrowRight className="ml-1" /></Button>
+                </CardContent>
+              </Card>
+               <Card>
+                <CardContent className="p-4 flex flex-col justify-between h-full">
+                  <div>
+                    <Badge>Gaming</Badge>
+                    <h3 className="font-bold mt-2">New Controller Support Coming to Mobile Games</h3>
+                  </div>
+                  <Button variant="link" className="p-0 h-auto self-start mt-2">Read More <ArrowRight className="ml-1" /></Button>
+                </CardContent>
+              </Card>
+               <Card>
+                <CardContent className="p-4 flex flex-col justify-between h-full">
+                  <div>
+                    <Badge>Deals</Badge>
+                    <h3 className="font-bold mt-2">Best Back-to-School Smartphone Deals for 2024</h3>
+                  </div>
+                  <Button variant="link" className="p-0 h-auto self-start mt-2">Read More <ArrowRight className="ml-1" /></Button>
+                </CardContent>
+              </Card>
+
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Trust & Subscribe */}
         <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="trust-heading">
             <CardContent className="p-6">
@@ -913,3 +1008,5 @@ export default function Home() {
   );
 }
 
+
+    
