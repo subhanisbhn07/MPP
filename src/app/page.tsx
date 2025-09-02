@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Image from 'next/image';
@@ -203,45 +202,47 @@ export default function Home() {
 
       {/* Header / Hero */}
       <header role="banner" className="w-full bg-card pt-12 md:pt-24 lg:pt-32 rounded-2xl">
-        <div className="text-center">
-          <div className="flex flex-col items-center justify-center space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-foreground">
-              Discover. Compare. Decide.
-            </h1>
-            <p className="max-w-[600px] md:text-xl text-muted-foreground">
-              AI-updated specs, comparisons & SEO-friendly landing pages.
-            </p>
-            <div className="mt-4">
-              <Button asChild size="lg">
-                <Link href="/compare">Compare Mobiles</Link>
-              </Button>
+        <div className="container">
+          <div className="text-center">
+            <div className="flex flex-col items-center justify-center space-y-4">
+              <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-foreground">
+                Discover. Compare. Decide.
+              </h1>
+              <p className="max-w-[600px] md:text-xl text-muted-foreground">
+                AI-updated specs, comparisons & SEO-friendly landing pages.
+              </p>
+              <div className="mt-4">
+                <Button asChild size="lg">
+                  <Link href="/compare">Compare Mobiles</Link>
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* News Ticker with live region + reduced motion support */}
-        <div className="mt-12 pb-12 px-4 md:px-6">
-          <div className="relative flex items-center bg-primary text-primary-foreground rounded-lg p-2 text-sm overflow-hidden">
-            <Megaphone className="h-5 w-5 mr-2 flex-shrink-0" aria-hidden="true" />
-            <div
-              className="flex-1 overflow-hidden"
-              onMouseEnter={() => setTickerPaused(true)}
-              onMouseLeave={() => setTickerPaused(false)}
-            >
+          {/* News Ticker with live region + reduced motion support */}
+          <div className="mt-12 pb-12 px-4 md:px-6">
+            <div className="relative flex items-center bg-primary text-primary-foreground rounded-lg p-2 text-sm overflow-hidden">
+              <Megaphone className="h-5 w-5 mr-2 flex-shrink-0" aria-hidden="true" />
               <div
-                role="status"
-                aria-live="polite"
-                className={cn(
-                  "flex w-max motion-safe:animate-ticker",
-                  tickerPaused && "motion-safe:[animation-play-state:paused]"
-                )}
+                className="flex-1 overflow-hidden"
+                onMouseEnter={() => setTickerPaused(true)}
+                onMouseLeave={() => setTickerPaused(false)}
               >
-                <p className="whitespace-nowrap pr-12">Pixel 9a announced with new Tensor G4 chip.</p>
-                <p className="whitespace-nowrap pr-12">iPhone 16 Pro leaks suggest a larger display.</p>
-                <p className="whitespace-nowrap pr-12">Samsung Galaxy S25 to feature satellite connectivity.</p>
-                <p className="whitespace-nowrap pr-12">Pixel 9a announced with new Tensor G4 chip.</p>
-                <p className="whitespace-nowrap pr-12">iPhone 16 Pro leaks suggest a larger display.</p>
-                <p className="whitespace-nowrap pr-12">Samsung Galaxy S25 to feature satellite connectivity.</p>
+                <div
+                  role="status"
+                  aria-live="polite"
+                  className={cn(
+                    "flex w-max motion-safe:animate-ticker",
+                    tickerPaused && "motion-safe:[animation-play-state:paused]"
+                  )}
+                >
+                  <p className="whitespace-nowrap pr-12">Pixel 9a announced with new Tensor G4 chip.</p>
+                  <p className="whitespace-nowrap pr-12">iPhone 16 Pro leaks suggest a larger display.</p>
+                  <p className="whitespace-nowrap pr-12">Samsung Galaxy S25 to feature satellite connectivity.</p>
+                  <p className="whitespace-nowrap pr-12">Pixel 9a announced with new Tensor G4 chip.</p>
+                  <p className="whitespace-nowrap pr-12">iPhone 16 Pro leaks suggest a larger display.</p>
+                  <p className="whitespace-nowrap pr-12">Samsung Galaxy S25 to feature satellite connectivity.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -441,7 +442,7 @@ export default function Home() {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="battery" className="w-full" aria-label="Power and performance categories">
-              <TabsList className="mb-4 grid grid-cols-3 w-full">
+              <TabsList className="mb-4 grid w-full max-w-md mx-auto grid-cols-3">
                 <TabsTrigger value="battery" aria-controls="panel-battery">
                   <Battery className="mr-2" aria-hidden="true" />
                   Battery
@@ -504,7 +505,7 @@ export default function Home() {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="foldable" className="w-full" aria-label="Specialty categories">
-              <TabsList className="mb-4 grid grid-cols-3 w-full">
+              <TabsList className="mb-4 grid w-full max-w-md mx-auto grid-cols-3">
                 <TabsTrigger value="foldable" aria-controls="panel-foldable">
                   <Smartphone className="mr-2" aria-hidden="true" />
                   Foldable
@@ -879,3 +880,5 @@ export default function Home() {
     </>
   );
 }
+
+    
