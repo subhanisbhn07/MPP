@@ -4,7 +4,7 @@ import type { Phone } from '@/lib/types';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Layers, Heart, Smartphone, Camera } from 'lucide-react';
+import { Layers, Heart, Smartphone, Camera, GitCompare } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/auth-context';
 import { cn } from '@/lib/utils';
@@ -58,7 +58,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
           </Button>
         )}
       </CardHeader>
-      <CardContent className="flex flex-col flex-1 p-4">
+      <CardContent className="flex-1 flex flex-col p-4">
         <Badge variant="secondary" className="mb-2 self-start">{phone.brand}</Badge>
         <CardTitle className="text-base font-bold leading-tight flex-1">
           <Link href={phoneUrl}>{phone.model}</Link>
@@ -70,8 +70,8 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
       </CardContent>
       <CardFooter className="flex items-center justify-between p-4 bg-secondary/30">
         <p className="text-base font-bold text-primary flex-shrink-0">${phone.price}</p>
-        <Button variant="outline" size="sm" className="px-2" onClick={handleCompareClick}>
-          Compare
+        <Button variant="outline" size="icon" onClick={handleCompareClick} aria-label={`Compare ${phone.model}`}>
+          <GitCompare className="h-4 w-4" />
         </Button>
       </CardFooter>
     </Card>
