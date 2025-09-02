@@ -247,7 +247,7 @@ export default function Home() {
           </div>
         </div>
       </header>
-       <main id="main" role="main" className="py-8 space-y-4">
+       <main id="main" role="main" className="container py-8 space-y-4">
         {/* Search & Filter */}
         <Card className="bg-card text-foreground rounded-2xl">
         <section
