@@ -190,7 +190,7 @@ export default function Home() {
   };
   
   return (
-    <div>
+    <div className="container">
        {/* Skip link */}
       <a
         href="#main"
@@ -315,19 +315,9 @@ export default function Home() {
         {/* Trending Phones */}
         <Card className="bg-card rounded-2xl" aria-labelledby="trending-heading">
           <CardHeader>
-            <div className="flex justify-between items-center">
-                <CardTitle id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
-                    Trending Phones
-                </CardTitle>
-                 <Link
-                    href="#"
-                    aria-disabled
-                    tabIndex={-1}
-                    className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
-                  >
-                    See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                  </Link>
-            </div>
+            <CardTitle id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+                Trending Phones
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
@@ -345,19 +335,9 @@ export default function Home() {
         {/* Latest Launches */}
         <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="latest-heading">
           <CardHeader>
-            <div className="flex justify-between items-center">
-               <CardTitle id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
-                Latest Launches
-               </CardTitle>
-              <Link
-                href="#"
-                aria-disabled
-                tabIndex={-1}
-                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
-              >
-                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
+            <CardTitle id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+              Latest Launches
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
@@ -375,19 +355,9 @@ export default function Home() {
         {/* Flagship Phones */}
          <Card className="bg-card rounded-2xl" aria-labelledby="flagship-heading">
            <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
-                Flagship Phones
-              </CardTitle>
-              <Link
-                href="#"
-                aria-disabled
-                tabIndex={-1}
-                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
-              >
-                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
+            <CardTitle id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+              Flagship Phones
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
@@ -405,19 +375,9 @@ export default function Home() {
         {/* Battery Phones */}
         <Card className="bg-card rounded-2xl" aria-labelledby="battery-heading">
           <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
-                Longest Battery Life
-              </CardTitle>
-              <Link
-                href="#"
-                aria-disabled
-                tabIndex={-1}
-                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
-              >
-                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
+            <CardTitle id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+              Longest Battery Life
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
@@ -435,19 +395,9 @@ export default function Home() {
         {/* Gaming Phones */}
         <Card className="bg-card rounded-2xl" aria-labelledby="gaming-heading">
           <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
-                Best for Gaming
-              </CardTitle>
-              <Link
-                href="#"
-                aria-disabled
-                tabIndex={-1}
-                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
-              >
-                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
+            <CardTitle id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+              Best for Gaming
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
@@ -465,19 +415,9 @@ export default function Home() {
         {/* Camera Phones */}
         <Card className="bg-card rounded-2xl" aria-labelledby="camera-heading">
           <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
-                Top Camera Phones
-              </CardTitle>
-              <Link
-                href="#"
-                aria-disabled
-                tabIndex={-1}
-                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
-              >
-                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
+            <CardTitle id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+              Top Camera Phones
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
@@ -495,19 +435,9 @@ export default function Home() {
         {/* Foldable Phones */}
         <Card className="bg-card rounded-2xl" aria-labelledby="foldable-heading">
           <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
-                Foldable Phones
-              </CardTitle>
-              <Link
-                href="#"
-                aria-disabled
-                tabIndex={-1}
-                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
-              >
-                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
+            <CardTitle id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+              Foldable Phones
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
@@ -525,19 +455,9 @@ export default function Home() {
         {/* Rugged Phones */}
         <Card className="bg-card rounded-2xl" aria-labelledby="rugged-heading">
           <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
-                Rugged Phones
-              </CardTitle>
-              <Link
-                href="#"
-                aria-disabled
-                tabIndex={-1}
-                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
-              >
-                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
+            <CardTitle id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+              Rugged Phones
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
@@ -555,19 +475,9 @@ export default function Home() {
         {/* Unique Phones */}
         <Card className="bg-card rounded-2xl" aria-labelledby="unique-heading">
           <CardHeader>
-            <div className="flex justify-between items-center">
-              <CardTitle id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
-                Unique Phones
-              </CardTitle>
-              <Link
-                href="#"
-                aria-disabled
-                tabIndex={-1}
-                className="text-sm font-medium text-primary hover:underline flex items-center aria-disabled:opacity-50"
-              >
-                See All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-              </Link>
-            </div>
+            <CardTitle id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+              Unique Phones
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
