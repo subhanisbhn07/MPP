@@ -1,19 +1,34 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, Smartphone, PenSquare, ArrowRight } from 'lucide-react';
+import { Sparkles, Smartphone, PenSquare, ArrowRight, Activity, Edit, PlusCircle } from 'lucide-react';
 import Link from "next/link";
 import { allPhones } from "@/lib/data";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+
 
 export default function AdminDashboard() {
-  const quickLinks = [
-    { href: '/admin/generate-spec', label: 'Generate Specs with AI', icon: Sparkles },
-    { href: '/admin/phones', label: 'Manage Phones', icon: Smartphone },
-    { href: '/admin/blog', label: 'Write a Blog Post', icon: PenSquare },
-  ];
   
   const totalPhones = allPhones.length;
   // Placeholder data for articles and generations
   const totalArticles = 57;
   const aiGenerations = 218;
+
+  const quickLinks = [
+    { href: '/admin/phones/add', label: 'Add New Phone', icon: PlusCircle },
+    { href: '/admin/generate-spec', label: 'Generate with AI', icon: Sparkles },
+    { href: '/admin/blog/new', label: 'Write a Post', icon: PenSquare },
+  ];
+  
+  const recentPhones = allPhones.slice(0, 5);
+  
+  const recentActivities = [
+    { type: 'AI Generation', description: 'Generated specs for iPhone 16 Pro', time: '2m ago' },
+    { type: 'Blog Post', description: 'Published "Best Camera Phones of 2024"', time: '1h ago' },
+    { type: 'Phone Edit', description: 'Updated price for Galaxy S24 Ultra', time: '3h ago' },
+    { type: 'SEO Update', description: 'Updated meta tags for "Foldable Phones"', time: '5h ago' },
+  ];
 
   return (
     <div className="space-y-8">
@@ -26,13 +41,13 @@ export default function AdminDashboard() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Phones</CardTitle>
-            <div className="p-2 bg-primary/10 rounded-md">
+             <div className="p-2 bg-primary/10 rounded-md">
                 <Smartphone className="h-4 w-4 text-primary" />
             </div>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalPhones}</div>
-            <p className="text-xs text-muted-foreground">+20 since last month</p>
+            <p className="text-xs text-muted-foreground">+2 since last month</p>
           </CardContent>
         </Card>
         <Card>
@@ -61,25 +76,89 @@ export default function AdminDashboard() {
         </Card>
       </div>
 
-      <div>
-        <h2 className="text-2xl font-bold tracking-tight mb-4">Quick Actions</h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {quickLinks.map(link => (
-            <Link key={link.href} href={link.href} className="block group">
-              <Card className="h-full hover:bg-muted/50 transition-colors">
-                <CardHeader className="flex flex-row items-center justify-between gap-4 space-y-0">
-                  <div className="flex items-center gap-4">
-                     <div className="p-2 bg-primary/10 rounded-md">
-                        <link.icon className="h-6 w-6 text-primary" />
-                      </div>
-                      <CardTitle className="text-lg">{link.label}</CardTitle>
-                  </div>
-                   <ArrowRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-1" />
-                </CardHeader>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+              <Card>
+                 <CardHeader>
+                    <CardTitle>Recent Phones</CardTitle>
+                     <CardDescription>The 5 most recently added phones to the catalog.</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                      <Table>
+                        <TableBody>
+                            {recentPhones.map(phone => (
+                                <TableRow key={phone.id}>
+                                    <TableCell>
+                                       <div className="flex items-center gap-4">
+                                            <div className="relative h-16 w-12">
+                                                <Image 
+                                                    src={phone.image} 
+                                                    alt={phone.model}
+                                                    fill
+                                                    className="rounded-md object-contain"
+                                                />
+                                            </div>
+                                            <div>
+                                                <p className="font-medium">{phone.model}</p>
+                                                <p className="text-sm text-muted-foreground">{phone.brand}</p>
+                                            </div>
+                                       </div>
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        <Button variant="outline" size="sm" asChild>
+                                            <Link href={`/admin/phones/edit/${phone.id}`}>
+                                                <Edit className="mr-2 h-3 w-3" />
+                                                Edit
+                                            </Link>
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                      </Table>
+                  </CardContent>
               </Card>
-            </Link>
-          ))}
-        </div>
+          </div>
+          <div className="lg:col-span-1 space-y-8">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Quick Actions</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid gap-2">
+                        {quickLinks.map(link => (
+                            <Button key={link.href} asChild variant="outline" className="justify-start">
+                                <Link href={link.href}>
+                                    <link.icon className="mr-2 h-4 w-4" />
+                                    {link.label}
+                                </Link>
+                            </Button>
+                        ))}
+                    </CardContent>
+                </Card>
+                <Card>
+                     <CardHeader>
+                        <CardTitle>Recent Activity</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="space-y-6">
+                            {recentActivities.map((activity, index) => (
+                                <div key={index} className="flex items-start gap-4">
+                                    <Avatar>
+                                      <AvatarFallback>
+                                        <Activity className="h-4 w-4 text-muted-foreground" />
+                                      </AvatarFallback>
+                                    </Avatar>
+                                    <div>
+                                        <p className="text-sm font-medium">{activity.type}</p>
+                                        <p className="text-sm text-muted-foreground">{activity.description}</p>
+                                        <p className="text-xs text-muted-foreground mt-1">{activity.time}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </CardContent>
+                </Card>
+          </div>
       </div>
     </div>
   );
