@@ -27,6 +27,8 @@ import {
   ArrowUpDown,
   X,
   Shuffle,
+  Newspaper,
+  BookOpen,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -190,7 +192,7 @@ export default function Home() {
   };
   
   return (
-    <div className="container">
+    <div className="container space-y-4">
        {/* Skip link */}
       <a
         href="#main"
@@ -371,7 +373,7 @@ export default function Home() {
             </ul>
           </CardContent>
         </Card>
-
+        
         {/* Battery Phones */}
         <Card className="bg-card rounded-2xl" aria-labelledby="battery-heading">
           <CardHeader>
@@ -602,85 +604,121 @@ export default function Home() {
             </ul>
           </CardContent>
         </Card>
-
-        {/* Upcoming & Editorial */}
-        <Card className="bg-card rounded-2xl" aria-labelledby="upcoming-editorial-heading">
-          <CardContent className="p-6">
-            <div className="grid gap-12 lg:grid-cols-2">
-              <h2 id="upcoming-editorial-heading" className="sr-only">Upcoming and editorial</h2>
-
-              {/* Upcoming Calendar */}
-              <section aria-labelledby="upcoming-heading">
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <h3 id="upcoming-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-foreground">
+        
+        <div className="grid gap-4 lg:grid-cols-2">
+            {/* Upcoming Calendar */}
+            <Card className="bg-card rounded-2xl" aria-labelledby="upcoming-heading">
+              <CardHeader>
+                 <div className="flex items-center gap-2">
+                    <Calendar className="h-7 w-7 text-primary" />
+                    <h3 id="upcoming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
                       Upcoming Calendar
                     </h3>
-                    <Link
-                      href="/upcoming"
-                      className="text-sm font-medium text-primary hover:underline flex items-center"
-                    >
-                      View All <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
-                    </Link>
                   </div>
-
-                  <div className="space-y-4">
-                    <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
-                      <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
-                        <p className="font-bold text-lg text-primary">28</p>
-                        <p className="text-xs text-primary/80">AUG</p>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-foreground">Galaxy S25 India Launch</h4>
-                        <p className="text-sm text-muted-foreground">Expected to be announced online.</p>
-                      </div>
-                    </article>
-
-                    <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
-                      <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
-                        <p className="font-bold text-lg text-primary">05</p>
-                        <p className="text-xs text-primary/80">SEP</p>
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-foreground">Apple iPhone Event</h4>
-                        <p className="text-sm text-muted-foreground">The official reveal of the new iPhone 17 series.</p>
-                      </div>
-                    </article>
-                  </div>
-                </div>
-              </section>
-
-              {/* Editorial */}
-              <section aria-labelledby="news-guides-heading">
+              </CardHeader>
+              <CardContent>
                 <div className="space-y-4">
-                  <h3 id="news-guides-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-foreground">
-                    News & Guides
-                  </h3>
-                  <div className="space-y-4">
-                    <Card className="hover:bg-muted/50 transition-colors bg-background">
-                      <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
-                        <Badge>Deep Dive</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">iPhone 16 Explained: Everything We Know</h4>
-                      </Link>
-                    </Card>
-                    <Card className="hover:bg-muted/50 transition-colors bg-background">
-                      <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
-                        <Badge>Industry News</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">Snapdragon 8 Gen 4: What to Expect</h4>
-                      </Link>
-                    </Card>
-                    <Card className="hover:bg-muted/50 transition-colors bg-background">
-                      <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
-                        <Badge>Guides</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">Top Phones to Buy in September</h4>
-                      </Link>
-                    </Card>
+                      <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
+                        <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
+                          <p className="font-bold text-lg text-primary">28</p>
+                          <p className="text-xs text-primary/80">AUG</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Galaxy S25 India Launch</h4>
+                          <p className="text-sm text-muted-foreground">Expected to be announced online.</p>
+                        </div>
+                      </article>
+                      <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
+                        <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
+                          <p className="font-bold text-lg text-primary">05</p>
+                          <p className="text-xs text-primary/80">SEP</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Apple iPhone 17 Event</h4>
+                          <p className="text-sm text-muted-foreground">The official reveal of the new iPhone series.</p>
+                        </div>
+                      </article>
+                      <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
+                        <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
+                          <p className="font-bold text-lg text-primary">15</p>
+                          <p className="text-xs text-primary/80">SEP</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">OnePlus 13 Series</h4>
+                          <p className="text-sm text-muted-foreground">Global launch event for the next flagship killer.</p>
+                        </div>
+                      </article>
+                      <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
+                        <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
+                          <p className="font-bold text-lg text-primary">04</p>
+                          <p className="text-xs text-primary/80">OCT</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Google Pixel 9 Event</h4>
+                          <p className="text-sm text-muted-foreground">Launch of Pixel 9, Pixel 9 Pro, and Pixel Watch 3.</p>
+                        </div>
+                      </article>
+                      <article className="flex items-center gap-4 p-4 border rounded-lg bg-background">
+                        <div className="text-center bg-primary/10 p-2 rounded-md" aria-hidden="true">
+                          <p className="font-bold text-lg text-primary">28</p>
+                          <p className="text-xs text-primary/80">OCT</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground">Xiaomi 15 Series China Launch</h4>
+                          <p className="text-sm text-muted-foreground">First look at the Snapdragon 8 Gen 4 phones.</p>
+                        </div>
+                      </article>
                   </div>
-                </div>
-              </section>
-            </div>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+
+             {/* News & Guides */}
+            <Card className="bg-card rounded-2xl" aria-labelledby="news-guides-heading">
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <Newspaper className="h-7 w-7 text-primary" />
+                    <h3 id="news-guides-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl text-foreground">
+                      News & Guides
+                    </h3>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                    <div className="space-y-4">
+                      <Card className="hover:bg-muted/50 transition-colors bg-background">
+                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                          <Badge>Deep Dive</Badge>
+                          <h4 className="font-semibold mt-2 text-foreground">iPhone 16 Explained: Everything We Know</h4>
+                        </Link>
+                      </Card>
+                      <Card className="hover:bg-muted/50 transition-colors bg-background">
+                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                          <Badge>Industry News</Badge>
+                          <h4 className="font-semibold mt-2 text-foreground">Snapdragon 8 Gen 4: What to Expect</h4>
+                        </Link>
+                      </Card>
+                      <Card className="hover:bg-muted/50 transition-colors bg-background">
+                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                          <Badge>Guides</Badge>
+                          <h4 className="font-semibold mt-2 text-foreground">Top Phones to Buy in September</h4>
+                        </Link>
+                      </Card>
+                       <Card className="hover:bg-muted/50 transition-colors bg-background">
+                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                          <Badge>Guides</Badge>
+                          <h4 className="font-semibold mt-2 text-foreground">How to Maximize Your Phone's Battery Life</h4>
+                        </Link>
+                      </Card>
+                       <Card className="hover:bg-muted/50 transition-colors bg-background">
+                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                          <Badge>Tips & Tricks</Badge>
+                          <h4 className="font-semibold mt-2 text-foreground">Mastering ProRAW on Your iPhone</h4>
+                        </Link>
+                      </Card>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+
 
         {/* Trust & Subscribe */}
         <Card className="bg-card text-foreground rounded-2xl" aria-labelledby="trust-heading">
@@ -813,3 +851,4 @@ export default function Home() {
     </div>
   );
 }
+
