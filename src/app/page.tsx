@@ -67,7 +67,7 @@ const specCategories = [
 export default function Home() {
   const { compareList, handleAddToCompare, handleRemoveFromCompare, handleClearCompare } = useCompare();
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setQuery] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [tickerPaused, setTickerPaused] = useState(false);
 
@@ -167,7 +167,7 @@ export default function Home() {
               size="icon"
               className="absolute top-2 right-2 h-6 w-6 bg-muted rounded-full opacity-0 group-hover/compare-card:opacity-100 transition-opacity z-10"
               onClick={onRemove}
-               aria-label={`Remove ${phone.brand} ${phone.model} from compare`}
+               aria-label={`Remove ${phone.brand} ${phone.model}`}
             >
               <X className="h-4 w-4" aria-hidden="true" />
             </Button>
@@ -326,7 +326,7 @@ export default function Home() {
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {popularPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -346,7 +346,7 @@ export default function Home() {
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {latestPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -366,7 +366,7 @@ export default function Home() {
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {flagshipPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                    <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -386,7 +386,7 @@ export default function Home() {
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {batteryPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -406,7 +406,7 @@ export default function Home() {
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {performancePhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -426,7 +426,7 @@ export default function Home() {
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {cameraPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -446,7 +446,7 @@ export default function Home() {
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {foldablePhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -466,7 +466,7 @@ export default function Home() {
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {ruggedPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -486,7 +486,7 @@ export default function Home() {
           <CardContent>
             <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
               {uniquePhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "hidden lg:block")}>
+                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -1015,3 +1015,6 @@ export default function Home() {
 
 
 
+
+
+    
