@@ -34,7 +34,7 @@ import { Card } from '../ui/card';
 
 export function Header() {
   const { user, loading, signOut } = useAuth();
-  const mainNavLinks = [
+  const baseNavLinks = [
     { href: '/compare', label: 'Compare' },
     { href: '/categories', label: 'Brands' },
     { href: '/news', label: 'News' },
@@ -42,7 +42,7 @@ export function Header() {
     { href: '/deals', label: 'Deals' },
   ];
   
-  const adminLink = { href: '/admin', label: 'Admin' };
+  const navLinks = user ? [...baseNavLinks, { href: '/admin', label: 'Admin' }] : baseNavLinks;
 
   return (
     <header className="w-full">
@@ -65,7 +65,7 @@ export function Header() {
                       <span className="font-bold">MobilePhonesPro</span>
                     </Link>
                     <div className="mt-6 flex flex-col space-y-4">
-                      {[...mainNavLinks, adminLink].map((link) => (
+                      {navLinks.map((link) => (
                         <Link
                           key={link.href}
                           href={link.href}
@@ -86,7 +86,7 @@ export function Header() {
                   </Link>
                 </div>
                 <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-                  {mainNavLinks.map((link) => (
+                  {navLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
