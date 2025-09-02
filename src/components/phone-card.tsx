@@ -33,7 +33,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
   const inWishlist = isPhoneInWishlist(phone.id);
 
   return (
-    <Card className="group flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-2">
+    <Card className="group flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-2 h-full">
       <CardHeader className="p-0 relative">
         <Link href={phoneUrl}>
           <div className="aspect-[4/5] w-full overflow-hidden">
@@ -69,7 +69,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
         </div>
       </CardContent>
       <CardFooter className="flex items-center justify-between p-4 bg-secondary/30">
-        <p className="text-lg font-bold text-primary">${phone.price}</p>
+        <p className="text-lg font-bold text-primary flex-shrink-0">${phone.price}</p>
         <Button variant="outline" size="sm" onClick={handleCompareClick}>
           Compare
         </Button>
