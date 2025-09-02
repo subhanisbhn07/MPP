@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from 'next/image';
@@ -192,7 +193,7 @@ export default function Home() {
   };
   
   return (
-    <div className="space-y-4">
+    <div className="container space-y-4">
        {/* Skip link */}
       <a
         href="#main"
@@ -249,7 +250,7 @@ export default function Home() {
           </div>
         </div>
       </header>
-      <main id="main" role="main" className="container py-8 space-y-4">
+      <main id="main" role="main" className="space-y-4">
         {/* Search & Filter */}
         <Card className="bg-card text-foreground rounded-2xl">
         <section
@@ -727,23 +728,10 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-8 lg:grid-cols-4">
-              <div className="space-y-4">
-                <h3 className="text-xl font-bold text-foreground">Categories</h3>
-                <nav aria-label="Blog categories">
-                  <ul role="list" className="grid gap-2">
-                    <li role="listitem"><Link href="#" aria-disabled tabIndex={-1} className="text-muted-foreground hover:text-primary">Buying Guides</Link></li>
-                    <li role="listitem"><Link href="#" aria-disabled tabIndex={-1} className="text-muted-foreground hover:text-primary">Top 10 Phones</Link></li>
-                    <li role="listitem"><Link href="#" aria-disabled tabIndex={-1} className="text-muted-foreground hover:text-primary">Tips & Tricks</Link></li>
-                    <li role="listitem"><Link href="#" aria-disabled tabIndex={-1} className="text-muted-foreground hover:text-primary">Industry Insights</Link></li>
-                  </ul>
-                </nav>
-              </div>
-
-              <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <Card>
                   <Image
-                    src="https://picsum.photos/600/400"
+                    src="https://picsum.photos/600/400?v=1"
                     width={600}
                     height={400}
                     alt="Illustrative blog cover"
@@ -760,10 +748,9 @@ export default function Home() {
                     </p>
                   </CardContent>
                 </Card>
-
                 <Card>
                   <Image
-                    src="https://picsum.photos/600/401"
+                    src="https://picsum.photos/600/400?v=2"
                     width={600}
                     height={400}
                     alt="Illustrative phone camera tips cover"
@@ -780,7 +767,82 @@ export default function Home() {
                     </p>
                   </CardContent>
                 </Card>
-              </div>
+                 <Card>
+                  <Image
+                    src="https://picsum.photos/600/400?v=3"
+                    width={600}
+                    height={400}
+                    alt="Illustrative blog cover"
+                    className="rounded-t-lg object-cover aspect-video"
+                    data-ai-hint="smartphone battery"
+                  />
+                  <CardContent className="p-4">
+                    <Badge>Tips & Tricks</Badge>
+                    <h3 className="text-lg font-bold mt-2">
+                      Maximize Your Phone's Battery Life
+                    </h3>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      Simple but effective tricks to extend your phone's daily endurance.
+                    </p>
+                  </CardContent>
+                </Card>
+                 <Card>
+                  <Image
+                    src="https://picsum.photos/600/400?v=4"
+                    width={600}
+                    height={400}
+                    alt="Illustrative blog cover"
+                    className="rounded-t-lg object-cover aspect-video"
+                    data-ai-hint="mobile gaming"
+                  />
+                  <CardContent className="p-4">
+                    <Badge>Gaming</Badge>
+                    <h3 className="text-lg font-bold mt-2">
+                      The Rise of Mobile Esports
+                    </h3>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      How competitive gaming on smartphones is taking over the world.
+                    </p>
+                  </CardContent>
+                </Card>
+                 <Card>
+                  <Image
+                    src="https://picsum.photos/600/400?v=5"
+                    width={600}
+                    height={400}
+                    alt="Illustrative blog cover"
+                    className="rounded-t-lg object-cover aspect-video"
+                    data-ai-hint="foldable phone"
+                  />
+                  <CardContent className="p-4">
+                    <Badge>Industry Insights</Badge>
+                    <h3 className="text-lg font-bold mt-2">
+                      Are Foldable Phones the Future?
+                    </h3>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      An in-depth look at the pros and cons of the latest form factor.
+                    </p>
+                  </CardContent>
+                </Card>
+                 <Card>
+                  <Image
+                    src="https://picsum.photos/600/400?v=6"
+                    width={600}
+                    height={400}
+                    alt="Illustrative blog cover"
+                    className="rounded-t-lg object-cover aspect-video"
+                    data-ai-hint="data privacy"
+                  />
+                  <CardContent className="p-4">
+                    <Badge>Security</Badge>
+                    <h3 className="text-lg font-bold mt-2">
+                      Protecting Your Digital Privacy
+                    </h3>
+                    <p className="text-sm text-muted-foreground mt-2">
+                      Key steps to secure your personal data on your smartphone.
+                    </p>
+                  </CardContent>
+                </Card>
             </div>
           </CardContent>
         </Card>
