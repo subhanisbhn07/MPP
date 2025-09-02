@@ -253,67 +253,68 @@ export default function Home() {
       <main id="main" role="main" className="space-y-4">
         {/* Search & Filter */}
         <Card className="bg-card text-foreground rounded-2xl">
-        <section
-          className="w-full py-8 md:py-12"
-          aria-labelledby="search-heading"
-        >
-          <div className="px-4 md:px-6">
-            <h2 id="search-heading" className="sr-only">Search and filters</h2>
-            <form className="flex flex-col gap-4 md:flex-row" role="search" method="get" action="/search" onSubmit={onSubmitSearch}>
-              <div className="relative flex-1">
-                <label htmlFor="q" className="sr-only">Search by brand, model, or feature</label>
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
-                <Input
-                  id="q"
-                  name="q"
-                  type="search"
-                  placeholder="Search by brand, model, or feature..."
-                  className="w-full pl-10 h-12 text-base bg-background text-foreground border-input placeholder:text-muted-foreground focus-visible:ring-primary"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="lg"
-                  className="h-12"
-                  aria-label="Open filters"
-                >
-                  <Filter className="mr-2 h-5 w-5" aria-hidden="true" /> Filters
-                </Button>
-
-                <div>
-                  <label htmlFor="sort" className="sr-only">Sort by</label>
-                  <Select value={sortBy} onValueChange={setSortBy} name="sort">
-                    <SelectTrigger id="sort" className="h-12 w-full sm:w-[180px] bg-background text-foreground border-input focus:ring-primary data-[placeholder]:text-muted-foreground" aria-label="Sort By">
-                      <ArrowUpDown className="mr-2 h-5 w-5" aria-hidden="true" />
-                      <SelectValue placeholder="Sort By" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="popular">Popularity</SelectItem>
-                      <SelectItem value="latest">Latest</SelectItem>
-                      <SelectItem value="price-asc">Price: Low to High</SelectItem>
-                      <SelectItem value="price-desc">Price: High to Low</SelectItem>
-                    </SelectContent>
-                  </Select>
+          <section
+            className="w-full py-8 md:py-12"
+            aria-labelledby="search-heading"
+          >
+            <div className="px-4 md:px-6">
+              <h2 id="search-heading" className="sr-only">Search and filters</h2>
+              <form className="flex flex-col gap-4" role="search" method="get" action="/search" onSubmit={onSubmitSearch}>
+                <div className="relative flex-1">
+                  <label htmlFor="q" className="sr-only">Search by brand, model, or feature</label>
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" aria-hidden="true" />
+                  <Input
+                    id="q"
+                    name="q"
+                    type="search"
+                    placeholder="Search by brand, model, or feature..."
+                    className="w-full pl-10 h-12 text-base bg-background text-foreground border-input placeholder:text-muted-foreground focus-visible:ring-primary"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
                 </div>
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] md:flex md:flex-row gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="lg"
+                    className="h-12 w-full md:w-auto"
+                    aria-label="Open filters"
+                  >
+                    <Filter className="mr-2 h-5 w-5" aria-hidden="true" /> Filters
+                  </Button>
 
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="h-12"
-                  variant="default"
-                  aria-label="Search phones"
-                >
-                  Search
-                </Button>
-              </div>
-            </form>
-          </div>
-        </section>
+                  <div className="w-full md:w-auto">
+                    <label htmlFor="sort" className="sr-only">Sort by</label>
+                    <Select value={sortBy} onValueChange={setSortBy} name="sort">
+                      <SelectTrigger id="sort" className="h-12 w-full md:w-[180px] bg-background text-foreground border-input focus:ring-primary data-[placeholder]:text-muted-foreground" aria-label="Sort By">
+                        <ArrowUpDown className="mr-2 h-5 w-5" aria-hidden="true" />
+                        <SelectValue placeholder="Sort By" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="popular">Popularity</SelectItem>
+                        <SelectItem value="latest">Latest</SelectItem>
+                        <SelectItem value="price-asc">Price: Low to High</SelectItem>
+                        <SelectItem value="price-desc">Price: High to Low</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="h-12 w-full md:w-auto sm:col-span-2"
+                    variant="default"
+                    aria-label="Search phones"
+                  >
+                    Search
+                  </Button>
+                </div>
+              </form>
+            </div>
+          </section>
         </Card>
+
 
         {/* Trending Phones */}
         <Card className="bg-card rounded-2xl" aria-labelledby="trending-heading">
@@ -1010,4 +1011,5 @@ export default function Home() {
 
 
     
+
 
