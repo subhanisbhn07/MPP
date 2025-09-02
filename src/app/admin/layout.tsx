@@ -11,6 +11,7 @@ import {
   SidebarMenuButton,
   SidebarTrigger,
   SidebarFooter,
+  SidebarInput,
 } from '@/components/ui/sidebar';
 import {
   Home,
@@ -21,6 +22,7 @@ import {
   PenSquare,
   Newspaper,
   Shield,
+  Search,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -51,12 +53,16 @@ export default function AdminLayout({
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen bg-muted/30">
         <Sidebar>
           <SidebarHeader>
             <div className="flex items-center gap-2">
               <Logo />
               <span className="font-semibold text-lg">Admin Panel</span>
+            </div>
+             <div className='relative mt-2'>
+                <Search className='absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground' />
+                <SidebarInput placeholder='Search...' className='pl-9' />
             </div>
           </SidebarHeader>
           <SidebarContent>
@@ -66,8 +72,8 @@ export default function AdminLayout({
                   <SidebarMenuButton
                     asChild
                     isActive={
-                      pathname.startsWith(item.href) &&
-                      (item.href !== '/admin' || pathname === '/admin')
+                      // Special case for the root dashboard route
+                      item.href === '/admin' ? pathname === item.href : pathname.startsWith(item.href)
                     }
                     tooltip={item.label}
                   >
@@ -94,7 +100,7 @@ export default function AdminLayout({
           </SidebarFooter>
         </Sidebar>
         <div className="flex-1 flex flex-col">
-            <header className="p-4 border-b">
+            <header className="p-4 border-b bg-background sticky top-0 z-20">
                  {isClient && <SidebarTrigger />}
             </header>
             <main className="flex-1 p-4 sm:p-6 lg:p-8">
