@@ -39,8 +39,9 @@ export function Header() {
     { href: '/news', label: 'News' },
     { href: '/guides', label: 'Guides' },
     { href: '/deals', label: 'Deals' },
-    { href: '/admin', label: 'Admin' },
   ];
+  
+  const adminLink = { href: '/admin', label: 'Admin' };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -61,7 +62,7 @@ export function Header() {
                 <span className="font-bold">MobilePhonesPro</span>
               </Link>
               <div className="mt-6 flex flex-col space-y-4">
-                {mainNavLinks.map((link) => (
+                {[...mainNavLinks, adminLink].map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
@@ -86,7 +87,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="transition-colors hover:text-black text-black"
+                className="transition-colors hover:text-primary text-foreground"
               >
                 {link.label}
               </Link>

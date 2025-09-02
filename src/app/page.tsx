@@ -287,7 +287,7 @@ export default function Home() {
                 <div>
                   <label htmlFor="sort" className="sr-only">Sort by</label>
                   <Select value={sortBy} onValueChange={setSortBy} name="sort">
-                    <SelectTrigger id="sort" className="h-12 w-[180px] bg-background text-foreground border-input focus:ring-primary data-[placeholder]:text-muted-foreground" aria-label="Sort By">
+                    <SelectTrigger id="sort" className="h-12 w-full sm:w-[180px] bg-background text-foreground border-input focus:ring-primary data-[placeholder]:text-muted-foreground" aria-label="Sort By">
                       <ArrowUpDown className="mr-2 h-5 w-5" aria-hidden="true" />
                       <SelectValue placeholder="Sort By" />
                     </SelectTrigger>
@@ -323,7 +323,7 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {popularPhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -343,7 +343,7 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {latestPhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -363,7 +363,7 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {flagshipPhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
                    <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -383,7 +383,7 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {batteryPhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -403,7 +403,7 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {performancePhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -423,7 +423,7 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {cameraPhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -443,7 +443,7 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {foldablePhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -463,7 +463,7 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {ruggedPhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -483,7 +483,7 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
               {uniquePhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -504,10 +504,10 @@ export default function Home() {
           </CardHeader>
           <CardContent>
             <div className="max-w-4xl mx-auto">
-              <div className="flex items-stretch gap-4 md:gap-8">
+              <div className="flex flex-col md:flex-row items-stretch gap-4 md:gap-8">
                 <CompareSlot phone={phone1} onAdd={() => handleOpenDialog(1)} onRemove={() => setPhone1(null)} />
-                <div className="flex flex-col items-center justify-center">
-                  <Shuffle className="text-muted-foreground" aria-hidden="true" />
+                <div className="flex flex-col items-center justify-center my-4 md:my-0">
+                  <Shuffle className="text-muted-foreground hidden md:block" aria-hidden="true" />
                   <p className="text-2xl font-bold my-2">VS</p>
                   {phone1 && phone2 ? (
                     <Button asChild>
@@ -516,7 +516,7 @@ export default function Home() {
                       </Link>
                     </Button>
                   ) : (
-                    <Button aria-disabled className="opacity-60" title="Select two phones to compare">
+                    <Button disabled aria-disabled className="opacity-60" title="Select two phones to compare">
                       Compare Now
                     </Button>
                   )}
@@ -855,7 +855,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[250px]">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-fr">
               
               <Card className="lg:col-span-2 lg:row-span-2 group relative overflow-hidden rounded-lg">
                 <Link href="#" className="block h-full w-full">
@@ -1010,3 +1010,4 @@ export default function Home() {
 
 
     
+

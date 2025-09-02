@@ -4,9 +4,9 @@ import { Logo } from '@/components/logo';
 
 export function Footer() {
   return (
-    <footer className="w-full border-t bg-primary text-primary-foreground rounded-2xl">
+    <footer className="w-full border-t bg-primary text-primary-foreground">
       <div className="container">
-          <div className="grid items-center gap-8 pb-8 pt-6 lg:grid-cols-3 lg:py-8">
+          <div className="grid items-start gap-8 pb-8 pt-6 lg:grid-cols-3 lg:py-8">
             <div className="flex flex-col gap-2">
               <Link href="/" className="flex items-center space-x-2">
                 <Logo />
@@ -16,7 +16,7 @@ export function Footer() {
                 AI-powered mobile discovery & comparisons.
               </p>
             </div>
-            <div className="col-span-2 grid grid-cols-2 gap-4 text-sm md:grid-cols-4">
+            <div className="col-span-2 grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
               <div className="grid gap-1">
                 <h3 className="font-semibold">Brands</h3>
                 <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Apple</Link>
@@ -32,7 +32,7 @@ export function Footer() {
               <div className="grid gap-1">
                 <h3 className="font-semibold">Quick Links</h3>
                 <Link href="/compare" className="text-primary-foreground/80 hover:text-primary-foreground">Compare</Link>
-                <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground">News</Link>
+                <Link href="/news" className="text-primary-foreground/80 hover:text-primary-foreground">News</Link>
                  <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Sitemap</Link>
               </div>
               <div className="grid gap-1">
