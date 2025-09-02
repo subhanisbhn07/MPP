@@ -193,7 +193,7 @@ export default function Home() {
   };
   
   return (
-    <div className="container space-y-4">
+    <div className="container space-y-4 pb-4">
        {/* Skip link */}
       <a
         href="#main"
