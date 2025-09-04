@@ -325,9 +325,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               {popularPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -345,9 +345,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               {latestPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -365,9 +365,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               {flagshipPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id}>
                    <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -385,9 +385,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               {batteryPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -405,9 +405,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               {performancePhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -425,9 +425,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               {cameraPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -445,9 +445,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               {foldablePhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -465,9 +465,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               {ruggedPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -485,9 +485,9 @@ export default function Home() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
               {uniquePhones.map((phone, index) => (
-                <li role="listitem" key={phone.id} className={cn(index === 5 && "lg:hidden")}>
+                <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
                     <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
                   </article>
@@ -1019,5 +1019,6 @@ export default function Home() {
 
 
     
+
 
 
