@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Image from 'next/image';
@@ -193,7 +192,7 @@ export default function Home() {
   };
   
   return (
-    <div className="space-y-4 pb-4 px-4">
+    <div className="px-4 space-y-4 pb-4">
        {/* Skip link */}
       <a
         href="#main"
@@ -318,9 +317,9 @@ export default function Home() {
         {/* Trending Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="trending-heading">
           <CardHeader>
-            <CardTitle id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+            <h2 id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                 Trending Phones
-            </CardTitle>
+            </h2>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
@@ -338,9 +337,9 @@ export default function Home() {
         {/* Latest Launches */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="latest-heading">
           <CardHeader>
-            <CardTitle id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+            <h2 id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Latest Launches
-            </CardTitle>
+            </h2>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
@@ -358,9 +357,9 @@ export default function Home() {
         {/* Flagship Phones */}
          <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="flagship-heading">
            <CardHeader>
-            <CardTitle id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+            <h2 id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Flagship Phones
-            </CardTitle>
+            </h2>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
@@ -378,9 +377,9 @@ export default function Home() {
         {/* Battery Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="battery-heading">
           <CardHeader>
-            <CardTitle id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+            <h2 id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Longest Battery Life
-            </CardTitle>
+            </h2>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
@@ -398,9 +397,9 @@ export default function Home() {
         {/* Gaming Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="gaming-heading">
           <CardHeader>
-            <CardTitle id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+            <h2 id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Best for Gaming
-            </CardTitle>
+            </h2>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
@@ -418,9 +417,9 @@ export default function Home() {
         {/* Camera Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="camera-heading">
           <CardHeader>
-            <CardTitle id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+            <h2 id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top Camera Phones
-            </CardTitle>
+            </h2>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
@@ -438,9 +437,9 @@ export default function Home() {
         {/* Foldable Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="foldable-heading">
           <CardHeader>
-            <CardTitle id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+            <h2 id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Foldable Phones
-            </CardTitle>
+            </h2>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
@@ -458,9 +457,9 @@ export default function Home() {
         {/* Rugged Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="rugged-heading">
           <CardHeader>
-            <CardTitle id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+            <h2 id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Rugged Phones
-            </CardTitle>
+            </h2>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
@@ -478,9 +477,9 @@ export default function Home() {
         {/* Unique Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="unique-heading">
           <CardHeader>
-            <CardTitle id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+            <h2 id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Unique Phones
-            </CardTitle>
+            </h2>
           </CardHeader>
           <CardContent>
             <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
@@ -612,9 +611,9 @@ export default function Home() {
               <CardHeader>
                  <div className="flex items-center gap-2">
                     <Calendar className="h-7 w-7" />
-                    <h3 id="upcoming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                    <h2 id="upcoming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                       Upcoming Calendar
-                    </h3>
+                    </h2>
                   </div>
               </CardHeader>
               <CardContent>
@@ -678,9 +677,9 @@ export default function Home() {
                 <CardHeader>
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-7 w-7" />
-                    <h3 id="guides-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                    <h2 id="guides-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                       Guides
-                    </h3>
+                    </h2>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -1007,22 +1006,3 @@ export default function Home() {
     </div>
   );
 }
-
-
-    
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
