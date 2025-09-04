@@ -193,7 +193,7 @@ export default function Home() {
   };
   
   return (
-    <div className="container space-y-4 pb-4">
+    <div className="space-y-4 pb-4">
        {/* Skip link */}
       <a
         href="#main"
@@ -257,7 +257,7 @@ export default function Home() {
             className="w-full py-8 md:py-12"
             aria-labelledby="search-heading"
           >
-            <div className="px-4 md:px-6">
+            <div className="container px-4 md:px-6">
               <h2 id="search-heading" className="sr-only">Search and filters</h2>
               <form className="flex flex-col gap-4" role="search" method="get" action="/search" onSubmit={onSubmitSearch}>
                 <div className="relative flex-1">
@@ -1019,6 +1019,7 @@ export default function Home() {
 
 
     
+
 
 
 
