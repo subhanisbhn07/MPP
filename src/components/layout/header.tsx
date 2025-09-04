@@ -62,7 +62,7 @@ export function Header() {
                   </SheetTrigger>
                   <SheetContent side="left" className="flex flex-col">
                      <SheetTitle className="sr-only">Main Menu</SheetTitle>
-                    <div>
+                    <div className="flex-grow">
                       <Link href="/" className="flex items-center space-x-2">
                         <Logo />
                         <span className="font-bold">MobilePhonesPro</span>
@@ -79,12 +79,12 @@ export function Header() {
                         ))}
                       </div>
                     </div>
-                    <div className="mt-auto pt-6">
+                    <div className="mt-auto pt-6 space-y-4">
                         <div className="rounded-lg bg-muted p-4 text-center">
                             <p className="text-xs font-semibold text-muted-foreground mb-2">SPONSORED</p>
-                             <div className="relative aspect-video w-full mb-2">
+                             <div className="relative aspect-[4/5] w-full mb-2">
                                 <Image 
-                                    src="https://picsum.photos/400/225" 
+                                    src="https://picsum.photos/400/500" 
                                     alt="Sponsored product" 
                                     fill
                                     className="rounded-md object-cover"
@@ -94,6 +94,12 @@ export function Header() {
                             <h4 className="font-semibold text-foreground">Galaxy S25 Pre-order</h4>
                             <p className="text-sm text-muted-foreground mb-3">Get it first on day one!</p>
                             <Button size="sm" className="w-full">Learn More</Button>
+                        </div>
+
+                        <div className="space-y-2">
+                           <Card className="p-3 text-sm text-foreground hover:bg-muted/80">Sponsored Guide: How to pick a phone</Card>
+                           <Card className="p-3 text-sm text-foreground hover:bg-muted/80">Sponsored News: New chip announced</Card>
+                           <Card className="p-3 text-sm text-foreground hover:bg-muted/80">Sponsored Post: Top 5 gaming phones</Card>
                         </div>
                     </div>
                   </SheetContent>
