@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/card';
 export function Footer() {
   return (
     <footer className="w-full">
-      <div className="container pb-4">
+      <div className="px-4 pb-4">
         <Card className="bg-primary text-primary-foreground rounded-2xl">
           <div className="grid items-start gap-8 pb-8 pt-6 lg:grid-cols-3 lg:py-8 px-6">
             <div className="flex flex-col gap-2">
