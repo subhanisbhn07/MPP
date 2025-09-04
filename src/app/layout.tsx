@@ -30,7 +30,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
             {isAdminRoute ? (
-              <AdminLayout>{children}</AdminLayout>
+             <div className="bg-muted/40">
+                {children}
+             </div>
             ) : (
               <div className="flex flex-col min-h-screen">
                   <Header />
