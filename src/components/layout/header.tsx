@@ -47,7 +47,7 @@ export function Header() {
   return (
     <header className="w-full">
       <div className="container py-2">
-         <Card className="rounded-2xl shadow-sm">
+         <Card className="rounded-2xl shadow-sm bg-accent text-accent-foreground">
             <div className="flex h-16 items-center justify-between px-4">
               {/* Mobile Menu & Logo */}
               <div className="flex items-center">
@@ -90,7 +90,7 @@ export function Header() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="transition-colors hover:text-primary text-foreground"
+                      className="transition-colors hover:text-primary text-accent-foreground"
                     >
                       {link.label}
                     </Link>
@@ -168,7 +168,7 @@ export function Header() {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   ) : (
-                    <Button asChild>
+                    <Button asChild variant="default">
                       <Link href="/login">
                         <User className="mr-2 h-4 w-4" />
                         Login

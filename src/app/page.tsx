@@ -203,7 +203,7 @@ export default function Home() {
       </a>
 
       {/* Header / Hero */}
-      <header role="banner" className="w-full bg-accent text-accent-foreground pt-12 md:pt-24 lg:pt-32 rounded-2xl">
+      <header role="banner" className="w-full bg-accent text-accent-foreground py-8 rounded-2xl">
         <div className="container">
           <div className="text-center">
             <div className="flex flex-col items-center justify-center space-y-4">
@@ -222,7 +222,7 @@ export default function Home() {
           </div>
 
           {/* News Ticker with live region + reduced motion support */}
-          <div className="mt-12 pb-12 px-4 md:px-6">
+          <div className="mt-12 pb-4 px-4 md:px-6">
             <div className="relative flex items-center bg-primary text-primary-foreground rounded-lg p-2 text-sm overflow-hidden">
               <Megaphone className="h-5 w-5 mr-2 flex-shrink-0" aria-hidden="true" />
               <div
@@ -1019,6 +1019,7 @@ export default function Home() {
 
 
     
+
 
 
 
