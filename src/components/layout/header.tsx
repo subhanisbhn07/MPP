@@ -26,11 +26,13 @@ import {
   LogOut,
   UserCircle,
   Shield,
+  Star,
 } from 'lucide-react';
 import { Logo } from '@/components/logo';
 import { useAuth } from '@/contexts/auth-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card } from '../ui/card';
+import Image from 'next/image';
 
 export function Header() {
   const { user, loading, signOut } = useAuth();
@@ -58,22 +60,41 @@ export function Header() {
                       <span className="sr-only">Open menu</span>
                     </Button>
                   </SheetTrigger>
-                  <SheetContent side="left">
+                  <SheetContent side="left" className="flex flex-col">
                      <SheetTitle className="sr-only">Main Menu</SheetTitle>
-                    <Link href="/" className="flex items-center space-x-2">
-                      <Logo />
-                      <span className="font-bold">MobilePhonesPro</span>
-                    </Link>
-                    <div className="mt-6 flex flex-col space-y-4">
-                      {navLinks.map((link) => (
-                        <Link
-                          key={link.href}
-                          href={link.href}
-                          className="flex items-center text-lg font-medium transition-colors hover:text-primary"
-                        >
-                          {link.label}
-                        </Link>
-                      ))}
+                    <div>
+                      <Link href="/" className="flex items-center space-x-2">
+                        <Logo />
+                        <span className="font-bold">MobilePhonesPro</span>
+                      </Link>
+                      <div className="mt-6 flex flex-col space-y-4">
+                        {navLinks.map((link) => (
+                          <Link
+                            key={link.href}
+                            href={link.href}
+                            className="flex items-center text-lg font-medium transition-colors hover:text-primary"
+                          >
+                            {link.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mt-auto pt-6">
+                        <div className="rounded-lg bg-muted p-4 text-center">
+                            <p className="text-xs font-semibold text-muted-foreground mb-2">SPONSORED</p>
+                             <div className="relative aspect-video w-full mb-2">
+                                <Image 
+                                    src="https://picsum.photos/400/225" 
+                                    alt="Sponsored product" 
+                                    fill
+                                    className="rounded-md object-cover"
+                                    data-ai-hint="mobile phone"
+                                />
+                             </div>
+                            <h4 className="font-semibold text-foreground">Galaxy S25 Pre-order</h4>
+                            <p className="text-sm text-muted-foreground mb-3">Get it first on day one!</p>
+                            <Button size="sm" className="w-full">Learn More</Button>
+                        </div>
                     </div>
                   </SheetContent>
                 </Sheet>
