@@ -47,13 +47,13 @@ export function Header() {
   return (
     <header className="w-full">
       <div className="container py-2">
-         <Card className="rounded-2xl shadow-sm bg-accent text-accent-foreground">
+         <Card className="rounded-2xl shadow-sm bg-primary text-primary-foreground">
             <div className="flex h-16 items-center justify-between px-4">
               {/* Mobile Menu & Logo */}
               <div className="flex items-center">
                 <Sheet>
                   <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon" className="md:hidden mr-2">
+                    <Button variant="ghost" size="icon" className="md:hidden mr-2 hover:bg-primary/80">
                       <Menu className="h-6 w-6" />
                       <span className="sr-only">Open menu</span>
                     </Button>
@@ -90,7 +90,7 @@ export function Header() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="transition-colors hover:text-primary text-accent-foreground"
+                      className="transition-colors hover:text-primary-foreground/80"
                     >
                       {link.label}
                     </Link>
@@ -100,14 +100,14 @@ export function Header() {
 
               {/* Right side icons */}
               <div className="flex items-center justify-end space-x-2">
-                <Button variant="ghost" size="icon" asChild>
+                <Button variant="ghost" size="icon" asChild className="hover:bg-primary/80">
                   <Link href="/search">
                     <Search className="h-5 w-5" />
                     <span className="sr-only">Search</span>
                   </Link>
                 </Button>
                 {user && (
-                  <Button variant="ghost" size="icon" asChild>
+                  <Button variant="ghost" size="icon" asChild className="hover:bg-primary/80">
                     <Link href="/notifications">
                       <Bell className="h-5 w-5" />
                       <span className="sr-only">Notifications</span>
@@ -122,7 +122,7 @@ export function Header() {
                       <DropdownMenuTrigger asChild>
                         <Button
                           variant="ghost"
-                          className="relative h-8 w-8 rounded-full"
+                          className="relative h-8 w-8 rounded-full hover:bg-primary/80"
                         >
                           <Avatar className="h-9 w-9">
                             <AvatarImage
@@ -168,7 +168,7 @@ export function Header() {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   ) : (
-                    <Button asChild variant="default">
+                    <Button asChild style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }} className="hover:opacity-90">
                       <Link href="/login">
                         <User className="mr-2 h-4 w-4" />
                         Login
