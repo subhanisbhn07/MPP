@@ -1,21 +1,19 @@
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { allPhones } from "@/lib/data";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, MoreVertical, Edit, Trash2, Eye } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge";
 import type { Phone } from "@/lib/types";
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export default function ManagePhonesPage() {
 
@@ -40,7 +38,7 @@ export default function ManagePhonesPage() {
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">Manage Phones</h1>
                     <p className="text-muted-foreground">
-                        Here you can add, edit, and manage all phone entries.
+                        Here you can add, edit, and manage all phone entries in the catalog.
                     </p>
                 </div>
                 <Button>
@@ -49,63 +47,62 @@ export default function ManagePhonesPage() {
                 </Button>
             </div>
             
-            <Card>
-                <CardHeader>
-                    <CardTitle>Phone Catalog ({allPhones.length})</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead className="w-24">Image</TableHead>
-                                <TableHead>Brand</TableHead>
-                                <TableHead>Model</TableHead>
-                                <TableHead>Price</TableHead>
-                                <TableHead>Category</TableHead>
-                                <TableHead>Tags</TableHead>
-                                <TableHead>
-                                    <span className="sr-only">Actions</span>
-                                </TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {allPhones.map(phone => (
-                                <TableRow key={phone.id}>
-                                    <TableCell>
-                                        <div className="relative h-20 w-16">
-                                            <Image 
-                                                src={phone.image} 
-                                                alt={phone.model}
-                                                fill
-                                                className="rounded-md object-contain"
-                                                data-ai-hint="mobile phone"
-                                            />
-                                        </div>
-                                    </TableCell>
-                                    <TableCell className="font-medium">{phone.brand}</TableCell>
-                                    <TableCell>{phone.model}</TableCell>
-                                    <TableCell>${phone.price}</TableCell>
-                                    <TableCell>
-                                        <Badge variant="outline">{phone.specs.body.form_factor}</Badge>
-                                    </TableCell>
-                                    <TableCell>
-                                        <div className="flex flex-wrap gap-1">
-                                            {getTags(phone).map(tag => (
-                                                <Badge key={tag.label} variant={tag.variant as any}>{tag.label}</Badge>
-                                            ))}
-                                        </div>
-                                    </TableCell>
-                                    <TableCell className="text-right">
-                                        <Button variant="outline" size="sm" asChild>
-                                            <Link href={`/admin/phones/edit/${phone.id}`}>Edit</Link>
-                                        </Button>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </CardContent>
-            </Card>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {allPhones.map(phone => (
+                    <Card key={phone.id} className="overflow-hidden group">
+                       <CardHeader className="p-0 relative">
+                         <div className="absolute top-2 right-2 z-10">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                <Button variant="secondary" size="icon" className="h-8 w-8">
+                                    <MoreVertical className="h-4 w-4" />
+                                </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                <DropdownMenuItem>
+                                    <Edit className="mr-2 h-4 w-4" />
+                                    <span>Edit</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <Eye className="mr-2 h-4 w-4" />
+                                    <span>View Live</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem className="text-destructive">
+                                    <Trash2 className="mr-2 h-4 w-4" />
+                                    <span>Delete</span>
+                                </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                         </div>
+                         <div className="aspect-[4/5] w-full overflow-hidden">
+                            <Image
+                            src={phone.image}
+                            alt={`${phone.brand} ${phone.model}`}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            data-ai-hint="mobile phone"
+                            />
+                         </div>
+                       </CardHeader>
+                       <CardContent className="p-4">
+                            <p className="text-sm text-muted-foreground">{phone.brand}</p>
+                            <h3 className="font-semibold text-lg truncate">{phone.model}</h3>
+                             <div className="flex flex-wrap gap-1 mt-2">
+                                {getTags(phone).map(tag => (
+                                    <Badge key={tag.label} variant={tag.variant as any}>{tag.label}</Badge>
+                                ))}
+                            </div>
+                       </CardContent>
+                       <CardFooter className="p-4 pt-0 flex justify-between items-center">
+                            <p className="text-xl font-bold text-primary">${phone.price}</p>
+                             <Badge variant={true ? "default" : "secondary"}>
+                                {true ? "Published" : "Draft"}
+                            </Badge>
+                       </CardFooter>
+                    </Card>
+                ))}
+            </div>
         </div>
     )
 }
