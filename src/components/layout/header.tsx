@@ -46,7 +46,7 @@ export function Header() {
 
   return (
     <header className="w-full">
-      <div className="container py-2">
+      <div className="px-4 pt-4">
          <Card className="rounded-2xl shadow-sm bg-primary text-primary-foreground">
             <div className="flex h-16 items-center justify-between px-4">
               {/* Mobile Menu & Logo */}
