@@ -193,7 +193,7 @@ export default function Home() {
   };
   
   return (
-    <div className="space-y-4 pb-4">
+    <div className="space-y-4 pb-4 px-4">
        {/* Skip link */}
       <a
         href="#main"
@@ -203,7 +203,6 @@ export default function Home() {
       </a>
 
       {/* Header / Hero */}
-      <div className="container">
       <header role="banner" className="w-full bg-accent text-accent-foreground pt-12 md:pt-24 lg:pt-32 rounded-2xl">
         <div className="container">
           <div className="text-center">
@@ -251,10 +250,8 @@ export default function Home() {
           </div>
         </div>
       </header>
-      </div>
       <main id="main" role="main" className="space-y-4">
         {/* Search & Filter */}
-        <div className="container">
         <Card className="bg-primary text-primary-foreground rounded-2xl">
           <section
             className="w-full py-8 md:py-12"
@@ -318,11 +315,10 @@ export default function Home() {
             </div>
           </section>
         </Card>
-        </div>
 
 
         {/* Trending Phones */}
-        <Card className="bg-accent text-accent-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="trending-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="trending-heading">
           <CardHeader>
             <CardTitle id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                 Trending Phones
@@ -342,7 +338,7 @@ export default function Home() {
         </Card>
 
         {/* Latest Launches */}
-        <Card className="bg-primary text-primary-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="latest-heading">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="latest-heading">
           <CardHeader>
             <CardTitle id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Latest Launches
@@ -362,7 +358,7 @@ export default function Home() {
         </Card>
         
         {/* Flagship Phones */}
-         <Card className="bg-accent text-accent-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="flagship-heading">
+         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="flagship-heading">
            <CardHeader>
             <CardTitle id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Flagship Phones
@@ -382,7 +378,7 @@ export default function Home() {
         </Card>
         
         {/* Battery Phones */}
-        <Card className="bg-primary text-primary-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="battery-heading">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="battery-heading">
           <CardHeader>
             <CardTitle id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Longest Battery Life
@@ -402,7 +398,7 @@ export default function Home() {
         </Card>
         
         {/* Gaming Phones */}
-        <Card className="bg-accent text-accent-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="gaming-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="gaming-heading">
           <CardHeader>
             <CardTitle id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Best for Gaming
@@ -422,7 +418,7 @@ export default function Home() {
         </Card>
 
         {/* Camera Phones */}
-        <Card className="bg-primary text-primary-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="camera-heading">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="camera-heading">
           <CardHeader>
             <CardTitle id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top Camera Phones
@@ -442,7 +438,7 @@ export default function Home() {
         </Card>
 
         {/* Foldable Phones */}
-        <Card className="bg-accent text-accent-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="foldable-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="foldable-heading">
           <CardHeader>
             <CardTitle id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Foldable Phones
@@ -462,7 +458,7 @@ export default function Home() {
         </Card>
 
         {/* Rugged Phones */}
-        <Card className="bg-primary text-primary-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="rugged-heading">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="rugged-heading">
           <CardHeader>
             <CardTitle id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Rugged Phones
@@ -482,7 +478,7 @@ export default function Home() {
         </Card>
 
         {/* Unique Phones */}
-        <Card className="bg-accent text-accent-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="unique-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="unique-heading">
           <CardHeader>
             <CardTitle id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Unique Phones
@@ -502,7 +498,7 @@ export default function Home() {
         </Card>
 
         {/* Quick Compare */}
-        <Card className="bg-primary text-primary-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="quick-compare-heading">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="quick-compare-heading">
           <CardHeader>
             <h2 id="quick-compare-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
               Quick Compare
@@ -585,7 +581,7 @@ export default function Home() {
         
 
         {/* Browse by Specs */}
-        <Card className="bg-accent text-accent-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="browse-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="browse-heading">
           <CardHeader>
             <div className="space-y-3 text-center">
               <h2 id="browse-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
@@ -612,7 +608,7 @@ export default function Home() {
           </CardContent>
         </Card>
         
-        <div className="grid gap-4 lg:grid-cols-2 px-4 sm:px-6">
+        <div className="grid gap-4 lg:grid-cols-2">
             {/* Upcoming Calendar */}
             <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="upcoming-heading">
               <CardHeader>
@@ -727,7 +723,7 @@ export default function Home() {
         </div>
 
         {/* Blog */}
-        <Card className="bg-accent text-accent-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="blog-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="blog-heading">
           <CardHeader>
              <h2 id="blog-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
               From the Blog
@@ -854,7 +850,7 @@ export default function Home() {
         </Card>
         
         {/* News Section */}
-        <Card className="bg-primary text-primary-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="news-heading">
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="news-heading">
           <CardHeader>
             <h2 id="news-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
               Latest News
@@ -949,7 +945,7 @@ export default function Home() {
         </Card>
 
         {/* Trust & Subscribe */}
-        <Card className="bg-accent text-accent-foreground rounded-2xl px-4 sm:px-6" aria-labelledby="trust-heading">
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="trust-heading">
             <CardContent className="p-6">
                 <div className="grid items-center justify-center gap-4 text-center">
                     <div className="space-y-3">
@@ -1023,6 +1019,7 @@ export default function Home() {
 
 
     
+
 
 
 
