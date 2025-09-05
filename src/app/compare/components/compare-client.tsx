@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import Image from "next/image"
 import { PlusCircle, X } from 'lucide-react'
 import { specCategoryGroups } from "@/lib/types";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { AddPhoneDialog } from "./add-phone-dialog";
 import Link from "next/link";
 import { useCompare } from "@/contexts/compare-context";
@@ -29,8 +29,6 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
   } = useCompare();
   
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const stickyHeaderRef = useRef<HTMLDivElement>(null);
-  const [headerHeight, setHeaderHeight] = useState(0);
 
   useEffect(() => {
     if (initialPhones.length > 0) {
@@ -38,12 +36,6 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPhones]);
-
-  useEffect(() => {
-    if (stickyHeaderRef.current) {
-        setHeaderHeight(stickyHeaderRef.current.offsetHeight);
-    }
-  }, [compareList]); // Recalculate when the list changes
 
   const handleAddPhone = (phone: Phone) => {
     if (compareList.length < MAX_COMPARE_PHONES) {
@@ -54,10 +46,10 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
   
   const emptySlots = Array(MAX_COMPARE_PHONES - compareList.length).fill(null);
 
-  const gridTemplateColumns = `minmax(200px, 1fr) repeat(${MAX_COMPARE_PHONES}, minmax(180px, 1fr))`;
+  const gridCols = `repeat(${compareList.length + emptySlots.length}, minmax(0, 1fr))`;
 
   const PhoneHeaderCard = ({ phone }: { phone: Phone }) => (
-    <div key={phone.id} className="relative group text-center p-2">
+    <div key={phone.id} className="relative group text-center p-2 flex flex-col">
         <Button 
            variant="destructive" 
            size="icon" 
@@ -66,7 +58,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
          >
            <X className="h-4 w-4" />
          </Button>
-        <Card className="overflow-hidden h-full flex flex-col bg-card">
+        <Card className="overflow-hidden h-full flex flex-col bg-card flex-1">
             <Link href={`/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`}>
               <div className="aspect-[4/5] relative bg-muted p-2">
                   <Image src={phone.image} alt={phone.model} fill className="object-contain" data-ai-hint="mobile phone" />
@@ -106,49 +98,46 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
         </p>
       </div>
 
-      <div className="overflow-x-auto">
-        <div className="min-w-[1000px]">
-           <div ref={stickyHeaderRef} className="sticky top-16 md:top-20 bg-background/95 backdrop-blur-sm z-30 pb-2">
-              <div className="grid gap-x-4 items-end" style={{ gridTemplateColumns }}>
-                  <div className="font-bold text-lg invisible">
-                    Feature
-                  </div>
-                  {compareList.map((phone) => <PhoneHeaderCard key={phone.id} phone={phone} />)}
-                  {emptySlots.map((_, index) => <PlaceholderCard key={index} index={index} />)}
-               </div>
-           </div>
-        
-           <div className="mt-4">
-               {specCategoryGroups.map((group: SpecCategory) => (
-                 <div key={group.title} id={group.category} className="mb-4">
-                    <div className="grid sticky z-20" style={{ gridTemplateColumns, top: `${headerHeight}px` }}>
-                      <div 
-                        style={{gridColumn: `span ${MAX_COMPARE_PHONES + 1}`}} 
-                        className="bg-primary text-primary-foreground p-3 font-bold text-lg"
-                      >
-                        {group.title}
-                      </div>
-                    </div>
-                    {group.specs.map(spec => {
-                      const category = group.category as keyof PhoneSpec;
-                      const specKey = spec.key as keyof PhoneSpec[typeof category];
-                      
-                      return (
-                        <div key={spec.key} className="grid items-stretch border-b" style={{ gridTemplateColumns }}>
-                             <div className="font-medium text-muted-foreground bg-background p-3 flex items-center sticky left-0 z-10 border-r">{spec.label}</div>
-                             {compareList.map((phone) => (
-                                <div key={phone.id} className="text-left p-3 text-sm flex items-center border-r">
-                                    {(phone.specs[category] as any)?.[specKey] || 'N/A'}
+      <div className="w-full">
+         <div className="sticky top-16 md:top-20 bg-background/95 backdrop-blur-sm z-30 pb-2">
+            <div className="grid gap-x-1" style={{ gridTemplateColumns: gridCols }}>
+                {compareList.map((phone) => <PhoneHeaderCard key={phone.id} phone={phone} />)}
+                {emptySlots.map((_, index) => <PlaceholderCard key={index} index={index} />)}
+             </div>
+         </div>
+      
+         <div className="mt-4 border-t">
+             {specCategoryGroups.map((group: SpecCategory) => (
+               <div key={group.title} id={group.category} className="mb-4">
+                  <h2 className="bg-primary text-primary-foreground p-3 font-bold text-lg text-center my-4 rounded-md">
+                      {group.title}
+                  </h2>
+                  {group.specs.map(spec => {
+                    const category = group.category as keyof PhoneSpec;
+                    const specKey = spec.key as keyof PhoneSpec[typeof category];
+                    
+                    return (
+                      <div key={spec.key} className="border-b">
+                          <div className="font-medium text-muted-foreground bg-muted/50 p-3 text-sm">
+                            {spec.label}
+                          </div>
+                          <div className="grid items-stretch" style={{ gridTemplateColumns: gridCols }}>
+                              {compareList.map((phone, idx) => (
+                                <div key={phone.id} className="text-left p-3 text-sm flex items-center">
+                                    <div className="w-full">
+                                      {(phone.specs[category] as any)?.[specKey] || 'N/A'}
+                                    </div>
+                                    {idx < compareList.length -1 && <Separator orientation="vertical" className="ml-2 h-full" />}
                                 </div>
-                            ))}
-                             {emptySlots.map((_, index) => <div key={index} className="border-r" />)}
-                        </div>
-                      )
-                    })}
-                 </div>
-               ))}
-           </div>
-        </div>
+                              ))}
+                              {emptySlots.map((_, index) => <div key={index} className="border-r last:border-r-0" />)}
+                          </div>
+                      </div>
+                    )
+                  })}
+               </div>
+             ))}
+         </div>
       </div>
       
       <AddPhoneDialog 
