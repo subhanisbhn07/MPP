@@ -4,12 +4,11 @@
 import { allPhones } from "@/lib/data"
 import type { Phone, PhoneSpec, SpecCategory } from "@/lib/types"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { PlusCircle, X } from 'lucide-react'
 import { specCategoryGroups } from "@/lib/types";
 import React, { useState, useEffect, useRef } from "react";
 import { AddPhoneDialog } from "./add-phone-dialog";
-import Link from "next/link";
 import { useCompare } from "@/contexts/compare-context";
 import { Separator } from "@/components/ui/separator";
 
@@ -59,10 +58,8 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
   
   const emptySlotsCount = Math.max(0, MAX_COMPARE_PHONES - compareList.length);
   const totalSlots = compareList.length + emptySlotsCount;
-  const gridCols = `repeat(${totalSlots}, minmax(0, 1fr))`;
   const firstColWidth = '150px';
   const phoneGridCols = `repeat(${totalSlots}, 1fr)`;
-
 
   const PhoneHeaderCard = ({ phone }: { phone: Phone }) => (
     <div key={phone.id} className="relative group text-center flex flex-col h-full">
