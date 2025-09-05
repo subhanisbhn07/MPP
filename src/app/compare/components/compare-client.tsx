@@ -13,6 +13,7 @@ import React, { useState, useEffect } from "react";
 import { AddPhoneDialog } from "./add-phone-dialog";
 import Link from "next/link";
 import { useCompare } from "@/contexts/compare-context";
+import { cn } from "@/lib/utils";
 
 interface CompareClientProps {
   initialPhones?: Phone[];
@@ -64,8 +65,14 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[200px] min-w-[150px] font-semibold text-foreground sticky left-0 bg-background z-10">Feature</TableHead>
-                    {compareList.map(phone => (
-                      <TableHead key={phone.id} className="min-w-[200px] text-center">
+                    {compareList.map((phone, index) => (
+                      <TableHead 
+                        key={phone.id} 
+                        className={cn(
+                          "min-w-[200px] text-center",
+                          index < compareList.length - 1 && "border-r"
+                        )}
+                      >
                         <div className="flex flex-col items-center p-2 relative group">
                            <Image src={phone.image} alt={phone.model} width={100} height={150} className="object-contain rounded-md mb-2 h-36" data-ai-hint="mobile phone" />
                            <p className="font-bold">{phone.brand}</p>
@@ -108,8 +115,14 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
                         return (
                          <TableRow key={spec.key}>
                             <TableCell className="font-medium sticky left-0 bg-background z-10">{spec.label}</TableCell>
-                            {compareList.map(phone => (
-                               <TableCell key={phone.id} className="text-center">
+                            {compareList.map((phone, index) => (
+                               <TableCell 
+                                key={phone.id} 
+                                className={cn(
+                                  "text-center",
+                                  index < compareList.length - 1 && "border-r"
+                                )}
+                               >
                                  {(phone.specs[category] as any)?.[specKey] || 'N/A'}
                                </TableCell>
                             ))}
@@ -121,15 +134,29 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
                   ))}
                   <TableRow>
                     <TableCell className="font-medium sticky left-0 bg-background z-10">Price</TableCell>
-                    {compareList.map(phone => (
-                       <TableCell key={phone.id} className="text-center text-lg font-bold text-primary">${phone.price}</TableCell>
+                    {compareList.map((phone, index) => (
+                       <TableCell 
+                        key={phone.id} 
+                        className={cn(
+                          "text-center text-lg font-bold text-primary",
+                          index < compareList.length - 1 && "border-r"
+                        )}
+                       >
+                          ${phone.price}
+                       </TableCell>
                     ))}
                     {compareList.length < 4 && <TableCell />}
                   </TableRow>
                    <TableRow>
                     <TableCell className="sticky left-0 bg-background z-10"></TableCell>
-                    {compareList.map(phone => (
-                       <TableCell key={phone.id} className="text-center">
+                    {compareList.map((phone, index) => (
+                       <TableCell 
+                        key={phone.id} 
+                        className={cn(
+                          "text-center",
+                           index < compareList.length - 1 && "border-r"
+                        )}
+                       >
                           <Button asChild>
                             <Link href={`/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`}>View Details</Link>
                           </Button>
