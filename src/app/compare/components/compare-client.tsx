@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import Image from "next/image"
 import { PlusCircle, X } from 'lucide-react'
 import { specCategoryGroups } from "@/lib/types";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { AddPhoneDialog } from "./add-phone-dialog";
 import Link from "next/link";
 import { useCompare } from "@/contexts/compare-context";
@@ -29,14 +29,21 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
   } = useCompare();
   
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const stickyHeaderRef = useRef<HTMLDivElement>(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
 
   useEffect(() => {
-    // Prevent hydration errors by ensuring server and client have the same initial state
     if (initialPhones.length > 0) {
       setCompareList(initialPhones);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPhones]);
+
+  useEffect(() => {
+    if (stickyHeaderRef.current) {
+        setHeaderHeight(stickyHeaderRef.current.offsetHeight);
+    }
+  }, [compareList]); // Recalculate when the list changes
 
   const handleAddPhone = (phone: Phone) => {
     if (compareList.length < MAX_COMPARE_PHONES) {
@@ -101,10 +108,8 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
 
       <div className="overflow-x-auto">
         <div className="min-w-[1000px]">
-            {/* Sticky Header */}
-           <div className="sticky top-16 md:top-20 bg-background/95 backdrop-blur-sm z-30">
+           <div ref={stickyHeaderRef} className="sticky top-16 md:top-20 bg-background/95 backdrop-blur-sm z-30 pb-2">
               <div className="grid gap-x-4 items-end" style={{ gridTemplateColumns }}>
-                  {/* Spec Label Column Placeholder */}
                   <div className="font-bold text-lg invisible">
                     Feature
                   </div>
@@ -113,14 +118,13 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
                </div>
            </div>
         
-           {/* Specs List */}
            <div className="mt-4">
                {specCategoryGroups.map((group: SpecCategory) => (
                  <div key={group.title} id={group.category} className="mb-4">
-                    <div className="grid" style={{ gridTemplateColumns }}>
+                    <div className="grid sticky z-20" style={{ gridTemplateColumns, top: `${headerHeight}px` }}>
                       <div 
                         style={{gridColumn: `span ${MAX_COMPARE_PHONES + 1}`}} 
-                        className="bg-primary text-primary-foreground p-3 font-bold text-lg sticky top-[22rem] md:top-[23.5rem] z-20"
+                        className="bg-primary text-primary-foreground p-3 font-bold text-lg"
                       >
                         {group.title}
                       </div>
