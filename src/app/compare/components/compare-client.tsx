@@ -103,8 +103,8 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
                 <TableBody>
                   {specCategoryGroups.map((group) => (
                     <React.Fragment key={group.title}>
-                      <TableRow className="bg-muted/50">
-                        <TableCell colSpan={compareList.length + 2} className="font-bold text-primary sticky left-0 bg-muted/50 z-10">
+                      <TableRow className="bg-primary hover:bg-primary border-b-4 border-background">
+                        <TableCell colSpan={compareList.length + 2} className="font-bold text-primary-foreground sticky left-0 bg-primary z-10">
                           {group.title}
                         </TableCell>
                       </TableRow>
