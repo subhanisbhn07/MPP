@@ -29,6 +29,9 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
   } = useCompare();
   
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const headerRef = React.useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     if (initialPhones.length > 0) {
@@ -36,6 +39,12 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPhones]);
+  
+  useEffect(() => {
+    if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+    }
+  }, [compareList]); // Recalculate if the list changes
 
   const handleAddPhone = (phone: Phone) => {
     if (compareList.length < MAX_COMPARE_PHONES) {
@@ -59,15 +68,15 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
            <X className="h-3 w-3" />
          </Button>
         <Card className="overflow-hidden h-full flex flex-col bg-card flex-1">
-            <Link href={`/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`} className="flex flex-col flex-1">
-              <div className="w-20 h-20 mx-auto relative bg-muted p-1">
+            <Link href={`/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`} className="flex flex-col flex-1 p-1">
+              <div className="w-12 h-12 mx-auto relative bg-muted p-1">
                   <Image src={phone.image} alt={phone.model} fill className="object-contain" data-ai-hint="mobile phone" />
               </div>
-              <CardHeader className="p-1 pt-2">
+              <CardHeader className="p-1 pt-1">
                   <p className="text-xs font-bold truncate leading-tight">{phone.brand} {phone.model}</p>
               </CardHeader>
              <CardFooter className="p-1 mt-auto">
-                <p className="text-sm font-bold w-full text-primary">${phone.price}</p>
+                <p className="text-xs font-bold w-full text-primary">${phone.price}</p>
             </CardFooter>
             </Link>
         </Card>
@@ -76,7 +85,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
 
   const PlaceholderCard = ({ index }: { index: number }) => (
     <div key={`placeholder-${index}`} className="flex items-center justify-center h-full p-2">
-       <Button variant="dashed" className="w-full h-full min-h-48" onClick={() => setIsDialogOpen(true)}>
+       <Button variant="dashed" className="w-full h-full min-h-32" onClick={() => setIsDialogOpen(true)}>
           <div className="flex flex-col items-center">
             <PlusCircle className="h-6 w-6 text-muted-foreground" />
             <span className="text-sm mt-1">Add Phone</span>
@@ -98,17 +107,17 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
       </div>
 
       <div className="w-full">
-         <div className="sticky top-16 md:top-20 bg-background/95 backdrop-blur-sm z-30">
+         <div ref={headerRef} className="sticky top-16 md:top-20 z-30 bg-background pb-2">
             <div className="grid gap-x-1" style={{ gridTemplateColumns: gridCols }}>
                 {compareList.map((phone) => <PhoneHeaderCard key={phone.id} phone={phone} />)}
                 {emptySlots.map((_, index) => <PlaceholderCard key={index} index={index} />)}
              </div>
          </div>
       
-         <div className="mt-4 border-t">
+         <div className="border-t">
              {specCategoryGroups.map((group: SpecCategory) => (
                <div key={group.title} id={group.category} className="mb-4">
-                  <h2 className="bg-primary text-primary-foreground p-3 font-bold text-lg text-center my-4 rounded-md sticky top-[calc(4rem+5rem)] md:top-[calc(5rem+5rem)] z-20">
+                  <h2 className="bg-primary text-primary-foreground p-3 font-bold text-lg text-center my-4 rounded-md sticky z-20" style={{ top: `${headerHeight + 64}px` }}>
                       {group.title}
                   </h2>
                   {group.specs.map(spec => {
