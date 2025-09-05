@@ -49,7 +49,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
   const gridCols = `repeat(${compareList.length + emptySlots.length}, minmax(0, 1fr))`;
 
   const PhoneHeaderCard = ({ phone }: { phone: Phone }) => (
-    <div key={phone.id} className="relative group text-center p-2 flex flex-col">
+    <div key={phone.id} className="relative group text-center p-1 flex flex-col">
         <Button 
            variant="destructive" 
            size="icon" 
@@ -60,12 +60,11 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
          </Button>
         <Card className="overflow-hidden h-full flex flex-col bg-card flex-1">
             <Link href={`/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`}>
-              <div className="aspect-[4/5] relative bg-muted p-2">
+              <div className="aspect-square relative bg-muted p-1">
                   <Image src={phone.image} alt={phone.model} fill className="object-contain" data-ai-hint="mobile phone" />
               </div>
               <CardHeader className="p-2">
-                  <p className="text-sm font-bold truncate">{phone.brand}</p>
-                  <p className="text-xs text-muted-foreground truncate">{phone.model}</p>
+                  <p className="text-sm font-bold truncate">{phone.brand} {phone.model}</p>
               </CardHeader>
             </Link>
              <CardFooter className="p-2 mt-auto">
@@ -99,7 +98,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
       </div>
 
       <div className="w-full">
-         <div className="sticky top-16 md:top-20 bg-background/95 backdrop-blur-sm z-30 pb-2">
+         <div className="sticky top-16 md:top-20 bg-background/95 backdrop-blur-sm z-30">
             <div className="grid gap-x-1" style={{ gridTemplateColumns: gridCols }}>
                 {compareList.map((phone) => <PhoneHeaderCard key={phone.id} phone={phone} />)}
                 {emptySlots.map((_, index) => <PlaceholderCard key={index} index={index} />)}
@@ -109,7 +108,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
          <div className="mt-4 border-t">
              {specCategoryGroups.map((group: SpecCategory) => (
                <div key={group.title} id={group.category} className="mb-4">
-                  <h2 className="bg-primary text-primary-foreground p-3 font-bold text-lg text-center my-4 rounded-md">
+                  <h2 className="bg-primary text-primary-foreground p-3 font-bold text-lg text-center my-4 rounded-md sticky top-[18.5rem] md:top-[19rem] z-20">
                       {group.title}
                   </h2>
                   {group.specs.map(spec => {
