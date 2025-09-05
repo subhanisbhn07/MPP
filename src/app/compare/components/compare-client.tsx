@@ -3,7 +3,7 @@
 import { allPhones } from "@/lib/data"
 import type { Phone, PhoneSpec, SpecCategory } from "@/lib/types"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { PlusCircle, X, CheckCircle, XCircle } from 'lucide-react'
 import { specCategoryGroups } from "@/lib/types";
 import React, { useState, useEffect } from "react";
@@ -14,54 +14,70 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
+
 interface CompareClientProps {
   initialPhones?: Phone[];
 }
 
 const MAX_COMPARE_PHONES = 4;
 
-const PhoneHeaderCard = ({ phone, onRemove }: { phone: Phone | null, onRemove: () => void }) => {
-  if (!phone) return null;
-
-  const phoneUrl = `/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`;
-
-  return (
-    <div className="flex-1 min-w-0">
-      <Card className="relative group/header-card h-full">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute top-1 right-1 h-6 w-6 bg-muted rounded-full opacity-0 group-hover/header-card:opacity-100 transition-opacity z-10"
-          onClick={onRemove}
-          aria-label={`Remove ${phone.brand} ${phone.model}`}
-        >
-          <X className="h-4 w-4" aria-hidden="true" />
-        </Button>
-        <Link href={phoneUrl} className="flex flex-col items-center p-2 text-center">
-            <div className="relative w-16 h-20">
-               <Image
-                  src={phone.image}
-                  alt={phone.model}
-                  fill
-                  className="object-contain"
-                  data-ai-hint="mobile phone"
-                />
-            </div>
-            <p className="text-xs font-bold mt-1 truncate w-full">{phone.brand} {phone.model}</p>
-            <p className="text-xs text-muted-foreground">${phone.price}</p>
-        </Link>
-      </Card>
-    </div>
-  )
-};
-
-
 const renderSpecValue = (value: string | undefined | null) => {
     if (value === undefined || value === null || value.trim() === '') return 'N/A';
     if (value.toLowerCase() === 'yes') return <CheckCircle className="text-green-500 mx-auto" />;
     if (value.toLowerCase() === 'no') return <XCircle className="text-red-500 mx-auto" />;
-    return value;
+    return <span className="break-words">{value}</span>;
 }
+
+const PhoneSelection = ({ phone, onAdd, onRemove }: { phone: Phone | null, onAdd: () => void, onRemove: () => void }) => {
+  if (!phone) {
+    return (
+      <Card className="border-2 border-dashed h-full">
+        <CardContent className="p-2 sm:p-4 h-full">
+          <Button
+            variant="ghost"
+            className="flex flex-col items-center justify-center w-full h-full text-muted-foreground"
+            onClick={onAdd}
+            aria-label="Add phone to compare"
+          >
+            <PlusCircle className="h-8 w-8" aria-hidden="true" />
+            <span className="mt-2 text-xs font-semibold">Add Phone</span>
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const phoneUrl = `/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`;
+
+  return (
+    <Card className="relative group/card h-full overflow-hidden">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute top-1 right-1 h-6 w-6 bg-background/50 backdrop-blur-sm rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity z-10"
+        onClick={onRemove}
+        aria-label={`Remove ${phone.brand} ${phone.model}`}
+      >
+        <X className="h-4 w-4" aria-hidden="true" />
+      </Button>
+      <Link href={phoneUrl} className="flex flex-col items-center p-2 text-center h-full justify-between">
+        <div className="relative w-full aspect-square max-h-[120px]">
+          <Image
+            src={phone.image}
+            alt={phone.model}
+            fill
+            className="object-contain"
+            data-ai-hint="mobile phone"
+          />
+        </div>
+        <div>
+          <p className="text-sm font-bold mt-1 truncate w-full">{phone.brand} {phone.model}</p>
+          <p className="text-sm text-muted-foreground">${phone.price}</p>
+        </div>
+      </Link>
+    </Card>
+  );
+};
 
 
 export function CompareClient({ initialPhones = [] }: CompareClientProps) {
@@ -73,6 +89,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
   } = useCompare();
   
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [phoneSlotToAdd, setPhoneSlotToAdd] = useState<number | null>(null);
 
   useEffect(() => {
     if (initialPhones.length > 0) {
@@ -81,18 +98,23 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPhones]);
 
-  const handleAddPhone = (phone: Phone) => {
-    if (compareList.length < MAX_COMPARE_PHONES) {
-      handleAddToCompare(phone);
-    }
+  const handleAddPhoneClick = (index: number) => {
+    setPhoneSlotToAdd(index);
+    setIsDialogOpen(true);
+  }
+
+  const handleSelectPhone = (phone: Phone) => {
+    handleAddToCompare(phone, phoneSlotToAdd);
     setIsDialogOpen(false);
+    setPhoneSlotToAdd(null);
   };
   
   const numPhones = compareList.length;
-  const gridColsClass = `grid-cols-${numPhones > 0 ? numPhones : 1}`;
+  const gridColsClass = `grid-cols-2 md:grid-cols-${Math.max(2, numPhones === 3 ? 4 : numPhones)}`;
+  const valueGridColsClass = `grid-cols-${numPhones > 0 ? numPhones : 1}`;
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
+    <div className="container mx-auto py-8 px-4 md:px-6">
        <div className="space-y-4 text-center mb-8">
         <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
           Compare Phones
@@ -102,37 +124,26 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
         </p>
       </div>
 
-       {/* Sticky Phone Headers */}
-       <div className={cn("sticky top-16 md:top-20 z-30 bg-background pt-1 pb-2", numPhones > 0 && "border-b")}>
-        <div className="flex items-stretch gap-2">
-            {compareList.map((phone) => (
-              <PhoneHeaderCard 
-                key={phone.id} 
-                phone={phone}
+       <div className="grid grid-cols-2 md:grid-cols-4 items-stretch gap-2 mb-8">
+          {[...Array(MAX_COMPARE_PHONES)].map((_, index) => {
+            const phone = compareList[index];
+            return (
+              <PhoneSelection
+                key={phone?.id || `placeholder-${index}`}
+                phone={phone || null}
+                onAdd={() => handleAddPhoneClick(index)}
                 onRemove={() => handleRemoveFromCompare(phone.id)}
               />
-            ))}
-            {[...Array(Math.max(0, MAX_COMPARE_PHONES - numPhones))].map((_, index) => (
-              <div key={`placeholder-${index}`} className="flex-1">
-                 { index === 0 ? (
-                    <Card className="flex items-center justify-center h-full p-2 border-2 border-dashed">
-                      <Button variant="ghost" className="w-full h-full flex-col" onClick={() => setIsDialogOpen(true)}>
-                        <PlusCircle className="h-6 w-6 text-muted-foreground" />
-                        <span className="text-xs mt-1 text-muted-foreground">Add Phone</span>
-                      </Button>
-                    </Card>
-                 ) : <div className="h-full w-full" /> }
-              </div>
-            ))}
-        </div>
+            )
+          })}
        </div>
       
       
       {/* Spec Categories and Rows */}
-      <div className="mt-4">
+      <div className="mt-4 border rounded-lg overflow-hidden">
         {specCategoryGroups.map((group: SpecCategory) => (
-          <div key={group.title} id={group.category} className="mb-6">
-              <h2 className="p-2 font-bold text-lg text-center bg-muted rounded-md my-4">
+          <div key={group.title} id={group.category} className="border-b last:border-b-0">
+              <h2 className="p-3 font-bold text-lg text-center bg-primary text-primary-foreground">
                   {group.title}
               </h2>
 
@@ -143,18 +154,20 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
                 return (
                   <div key={spec.key} className="border-b last:border-b-0">
                     {/* Spec Label Row */}
-                    <div className="bg-muted/50 p-2">
+                    <div className="bg-muted/50 p-3">
                       <h3 className="font-semibold text-sm">{spec.label}</h3>
                     </div>
                     
                     {/* Spec Value Row */}
-                     <div className={`grid ${gridColsClass} items-stretch`}>
+                     <div className={cn(
+                        "grid items-start",
+                        `grid-cols-${Math.max(1, numPhones)}`
+                     )}>
                       {compareList.map((phone, index) => (
-                        <div key={phone.id} className={cn("text-left p-2 text-sm flex items-center", index > 0 && "border-l")}>
+                        <div key={phone.id} className={cn("text-left p-3 text-sm", index > 0 && "border-l")}>
                             {renderSpecValue((phone.specs[category] as any)?.[specKey])}
                         </div>
                       ))}
-                      {[...Array(Math.max(0, MAX_COMPARE_PHONES - numPhones))].map((_, index) => <div key={`spec-empty-${index}`} className={cn(index > 0 && "border-l")}/>)}
                     </div>
                   </div>
                 )
@@ -166,7 +179,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
       <AddPhoneDialog 
         isOpen={isDialogOpen} 
         onOpenChange={setIsDialogOpen}
-        onSelectPhone={handleAddPhone}
+        onSelectPhone={handleSelectPhone}
         allPhones={allPhones}
         currentPhones={compareList}
       />

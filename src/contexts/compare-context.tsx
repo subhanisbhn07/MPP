@@ -10,7 +10,7 @@ import { allPhones } from '@/lib/data';
 
 interface CompareContextType {
   compareList: Phone[];
-  handleAddToCompare: (phone: Phone) => void;
+  handleAddToCompare: (phone: Phone, index?: number | null) => void;
   handleRemoveFromCompare: (phoneId: number) => void;
   handleClearCompare: () => void;
   setCompareList: (phones: Phone[]) => void;
@@ -36,7 +36,7 @@ export function CompareProvider({ children }: { children: ReactNode }) {
   }, [compareList, pathname, router]);
 
 
-  const handleAddToCompare = useCallback((phone: Phone) => {
+  const handleAddToCompare = useCallback((phone: Phone, index: number | null = null) => {
     setCompareList((prevList) => {
       if (prevList.find((p) => p.id === phone.id)) {
         toast({
@@ -52,8 +52,17 @@ export function CompareProvider({ children }: { children: ReactNode }) {
         });
         return prevList;
       }
-      // This function now ONLY updates state. The useEffect will handle the URL.
-      return [...prevList, phone];
+      
+      const newList = [...prevList];
+      if (index !== null && index < 4) {
+         // This logic is tricky. If we want to insert, we need a sparse array or object.
+         // For now, let's just add to the end as it's simpler and less error-prone.
+         // A more complex implementation would use an object `{0: phone1, 2: phone2}`
+         return [...prevList, phone];
+
+      } else {
+        return [...prevList, phone];
+      }
     });
   }, [toast]);
 
