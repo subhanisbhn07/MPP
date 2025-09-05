@@ -49,27 +49,27 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
   const gridCols = `repeat(${compareList.length + emptySlots.length}, minmax(0, 1fr))`;
 
   const PhoneHeaderCard = ({ phone }: { phone: Phone }) => (
-    <div key={phone.id} className="relative group text-center p-1 flex flex-col">
+    <div key={phone.id} className="relative group text-center flex flex-col">
         <Button 
            variant="destructive" 
            size="icon" 
-           className="absolute top-0 right-0 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+           className="absolute top-0 right-0 h-5 w-5 opacity-0 group-hover:opacity-100 transition-opacity z-10"
            onClick={() => handleRemoveFromCompare(phone.id)}
          >
-           <X className="h-4 w-4" />
+           <X className="h-3 w-3" />
          </Button>
         <Card className="overflow-hidden h-full flex flex-col bg-card flex-1">
-            <Link href={`/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`}>
-              <div className="aspect-square relative bg-muted p-1">
+            <Link href={`/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`} className="flex flex-col flex-1">
+              <div className="w-20 h-20 mx-auto relative bg-muted p-1">
                   <Image src={phone.image} alt={phone.model} fill className="object-contain" data-ai-hint="mobile phone" />
               </div>
-              <CardHeader className="p-2">
-                  <p className="text-sm font-bold truncate">{phone.brand} {phone.model}</p>
+              <CardHeader className="p-1 pt-2">
+                  <p className="text-xs font-bold truncate leading-tight">{phone.brand} {phone.model}</p>
               </CardHeader>
-            </Link>
-             <CardFooter className="p-2 mt-auto">
-                <p className="text-lg font-bold w-full text-primary">${phone.price}</p>
+             <CardFooter className="p-1 mt-auto">
+                <p className="text-sm font-bold w-full text-primary">${phone.price}</p>
             </CardFooter>
+            </Link>
         </Card>
     </div>
   );
@@ -108,7 +108,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
          <div className="mt-4 border-t">
              {specCategoryGroups.map((group: SpecCategory) => (
                <div key={group.title} id={group.category} className="mb-4">
-                  <h2 className="bg-primary text-primary-foreground p-3 font-bold text-lg text-center my-4 rounded-md sticky top-[18.5rem] md:top-[19rem] z-20">
+                  <h2 className="bg-primary text-primary-foreground p-3 font-bold text-lg text-center my-4 rounded-md sticky top-[calc(4rem+5rem)] md:top-[calc(5rem+5rem)] z-20">
                       {group.title}
                   </h2>
                   {group.specs.map(spec => {
