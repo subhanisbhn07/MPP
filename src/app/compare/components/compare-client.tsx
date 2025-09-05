@@ -70,7 +70,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
          <div className="border rounded-lg">
              {/* Phone Headers */}
              <div className="grid gap-px p-1" style={{ gridTemplateColumns: `minmax(150px, 1fr) ${gridCols}` }}>
-                  <div className="font-medium text-muted-foreground p-3 text-sm">
+                  <div className="font-medium text-muted-foreground p-3 text-sm sticky left-0 bg-background z-10">
                      <p>&nbsp;</p>
                   </div>
                   {compareList.map((phone) => (
@@ -108,7 +108,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
                     
                     return (
                       <div key={spec.key} className="grid items-stretch border-b" style={{ gridTemplateColumns: `minmax(150px, 1fr) ${gridCols}` }}>
-                          <div className="font-medium text-muted-foreground bg-background/20 p-2 text-xs">
+                          <div className="font-medium text-muted-foreground bg-background/95 p-2 text-xs sticky left-0 z-10">
                             {spec.label}
                           </div>
                           {compareList.map((phone) => (
