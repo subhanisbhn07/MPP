@@ -8,7 +8,7 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
       height="24"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="hsl(var(--primary))"
+      stroke="hsl(var(--accent))"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
