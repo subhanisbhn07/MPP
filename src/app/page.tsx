@@ -203,7 +203,7 @@ export default function Home() {
 
       {/* Header / Hero */}
       <header role="banner" className="w-full bg-accent text-accent-foreground rounded-2xl">
-        <div className="text-center py-8">
+        <div className="text-center py-4">
           <div className="flex flex-col items-center justify-center space-y-4">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
               Discover. Compare. Decide.
