@@ -211,7 +211,7 @@ export default function Home() {
               Discover. Compare. Decide.
             </h1>
             <p className="max-w-[600px] md:text-xl">
-              AI-updated specs, comparisons & SEO-friendly landing pages.
+              AI-updated specs, comparisons &amp; SEO-friendly landing pages.
             </p>
             <div className="mt-4">
               <Button asChild size="lg" variant="default">
@@ -647,7 +647,7 @@ export default function Home() {
           </CardContent>
         </Card>
         
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-3">
             {/* Upcoming Calendar */}
             <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="upcoming-heading">
               <CardHeader>
@@ -690,26 +690,6 @@ export default function Home() {
                           <p className="text-sm opacity-80">Global launch event for the next flagship killer.</p>
                         </div>
                       </article>
-                      <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
-                        <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
-                          <p className="font-bold text-lg">04</p>
-                          <p className="text-xs opacity-80">OCT</p>
-                        </div>
-                        <div>
-                          <h4 className="font-semibold">Google Pixel 9 Event</h4>
-                          <p className="text-sm opacity-80">Launch of Pixel 9, Pixel 9 Pro, and Pixel Watch 3.</p>
-                        </div>
-                      </article>
-                      <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
-                        <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
-                          <p className="font-bold text-lg">28</p>
-                          <p className="text-xs opacity-80">OCT</p>
-                        </div>
-                        <div>
-                          <h4 className="font-semibold">Xiaomi 15 Series China Launch</h4>
-                          <p className="text-sm opacity-80">First look at the Snapdragon 8 Gen 4 phones.</p>
-                        </div>
-                      </article>
                   </div>
               </CardContent>
             </Card>
@@ -744,20 +724,42 @@ export default function Home() {
                           <h4 className="font-semibold mt-2">Top Phones to Buy in September</h4>
                         </Link>
                       </Card>
-                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
-                          <Badge variant="secondary">Guides</Badge>
-                          <h4 className="font-semibold mt-2">How to Maximize Your Phone's Battery Life</h4>
-                        </Link>
-                      </Card>
-                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
-                          <Badge variant="secondary">Tips & Tricks</Badge>
-                          <h4 className="font-semibold mt-2">Mastering ProRAW on Your iPhone</h4>
-                        </Link>
-                      </Card>
                     </div>
                 </CardContent>
+            </Card>
+
+            {/* Leaks & Rumors */}
+            <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="leaks-heading">
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-7 w-7" />
+                  <h2 id="leaks-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                    Leaks &amp; Rumors
+                  </h2>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                      <Badge variant="destructive">Rumor</Badge>
+                      <h4 className="font-semibold mt-2">Pixel 9 Pro to feature a flat display</h4>
+                    </Link>
+                  </Card>
+                  <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                      <Badge variant="destructive">Leak</Badge>
+                      <h4 className="font-semibold mt-2">Galaxy Z Fold 6 design schematics leaked</h4>
+                    </Link>
+                  </Card>
+                   <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                      <Badge variant="destructive">Rumor</Badge>
+                      <h4 className="font-semibold mt-2">Next iPhone SE might be cancelled</h4>
+                    </Link>
+                  </Card>
+                </div>
+              </CardContent>
             </Card>
         </div>
 
@@ -799,7 +801,7 @@ export default function Home() {
                     data-ai-hint="smartphone camera"
                   />
                   <CardContent className="p-4 bg-background text-foreground">
-                    <Badge>Tips & Tricks</Badge>
+                    <Badge>Tips &amp; Tricks</Badge>
                     <h3 className="text-lg font-bold mt-2">
                       Master Your Phone&apos;s Camera: Pro Tips
                     </h3>
@@ -818,7 +820,7 @@ export default function Home() {
                     data-ai-hint="smartphone battery"
                   />
                   <CardContent className="p-4 bg-background text-foreground">
-                    <Badge>Tips & Tricks</Badge>
+                    <Badge>Tips &amp; Tricks</Badge>
                     <h3 className="text-lg font-bold mt-2">
                       Maximize Your Phone's Battery Life
                     </h3>
@@ -1048,3 +1050,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
