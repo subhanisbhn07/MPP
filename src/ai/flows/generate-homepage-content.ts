@@ -59,7 +59,7 @@ export const GenerateHomepageContentOutputSchema = z.object({
   performancePhones: z.array(PhoneReferenceSchema).length(6).describe('A list of 6 phones best for gaming and performance.'),
   batteryPhones: z.array(PhoneReferenceSchema).length(6).describe('A list of 6 phones with the best battery life.'),
   cameraPhones: z.array(PhoneReferenceSchema).length(6).describe('A list of 6 phones with the best camera systems.'),
-  foldablePhones: z.array(PhoneReferenceEma).length(6).describe('A list of 6 popular foldable phones.'),
+  foldablePhones: z.array(PhoneReferenceSchema).length(6).describe('A list of 6 popular foldable phones.'),
   ruggedPhones: z.array(PhoneReferenceSchema).length(6).describe('A list of 6 rugged and durable phones.'),
   uniquePhones: z.array(PhoneReferenceSchema).length(6).describe('A list of 6 unique or niche-market phones.'),
   iosPhones: z.array(PhoneReferenceSchema).length(6).describe('A list of the top 6 iOS phones available.'),
@@ -114,3 +114,5 @@ export async function generateHomepageContent(): Promise<GenerateHomepageContent
 
   return generatedData;
 }
+
+    
