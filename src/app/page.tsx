@@ -84,6 +84,8 @@ export default function Home() {
   const foldablePhones = allPhones.filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip') || p.model.toLowerCase().includes('razr')).slice(0, 6);
   const ruggedPhones = allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")).slice(0, 6);
   const uniquePhones = allPhones.filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony").slice(0, 6);
+  const iosPhones = allPhones.filter(p => p.brand === 'Apple').slice(0, 6);
+  const androidPhones = allPhones.filter(p => p.brand !== 'Apple').slice(0, 6);
   
   const onSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -354,6 +356,46 @@ export default function Home() {
           </CardContent>
         </Card>
         
+        {/* iOS Phones */}
+        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="ios-heading">
+          <CardHeader>
+            <h2 id="ios-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+              Top iOS Phones
+            </h2>
+          </CardHeader>
+          <CardContent>
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+              {iosPhones.map((phone) => (
+                <li role="listitem" key={phone.id}>
+                   <article aria-label={`${phone.brand} ${phone.model}`}>
+                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
+                  </article>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+
+        {/* Android Phones */}
+        <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="android-heading">
+          <CardHeader>
+            <h2 id="android-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+              Top Android Phones
+            </h2>
+          </CardHeader>
+          <CardContent>
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+              {androidPhones.map((phone) => (
+                <li role="listitem" key={phone.id}>
+                  <article aria-label={`${phone.brand} ${phone.model}`}>
+                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
+                  </article>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+
         {/* Flagship Phones */}
          <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="flagship-heading">
            <CardHeader>
