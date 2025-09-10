@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, Smartphone, PenSquare, FileUp, BarChart2, Newspaper, ArrowRight } from 'lucide-react';
+import { Sparkles, Smartphone, PenSquare, FileUp, BarChart2, Newspaper, Bot } from 'lucide-react';
 import Link from "next/link";
 import { allPhones } from "@/lib/data";
 
@@ -12,6 +12,7 @@ export default function AdminDashboard() {
   const navTiles = [
     { href: '/admin/phones', label: 'Manage Phones', icon: Smartphone, description: 'Add, edit, and view all phone entries.' },
     { href: '/admin/generate-spec', label: 'AI Spec Generator', icon: Sparkles, description: 'Create new phone specs with AI assistance.' },
+    { href: '/admin/content-automation', label: 'AI Content Automation', icon: Bot, description: 'Automate homepage content generation.' },
     { href: '/admin/blog', label: 'Blog Posts', icon: PenSquare, description: 'Write and manage articles and guides.' },
     { href: '/admin/news', label: 'News', icon: Newspaper, description: 'Manage breaking news and industry updates.' },
     { href: '/admin/bulk-upload', label: 'Bulk Upload', icon: FileUp, description: 'Upload multiple phones from a CSV file.' },
