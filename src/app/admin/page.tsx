@@ -15,7 +15,6 @@ export default function AdminDashboard() {
     { href: '/admin/content-automation', label: 'Homepage Content AI', icon: Bot, description: 'Automate homepage content sections.' },
     { href: '/admin/blog', label: 'Blog Posts', icon: PenSquare, description: 'Write and manage articles and guides.' },
     { href: '/admin/news', label: 'News', icon: Newspaper, description: 'Manage breaking news and industry updates.' },
-    { href: '/admin/bulk-upload', label: 'Bulk Upload', icon: FileUp, description: 'Upload multiple phones from a CSV file.' },
     { href: '/admin/seo', label: 'SEO Management', icon: BarChart2, description: 'Optimize pages for search engines.' },
   ];
 
