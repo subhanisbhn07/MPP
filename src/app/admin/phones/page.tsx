@@ -1,4 +1,5 @@
 
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { allPhones } from "@/lib/data";
@@ -102,9 +103,11 @@ export default function ManagePhonesPage() {
                                             </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
-                                            <DropdownMenuItem>
-                                                <Edit className="mr-2 h-4 w-4" />
-                                                <span>Edit</span>
+                                            <DropdownMenuItem asChild>
+                                                <Link href={`/admin/phones/edit/${phone.id}`}>
+                                                   <Edit className="mr-2 h-4 w-4" />
+                                                   <span>Edit</span>
+                                                </Link>
                                             </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
