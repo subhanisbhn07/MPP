@@ -25,7 +25,7 @@ export default function SeoManagementPage() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <label htmlFor="site-title" className="font-medium">Site Title Template</label>
-              <Input id="site-title" placeholder="%s | Compare Phones Pro" defaultValue="%s | Compare Phones Pro" />
+              <Input id="site-title" placeholder="%s | MobilePhonesPro" defaultValue="%s | MobilePhonesPro" />
               <p className="text-sm text-muted-foreground">Use %s as a placeholder for the page title.</p>
             </div>
             <div className="space-y-2">
