@@ -50,19 +50,7 @@ import { cn } from '@/lib/utils';
 import type { Phone } from '@/lib/types';
 import { AddPhoneDialog } from '@/app/compare/components/add-phone-dialog';
 import { Separator } from '@/components/ui/separator';
-
-const specCategories = [
-  { icon: Camera, label: 'Best Camera', href: '#' },
-  { icon: Battery, label: 'Battery Phones', href: '#' },
-  { icon: Zap, label: 'Fast Charging', href: '#' },
-  { icon: Gamepad2, label: 'Gaming Phones', href: '#' },
-  { icon: null, label: 'Under ₹20K', href: '#' },
-  { icon: Megaphone, label: '5G Phones', href: '#' },
-  { icon: Star, label: 'Flagships', href: '#' },
-  { icon: Smartphone, label: 'Compact Phones', href: '#' },
-  { icon: Layers, label: 'Expandable Storage', href: '#' },
-  { icon: null, label: 'Satellite Phones', href: '#' },
-];
+import { specCategories } from '@/lib/categories';
 
 export default function Home() {
   const { compareList, handleAddToCompare, handleRemoveFromCompare, handleClearCompare } = useCompare();
@@ -698,7 +686,7 @@ export default function Home() {
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
               {specCategories.map((cat) => (
                 <li role="listitem" key={cat.label}>
-                  <Link href={cat.href} aria-disabled tabIndex={-1}>
+                  <Link href={cat.href}>
                     <Card className="p-4 flex flex-col items-center justify-center text-center text-accent-foreground bg-accent hover:bg-background/20 transition-colors h-full">
                       {cat.icon && <cat.icon className="h-8 w-8" aria-hidden="true" />}
                       <span className="font-semibold text-sm">{cat.label}</span>
@@ -1117,3 +1105,4 @@ export default function Home() {
     
 
     
+
