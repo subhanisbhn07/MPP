@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Image from 'next/image';
@@ -52,6 +51,60 @@ import type { Phone } from '@/lib/types';
 import { AddPhoneDialog } from '@/app/compare/components/add-phone-dialog';
 import { Separator } from '@/components/ui/separator';
 import { specCategories } from '@/lib/categories';
+
+const CompareSlot = ({ phone, onAdd, onRemove }: { phone: Phone | null, onAdd: () => void, onRemove: () => void }) => {
+    if (!phone) {
+      return (
+        <Card className="flex-1 bg-primary-foreground/10 hover:bg-primary-foreground/20 transition-colors">
+          <CardContent className="p-4 flex flex-col items-center justify-center text-center border-2 border-dashed border-primary-foreground/30 rounded-lg h-full">
+            <Button
+              variant="ghost"
+              className="flex flex-col h-auto p-4 w-full h-full text-primary-foreground/80 hover:text-primary-foreground"
+              onClick={onAdd}
+               aria-label="Add phone to compare"
+            >
+              <PlusCircle className="h-8 w-8" aria-hidden="true" />
+              <span className="mt-2 text-sm font-semibold">
+                Add Phone
+              </span>
+            </Button>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    return (
+      <Card className="flex-1 relative group/compare-card bg-primary-foreground/10 overflow-hidden">
+        <CardContent className="p-4 text-center text-primary-foreground">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-2 right-2 h-7 w-7 bg-black/20 hover:bg-black/40 text-white rounded-full opacity-0 group-hover/compare-card:opacity-100 transition-opacity z-10"
+              onClick={onRemove}
+               aria-label={`Remove ${phone.brand} ${phone.model}`}
+            >
+              <X className="h-4 w-4" aria-hidden="true" />
+            </Button>
+          <div className="relative w-full h-40 mb-4">
+            <Image 
+              src={phone.image} 
+              alt={`${phone.brand} ${phone.model}`} 
+              fill 
+              className="object-contain" 
+              data-ai-hint="mobile phone"
+            />
+          </div>
+          <p className="font-bold text-lg truncate">{phone.brand}</p>
+          <p className="text-primary-foreground/80 truncate">{phone.model}</p>
+          <div className="text-left mt-4 space-y-1 text-sm text-primary-foreground/80">
+            <div className="flex items-center gap-2"><Smartphone size={14} aria-hidden="true" /> <span>{phone.specs.display.size_inches}" {phone.specs.display.panel_type.split(',')[0]}</span></div>
+            <div className="flex items-center gap-2"><Camera size={14} aria-hidden="true" /> <span>{phone.specs.main_camera.main_sensor_resolution} Main</span></div>
+            <div className="flex items-center gap-2"><Battery size={14} aria-hidden="true" /> <span>{phone.specs.battery.capacity_mah} mAh</span></div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+};
 
 export default function Home() {
   const { compareList, handleAddToCompare, handleRemoveFromCompare, handleClearCompare } = useCompare();
@@ -125,60 +178,6 @@ export default function Home() {
   ];
 
   const getPhoneByName = (name: string) => allPhones.find(p => p.model === name);
-  
-  const CompareSlot = ({ phone, onAdd, onRemove }: { phone: Phone | null, onAdd: () => void, onRemove: () => void }) => {
-    if (!phone) {
-      return (
-        <Card className="flex-1">
-          <CardContent className="p-4 flex flex-col items-center justify-center text-center border-2 border-dashed rounded-lg h-full">
-            <Button
-              variant="ghost"
-              className="flex flex-col h-auto p-4 w-full h-full"
-              onClick={onAdd}
-               aria-label="Add phone to compare"
-            >
-              <PlusCircle className="h-8 w-8 text-muted-foreground" aria-hidden="true" />
-              <span className="text-muted-foreground mt-2 text-sm font-semibold">
-                Add Phone
-              </span>
-            </Button>
-          </CardContent>
-        </Card>
-      );
-    }
-
-    return (
-      <Card className="flex-1 relative group/compare-card">
-        <CardContent className="p-4 text-center">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute top-2 right-2 h-6 w-6 bg-muted rounded-full opacity-0 group-hover/compare-card:opacity-100 transition-opacity z-10"
-              onClick={onRemove}
-               aria-label={`Remove ${phone.brand} ${phone.model}`}
-            >
-              <X className="h-4 w-4" aria-hidden="true" />
-            </Button>
-          <div className="relative w-full h-40 mb-4">
-            <Image 
-              src={phone.image} 
-              alt={`${phone.brand} ${phone.model}`} 
-              fill 
-              className="object-contain" 
-              data-ai-hint="mobile phone"
-            />
-          </div>
-          <p className="font-bold text-lg truncate">{phone.brand}</p>
-          <p className="text-muted-foreground truncate">{phone.model}</p>
-          <div className="text-left mt-4 space-y-1 text-sm">
-            <div className="flex items-center gap-2"><Smartphone size={14} aria-hidden="true" /> <span>{phone.specs.display.size_inches}" {phone.specs.display.panel_type.split(',')[0]}</span></div>
-            <div className="flex items-center gap-2"><Camera size={14} aria-hidden="true" /> <span>{phone.specs.main_camera.main_sensor_resolution} Main</span></div>
-            <div className="flex items-center gap-2"><Battery size={14} aria-hidden="true" /> <span>{phone.specs.battery.capacity_mah} mAh</span></div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  };
   
   return (
     <div className="px-4 space-y-4 pb-4">
@@ -620,13 +619,13 @@ export default function Home() {
                 <div>
                   <h3 className="font-semibold mb-3 text-center md:text-left">Popular Comparisons</h3>
                   <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                    {popularComparisons.slice(0, 6).map(([p1, p2]) => {
+                    {popularComparisons.map(([p1, p2], i) => {
                       const phone1 = getPhoneByName(p1);
                       const phone2 = getPhoneByName(p2);
                       if (!phone1 || !phone2) return null;
                       const url = generateCompareUrl([phone1, phone2]);
                       return (
-                        <li role="listitem" key={url}>
+                        <li role="listitem" key={i}>
                           <Link
                             href={url}
                             className="block hover:text-primary-foreground/80 text-center p-1.5 rounded-md hover:bg-white/10 border border-primary-foreground/20"
@@ -643,13 +642,13 @@ export default function Home() {
                 <div>
                   <h3 className="font-semibold mb-3 text-center md:text-left">Trending Comparisons</h3>
                   <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                    {trendingComparisons.slice(0, 6).map(([p1, p2]) => {
+                    {trendingComparisons.map(([p1, p2], i) => {
                       const phone1 = getPhoneByName(p1);
                       const phone2 = getPhoneByName(p2);
                       if (!phone1 || !phone2) return null;
                       const url = generateCompareUrl([phone1, phone2]);
                       return (
-                        <li role="listitem" key={url}>
+                        <li role="listitem" key={i}>
                           <Link
                             href={url}
                             className="block hover:text-primary-foreground/80 text-center p-1.5 rounded-md hover:bg-white/10 border border-primary-foreground/20"
@@ -1103,6 +1102,7 @@ export default function Home() {
     
 
     
+
 
 
 
