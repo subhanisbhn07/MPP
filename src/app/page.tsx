@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from 'next/image';
@@ -619,7 +618,7 @@ export default function Home() {
                 <div>
                   <h3 className="font-semibold mb-3 text-center md:text-left">Popular Comparisons</h3>
                   <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                    {popularComparisons.map(([p1, p2], i) => {
+                    {popularComparisons.slice(0, 6).map(([p1, p2], i) => {
                       const phone1 = getPhoneByName(p1);
                       const phone2 = getPhoneByName(p2);
                       if (!phone1 || !phone2) return null;
@@ -642,7 +641,7 @@ export default function Home() {
                 <div>
                   <h3 className="font-semibold mb-3 text-center md:text-left">Trending Comparisons</h3>
                   <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                    {trendingComparisons.map(([p1, p2], i) => {
+                    {trendingComparisons.slice(0, 6).map(([p1, p2], i) => {
                       const phone1 = getPhoneByName(p1);
                       const phone2 = getPhoneByName(p2);
                       if (!phone1 || !phone2) return null;
@@ -1098,13 +1097,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    
-
-
-
-
-
-
