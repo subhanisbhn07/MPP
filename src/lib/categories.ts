@@ -1,5 +1,6 @@
 
-import { Camera, Battery, Gamepad2, Smartphone, Layers, Star, Zap, Megaphone } from 'lucide-react';
+
+import { Camera, Battery, Gamepad2, Smartphone, Layers, Star, Zap, Megaphone, Orbit, TabletSmartphone } from 'lucide-react';
 
 export const specCategories = [
   { 
@@ -49,6 +50,22 @@ export const specCategories = [
     href: '/category/5g-phones',
     title: '5G Phones',
     description: 'Browse all phones that support the latest 5G network technology for super-fast speeds.'
+  },
+   { 
+    icon: TabletSmartphone, 
+    label: 'iOS Phones', 
+    slug: 'ios-phones',
+    href: '/category/ios-phones',
+    title: 'Top iOS Phones',
+    description: 'Explore the latest iPhones from Apple, known for their powerful performance and seamless ecosystem.'
+  },
+   { 
+    icon: Orbit, 
+    label: 'Android Phones', 
+    slug: 'android-phones',
+    href: '/category/android-phones',
+    title: 'Top Android Phones',
+    description: 'Discover a wide range of Android devices offering customization and choice from various manufacturers.'
   },
   { 
     icon: Smartphone, 

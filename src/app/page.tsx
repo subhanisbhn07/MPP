@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from 'next/image';
@@ -616,7 +617,7 @@ export default function Home() {
               {specCategories.map((cat) => (
                 <li role="listitem" key={cat.label}>
                   <Link href={cat.href}>
-                    <Card className="p-4 flex flex-col items-center justify-center text-center text-accent-foreground bg-accent hover:bg-background/20 transition-colors h-full">
+                    <Card className="p-4 flex flex-col items-center justify-center text-center text-accent-foreground bg-accent hover:bg-background/20 transition-colors h-full border-2">
                       {cat.icon && <cat.icon className="h-8 w-8" aria-hidden="true" />}
                       <span className="font-semibold text-sm">{cat.label}</span>
                     </Card>
