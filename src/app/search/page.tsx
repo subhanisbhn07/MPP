@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { allPhones } from "@/lib/data";
@@ -55,7 +54,51 @@ const initialFilters: Filters = {
 
 
 export default function SearchPage() {
-  const uniqueBrands = [...new Set(allPhones.map(p => p.brand))].sort();
+    const brandsData = [
+        { name: 'Acer' }, { name: 'alcatel' }, { name: 'Allview' },
+        { name: 'Amazon' }, { name: 'Amoi' }, { name: 'Apple' },
+        { name: 'Archos' }, { name: 'Asus' }, { name: 'AT&T' },
+        { name: 'Benefon' }, { name: 'BenQ' }, { name: 'BenQ-Siemens' },
+        { name: 'Bird' }, { name: 'BlackBerry' }, { name: 'Blackview' },
+        { name: 'BLU' }, { name: 'Bosch' }, { name: 'BQ' },
+        { name: 'Casio' }, { name: 'Cat' }, { name: 'Celkon' },
+        { name: 'Chea' }, { name: 'Coolpad' }, { name: 'Cubot' },
+        { name: 'Dell' }, { name: 'Doogee' }, { name: 'Emporia' },
+        { name: 'Energizer' }, { name: 'Ericsson' }, { name: 'Eten' },
+        { name: 'Fairphone' }, { name: 'Fujitsu Siemens' }, { name: 'Garmin-Asus' },
+        { name: 'Gigabyte' }, { name: 'Gionee' }, { name: 'Google' },
+        { name: 'Haier' }, { name: 'HMD' }, { name: 'Honor' },
+        { name: 'HP' }, { name: 'HTC' }, { name: 'Huawei' },
+        { name: 'i-mate' }, { name: 'i-mobile' }, { name: 'Icemobile' },
+        { name: 'Infinix' }, { name: 'Innostream' }, { name: 'iNQ' },
+        { name: 'Intex' }, { name: 'itel' }, { name: 'Jolla' },
+        { name: 'Karbonn' }, { name: 'Kyocera' }, { name: 'Lava' },
+        { name: 'LeEco' }, { name: 'Lenovo' }, { name: 'LG' },
+        { name: 'Maxon' }, { name: 'Maxwest' }, { name: 'Meizu' },
+        { name: 'Micromax' }, { name: 'Microsoft' }, { name: 'Mitac' },
+        { name: 'Mitsubishi' }, { name: 'Modu' }, { name: 'Motorola' },
+        { name: 'MWg' }, { name: 'NEC' }, { name: 'Neonode' },
+        { name: 'NIU' }, { name: 'Nokia' }, { name: 'Nothing' },
+        { name: 'Nvidia' }, { name: 'O2' }, { name: 'OnePlus' },
+        { name: 'Oppo' }, { name: 'Orange' }, { name: 'Oscal' },
+        { name: 'Oukitel' }, { name: 'Palm' }, { name: 'Panasonic' },
+        { name: 'Pantech' }, { name: 'Parla' }, { name: 'Philips' },
+        { name: 'Plum' }, { name: 'Posh' }, { name: 'Prestigio' },
+        { name: 'QMobile' }, { name: 'Qtek' }, { name: 'Razer' },
+        { name: 'Realme' }, { name: 'Sagem' }, { name: 'Samsung' },
+        { name: 'Sendo' }, { name: 'Sewon' }, { name: 'Sharp' },
+        { name: 'Siemens' }, { name: 'Sonim' }, { name: 'Sony' },
+        { name: 'Sony Ericsson' }, { name: 'Spice' }, { name: 'T-Mobile' },
+        { name: 'TCL' }, { name: 'Tecno' }, { name: 'Tel.Me.' },
+        { name: 'Telit' }, { name: 'Thuraya' }, { name: 'Toshiba' },
+        { name: 'Ulefone' }, { name: 'Umidigi' }, { name: 'Unnecto' },
+        { name: 'Vertu' }, { name: 'verykool' }, { name: 'vivo' },
+        { name: 'VK Mobile' }, { name: 'Vodafone' }, { name: 'Wiko' },
+        { name: 'WND' }, { name: 'XCute' }, { name: 'Xiaomi' },
+        { name: 'XOLO' }, { name: 'Yezz' }, { name: 'Yota' },
+        { name: 'YU' }, { name: 'ZTE' }
+    ].sort((a, b) => a.name.localeCompare(b.name));
+
   const { compareList, handleAddToCompare, handleRemoveFromCompare, handleClearCompare } = useCompare();
   
   const searchParams = useSearchParams();
@@ -225,8 +268,8 @@ export default function SearchPage() {
                           <div>
                             <h3 className="font-semibold mb-2">Brand</h3>
                             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
-                                {uniqueBrands.map(brand => (
-                                <FilterCheckbox key={brand} category="brands" value={brand} label={brand} />
+                                {brandsData.map(brand => (
+                                <FilterCheckbox key={brand.name} category="brands" value={brand.name} label={brand.name} />
                                 ))}
                             </div>
                           </div>
@@ -341,3 +384,5 @@ export default function SearchPage() {
     </>
   );
 }
+
+    
