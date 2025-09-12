@@ -30,6 +30,7 @@ import {
   Shuffle,
   Newspaper,
   BookOpen,
+  Cpu,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -613,13 +614,13 @@ export default function Home() {
                 <CompareSlot phone={phone2} onAdd={() => handleOpenDialog(2)} onRemove={() => setPhone2(null)} />
               </div>
 
-              <Separator className="my-8" />
+              <Separator className="my-8 bg-primary-foreground/20" />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div>
                   <h3 className="font-semibold mb-3 text-center md:text-left">Popular Comparisons</h3>
                   <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                    {popularComparisons.map(([p1, p2]) => {
+                    {popularComparisons.slice(0, 6).map(([p1, p2]) => {
                       const phone1 = getPhoneByName(p1);
                       const phone2 = getPhoneByName(p2);
                       if (!phone1 || !phone2) return null;
@@ -642,7 +643,7 @@ export default function Home() {
                 <div>
                   <h3 className="font-semibold mb-3 text-center md:text-left">Trending Comparisons</h3>
                   <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                    {trendingComparisons.map(([p1, p2]) => {
+                    {trendingComparisons.slice(0, 6).map(([p1, p2]) => {
                       const phone1 = getPhoneByName(p1);
                       const phone2 = getPhoneByName(p2);
                       if (!phone1 || !phone2) return null;
@@ -1102,6 +1103,7 @@ export default function Home() {
     
 
     
+
 
 
 
