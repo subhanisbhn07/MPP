@@ -159,27 +159,6 @@ export default function Home() {
     return '#';
   }, [phone1, phone2]);
   
-  const popularComparisons = [
-    ["iPhone 15 Pro Max", "Galaxy S24 Ultra"],
-    ["Pixel 8 Pro", "iPhone 15 Pro"],
-    ["OnePlus 12", "Xiaomi 14 Ultra"],
-    ["Galaxy Z Fold 5", "Pixel Fold"],
-    ["Galaxy S24", "Pixel 8 Pro"],
-    ["Nothing Phone (2a)", "Motorola Razr+ 2023"],
-  ];
-  
-  const trendingComparisons = [
-      ["Galaxy S24 Ultra", "Xiaomi 14 Ultra"],
-      ["iPhone 15 Pro Max", "OnePlus 12"],
-      ["Pixel 8 Pro", "Galaxy S24"],
-      ["Galaxy Z Flip 5", "Motorola Razr 40 Ultra"],
-      ["Asus ROG Phone 8 Pro", "OnePlus 12"],
-      ["Sony Xperia 1 VI", "iPhone 15 Pro Max"],
-      ["Google Pixel 8 Pro", "Samsung Galaxy S24 Ultra"],
-      ["OnePlus 12", "Samsung Galaxy S24"],
-      ["Xiaomi 14 Ultra", "iPhone 15 Pro Max"],
-  ];
-
   const getPhoneByName = (name: string) => allPhones.find(p => p.model === name);
   
   return (
@@ -614,56 +593,6 @@ export default function Home() {
                   )}
                 </div>
                 <CompareSlot phone={phone2} onAdd={() => handleOpenDialog(2)} onRemove={() => setPhone2(null)} />
-              </div>
-
-              <Separator className="my-8 bg-primary-foreground/20" />
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
-                <div>
-                  <h3 className="font-semibold mb-3 text-center md:text-left">Popular Comparisons</h3>
-                  <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                    {popularComparisons.slice(0, 6).map(([p1, p2], i) => {
-                      const phone1 = getPhoneByName(p1);
-                      const phone2 = getPhoneByName(p2);
-                      if (!phone1 || !phone2) return null;
-                      const url = generateCompareUrl([phone1, phone2]);
-                      return (
-                        <li role="listitem" key={i}>
-                          <Link
-                            href={url}
-                            className="block hover:text-primary-foreground/80 text-center p-1.5 rounded-md hover:bg-white/10 border border-primary-foreground/20"
-                            aria-label={`Compare ${p1} and ${p2}`}
-                          >
-                            {p1} vs {p2}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-
-                <div>
-                  <h3 className="font-semibold mb-3 text-center md:text-left">Trending Comparisons</h3>
-                  <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                    {trendingComparisons.slice(0, 6).map(([p1, p2], i) => {
-                      const phone1 = getPhoneByName(p1);
-                      const phone2 = getPhoneByName(p2);
-                      if (!phone1 || !phone2) return null;
-                      const url = generateCompareUrl([phone1, phone2]);
-                      return (
-                        <li role="listitem" key={i}>
-                          <Link
-                            href={url}
-                            className="block hover:text-primary-foreground/80 text-center p-1.5 rounded-md hover:bg-white/10 border border-primary-foreground/20"
-                            aria-label={`Compare ${p1} and ${p2}`}
-                          >
-                            {p1} vs {p2}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
               </div>
             </div>
           </CardContent>
@@ -1101,5 +1030,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
