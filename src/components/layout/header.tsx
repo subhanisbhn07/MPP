@@ -38,7 +38,7 @@ export function Header() {
   const { user, loading, signOut } = useAuth();
   const baseNavLinks = [
     { href: '/compare', label: 'Compare' },
-    { href: '/categories', label: 'Brands' },
+    { href: '/brands', label: 'Brands' },
     { href: '/news', label: 'News' },
     { href: '/guides', label: 'Guides' },
     { href: '/deals', label: 'Deals' },
@@ -209,3 +209,5 @@ export function Header() {
     </header>
   );
 }
+
+    
