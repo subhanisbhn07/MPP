@@ -5,7 +5,7 @@ import { allPhones } from "@/lib/data";
 import { PhoneCard } from "@/components/phone-card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, SlidersHorizontal, ArrowUpDown, ChevronDown, ChevronUp, X } from "lucide-react";
+import { Search, SlidersHorizontal, ArrowUpDown, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -22,9 +22,6 @@ import { ComparisonBar } from "@/components/comparison-bar";
 import { useCompare } from "@/contexts/compare-context";
 import { useSearchParams } from "next/navigation";
 import type { Phone } from "@/lib/types";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Separator } from "@/components/ui/separator";
-
 
 type Filters = {
   priceRange: [number, number];
@@ -60,18 +57,17 @@ const initialFilters: Filters = {
   hasDualSim: false,
 };
 
+const brandsData = [
+    'Acer', 'alcatel', 'Allview', 'Amazon', 'Amoi', 'Apple', 'Archos', 'Asus', 'AT&T', 'Benefon', 'BenQ', 'BenQ-Siemens', 'Bird', 'BlackBerry', 'Blackview', 'BLU', 'Bosch', 'BQ', 'Casio', 'Cat', 'Celkon', 'Chea', 'Coolpad', 'Cubot', 'Dell', 'Doogee', 'Emporia', 'Energizer', 'Ericsson', 'Eten', 'Fairphone', 'Fujitsu Siemens', 'Garmin-Asus', 'Gigabyte', 'Gionee', 'Google', 'Haier', 'HMD', 'Honor', 'HP', 'HTC', 'Huawei', 'i-mate', 'i-mobile', 'Icemobile', 'Infinix', 'Innostream', 'iNQ', 'Intex', 'itel', 'Jolla', 'Karbonn', 'Kyocera', 'Lava', 'LeEco', 'Lenovo', 'LG', 'Maxon', 'Maxwest', 'Meizu', 'Micromax', 'Microsoft', 'Mitac', 'Mitsubishi', 'Modu', 'Motorola', 'MWg', 'NEC', 'Neonode', 'NIU', 'Nokia', 'Nothing', 'Nvidia', 'O2', 'OnePlus', 'Oppo', 'Orange', 'Oscal', 'Oukitel', 'Palm', 'Panasonic', 'Pantech', 'Parla', 'Philips', 'Plum', 'Posh', 'Prestigio', 'QMobile', 'Qtek', 'Razer', 'Realme', 'Sagem', 'Samsung', 'Sendo', 'Sewon', 'Sharp', 'Siemens', 'Sonim', 'Sony', 'Sony Ericsson', 'Spice', 'T-Mobile', 'TCL', 'Tecno', 'Tel.Me.', 'Telit', 'Thuraya', 'Toshiba', 'Ulefone', 'Umidigi', 'Unnecto', 'Vertu', 'verykool', 'vivo', 'VK Mobile', 'Vodafone', 'Wiko', 'WND', 'XCute', 'Xiaomi', 'XOLO', 'Yezz', 'Yota', 'YU', 'ZTE'
+].sort();
 
 export default function SearchPage() {
-    const brandsData = [
-        'Acer', 'alcatel', 'Allview', 'Amazon', 'Amoi', 'Apple', 'Archos', 'Asus', 'AT&T', 'Benefon', 'BenQ', 'BenQ-Siemens', 'Bird', 'BlackBerry', 'Blackview', 'BLU', 'Bosch', 'BQ', 'Casio', 'Cat', 'Celkon', 'Chea', 'Coolpad', 'Cubot', 'Dell', 'Doogee', 'Emporia', 'Energizer', 'Ericsson', 'Eten', 'Fairphone', 'Fujitsu Siemens', 'Garmin-Asus', 'Gigabyte', 'Gionee', 'Google', 'Haier', 'HMD', 'Honor', 'HP', 'HTC', 'Huawei', 'i-mate', 'i-mobile', 'Icemobile', 'Infinix', 'Innostream', 'iNQ', 'Intex', 'itel', 'Jolla', 'Karbonn', 'Kyocera', 'Lava', 'LeEco', 'Lenovo', 'LG', 'Maxon', 'Maxwest', 'Meizu', 'Micromax', 'Microsoft', 'Mitac', 'Mitsubishi', 'Modu', 'Motorola', 'MWg', 'NEC', 'Neonode', 'NIU', 'Nokia', 'Nothing', 'Nvidia', 'O2', 'OnePlus', 'Oppo', 'Orange', 'Oscal', 'Oukitel', 'Palm', 'Panasonic', 'Pantech', 'Parla', 'Philips', 'Plum', 'Posh', 'Prestigio', 'QMobile', 'Qtek', 'Razer', 'Realme', 'Sagem', 'Samsung', 'Sendo', 'Sewon', 'Sharp', 'Siemens', 'Sonim', 'Sony', 'Sony Ericsson', 'Spice', 'T-Mobile', 'TCL', 'Tecno', 'Tel.Me.', 'Telit', 'Thuraya', 'Toshiba', 'Ulefone', 'Umidigi', 'Unnecto', 'Vertu', 'verykool', 'vivo', 'VK Mobile', 'Vodafone', 'Wiko', 'WND', 'XCute', 'Xiaomi', 'XOLO', 'Yezz', 'Yota', 'YU', 'ZTE'
-    ].sort();
-
   const { compareList, handleAddToCompare, handleRemoveFromCompare, handleClearCompare } = useCompare();
   
   const searchParams = useSearchParams();
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
-  const [query, setQuery] = useState(searchParams.get('q') || '');
+  const [query, setQuery] = useState('');
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [sortBy, setSortBy] = useState<string>('relevance');
 
@@ -86,7 +82,7 @@ export default function SearchPage() {
     } else {
         setQuery(brandQuery || '');
     }
-  }, [searchParams, brandsData]);
+  }, [searchParams]);
 
  const handleCheckboxChange = useCallback((category: keyof Filters, value: string | number | boolean) => {
     setFilters(prev => {
@@ -266,10 +262,16 @@ export default function SearchPage() {
             </div>
              {isFiltersOpen && (
                  <Card className="p-4">
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-lg font-bold">Filters</h3>
+                        <Button variant="ghost" size="sm" onClick={resetFilters}>
+                            <X className="mr-2 h-4 w-4" /> Reset All
+                        </Button>
+                    </div>
                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
                          <div>
-                             <h4 className="font-semibold mb-2">Price</h4>
-                            <div className="space-y-2">
+                            <h4 className="font-semibold mb-2">Price Range</h4>
+                            <div className="space-y-4 max-w-md">
                                <Slider
                                   value={filters.priceRange}
                                   onValueChange={handlePriceChange}
@@ -316,9 +318,6 @@ export default function SearchPage() {
                              </div>
                          </div>
                      </div>
-                      <div className="mt-4 flex justify-end">
-                        <Button variant="ghost" onClick={resetFilters}>Reset Filters</Button>
-                      </div>
                  </Card>
              )}
        </div>
