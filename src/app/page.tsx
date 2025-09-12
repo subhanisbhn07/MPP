@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from 'next/image';
@@ -174,6 +175,9 @@ export default function Home() {
       ["Galaxy Z Flip 5", "Motorola Razr 40 Ultra"],
       ["Asus ROG Phone 8 Pro", "OnePlus 12"],
       ["Sony Xperia 1 VI", "iPhone 15 Pro Max"],
+      ["Google Pixel 8 Pro", "Samsung Galaxy S24 Ultra"],
+      ["OnePlus 12", "Samsung Galaxy S24"],
+      ["Xiaomi 14 Ultra", "iPhone 15 Pro Max"],
   ];
 
   const getPhoneByName = (name: string) => allPhones.find(p => p.model === name);
@@ -390,19 +394,19 @@ export default function Home() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-foreground">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
                         <h4 className="font-semibold mt-2 text-black">Deep Dive into iOS 18's AI Features</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-foreground">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Tips & Tricks</Badge>
                         <h4 className="font-semibold mt-2 text-black">Customize Your Lock Screen Like a Pro</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-foreground">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Comparison</Badge>
                         <h4 className="font-semibold mt-2 text-black">iOS vs. Android: Which Ecosystem is for You?</h4>
@@ -421,19 +425,19 @@ export default function Home() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-foreground">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
                         <h4 className="font-semibold mt-2 text-black">Android 15's Best Features Explained</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-foreground">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Customization</Badge>
                         <h4 className="font-semibold mt-2 text-black">A Guide to Material You Theming</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-foreground">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">How-To</Badge>
                         <h4 className="font-semibold mt-2 text-black">Mastering Split-Screen Multitasking</h4>
@@ -1097,3 +1101,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
