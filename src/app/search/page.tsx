@@ -126,8 +126,8 @@ export default function SearchPage() {
     });
   }, []);
   
-  const handlePriceChange = (newRange: [number, number]) => {
-    setFilters(prev => ({ ...prev, priceRange: newRange }));
+  const handlePriceChange = (newRange: number[]) => {
+    setFilters(prev => ({ ...prev, priceRange: [newRange[0], newRange[1]] }));
   };
 
   const resetFilters = () => {
@@ -275,31 +275,26 @@ export default function SearchPage() {
                           </div>
                           <Separator />
                            <div>
-                            <h3 className="font-semibold mb-4">Price Range</h3>
-                            <div className="flex items-center gap-4 max-w-md">
-                               <div className="flex items-center gap-2">
-                                  <Label htmlFor="min-price">Min</Label>
-                                   <Input 
-                                      id="min-price"
-                                      type="number" 
-                                      placeholder="0" 
-                                      value={filters.priceRange[0]} 
-                                      onChange={(e) => handlePriceChange([+e.target.value, filters.priceRange[1]])} 
-                                      className="w-24"
-                                  />
-                               </div>
-                               <div className="flex items-center gap-2">
-                                   <Label htmlFor="max-price">Max</Label>
-                                   <Input 
-                                      id="max-price"
-                                      type="number" 
-                                      placeholder="2000" 
-                                      value={filters.priceRange[1]} 
-                                      onChange={(e) => handlePriceChange([filters.priceRange[0], +e.target.value])} 
-                                      className="w-24"
-                                  />
-                               </div>
-                            </div>
+                              <h3 className="font-semibold mb-4">Price Range</h3>
+                              <div className="flex items-center gap-4 max-w-md">
+                                <Slider
+                                  value={filters.priceRange}
+                                  onValueChange={handlePriceChange}
+                                  min={0}
+                                  max={2000}
+                                  step={50}
+                                  className="flex-1"
+                                />
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm text-muted-foreground">
+                                      ${filters.priceRange[0]}
+                                  </span>
+                                  <span>-</span>
+                                   <span className="text-sm text-muted-foreground">
+                                      ${filters.priceRange[1]}
+                                  </span>
+                                </div>
+                              </div>
                            </div>
                            <Separator />
                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -384,5 +379,7 @@ export default function SearchPage() {
     </>
   );
 }
+
+    
 
     
