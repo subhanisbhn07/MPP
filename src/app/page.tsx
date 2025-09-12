@@ -394,19 +394,19 @@ export default function Home() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-foreground">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
                         <h4 className="font-semibold mt-2">Deep Dive into iOS 18's AI Features</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-foreground">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Tips & Tricks</Badge>
                         <h4 className="font-semibold mt-2">Customize Your Lock Screen Like a Pro</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-foreground">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Comparison</Badge>
                         <h4 className="font-semibold mt-2">iOS vs. Android: Which Ecosystem is for You?</h4>
@@ -425,19 +425,19 @@ export default function Home() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-foreground">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
                         <h4 className="font-semibold mt-2">Android 15's Best Features Explained</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-foreground">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Customization</Badge>
                         <h4 className="font-semibold mt-2">A Guide to Material You Theming</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-foreground">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">How-To</Badge>
                         <h4 className="font-semibold mt-2">Mastering Split-Screen Multitasking</h4>
@@ -1105,5 +1105,6 @@ export default function Home() {
     
 
     
+
 
 
