@@ -233,17 +233,29 @@ export default function SearchPage() {
                           <Separator />
                            <div>
                             <h3 className="font-semibold mb-2">Price Range</h3>
-                            <div className="space-y-4 max-w-md">
-                                <Slider 
-                                value={filters.priceRange} 
-                                onValueChange={(val) => handlePriceChange(val as [number, number])}
-                                max={2000} 
-                                step={50} 
-                                />
-                                <div className="flex justify-between text-sm text-muted-foreground">
-                                <span>${filters.priceRange[0]}</span>
-                                <span>${filters.priceRange[1]}</span>
-                                </div>
+                            <div className="flex items-center gap-4 max-w-md">
+                               <div className="flex items-center gap-2">
+                                  <Label htmlFor="min-price">Min</Label>
+                                   <Input 
+                                      id="min-price"
+                                      type="number" 
+                                      placeholder="0" 
+                                      value={filters.priceRange[0]} 
+                                      onChange={(e) => handlePriceChange([+e.target.value, filters.priceRange[1]])} 
+                                      className="w-24"
+                                  />
+                               </div>
+                               <div className="flex items-center gap-2">
+                                   <Label htmlFor="max-price">Max</Label>
+                                   <Input 
+                                      id="max-price"
+                                      type="number" 
+                                      placeholder="2000" 
+                                      value={filters.priceRange[1]} 
+                                      onChange={(e) => handlePriceChange([filters.priceRange[0], +e.target.value])} 
+                                      className="w-24"
+                                  />
+                               </div>
                             </div>
                            </div>
                            <Separator />
