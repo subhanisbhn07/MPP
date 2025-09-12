@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { allPhones } from "@/lib/data";
@@ -24,7 +25,7 @@ import { useSearchParams } from "next/navigation";
 import type { Phone } from "@/lib/types";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Separator } from "@/components/ui/separator";
-
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const brandsData = [
     'Acer', 'alcatel', 'Allview', 'Amazon', 'Amoi', 'Apple', 'Archos', 'Asus', 'AT&T', 'Benefon', 'BenQ', 'BenQ-Siemens', 'Bird', 'BlackBerry', 'Blackview', 'BLU', 'Bosch', 'BQ', 'Casio', 'Cat', 'Celkon', 'Chea', 'Coolpad', 'Cubot', 'Dell', 'Doogee', 'Emporia', 'Energizer', 'Ericsson', 'Eten', 'Fairphone', 'Fujitsu Siemens', 'Garmin-Asus', 'Gigabyte', 'Gionee', 'Google', 'Haier', 'HMD', 'Honor', 'HP', 'HTC', 'Huawei', 'i-mate', 'i-mobile', 'Icemobile', 'Infinix', 'Innostream', 'iNQ', 'Intex', 'itel', 'Jolla', 'Karbonn', 'Kyocera', 'Lava', 'LeEco', 'Lenovo', 'LG', 'Maxon', 'Maxwest', 'Meizu', 'Micromax', 'Microsoft', 'Mitac', 'Mitsubishi', 'Modu', 'Motorola', 'MWg', 'NEC', 'Neonode', 'NIU', 'Nokia', 'Nothing', 'Nvidia', 'O2', 'OnePlus', 'Oppo', 'Orange', 'Oscal', 'Oukitel', 'Palm', 'Panasonic', 'Pantech', 'Parla', 'Philips', 'Plum', 'Posh', 'Prestigio', 'QMobile', 'Qtek', 'Razer', 'Realme', 'Sagem', 'Samsung', 'Sendo', 'Sewon', 'Sharp', 'Siemens', 'Sonim', 'Sony', 'Sony Ericsson', 'Spice', 'T-Mobile', 'TCL', 'Tecno', 'Tel.Me.', 'Telit', 'Thuraya', 'Toshiba', 'Ulefone', 'Umidigi', 'Unnecto', 'Vertu', 'verykool', 'vivo', 'VK Mobile', 'Vodafone', 'Wiko', 'WND', 'XCute', 'Xiaomi', 'XOLO', 'Yezz', 'Yota', 'YU', 'ZTE'
@@ -86,10 +87,15 @@ export default function SearchPage() {
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [sortBy, setSortBy] = useState<string>('relevance');
+  
+  const uniqueBrands = useMemo(() => {
+    const brands = new Set(allPhones.map(p => p.brand));
+    return [...brands].sort();
+  }, []);
 
   useEffect(() => {
     const q = searchParams.get('q');
-    const brandQuery = brandsData.find(b => b.toLowerCase() === q?.toLowerCase());
+    const brandQuery = uniqueBrands.find(b => b.toLowerCase() === q?.toLowerCase());
     
     if (brandQuery) {
         setFilters(prev => ({ ...prev, brands: [brandQuery] }));
@@ -103,7 +109,7 @@ export default function SearchPage() {
     if (sortParam) {
         setSortBy(sortParam);
     }
-  }, [searchParams]);
+  }, [searchParams, uniqueBrands]);
 
  const handleCheckboxChange = useCallback((category: keyof Filters, value: string | number | boolean) => {
     setFilters(prev => {
@@ -126,9 +132,9 @@ export default function SearchPage() {
   const handleSelectAllBrands = useCallback((checked: boolean) => {
     setFilters(prev => ({
         ...prev,
-        brands: checked ? brandsData : []
+        brands: checked ? uniqueBrands : []
     }));
-  }, []);
+  }, [uniqueBrands]);
 
   const handlePriceChange = (newRange: number[]) => {
     setFilters(prev => ({ ...prev, priceRange: [newRange[0], newRange[1]] as [number, number] }));
@@ -243,6 +249,17 @@ export default function SearchPage() {
       </div>
   );
 
+  const priceBuckets = [
+    { label: '$500 & below', range: [0, 500] },
+    { label: '$500 - $1000', range: [500, 1000] },
+    { label: '$1000 - $1500', range: [1000, 1500] },
+    { label: '$1500 & above', range: [1500, 2000] },
+  ];
+
+  const getCountForPriceRange = (min: number, max: number) => {
+    return allPhones.filter(p => p.price >= min && p.price < max).length;
+  }
+
   return (
     <>
     <div className="container mx-auto py-8 px-4 md:px-6">
@@ -292,6 +309,25 @@ export default function SearchPage() {
                          <div className="lg:col-span-1">
                             <FilterSection title="Price">
                                 <div className="space-y-4">
+                                  <div className="flex items-center gap-2">
+                                     <span className="text-sm font-medium">$</span>
+                                     <Input 
+                                        type="number" 
+                                        value={filters.priceRange[0]}
+                                        onChange={(e) => handlePriceChange([+e.target.value, filters.priceRange[1]])}
+                                        className="w-full h-8"
+                                        aria-label="Minimum price"
+                                     />
+                                     <span className="text-muted-foreground">-</span>
+                                     <span className="text-sm font-medium">$</span>
+                                     <Input
+                                        type="number"
+                                        value={filters.priceRange[1]}
+                                        onChange={(e) => handlePriceChange([filters.priceRange[0], +e.target.value])}
+                                        className="w-full h-8"
+                                        aria-label="Maximum price"
+                                     />
+                                  </div>
                                   <Slider
                                       value={filters.priceRange}
                                       onValueChange={handlePriceChange}
@@ -299,11 +335,25 @@ export default function SearchPage() {
                                       max={2000}
                                       step={50}
                                   />
-                                  <div className="flex justify-between items-center text-sm text-muted-foreground">
-                                      <span className="border rounded-md px-2 py-1">${filters.priceRange[0]}</span>
-                                      <span>-</span>
-                                      <span className="border rounded-md px-2 py-1">${filters.priceRange[1]}</span>
-                                  </div>
+                                   <RadioGroup 
+                                      onValueChange={(val) => {
+                                        const [min, max] = val.split('-').map(Number);
+                                        handlePriceChange([min, max]);
+                                      }}
+                                      className="space-y-2"
+                                    >
+                                      {priceBuckets.map(bucket => {
+                                        const count = getCountForPriceRange(bucket.range[0], bucket.range[1]);
+                                        return (
+                                          <div key={bucket.label} className="flex items-center space-x-2">
+                                              <RadioGroupItem value={`${bucket.range[0]}-${bucket.range[1]}`} id={bucket.label} />
+                                              <Label htmlFor={bucket.label} className="text-sm font-normal">
+                                                  {bucket.label} ({count})
+                                              </Label>
+                                          </div>
+                                        )
+                                      })}
+                                    </RadioGroup>
                                 </div>
                              </FilterSection>
                              <Separator />
@@ -319,13 +369,13 @@ export default function SearchPage() {
                                 <div className="flex items-center space-x-2">
                                     <Checkbox 
                                         id="select-all-brands"
-                                        checked={filters.brands.length === brandsData.length}
+                                        checked={filters.brands.length === uniqueBrands.length}
                                         onCheckedChange={handleSelectAllBrands}
                                     />
                                     <Label htmlFor="select-all-brands" className="font-semibold text-sm">Select All</Label>
                                 </div>
                                 <Separator className="my-2" />
-                                {brandsData.map(brand => (
+                                {uniqueBrands.map(brand => (
                                      <FilterCheckbox key={brand} category="brands" value={brand} />
                                 ))}
                             </FilterSection>
