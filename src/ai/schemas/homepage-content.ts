@@ -1,5 +1,4 @@
 
-'use server';
 /**
  * @fileOverview Schemas and types for homepage content generation.
  */
