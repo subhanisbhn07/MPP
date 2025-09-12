@@ -63,22 +63,25 @@ const initialFilters: Filters = {
 
 export default function SearchPage() {
     const brandsData = [
-        'Acer','alcatel','Allview','Amazon','Amoi','Apple','Archos','Asus','AT&T','Benefon','BenQ','BenQ-Siemens','Bird','BlackBerry','Blackview','BLU','Bosch','BQ','Casio','Cat','Celkon','Chea','Coolpad','Cubot','Dell','Doogee','Emporia','Energizer','Ericsson','Eten','Fairphone','Fujitsu Siemens','Garmin-Asus','Gigabyte','Gionee','Google','Haier','HMD','Honor','HP','HTC','Huawei','i-mate','i-mobile','Icemobile','Infinix','Innostream','iNQ','Intex','itel','Jolla','Karbonn','Kyocera','Lava','LeEco','Lenovo','LG','Maxon','Maxwest','Meizu','Micromax','Microsoft','Mitac','Mitsubishi','Modu','Motorola','MWg','NEC','Neonode','NIU','Nokia','Nothing','Nvidia','O2','OnePlus','Oppo','Orange','Oscal','Oukitel','Palm','Panasonic','Pantech','Parla','Philips','Plum','Posh','Prestigio','QMobile','Qtek','Razer','Realme','Sagem','Samsung','Sendo','Sewon','Sharp','Siemens','Sonim','Sony','Sony Ericsson','Spice','T-Mobile','TCL','Tecno','Tel.Me.','Telit','Thuraya','Toshiba','Ulefone','Umidigi','Unnecto','Vertu','verykool','vivo','VK Mobile','Vodafone','Wiko','WND','XCute','Xiaomi','XOLO','Yezz','Yota','YU','ZTE'
+        'Acer', 'alcatel', 'Allview', 'Amazon', 'Amoi', 'Apple', 'Archos', 'Asus', 'AT&T', 'Benefon', 'BenQ', 'BenQ-Siemens', 'Bird', 'BlackBerry', 'Blackview', 'BLU', 'Bosch', 'BQ', 'Casio', 'Cat', 'Celkon', 'Chea', 'Coolpad', 'Cubot', 'Dell', 'Doogee', 'Emporia', 'Energizer', 'Ericsson', 'Eten', 'Fairphone', 'Fujitsu Siemens', 'Garmin-Asus', 'Gigabyte', 'Gionee', 'Google', 'Haier', 'HMD', 'Honor', 'HP', 'HTC', 'Huawei', 'i-mate', 'i-mobile', 'Icemobile', 'Infinix', 'Innostream', 'iNQ', 'Intex', 'itel', 'Jolla', 'Karbonn', 'Kyocera', 'Lava', 'LeEco', 'Lenovo', 'LG', 'Maxon', 'Maxwest', 'Meizu', 'Micromax', 'Microsoft', 'Mitac', 'Mitsubishi', 'Modu', 'Motorola', 'MWg', 'NEC', 'Neonode', 'NIU', 'Nokia', 'Nothing', 'Nvidia', 'O2', 'OnePlus', 'Oppo', 'Orange', 'Oscal', 'Oukitel', 'Palm', 'Panasonic', 'Pantech', 'Parla', 'Philips', 'Plum', 'Posh', 'Prestigio', 'QMobile', 'Qtek', 'Razer', 'Realme', 'Sagem', 'Samsung', 'Sendo', 'Sewon', 'Sharp', 'Siemens', 'Sonim', 'Sony', 'Sony Ericsson', 'Spice', 'T-Mobile', 'TCL', 'Tecno', 'Tel.Me.', 'Telit', 'Thuraya', 'Toshiba', 'Ulefone', 'Umidigi', 'Unnecto', 'Vertu', 'verykool', 'vivo', 'VK Mobile', 'Vodafone', 'Wiko', 'WND', 'XCute', 'Xiaomi', 'XOLO', 'Yezz', 'Yota', 'YU', 'ZTE'
     ].sort();
 
   const { compareList, handleAddToCompare, handleRemoveFromCompare, handleClearCompare } = useCompare();
   
   const searchParams = useSearchParams();
-  const [isFiltersOpen, setIsFiltersOpen] = useState(true);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const [filters, setFilters] = useState<Filters>(initialFilters);
-  const [sortBy, setSortBy] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>('relevance');
 
   useEffect(() => {
     const brandQuery = searchParams.get('q');
-    if (brandQuery && brandsData.includes(brandQuery)) {
-        setFilters(prev => ({...prev, brands: [brandQuery]}));
+    if (brandQuery && brandsData.map(b => b.toLowerCase()).includes(brandQuery.toLowerCase())) {
+        const matchingBrand = brandsData.find(b => b.toLowerCase() === brandQuery.toLowerCase());
+        if(matchingBrand) {
+            setFilters(prev => ({...prev, brands: [matchingBrand]}));
+        }
         setQuery('');
     } else {
         setQuery(brandQuery || '');
@@ -104,18 +107,34 @@ export default function SearchPage() {
  }, []);
   
   const handlePriceChange = (newRange: number[]) => {
-    setFilters(prev => ({ ...prev, priceRange: [newRange[0], newRange[1]] }));
+    setFilters(prev => ({ ...prev, priceRange: [newRange[0], newRange[1]] as [number, number] }));
   };
+  
+  const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10);
+    if (!isNaN(value)) {
+        handlePriceChange([value, filters.priceRange[1]]);
+    }
+  }
+
+  const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10);
+     if (!isNaN(value)) {
+        handlePriceChange([filters.priceRange[0], value]);
+    }
+  }
+
 
   const resetFilters = () => {
     setFilters(initialFilters);
+    setQuery('');
   };
 
   const filteredPhones = useMemo(() => {
     let sortedPhones = [...allPhones];
 
     // Sorting logic
-    if (sortBy) {
+    if (sortBy && sortBy !== 'relevance') {
         sortedPhones.sort((a, b) => {
             switch(sortBy) {
                 case 'price-asc':
@@ -232,12 +251,12 @@ export default function SearchPage() {
                         Filters
                     </Button>
                     <Select value={sortBy} onValueChange={setSortBy}>
-                        <SelectTrigger className="h-11 w-full md:w-[180px]">
+                        <SelectTrigger className="h-11 w-full md:w-auto flex-grow md:flex-grow-0">
                             <ArrowUpDown className="mr-2" />
                             <SelectValue placeholder="Sort By" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="">Relevance</SelectItem>
+                            <SelectItem value="relevance">Relevance</SelectItem>
                             <SelectItem value="latest">Latest</SelectItem>
                             <SelectItem value="price-asc">Price: Low to High</SelectItem>
                             <SelectItem value="price-desc">Price: High to Low</SelectItem>
@@ -245,24 +264,13 @@ export default function SearchPage() {
                     </Select>
                 </div>
             </div>
-       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {isFiltersOpen && (
-            <aside className="lg:col-span-1">
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between pb-4">
-                        <CardTitle>Filters</CardTitle>
-                        <Button variant="ghost" size="sm" onClick={resetFilters}>Reset All</Button>
-                    </CardHeader>
-                    <CardContent className="space-y-6">
-                        <Collapsible defaultOpen>
-                            <CollapsibleTrigger className="flex justify-between items-center w-full font-semibold">
-                                Price
-                                <ChevronDown className="h-4 w-4" />
-                            </CollapsibleTrigger>
-                            <CollapsibleContent className="pt-4 space-y-4">
-                                <Slider
+             {isFiltersOpen && (
+                 <Card className="p-4">
+                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                         <div>
+                             <h4 className="font-semibold mb-2">Price</h4>
+                            <div className="space-y-2">
+                               <Slider
                                   value={filters.priceRange}
                                   onValueChange={handlePriceChange}
                                   min={0}
@@ -273,62 +281,50 @@ export default function SearchPage() {
                                     <span>${filters.priceRange[0]}</span>
                                     <span>${filters.priceRange[1]}</span>
                                 </div>
-                            </CollapsibleContent>
-                        </Collapsible>
-                        <Separator/>
-                        <Collapsible>
-                            <CollapsibleTrigger className="flex justify-between items-center w-full font-semibold">
-                                Featured
-                                <ChevronDown className="h-4 w-4" />
-                            </CollapsibleTrigger>
-                             <CollapsibleContent className="pt-4 space-y-2">
-                                <FilterToggle id="filter-5g" category="has5g" label="5G Connectivity" />
-                                <FilterToggle id="filter-quick-charging" category="hasQuickCharging" label="Quick Charging" />
-                                <FilterToggle id="filter-dual-sim" category="hasDualSim" label="Dual SIM" />
-                             </CollapsibleContent>
-                        </Collapsible>
-                        <Separator/>
-                         <Collapsible>
-                            <CollapsibleTrigger className="flex justify-between items-center w-full font-semibold">
-                                Brands
-                                <ChevronDown className="h-4 w-4" />
-                            </CollapsibleTrigger>
-                             <CollapsibleContent className="pt-4 space-y-2 max-h-60 overflow-y-auto">
-                               {brandsData.map(brand => (
-                                    <FilterCheckbox key={brand} id={`brand-${brand}`} category="brands" value={brand} />
-                               ))}
-                             </CollapsibleContent>
-                        </Collapsible>
-                        <Separator/>
-                         <Collapsible>
-                            <CollapsibleTrigger className="flex justify-between items-center w-full font-semibold">
-                                RAM
-                                <ChevronDown className="h-4 w-4" />
-                            </CollapsibleTrigger>
-                             <CollapsibleContent className="pt-4 space-y-2">
+                            </div>
+                         </div>
+                         <div className="max-h-48 overflow-y-auto">
+                              <h4 className="font-semibold mb-2">Brand</h4>
+                              <div className="space-y-2">
+                                {brandsData.map(brand => (
+                                     <FilterCheckbox key={brand} id={`brand-${brand}`} category="brands" value={brand} />
+                                ))}
+                              </div>
+                         </div>
+                         <div>
+                             <h4 className="font-semibold mb-2">RAM</h4>
+                             <div className="space-y-2">
                                 <FilterCheckbox id="ram-8" category="ram" value={8} label="8GB & above" />
                                 <FilterCheckbox id="ram-12" category="ram" value={12} label="12GB & above" />
                                 <FilterCheckbox id="ram-16" category="ram" value={16} label="16GB & above" />
-                             </CollapsibleContent>
-                        </Collapsible>
-                         <Separator/>
-                         <Collapsible>
-                            <CollapsibleTrigger className="flex justify-between items-center w-full font-semibold">
-                                Storage
-                                <ChevronDown className="h-4 w-4" />
-                            </CollapsibleTrigger>
-                             <CollapsibleContent className="pt-4 space-y-2">
+                             </div>
+                         </div>
+                          <div>
+                             <h4 className="font-semibold mb-2">Storage</h4>
+                             <div className="space-y-2">
                                 <FilterCheckbox id="storage-256" category="storage" value={256} label="256GB & above" />
                                 <FilterCheckbox id="storage-512" category="storage" value={512} label="512GB & above" />
                                 <FilterCheckbox id="storage-1024" category="storage" value={1024} label="1TB & above" />
-                             </CollapsibleContent>
-                        </Collapsible>
-                    </CardContent>
-                </Card>
-            </aside>
-        )}
-        
-        <main className={isFiltersOpen ? "lg:col-span-3" : "lg:col-span-4"}>
+                             </div>
+                         </div>
+                         <div>
+                             <h4 className="font-semibold mb-2">Features</h4>
+                             <div className="space-y-2">
+                                <FilterToggle id="filter-5g" category="has5g" label="5G Connectivity" />
+                                <FilterToggle id="filter-quick-charging" category="hasQuickCharging" label="Quick Charging" />
+                                <FilterToggle id="filter-dual-sim" category="hasDualSim" label="Dual SIM" />
+                             </div>
+                         </div>
+                     </div>
+                      <div className="mt-4 flex justify-end">
+                        <Button variant="ghost" onClick={resetFilters}>Reset Filters</Button>
+                      </div>
+                 </Card>
+             )}
+       </div>
+
+      <div className="grid grid-cols-1 gap-8">
+        <main>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Showing {filteredPhones.length} results</h2>
           </div>
