@@ -5,7 +5,7 @@ import { allPhones } from "@/lib/data";
 import { PhoneCard } from "@/components/phone-card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, SlidersHorizontal, ArrowUpDown, X, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, SlidersHorizontal, ArrowUpDown, X, ChevronDown } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -23,6 +23,7 @@ import { useCompare } from "@/contexts/compare-context";
 import { useSearchParams } from "next/navigation";
 import type { Phone } from "@/lib/types";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Separator } from "@/components/ui/separator";
 
 
 const brandsData = [
@@ -87,17 +88,20 @@ export default function SearchPage() {
   const [sortBy, setSortBy] = useState<string>('relevance');
 
   useEffect(() => {
-    const brandQuery = searchParams.get('q');
+    const q = searchParams.get('q');
+    const brandQuery = brandsData.find(b => b.toLowerCase() === q?.toLowerCase());
+    
     if (brandQuery) {
-        if (brandsData.map(b => b.toLowerCase()).includes(brandQuery.toLowerCase())) {
-            const matchingBrand = brandsData.find(b => b.toLowerCase() === brandQuery.toLowerCase());
-            if(matchingBrand) {
-                setFilters(prev => ({...prev, brands: [matchingBrand]}));
-            }
-            setQuery('');
-        } else {
-            setQuery(brandQuery);
-        }
+        setFilters(prev => ({ ...prev, brands: [brandQuery] }));
+        setQuery('');
+    } else if (q) {
+        setQuery(q);
+        setFilters(prev => ({...prev, brands: []}));
+    }
+    
+    const sortParam = searchParams.get('sort');
+    if (sortParam) {
+        setSortBy(sortParam);
     }
   }, [searchParams]);
 
@@ -118,25 +122,17 @@ export default function SearchPage() {
         return { ...prev, [category]: newValues };
     });
  }, []);
-  
+ 
+  const handleSelectAllBrands = useCallback((checked: boolean) => {
+    setFilters(prev => ({
+        ...prev,
+        brands: checked ? brandsData : []
+    }));
+  }, []);
+
   const handlePriceChange = (newRange: number[]) => {
     setFilters(prev => ({ ...prev, priceRange: [newRange[0], newRange[1]] as [number, number] }));
   };
-  
-  const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10);
-    if (!isNaN(value)) {
-        handlePriceChange([value, filters.priceRange[1]]);
-    }
-  }
-
-  const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10);
-     if (!isNaN(value)) {
-        handlePriceChange([filters.priceRange[0], value]);
-    }
-  }
-
 
   const resetFilters = () => {
     setFilters(initialFilters);
@@ -213,10 +209,10 @@ export default function SearchPage() {
     });
   }, [query, filters, sortBy]);
   
-  const FilterSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
-     <Collapsible defaultOpen>
+  const FilterSection = ({ title, children, defaultOpen = true }: { title: string, children: React.ReactNode, defaultOpen?: boolean }) => (
+     <Collapsible defaultOpen={defaultOpen} className="py-2">
         <CollapsibleTrigger className="flex justify-between items-center w-full py-2">
-            <h4 className="font-semibold">{title}</h4>
+            <h4 className="font-semibold text-sm">{title}</h4>
             <ChevronDown className="h-4 w-4 transition-transform [&[data-state=open]]:-rotate-180" />
         </CollapsibleTrigger>
         <CollapsibleContent className="space-y-3 pt-2">
@@ -232,7 +228,7 @@ export default function SearchPage() {
           checked={(filters[category] as (string|number)[]).includes(value)}
           onCheckedChange={() => handleCheckboxChange(category, value)}
         />
-        <Label htmlFor={`${category}-${value}`} className="font-normal">{label || value}</Label>
+        <Label htmlFor={`${category}-${value}`} className="font-normal text-sm">{label || value}</Label>
       </div>
   );
   
@@ -243,7 +239,7 @@ export default function SearchPage() {
           checked={filters[category] as boolean}
           onCheckedChange={() => handleCheckboxChange(category, true)}
         />
-        <Label htmlFor={`filter-${category}`} className="font-normal">{label}</Label>
+        <Label htmlFor={`filter-${category}`} className="font-normal text-sm">{label}</Label>
       </div>
   );
 
@@ -266,12 +262,12 @@ export default function SearchPage() {
                     />
                 </div>
                 <div className="flex w-full md:w-auto gap-2">
-                     <Button variant="outline" className="h-11 w-full md:w-auto" onClick={() => setIsFiltersOpen(!isFiltersOpen)}>
+                     <Button variant="outline" className="h-11 w-auto" onClick={() => setIsFiltersOpen(!isFiltersOpen)}>
                         <SlidersHorizontal className="mr-2" />
                         Filters
                     </Button>
                     <Select value={sortBy} onValueChange={setSortBy}>
-                        <SelectTrigger className="h-11 w-full md:w-auto flex-grow md:flex-grow-0">
+                        <SelectTrigger className="h-11 w-auto flex-grow md:flex-grow-0">
                             <ArrowUpDown className="mr-2" />
                             <SelectValue placeholder="Sort By" />
                         </SelectTrigger>
@@ -292,74 +288,87 @@ export default function SearchPage() {
                             <X className="mr-2 h-4 w-4" /> Reset All
                         </Button>
                     </CardHeader>
-                    <CardContent className="p-2 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                         <div className="col-span-1 md:col-span-4 lg:col-span-5">
-                             <FilterSection title="Price">
-                                <Slider
-                                    value={filters.priceRange}
-                                    onValueChange={handlePriceChange}
-                                    min={0}
-                                    max={2000}
-                                    step={50}
-                                    className="mb-2"
-                                />
-                                <div className="flex justify-between text-sm text-muted-foreground">
-                                    <span>${filters.priceRange[0]}</span>
-                                    <span>${filters.priceRange[1]}</span>
+                    <CardContent className="p-2 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-x-6">
+                         <div className="lg:col-span-1">
+                            <FilterSection title="Price">
+                                <div className="space-y-4">
+                                  <Slider
+                                      value={filters.priceRange}
+                                      onValueChange={handlePriceChange}
+                                      min={0}
+                                      max={2000}
+                                      step={50}
+                                  />
+                                  <div className="flex justify-between items-center text-sm text-muted-foreground">
+                                      <span className="border rounded-md px-2 py-1">${filters.priceRange[0]}</span>
+                                      <span>-</span>
+                                      <span className="border rounded-md px-2 py-1">${filters.priceRange[1]}</span>
+                                  </div>
                                 </div>
                              </FilterSection>
-                         </div>
-                         <div className="max-h-60 overflow-y-auto">
-                              <FilterSection title="Brand">
-                                {brandsData.map(brand => (
-                                     <FilterCheckbox key={brand} category="brands" value={brand} />
-                                ))}
-                              </FilterSection>
-                         </div>
-                         <div>
-                            <FilterSection title="RAM">
-                                <FilterCheckbox category="ram" value={8} label="8GB & above" />
-                                <FilterCheckbox category="ram" value={12} label="12GB & above" />
-                                <FilterCheckbox category="ram" value={16} label="16GB & above" />
-                            </FilterSection>
-                            <FilterSection title="Storage">
-                                <FilterCheckbox category="storage" value={256} label="256GB & above" />
-                                <FilterCheckbox category="storage" value={512} label="512GB & above" />
-                                <FilterCheckbox category="storage" value={1024} label="1TB & above" />
-                            </FilterSection>
-                         </div>
-                          <div>
-                            <FilterSection title="Battery">
-                                <FilterCheckbox category="battery" value={4000} label="4000mAh & above" />
-                                <FilterCheckbox category="battery" value={5000} label="5000mAh & above" />
-                                <FilterCheckbox category="battery" value={6000} label="6000mAh & above" />
-                            </FilterSection>
-                             <FilterSection title="Main Camera">
-                                <FilterCheckbox category="mainCamera" value={48} label="48MP & above" />
-                                <FilterCheckbox category="mainCamera" value={64} label="64MP & above" />
-                                <FilterCheckbox category="mainCamera" value={108} label="108MP & above" />
-                            </FilterSection>
-                         </div>
-                         <div>
-                            <FilterSection title="Display">
-                                <FilterCheckbox category="refreshRate" value={90} label="90Hz & above" />
-                                <FilterCheckbox category="refreshRate" value={120} label="120Hz & above" />
-                                <FilterCheckbox category="refreshRate" value={144} label="144Hz & above" />
-                            </FilterSection>
-                            <FilterSection title="Processor">
-                                <FilterCheckbox category="processorBrand" value="snapdragon" label="Snapdragon" />
-                                <FilterCheckbox category="processorBrand" value="mediatek" label="MediaTek" />
-                                <FilterCheckbox category="processorBrand" value="google" label="Google Tensor" />
-                                <FilterCheckbox category="processorBrand" value="apple" label="Apple Bionic" />
-                            </FilterSection>
-                         </div>
-                         <div>
+                             <Separator />
                              <FilterSection title="Features">
                                 <FilterToggle category="network5g" label="5G Connectivity" />
                                 <FilterToggle category="quickCharging" label="Quick Charging" />
                                 <FilterToggle category="hasNfc" label="NFC" />
                                 <FilterToggle category="isWaterResistant" label="Water Resistant" />
                              </FilterSection>
+                         </div>
+                         <div className="max-h-96 overflow-y-auto pr-4">
+                            <FilterSection title="Brand" defaultOpen={false}>
+                                <div className="flex items-center space-x-2">
+                                    <Checkbox 
+                                        id="select-all-brands"
+                                        checked={filters.brands.length === brandsData.length}
+                                        onCheckedChange={handleSelectAllBrands}
+                                    />
+                                    <Label htmlFor="select-all-brands" className="font-semibold text-sm">Select All</Label>
+                                </div>
+                                <Separator className="my-2" />
+                                {brandsData.map(brand => (
+                                     <FilterCheckbox key={brand} category="brands" value={brand} />
+                                ))}
+                            </FilterSection>
+                         </div>
+                         <div>
+                            <FilterSection title="RAM" defaultOpen={false}>
+                                <FilterCheckbox category="ram" value={8} label="8GB & above" />
+                                <FilterCheckbox category="ram" value={12} label="12GB & above" />
+                                <FilterCheckbox category="ram" value={16} label="16GB & above" />
+                            </FilterSection>
+                             <Separator />
+                            <FilterSection title="Storage" defaultOpen={false}>
+                                <FilterCheckbox category="storage" value={256} label="256GB & above" />
+                                <FilterCheckbox category="storage" value={512} label="512GB & above" />
+                                <FilterCheckbox category="storage" value={1024} label="1TB & above" />
+                            </FilterSection>
+                         </div>
+                          <div>
+                            <FilterSection title="Battery" defaultOpen={false}>
+                                <FilterCheckbox category="battery" value={4000} label="4000mAh & above" />
+                                <FilterCheckbox category="battery" value={5000} label="5000mAh & above" />
+                                <FilterCheckbox category="battery" value={6000} label="6000mAh & above" />
+                            </FilterSection>
+                             <Separator />
+                             <FilterSection title="Main Camera" defaultOpen={false}>
+                                <FilterCheckbox category="mainCamera" value={48} label="48MP & above" />
+                                <FilterCheckbox category="mainCamera" value={64} label="64MP & above" />
+                                <FilterCheckbox category="mainCamera" value={108} label="108MP & above" />
+                            </FilterSection>
+                         </div>
+                         <div>
+                            <FilterSection title="Display" defaultOpen={false}>
+                                <FilterCheckbox category="refreshRate" value={90} label="90Hz & above" />
+                                <FilterCheckbox category="refreshRate" value={120} label="120Hz & above" />
+                                <FilterCheckbox category="refreshRate" value={144} label="144Hz & above" />
+                            </FilterSection>
+                             <Separator />
+                            <FilterSection title="Processor" defaultOpen={false}>
+                                <FilterCheckbox category="processorBrand" value="snapdragon" label="Snapdragon" />
+                                <FilterCheckbox category="processorBrand" value="mediatek" label="MediaTek" />
+                                <FilterCheckbox category="processorBrand" value="google" label="Google Tensor" />
+                                <FilterCheckbox category="processorBrand" value="apple" label="Apple Bionic" />
+                            </FilterSection>
                          </div>
                      </CardContent>
                  </Card>
@@ -395,3 +404,5 @@ export default function SearchPage() {
     </>
   );
 }
+
+    
