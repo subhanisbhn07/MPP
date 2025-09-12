@@ -89,8 +89,7 @@ export default function SearchPage() {
   const [sortBy, setSortBy] = useState<string>('relevance');
   
   const uniqueBrands = useMemo(() => {
-    const brands = new Set(allPhones.map(p => p.brand));
-    return [...brands].sort();
+    return brandsData;
   }, []);
 
   useEffect(() => {
@@ -310,23 +309,27 @@ export default function SearchPage() {
                             <FilterSection title="Price">
                                 <div className="space-y-4">
                                   <div className="flex items-center gap-2">
-                                     <span className="text-sm font-medium">$</span>
-                                     <Input 
-                                        type="number" 
-                                        value={filters.priceRange[0]}
-                                        onChange={(e) => handlePriceChange([+e.target.value, filters.priceRange[1]])}
-                                        className="w-full h-8"
-                                        aria-label="Minimum price"
-                                     />
+                                    <div className="relative w-full">
+                                      <span className="absolute left-2 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">$</span>
+                                      <Input 
+                                          type="number" 
+                                          value={filters.priceRange[0]}
+                                          onChange={(e) => handlePriceChange([+e.target.value, filters.priceRange[1]])}
+                                          className="w-full h-9 pl-5"
+                                          aria-label="Minimum price"
+                                      />
+                                    </div>
                                      <span className="text-muted-foreground">-</span>
-                                     <span className="text-sm font-medium">$</span>
-                                     <Input
-                                        type="number"
-                                        value={filters.priceRange[1]}
-                                        onChange={(e) => handlePriceChange([filters.priceRange[0], +e.target.value])}
-                                        className="w-full h-8"
-                                        aria-label="Maximum price"
-                                     />
+                                     <div className="relative w-full">
+                                        <span className="absolute left-2 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">$</span>
+                                        <Input
+                                          type="number"
+                                          value={filters.priceRange[1]}
+                                          onChange={(e) => handlePriceChange([filters.priceRange[0], +e.target.value])}
+                                          className="w-full h-9 pl-5"
+                                          aria-label="Maximum price"
+                                        />
+                                     </div>
                                   </div>
                                   <Slider
                                       value={filters.priceRange}
@@ -357,15 +360,17 @@ export default function SearchPage() {
                                 </div>
                              </FilterSection>
                              <Separator />
-                             <FilterSection title="Features">
-                                <FilterToggle category="network5g" label="5G Connectivity" />
-                                <FilterToggle category="quickCharging" label="Quick Charging" />
-                                <FilterToggle category="hasNfc" label="NFC" />
-                                <FilterToggle category="isWaterResistant" label="Water Resistant" />
-                             </FilterSection>
+                              <FilterSection title="Features">
+                                <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                                  <FilterToggle category="network5g" label="5G" />
+                                  <FilterToggle category="quickCharging" label="Quick Charging" />
+                                  <FilterToggle category="hasNfc" label="NFC" />
+                                  <FilterToggle category="isWaterResistant" label="Water Resistant" />
+                                </div>
+                              </FilterSection>
                          </div>
                          <div className="max-h-96 overflow-y-auto pr-4">
-                            <FilterSection title="Brand" defaultOpen={false}>
+                            <FilterSection title="Brand" defaultOpen={true}>
                                 <div className="flex items-center space-x-2">
                                     <Checkbox 
                                         id="select-all-brands"
