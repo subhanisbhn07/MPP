@@ -5,7 +5,7 @@ import { allPhones } from "@/lib/data";
 import { PhoneCard } from "@/components/phone-card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, SlidersHorizontal, ArrowUpDown, X } from "lucide-react";
+import { Search, SlidersHorizontal, ArrowUpDown, X, ChevronDown, ChevronUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -22,44 +22,59 @@ import { ComparisonBar } from "@/components/comparison-bar";
 import { useCompare } from "@/contexts/compare-context";
 import { useSearchParams } from "next/navigation";
 import type { Phone } from "@/lib/types";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+
+
+const brandsData = [
+    'Acer', 'alcatel', 'Allview', 'Amazon', 'Amoi', 'Apple', 'Archos', 'Asus', 'AT&T', 'Benefon', 'BenQ', 'BenQ-Siemens', 'Bird', 'BlackBerry', 'Blackview', 'BLU', 'Bosch', 'BQ', 'Casio', 'Cat', 'Celkon', 'Chea', 'Coolpad', 'Cubot', 'Dell', 'Doogee', 'Emporia', 'Energizer', 'Ericsson', 'Eten', 'Fairphone', 'Fujitsu Siemens', 'Garmin-Asus', 'Gigabyte', 'Gionee', 'Google', 'Haier', 'HMD', 'Honor', 'HP', 'HTC', 'Huawei', 'i-mate', 'i-mobile', 'Icemobile', 'Infinix', 'Innostream', 'iNQ', 'Intex', 'itel', 'Jolla', 'Karbonn', 'Kyocera', 'Lava', 'LeEco', 'Lenovo', 'LG', 'Maxon', 'Maxwest', 'Meizu', 'Micromax', 'Microsoft', 'Mitac', 'Mitsubishi', 'Modu', 'Motorola', 'MWg', 'NEC', 'Neonode', 'NIU', 'Nokia', 'Nothing', 'Nvidia', 'O2', 'OnePlus', 'Oppo', 'Orange', 'Oscal', 'Oukitel', 'Palm', 'Panasonic', 'Pantech', 'Parla', 'Philips', 'Plum', 'Posh', 'Prestigio', 'QMobile', 'Qtek', 'Razer', 'Realme', 'Sagem', 'Samsung', 'Sendo', 'Sewon', 'Sharp', 'Siemens', 'Sonim', 'Sony', 'Sony Ericsson', 'Spice', 'T-Mobile', 'TCL', 'Tecno', 'Tel.Me.', 'Telit', 'Thuraya', 'Toshiba', 'Ulefone', 'Umidigi', 'Unnecto', 'Vertu', 'verykool', 'vivo', 'VK Mobile', 'Vodafone', 'Wiko', 'WND', 'XCute', 'Xiaomi', 'XOLO', 'Yezz', 'Yota', 'YU', 'ZTE'
+].sort();
 
 type Filters = {
   priceRange: [number, number];
   brands: string[];
-  ram: number[];
-  storage: number[];
-  battery: number[];
-  mainCamera: number[];
-  refreshRate: number[];
-  displayPanel: string[];
-  chipsetBrand: string[];
-  ipRating: string[];
   marketStatus: string[];
-  has5g: boolean;
-  hasQuickCharging: boolean;
-  hasDualSim: boolean;
+  launchDate: number; // months
+  ram: number[]; // GB
+  storage: number[]; // GB
+  storageType: string[];
+  expandableStorage: boolean;
+  screenSizes: number[]; // inches
+  refreshRate: number[]; // Hz
+  resolution: string[];
+  processorBrand: string[];
+  mainCamera: number[]; // MP
+  frontCamera: number[]; // MP
+  battery: number[]; // mAh
+  quickCharging: boolean;
+  wirelessCharging: boolean;
+  network5g: boolean;
+  hasNfc: boolean;
+  isWaterResistant: boolean;
 };
 
 const initialFilters: Filters = {
   priceRange: [0, 2000],
   brands: [],
+  marketStatus: [],
+  launchDate: 0,
   ram: [],
   storage: [],
-  battery: [],
-  mainCamera: [],
+  storageType: [],
+  expandableStorage: false,
+  screenSizes: [],
   refreshRate: [],
-  displayPanel: [],
-  chipsetBrand: [],
-  ipRating: [],
-  marketStatus: [],
-  has5g: false,
-  hasQuickCharging: false,
-  hasDualSim: false,
+  resolution: [],
+  processorBrand: [],
+  mainCamera: [],
+  frontCamera: [],
+  battery: [],
+  quickCharging: false,
+  wirelessCharging: false,
+  network5g: false,
+  hasNfc: false,
+  isWaterResistant: false,
 };
 
-const brandsData = [
-    'Acer', 'alcatel', 'Allview', 'Amazon', 'Amoi', 'Apple', 'Archos', 'Asus', 'AT&T', 'Benefon', 'BenQ', 'BenQ-Siemens', 'Bird', 'BlackBerry', 'Blackview', 'BLU', 'Bosch', 'BQ', 'Casio', 'Cat', 'Celkon', 'Chea', 'Coolpad', 'Cubot', 'Dell', 'Doogee', 'Emporia', 'Energizer', 'Ericsson', 'Eten', 'Fairphone', 'Fujitsu Siemens', 'Garmin-Asus', 'Gigabyte', 'Gionee', 'Google', 'Haier', 'HMD', 'Honor', 'HP', 'HTC', 'Huawei', 'i-mate', 'i-mobile', 'Icemobile', 'Infinix', 'Innostream', 'iNQ', 'Intex', 'itel', 'Jolla', 'Karbonn', 'Kyocera', 'Lava', 'LeEco', 'Lenovo', 'LG', 'Maxon', 'Maxwest', 'Meizu', 'Micromax', 'Microsoft', 'Mitac', 'Mitsubishi', 'Modu', 'Motorola', 'MWg', 'NEC', 'Neonode', 'NIU', 'Nokia', 'Nothing', 'Nvidia', 'O2', 'OnePlus', 'Oppo', 'Orange', 'Oscal', 'Oukitel', 'Palm', 'Panasonic', 'Pantech', 'Parla', 'Philips', 'Plum', 'Posh', 'Prestigio', 'QMobile', 'Qtek', 'Razer', 'Realme', 'Sagem', 'Samsung', 'Sendo', 'Sewon', 'Sharp', 'Siemens', 'Sonim', 'Sony', 'Sony Ericsson', 'Spice', 'T-Mobile', 'TCL', 'Tecno', 'Tel.Me.', 'Telit', 'Thuraya', 'Toshiba', 'Ulefone', 'Umidigi', 'Unnecto', 'Vertu', 'verykool', 'vivo', 'VK Mobile', 'Vodafone', 'Wiko', 'WND', 'XCute', 'Xiaomi', 'XOLO', 'Yezz', 'Yota', 'YU', 'ZTE'
-].sort();
 
 export default function SearchPage() {
   const { compareList, handleAddToCompare, handleRemoveFromCompare, handleClearCompare } = useCompare();
@@ -73,14 +88,16 @@ export default function SearchPage() {
 
   useEffect(() => {
     const brandQuery = searchParams.get('q');
-    if (brandQuery && brandsData.map(b => b.toLowerCase()).includes(brandQuery.toLowerCase())) {
-        const matchingBrand = brandsData.find(b => b.toLowerCase() === brandQuery.toLowerCase());
-        if(matchingBrand) {
-            setFilters(prev => ({...prev, brands: [matchingBrand]}));
+    if (brandQuery) {
+        if (brandsData.map(b => b.toLowerCase()).includes(brandQuery.toLowerCase())) {
+            const matchingBrand = brandsData.find(b => b.toLowerCase() === brandQuery.toLowerCase());
+            if(matchingBrand) {
+                setFilters(prev => ({...prev, brands: [matchingBrand]}));
+            }
+            setQuery('');
+        } else {
+            setQuery(brandQuery);
         }
-        setQuery('');
-    } else {
-        setQuery(brandQuery || '');
     }
   }, [searchParams]);
 
@@ -180,46 +197,53 @@ export default function SearchPage() {
         return phoneRate >= rate;
       });
       
-      const matchesPanel = filters.displayPanel.length === 0 || filters.displayPanel.some(panel => {
-        return phone.specs.display.panel_type.toLowerCase().includes(panel.toLowerCase());
-      });
-      
-      const matchesChipset = filters.chipsetBrand.length === 0 || filters.chipsetBrand.some(brand => {
+      const matchesProcessor = filters.processorBrand.length === 0 || filters.processorBrand.some(brand => {
         return phone.specs.platform.chipset.toLowerCase().includes(brand.toLowerCase());
       });
 
-      const matchesIpRating = filters.ipRating.length === 0 || filters.ipRating.some(rating => {
-        return phone.specs.body.ip_rating.toLowerCase().includes(rating.toLowerCase());
-      });
+      const matchesIpRating = phone.specs.body.ip_rating.toLowerCase();
+      const matchesWaterResistance = !filters.isWaterResistant || (matchesIpRating.includes('ip67') || matchesIpRating.includes('ip68'));
 
-      const matches5g = !filters.has5g || phone.specs.network.network_technology.includes('5G');
-      const matchesQuickCharging = !filters.hasQuickCharging || parseInt(phone.specs.battery.wired_charging_wattage) >= 25;
-      const matchesDualSim = !filters.hasDualSim || phone.specs.network.sim_slots_and_type.toLowerCase().includes('dual');
+      const matches5g = !filters.network5g || phone.specs.network.network_technology.includes('5G');
+      const matchesQuickCharging = !filters.quickCharging || parseInt(phone.specs.battery.wired_charging_wattage) >= 25;
+      const matchesNFC = !filters.hasNfc || phone.specs.connectivity.nfc.toLowerCase() === 'yes';
 
 
-      return matchesQuery && matchesBrand && matchesPrice && matchesRam && matchesStorage && matchesBattery && matchesCamera && matchesRefreshRate && matchesPanel && matchesChipset && matchesIpRating && matches5g && matchesQuickCharging && matchesDualSim;
+      return matchesQuery && matchesBrand && matchesPrice && matchesRam && matchesStorage && matchesBattery && matchesCamera && matchesRefreshRate && matchesProcessor && matchesWaterResistance && matches5g && matchesQuickCharging && matchesNFC;
     });
   }, [query, filters, sortBy]);
+  
+  const FilterSection = ({ title, children }: { title: string, children: React.ReactNode }) => (
+     <Collapsible defaultOpen>
+        <CollapsibleTrigger className="flex justify-between items-center w-full py-2">
+            <h4 className="font-semibold">{title}</h4>
+            <ChevronDown className="h-4 w-4 transition-transform [&[data-state=open]]:-rotate-180" />
+        </CollapsibleTrigger>
+        <CollapsibleContent className="space-y-3 pt-2">
+            {children}
+        </CollapsibleContent>
+     </Collapsible>
+  )
 
-  const FilterCheckbox = ({ id, category, value, label }: { id: string, category: keyof Filters, value: string | number, label?: string }) => (
+  const FilterCheckbox = ({ category, value, label }: { category: keyof Filters, value: string | number, label?: string }) => (
      <div className="flex items-center space-x-2">
         <Checkbox 
-          id={id}
+          id={`${category}-${value}`}
           checked={(filters[category] as (string|number)[]).includes(value)}
           onCheckedChange={() => handleCheckboxChange(category, value)}
         />
-        <Label htmlFor={id} className="font-normal">{label || value}</Label>
+        <Label htmlFor={`${category}-${value}`} className="font-normal">{label || value}</Label>
       </div>
   );
   
-  const FilterToggle = ({ id, category, label }: { id: string, category: keyof Filters, label: string }) => (
+  const FilterToggle = ({ category, label }: { category: keyof Filters, label: string }) => (
      <div className="flex items-center space-x-2">
         <Checkbox 
-          id={id}
+          id={`filter-${category}`}
           checked={filters[category] as boolean}
-          onCheckedChange={() => handleCheckboxChange(category, '')}
+          onCheckedChange={() => handleCheckboxChange(category, true)}
         />
-        <Label htmlFor={id} className="font-normal">{label}</Label>
+        <Label htmlFor={`filter-${category}`} className="font-normal">{label}</Label>
       </div>
   );
 
@@ -262,62 +286,82 @@ export default function SearchPage() {
             </div>
              {isFiltersOpen && (
                  <Card className="p-4">
-                    <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-lg font-bold">Filters</h3>
+                    <CardHeader className="p-2 flex-row items-center justify-between">
+                        <CardTitle className="text-lg">Filters</CardTitle>
                         <Button variant="ghost" size="sm" onClick={resetFilters}>
                             <X className="mr-2 h-4 w-4" /> Reset All
                         </Button>
-                    </div>
-                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                         <div>
-                            <h4 className="font-semibold mb-2">Price Range</h4>
-                            <div className="space-y-4 max-w-md">
-                               <Slider
-                                  value={filters.priceRange}
-                                  onValueChange={handlePriceChange}
-                                  min={0}
-                                  max={2000}
-                                  step={50}
+                    </CardHeader>
+                    <CardContent className="p-2 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                         <div className="col-span-1 md:col-span-4 lg:col-span-5">
+                             <FilterSection title="Price">
+                                <Slider
+                                    value={filters.priceRange}
+                                    onValueChange={handlePriceChange}
+                                    min={0}
+                                    max={2000}
+                                    step={50}
+                                    className="mb-2"
                                 />
                                 <div className="flex justify-between text-sm text-muted-foreground">
                                     <span>${filters.priceRange[0]}</span>
                                     <span>${filters.priceRange[1]}</span>
                                 </div>
-                            </div>
+                             </FilterSection>
                          </div>
-                         <div className="max-h-48 overflow-y-auto">
-                              <h4 className="font-semibold mb-2">Brand</h4>
-                              <div className="space-y-2">
+                         <div className="max-h-60 overflow-y-auto">
+                              <FilterSection title="Brand">
                                 {brandsData.map(brand => (
-                                     <FilterCheckbox key={brand} id={`brand-${brand}`} category="brands" value={brand} />
+                                     <FilterCheckbox key={brand} category="brands" value={brand} />
                                 ))}
-                              </div>
+                              </FilterSection>
                          </div>
                          <div>
-                             <h4 className="font-semibold mb-2">RAM</h4>
-                             <div className="space-y-2">
-                                <FilterCheckbox id="ram-8" category="ram" value={8} label="8GB & above" />
-                                <FilterCheckbox id="ram-12" category="ram" value={12} label="12GB & above" />
-                                <FilterCheckbox id="ram-16" category="ram" value={16} label="16GB & above" />
-                             </div>
+                            <FilterSection title="RAM">
+                                <FilterCheckbox category="ram" value={8} label="8GB & above" />
+                                <FilterCheckbox category="ram" value={12} label="12GB & above" />
+                                <FilterCheckbox category="ram" value={16} label="16GB & above" />
+                            </FilterSection>
+                            <FilterSection title="Storage">
+                                <FilterCheckbox category="storage" value={256} label="256GB & above" />
+                                <FilterCheckbox category="storage" value={512} label="512GB & above" />
+                                <FilterCheckbox category="storage" value={1024} label="1TB & above" />
+                            </FilterSection>
                          </div>
                           <div>
-                             <h4 className="font-semibold mb-2">Storage</h4>
-                             <div className="space-y-2">
-                                <FilterCheckbox id="storage-256" category="storage" value={256} label="256GB & above" />
-                                <FilterCheckbox id="storage-512" category="storage" value={512} label="512GB & above" />
-                                <FilterCheckbox id="storage-1024" category="storage" value={1024} label="1TB & above" />
-                             </div>
+                            <FilterSection title="Battery">
+                                <FilterCheckbox category="battery" value={4000} label="4000mAh & above" />
+                                <FilterCheckbox category="battery" value={5000} label="5000mAh & above" />
+                                <FilterCheckbox category="battery" value={6000} label="6000mAh & above" />
+                            </FilterSection>
+                             <FilterSection title="Main Camera">
+                                <FilterCheckbox category="mainCamera" value={48} label="48MP & above" />
+                                <FilterCheckbox category="mainCamera" value={64} label="64MP & above" />
+                                <FilterCheckbox category="mainCamera" value={108} label="108MP & above" />
+                            </FilterSection>
                          </div>
                          <div>
-                             <h4 className="font-semibold mb-2">Features</h4>
-                             <div className="space-y-2">
-                                <FilterToggle id="filter-5g" category="has5g" label="5G Connectivity" />
-                                <FilterToggle id="filter-quick-charging" category="hasQuickCharging" label="Quick Charging" />
-                                <FilterToggle id="filter-dual-sim" category="hasDualSim" label="Dual SIM" />
-                             </div>
+                            <FilterSection title="Display">
+                                <FilterCheckbox category="refreshRate" value={90} label="90Hz & above" />
+                                <FilterCheckbox category="refreshRate" value={120} label="120Hz & above" />
+                                <FilterCheckbox category="refreshRate" value={144} label="144Hz & above" />
+                            </FilterSection>
+                            <FilterSection title="Processor">
+                                <FilterCheckbox category="processorBrand" value="snapdragon" label="Snapdragon" />
+                                <FilterCheckbox category="processorBrand" value="mediatek" label="MediaTek" />
+                                <FilterCheckbox category="processorBrand" value="google" label="Google Tensor" />
+                                <FilterCheckbox category="processorBrand" value="apple" label="Apple Bionic" />
+                            </FilterSection>
                          </div>
-                     </div>
+                         <div>
+                             <FilterSection title="Features">
+                                <FilterToggle category="network5g" label="5G Connectivity" />
+                                <FilterToggle category="quickCharging" label="Quick Charging" />
+                                <FilterToggle category="hasNfc" label="NFC" />
+                                <FilterToggle category="isWaterResistant" label="Water Resistant" />
+                             </FilterSection>
+                         </div>
+                     </CardContent>
                  </Card>
              )}
        </div>
