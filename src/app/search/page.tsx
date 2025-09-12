@@ -224,7 +224,7 @@ export default function SearchPage() {
                        <div className="space-y-6">
                           <div>
                             <h3 className="font-semibold mb-2">Brand</h3>
-                            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
+                            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
                                 {uniqueBrands.map(brand => (
                                 <FilterCheckbox key={brand} category="brands" value={brand} label={brand} />
                                 ))}
@@ -232,7 +232,7 @@ export default function SearchPage() {
                           </div>
                           <Separator />
                            <div>
-                            <h3 className="font-semibold mb-2">Price Range</h3>
+                            <h3 className="font-semibold mb-4">Price Range</h3>
                             <div className="flex items-center gap-4 max-w-md">
                                <div className="flex items-center gap-2">
                                   <Label htmlFor="min-price">Min</Label>
