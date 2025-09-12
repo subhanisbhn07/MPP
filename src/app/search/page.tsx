@@ -172,49 +172,44 @@ export default function SearchPage() {
             </div>
           </div>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <aside className="md:col-span-1">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Filters</CardTitle>
-              <Button variant="ghost" size="sm" onClick={resetFilters}>Reset All</Button>
-            </CardHeader>
-            <CardContent>
-              <Accordion type="multiple" defaultValue={['brand', 'price', 'memory', 'display', 'platform', 'camera', 'battery', 'build']} className="w-full">
-                <AccordionItem value="brand">
-                  <AccordionTrigger className="text-base font-semibold">Brand</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="space-y-2 pt-2 max-h-60 overflow-y-auto">
-                      {uniqueBrands.map(brand => (
-                        <FilterCheckbox key={brand} category="brands" value={brand} label={brand} />
-                      ))}
+       <Card className="mb-8">
+        <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle>Filters</CardTitle>
+            <Button variant="ghost" size="sm" onClick={resetFilters}>Reset All</Button>
+        </CardHeader>
+        <CardContent>
+            <Accordion type="multiple" defaultValue={['brand', 'price']} className="w-full">
+            <AccordionItem value="brand">
+                <AccordionTrigger className="text-base font-semibold">Brand</AccordionTrigger>
+                <AccordionContent>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 pt-2">
+                    {uniqueBrands.map(brand => (
+                    <FilterCheckbox key={brand} category="brands" value={brand} label={brand} />
+                    ))}
+                </div>
+                </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="price">
+                <AccordionTrigger className="text-base font-semibold">Price Range</AccordionTrigger>
+                <AccordionContent>
+                <div className="space-y-4 pt-4 max-w-md mx-auto">
+                    <Slider 
+                    value={filters.priceRange} 
+                    onValueChange={(val) => handlePriceChange(val as [number, number])}
+                    max={2000} 
+                    step={50} 
+                    />
+                    <div className="flex justify-between text-sm text-muted-foreground">
+                    <span>${filters.priceRange[0]}</span>
+                    <span>${filters.priceRange[1]}</span>
                     </div>
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem value="price">
-                  <AccordionTrigger className="text-base font-semibold">Price Range</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="space-y-4 pt-4">
-                      <Slider 
-                        value={filters.priceRange} 
-                        onValueChange={(val) => handlePriceChange(val as [number, number])}
-                        max={2000} 
-                        step={50} 
-                      />
-                      <div className="flex justify-between text-sm text-muted-foreground">
-                        <span>${filters.priceRange[0]}</span>
-                        <span>${filters.priceRange[1]}</span>
-                      </div>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem value="memory">
-                  <AccordionTrigger className="text-base font-semibold">Memory & Storage</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="space-y-4 pt-2">
+                </div>
+                </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="more">
+                <AccordionTrigger className="text-base font-semibold">More Filters</AccordionTrigger>
+                <AccordionContent className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">
+                     <div className="space-y-4">
                         <div>
                             <h4 className="font-medium text-sm mb-2">RAM</h4>
                             <FilterCheckbox category="ram" value={8} label="8GB & above" />
@@ -228,14 +223,8 @@ export default function SearchPage() {
                             <FilterCheckbox category="storage" value={1024} label="1TB & above" />
                         </div>
                     </div>
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem value="display">
-                  <AccordionTrigger className="text-base font-semibold">Display</AccordionTrigger>
-                  <AccordionContent>
-                     <div className="space-y-4 pt-2">
-                        <div>
+                    <div className="space-y-4">
+                       <div>
                             <h4 className="font-medium text-sm mb-2">Refresh Rate</h4>
                             <FilterCheckbox category="refreshRate" value={90} label="90Hz & above" />
                             <FilterCheckbox category="refreshRate" value={120} label="120Hz & above" />
@@ -248,66 +237,30 @@ export default function SearchPage() {
                             <FilterCheckbox category="displayPanel" value="LCD" label="LCD" />
                         </div>
                     </div>
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem value="platform">
-                  <AccordionTrigger className="text-base font-semibold">Processor</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="space-y-2 pt-2">
-                      <h4 className="font-medium text-sm mb-2">Chipset Brand</h4>
-                      <FilterCheckbox category="chipsetBrand" value="snapdragon" label="Snapdragon" />
-                      <FilterCheckbox category="chipsetBrand" value="mediatek" label="MediaTek" />
-                      <FilterCheckbox category="chipsetBrand" value="exynos" label="Exynos" />
-                      <FilterCheckbox category="chipsetBrand" value="apple" label="Apple A-series" />
-                      <FilterCheckbox category="chipsetBrand" value="google" label="Google Tensor" />
+                     <div className="space-y-4">
+                         <div>
+                            <h4 className="font-medium text-sm mb-2">Water Resistance</h4>
+                            <FilterCheckbox category="ipRating" value="ip54" label="IP54 (Splash Proof)" />
+                            <FilterCheckbox category="ipRating" value="ip67" label="IP67" />
+                            <FilterCheckbox category="ipRating" value="ip68" label="IP68" />
+                        </div>
+                        <div>
+                            <h4 className="font-medium text-sm mb-2">Chipset Brand</h4>
+                            <FilterCheckbox category="chipsetBrand" value="snapdragon" label="Snapdragon" />
+                            <FilterCheckbox category="chipsetBrand" value="mediatek" label="MediaTek" />
+                            <FilterCheckbox category="chipsetBrand" value="exynos" label="Exynos" />
+                            <FilterCheckbox category="chipsetBrand" value="apple" label="Apple A-series" />
+                            <FilterCheckbox category="chipsetBrand" value="google" label="Google Tensor" />
+                        </div>
                     </div>
-                  </AccordionContent>
-                </AccordionItem>
-                
-                <AccordionItem value="camera">
-                  <AccordionTrigger className="text-base font-semibold">Camera</AccordionTrigger>
-                  <AccordionContent>
-                    <div className="space-y-2 pt-2">
-                       <h4 className="font-medium text-sm mb-2">Main Camera</h4>
-                       <FilterCheckbox category="mainCamera" value={48} label="48MP & above" />
-                       <FilterCheckbox category="mainCamera" value={64} label="64MP & above" />
-                       <FilterCheckbox category="mainCamera" value={108} label="108MP & above" />
-                       <FilterCheckbox category="mainCamera" value={200} label="200MP & above" />
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
+                </AccordionContent>
+            </AccordionItem>
+            </Accordion>
+        </CardContent>
+       </Card>
 
-                <AccordionItem value="battery">
-                  <AccordionTrigger className="text-base font-semibold">Battery</AccordionTrigger>
-                  <AccordionContent>
-                     <div className="space-y-2 pt-2">
-                        <h4 className="font-medium text-sm mb-2">Capacity</h4>
-                        <FilterCheckbox category="battery" value={4000} label="4000mAh & above" />
-                        <FilterCheckbox category="battery" value={5000} label="5000mAh & above" />
-                        <FilterCheckbox category="battery" value={6000} label="6000mAh & above" />
-                      </div>
-                  </AccordionContent>
-                </AccordionItem>
-                
-                 <AccordionItem value="build">
-                  <AccordionTrigger className="text-base font-semibold">Build & Durability</AccordionTrigger>
-                  <AccordionContent>
-                     <div className="space-y-2 pt-2">
-                        <h4 className="font-medium text-sm mb-2">Water Resistance</h4>
-                        <FilterCheckbox category="ipRating" value="ip54" label="IP54 (Splash Proof)" />
-                        <FilterCheckbox category="ipRating" value="ip67" label="IP67" />
-                        <FilterCheckbox category="ipRating" value="ip68" label="IP68" />
-                      </div>
-                  </AccordionContent>
-                </AccordionItem>
-
-              </Accordion>
-            </CardContent>
-          </Card>
-        </aside>
-
-        <main className="md:col-span-3">
+      <div className="grid grid-cols-1">
+        <main>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-semibold">Showing {filteredPhones.length} results</h2>
           </div>
@@ -335,8 +288,3 @@ export default function SearchPage() {
     </>
   );
 }
-
-
-
-
-    
