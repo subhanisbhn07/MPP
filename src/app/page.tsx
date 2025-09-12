@@ -374,22 +374,22 @@ export default function Home() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="hover:bg-background/20 transition-colors bg-background/10">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
-                        <h4 className="font-semibold mt-2 text-black">Deep Dive into iOS 18's AI Features</h4>
+                        <h4 className="font-semibold mt-2">Deep Dive into iOS 18's AI Features</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Tips & Tricks</Badge>
-                        <h4 className="font-semibold mt-2 text-black">Customize Your Lock Screen Like a Pro</h4>
+                        <h4 className="font-semibold mt-2">Customize Your Lock Screen Like a Pro</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Comparison</Badge>
-                        <h4 className="font-semibold mt-2 text-black">iOS vs. Android: Which Ecosystem is for You?</h4>
+                        <h4 className="font-semibold mt-2">iOS vs. Android: Which Ecosystem is for You?</h4>
                     </Link>
                 </Card>
             </div>
@@ -405,22 +405,22 @@ export default function Home() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card className="hover:bg-background/20 transition-colors bg-background/10">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
-                        <h4 className="font-semibold mt-2 text-black">Android 15's Best Features Explained</h4>
+                        <h4 className="font-semibold mt-2">Android 15's Best Features Explained</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Customization</Badge>
-                        <h4 className="font-semibold mt-2 text-black">A Guide to Material You Theming</h4>
+                        <h4 className="font-semibold mt-2">A Guide to Material You Theming</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">How-To</Badge>
-                        <h4 className="font-semibold mt-2 text-black">Mastering Split-Screen Multitasking</h4>
+                        <h4 className="font-semibold mt-2">Mastering Split-Screen Multitasking</h4>
                     </Link>
                 </Card>
             </div>
@@ -617,7 +617,7 @@ export default function Home() {
               {specCategories.map((cat) => (
                 <li role="listitem" key={cat.label}>
                   <Link href={cat.href}>
-                    <Card className="p-4 flex flex-col items-center justify-center text-center text-accent-foreground bg-accent hover:bg-background/20 transition-colors h-full border-2">
+                    <Card className="p-4 flex flex-col items-center justify-center text-center text-accent-foreground bg-accent hover:bg-background/20 transition-colors h-full border-2 shadow-lg">
                       {cat.icon && <cat.icon className="h-8 w-8" aria-hidden="true" />}
                       <span className="font-semibold text-sm">{cat.label}</span>
                     </Card>
@@ -1101,4 +1101,5 @@ export default function Home() {
     
 
     
+
 
