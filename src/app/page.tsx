@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Image from 'next/image';
@@ -31,6 +30,8 @@ import {
   Newspaper,
   BookOpen,
   Cpu,
+  Orbit,
+  TabletSmartphone,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -101,6 +102,7 @@ const CompareSlot = ({ phone, onAdd, onRemove }: { phone: Phone | null, onAdd: (
             <div className="flex items-center gap-2"><Smartphone size={14} aria-hidden="true" /> <span>{phone.specs.display.size_inches}" {phone.specs.display.panel_type.split(',')[0]}</span></div>
             <div className="flex items-center gap-2"><Camera size={14} aria-hidden="true" /> <span>{phone.specs.main_camera.main_sensor_resolution} Main</span></div>
             <div className="flex items-center gap-2"><Battery size={14} aria-hidden="true" /> <span>{phone.specs.battery.capacity_mah} mAh</span></div>
+             <div className="flex items-center gap-2 truncate"><Cpu size={14} className="text-primary flex-shrink-0" /> <span>{phone.specs.platform.chipset}</span></div>
           </div>
         </CardContent>
       </Card>
@@ -161,6 +163,24 @@ export default function Home() {
   }, [phone1, phone2]);
   
   const getPhoneByName = (name: string) => allPhones.find(p => p.model === name);
+
+  const popularComparisons = [
+    ["iPhone 15 Pro Max", "Galaxy S24 Ultra"],
+    ["Pixel 8 Pro", "iPhone 15 Pro"],
+    ["OnePlus 12", "Xiaomi 14 Ultra"],
+    ["Galaxy Z Fold 5", "Pixel Fold"],
+    ["Galaxy S24", "Pixel 8 Pro"],
+    ["Nothing Phone (2a)", "Motorola Razr+ 2023"],
+  ];
+  
+  const trendingComparisons = [
+      ["Galaxy S24 Ultra", "Xiaomi 14 Ultra"],
+      ["iPhone 15 Pro Max", "OnePlus 12"],
+      ["Pixel 8 Pro", "Galaxy S24"],
+      ["Galaxy Z Flip 5", "Motorola Razr 40 Ultra"],
+      ["Asus ROG Phone 8 Pro", "OnePlus 12"],
+      ["Sony Xperia 1 VI", "iPhone 15 Pro Max"],
+  ];
   
   return (
     <div className="px-4 space-y-4 pb-4">
@@ -238,7 +258,7 @@ export default function Home() {
                     placeholder="Search by brand, model, or feature..."
                     className="w-full pl-10 h-12 text-base bg-background text-foreground border-input placeholder:text-muted-foreground focus-visible:ring-ring"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => setQuery(e.target.value)}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-2 md:flex md:flex-row">
@@ -377,19 +397,19 @@ export default function Home() {
                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
-                        <h4 className="font-semibold mt-2">Deep Dive into iOS 18's AI Features</h4>
+                        <h4 className="font-semibold mt-2 text-foreground">Deep Dive into iOS 18's AI Features</h4>
                     </Link>
                 </Card>
                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Tips & Tricks</Badge>
-                        <h4 className="font-semibold mt-2">Customize Your Lock Screen Like a Pro</h4>
+                        <h4 className="font-semibold mt-2 text-foreground">Customize Your Lock Screen Like a Pro</h4>
                     </Link>
                 </Card>
                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Comparison</Badge>
-                        <h4 className="font-semibold mt-2">iOS vs. Android: Which Ecosystem is for You?</h4>
+                        <h4 className="font-semibold mt-2 text-foreground">iOS vs. Android: Which Ecosystem is for You?</h4>
                     </Link>
                 </Card>
             </div>
@@ -408,19 +428,19 @@ export default function Home() {
                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
-                        <h4 className="font-semibold mt-2">Android 15's Best Features Explained</h4>
+                        <h4 className="font-semibold mt-2 text-foreground">Android 15's Best Features Explained</h4>
                     </Link>
                 </Card>
                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Customization</Badge>
-                        <h4 className="font-semibold mt-2">A Guide to Material You Theming</h4>
+                        <h4 className="font-semibold mt-2 text-foreground">A Guide to Material You Theming</h4>
                     </Link>
                 </Card>
                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">How-To</Badge>
-                        <h4 className="font-semibold mt-2">Mastering Split-Screen Multitasking</h4>
+                        <h4 className="font-semibold mt-2 text-foreground">Mastering Split-Screen Multitasking</h4>
                     </Link>
                 </Card>
             </div>
@@ -595,6 +615,49 @@ export default function Home() {
                 </div>
                 <CompareSlot phone={phone2} onAdd={() => handleOpenDialog(2)} onRemove={() => setPhone2(null)} />
               </div>
+            </div>
+            <div className="mt-8 max-w-4xl mx-auto">
+                <Separator className="bg-primary-foreground/20" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 pt-6">
+                    <div>
+                        <h3 className="font-semibold mb-3 text-center md:text-left">Popular Comparisons</h3>
+                        <ul className="space-y-2 text-sm">
+                          {popularComparisons.slice(0,6).map((comp, i) => {
+                              const phoneA = getPhoneByName(comp[0]);
+                              const phoneB = getPhoneByName(comp[1]);
+                              if (!phoneA || !phoneB) return null;
+                              const url = generateCompareUrl([phoneA, phoneB]);
+                              return (
+                                <li key={i}>
+                                  <Link href={url} className="flex items-center justify-between p-2 rounded-md hover:bg-primary-foreground/10 transition-colors">
+                                    <span><span className="font-semibold">{comp[0]}</span> vs <span className="font-semibold">{comp[1]}</span></span>
+                                    <ArrowRight size={16} />
+                                  </Link>
+                                </li>
+                              )
+                          })}
+                        </ul>
+                    </div>
+                     <div>
+                        <h3 className="font-semibold mb-3 text-center md:text-left">Trending Comparisons</h3>
+                        <ul className="space-y-2 text-sm">
+                           {trendingComparisons.slice(0,6).map((comp, i) => {
+                              const phoneA = getPhoneByName(comp[0]);
+                              const phoneB = getPhoneByName(comp[1]);
+                              if (!phoneA || !phoneB) return null;
+                              const url = generateCompareUrl([phoneA, phoneB]);
+                              return (
+                                <li key={i}>
+                                  <Link href={url} className="flex items-center justify-between p-2 rounded-md hover:bg-primary-foreground/10 transition-colors">
+                                    <span><span className="font-semibold">{comp[0]}</span> vs <span className="font-semibold">{comp[1]}</span></span>
+                                    <ArrowRight size={16} />
+                                  </Link>
+                                </li>
+                              )
+                          })}
+                        </ul>
+                    </div>
+                </div>
             </div>
           </CardContent>
         </Card>
@@ -1097,9 +1160,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    
-
-

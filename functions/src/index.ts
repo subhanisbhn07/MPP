@@ -42,29 +42,64 @@ const sendJsonResponse = (res: express.Response, data: any, ttl: number, swr: nu
 
 // GET /api/home/trending (TTL 5m; SWR 10m)
 app.get('/trending', (req, res) => {
-  const data = allPhones.slice(0, 5);
+  const data = allPhones.slice(0, 6);
   sendJsonResponse(res, data, 300, 600);
 });
 
 // GET /api/home/latest (TTL 5m; SWR 10m)
 app.get('/latest', (req, res) => {
-  const data = [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime()).slice(0, 5);
+  const data = [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime()).slice(0, 6);
   sendJsonResponse(res, data, 300, 600);
 });
 
 // GET /api/home/flagship (TTL 30m; SWR 60m)
 app.get('/flagship', (req, res) => {
-  const data = allPhones.filter(p => p.price > 900).slice(0, 5);
+  const data = allPhones.filter(p => p.price > 900).slice(0, 6);
   sendJsonResponse(res, data, 1800, 3600);
 });
 
 // GET /api/home/performance (TTL 15m; SWR 30m)
 app.get('/performance', (req, res) => {
-  const data = allPhones.filter(p => p.specs.platform.chipset.includes('Snapdragon 8 Gen 3') || p.specs.platform.chipset.includes('Apple A17 Pro') || p.specs.platform.chipset.includes('Snapdragon 8 Gen 2')).slice(0, 5);
+  const data = allPhones.filter(p => p.specs.platform.chipset.includes('Snapdragon 8 Gen 3') || p.specs.platform.chipset.includes('Apple A17 Pro') || p.specs.platform.chipset.includes('Snapdragon 8 Gen 2')).slice(0, 6);
   sendJsonResponse(res, data, 900, 1800);
 });
 
-// GET /api/home/power (TTL 15m; SWR 30m)
+app.get('/battery', (req, res) => {
+  const data = [...allPhones].sort((a,b) => parseInt(b.specs.battery.capacity_mah) - parseInt(a.specs.battery.capacity_mah)).slice(0, 6);
+  sendJsonResponse(res, data, 900, 1800);
+});
+
+app.get('/camera', (req, res) => {
+  const data = [...allPhones].sort((a,b) => parseInt(a.specs.main_camera.main_sensor_resolution) - parseInt(b.specs.main_camera.main_sensor_resolution)).slice(0, 6);
+  sendJsonResponse(res, data, 900, 1800);
+});
+
+app.get('/foldable', (req, res) => {
+    const data = allPhones.filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip') || p.model.toLowerCase().includes('razr')).slice(0, 6);
+    sendJsonResponse(res, data, 1800, 3600);
+});
+
+app.get('/rugged', (req, res) => {
+    const data = allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")).slice(0, 6);
+    sendJsonResponse(res, data, 1800, 3600);
+});
+
+app.get('/unique', (req, res) => {
+    const data = allPhones.filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony").slice(0, 6);
+    sendJsonResponse(res, data, 1800, 3600);
+});
+
+app.get('/ios', (req, res) => {
+    const data = allPhones.filter(p => p.brand === 'Apple').slice(0, 6);
+    sendJsonResponse(res, data, 1800, 3600);
+});
+
+app.get('/android', (req, res) => {
+    const data = allPhones.filter(p => p.brand !== 'Apple').slice(0, 6);
+    sendJsonResponse(res, data, 1800, 3600);
+});
+
+// GET /api/home/power (TTL 15m; SWR 30m) - DEPRECATED, use individual endpoints
 app.get('/power', (req, res) => {
   const batteryPhones = [...allPhones].sort((a,b) => parseInt(b.specs.battery.capacity_mah) - parseInt(a.specs.battery.capacity_mah)).slice(0, 5);
   const gamingPhones = allPhones.filter(p => p.specs.platform.chipset.includes('Snapdragon 8 Gen 3') || p.specs.platform.chipset.includes('Apple A17 Pro') || p.specs.platform.chipset.includes('Snapdragon 8 Gen 2')).slice(0, 5);
@@ -73,7 +108,7 @@ app.get('/power', (req, res) => {
   sendJsonResponse(res, data, 900, 1800);
 });
 
-// GET /api/home/specialty (TTL 30m; SWR 60m)
+// GET /api/home/specialty (TTL 30m; SWR 60m) - DEPRECATED, use individual endpoints
 app.get('/specialty', (req, res) => {
   const foldablePhones = allPhones.filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip') || p.model.toLowerCase().includes('razr')).slice(0, 5);
   const ruggedPhones = allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")).slice(0, 5);
