@@ -1,9 +1,10 @@
+
 'use client';
 
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { handleGenerateContent } from '../actions';
-import type { PhoneListsOutput, CommunityContentOutput, NewsAndBlogOutput } from '@/ai/flows/generate-homepage-content';
+import type { PhoneListsOutput, CommunityContentOutput, NewsAndBlogOutput } from '@/ai/schemas/homepage-content';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
