@@ -671,6 +671,36 @@ export default function Home() {
                           <p className="text-sm opacity-80">Global launch event for the next flagship killer.</p>
                         </div>
                       </article>
+                      <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
+                        <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
+                          <p className="font-bold text-lg">01</p>
+                          <p className="text-xs opacity-80">OCT</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold">Google Pixel 9 Series</h4>
+                          <p className="text-sm opacity-80">Featuring the new Tensor G4 chip.</p>
+                        </div>
+                      </article>
+                      <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
+                        <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
+                          <p className="font-bold text-lg">10</p>
+                          <p className="text-xs opacity-80">OCT</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold">Xiaomi 15 Pro Launch</h4>
+                          <p className="text-sm opacity-80">New camera hardware from Leica.</p>
+                        </div>
+                      </article>
+                      <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
+                        <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
+                          <p className="font-bold text-lg">22</p>
+                          <p className="text-xs opacity-80">NOV</p>
+                        </div>
+                        <div>
+                          <h4 className="font-semibold">Nothing Phone (3)</h4>
+                          <p className="text-sm opacity-80">The next iteration of the Glyph interface.</p>
+                        </div>
+                      </article>
                   </div>
               </CardContent>
             </Card>
@@ -705,6 +735,24 @@ export default function Home() {
                           <h4 className="font-semibold mt-2">Top Phones to Buy in September</h4>
                         </Link>
                       </Card>
+                      <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                          <Badge variant="secondary">How-To</Badge>
+                          <h4 className="font-semibold mt-2">How to Calibrate Your Phone's Display</h4>
+                        </Link>
+                      </Card>
+                      <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                          <Badge variant="secondary">Tips</Badge>
+                          <h4 className="font-semibold mt-2">Maximizing Battery Health in 2024</h4>
+                        </Link>
+                      </Card>
+                      <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                          <Badge variant="secondary">Comparison</Badge>
+                          <h4 className="font-semibold mt-2">iOS 18 vs Android 15: AI Features</h4>
+                        </Link>
+                      </Card>
                     </div>
                 </CardContent>
             </Card>
@@ -737,6 +785,24 @@ export default function Home() {
                     <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
                       <Badge variant="destructive">Rumor</Badge>
                       <h4 className="font-semibold mt-2">Next iPhone SE might be cancelled</h4>
+                    </Link>
+                  </Card>
+                  <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                      <Badge variant="destructive">Leak</Badge>
+                      <h4 className="font-semibold mt-2">OnePlus Fold 2 to have a larger cover screen</h4>
+                    </Link>
+                  </Card>
+                   <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                      <Badge variant="destructive">Rumor</Badge>
+                      <h4 className="font-semibold mt-2">Google working on a "Pixel Mini"</h4>
+                    </Link>
+                  </Card>
+                   <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
+                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                      <Badge variant="destructive">Leak</Badge>
+                      <h4 className="font-semibold mt-2">First real-world photos of Xiaomi Mix Flip surface</h4>
                     </Link>
                   </Card>
                 </div>
@@ -1035,3 +1101,4 @@ export default function Home() {
     
 
     
+
