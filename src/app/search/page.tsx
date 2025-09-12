@@ -313,7 +313,7 @@ export default function SearchPage() {
           </div>
           
           {filteredPhones.length > 0 ? (
-             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
                 {filteredPhones.map(phone => (
                   <PhoneCard key={phone.id} phone={phone} onAddToCompare={() => handleAddToCompare(phone)} />
                 ))}
