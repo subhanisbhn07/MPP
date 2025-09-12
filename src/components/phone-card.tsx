@@ -4,7 +4,7 @@ import type { Phone } from '@/lib/types';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Layers, Heart, Smartphone, Camera, GitCompare } from 'lucide-react';
+import { Layers, Heart, Smartphone, Camera, GitCompare, Battery, Cpu } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/auth-context';
 import { cn } from '@/lib/utils';
@@ -63,8 +63,10 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
               <Link href={phoneUrl}>{phone.model}</Link>
             </CardTitle>
             <div className="mt-2 space-y-1 text-xs text-muted-foreground">
-              <div className="flex items-center gap-2 truncate"><Smartphone size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.display.size_inches} {phone.specs.display.panel_type.split(',')[0]}</span></div>
+              <div className="flex items-center gap-2 truncate"><Smartphone size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.display.size_inches}" {phone.specs.display.panel_type.split(',')[0]}</span></div>
               <div className="flex items-center gap-2 truncate"><Camera size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.main_camera.main_sensor_resolution} Main</span></div>
+              <div className="flex items-center gap-2 truncate"><Battery size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.battery.capacity_mah} mAh Battery</span></div>
+              <div className="flex items-center gap-2 truncate"><Cpu size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.platform.chipset}</span></div>
             </div>
         </div>
         <div className="flex items-center justify-between mt-2">
