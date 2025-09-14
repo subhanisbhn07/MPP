@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, Smartphone, PenSquare, FileUp, BarChart2, Newspaper, Bot } from 'lucide-react';
+import { Sparkles, Smartphone, PenSquare, FileUp, BarChart2, Newspaper, Bot, Calendar, Rss } from 'lucide-react';
 import Link from "next/link";
 import { allPhones } from "@/lib/data";
 
@@ -13,8 +13,10 @@ export default function AdminDashboard() {
     { href: '/admin/phones', label: 'Manage Phones', icon: Smartphone, description: 'Add, edit, and view all phone entries.' },
     { href: '/admin/generate-spec', label: 'AI Spec Generator', icon: Sparkles, description: 'Create new phone specs with AI assistance.' },
     { href: '/admin/content-automation', label: 'Homepage Content AI', icon: Bot, description: 'Automate homepage content sections.' },
-    { href: '/admin/blog', label: 'Blog Posts', icon: PenSquare, description: 'Write and manage articles and guides.' },
-    { href: '/admin/news', label: 'News', icon: Newspaper, description: 'Manage breaking news and industry updates.' },
+    { href: '/admin/blog', label: 'Blog & Guides', icon: PenSquare, description: 'Write and manage articles and helpful guides.' },
+    { href: '/admin/news', label: 'News Articles', icon: Newspaper, description: 'Manage breaking news and industry updates.' },
+    { href: '/admin/events', label: 'Upcoming Events', icon: Calendar, description: 'Manage the upcoming events calendar.' },
+    { href: '/admin/leaks', label: 'Leaks & Rumors', icon: Rss, description: 'Manage leaks and rumors for the homepage.' },
     { href: '/admin/seo', label: 'SEO Management', icon: BarChart2, description: 'Optimize pages for search engines.' },
   ];
 
@@ -66,7 +68,7 @@ export default function AdminDashboard() {
 
       <div>
         <h2 className="text-2xl font-bold tracking-tight mb-4">Admin Tools</h2>
-         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {navTiles.map(tile => (
               <Link href={tile.href} key={tile.href}>
                 <Card className="hover:bg-muted/50 transition-colors h-full">

@@ -3,31 +3,31 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 
-export default function BlogManagementPage() {
+export default function EventsManagementPage() {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-            <h1 className="text-3xl font-bold tracking-tight">Blog & Guides</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Events Management</h1>
             <p className="text-muted-foreground">
-            Create, edit, and manage all blog posts and helpful guides.
+            Create, edit, and manage the upcoming events calendar.
             </p>
         </div>
         <Button>
             <PlusCircle className="mr-2" />
-            New Post
+            New Event
         </Button>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>All Posts</CardTitle>
-          <CardDescription>A list of all blog posts and guides in your system.</CardDescription>
+          <CardTitle>All Events</CardTitle>
+          <CardDescription>A list of all upcoming events in your system.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-center py-12 border-2 border-dashed rounded-lg">
-            <p className="text-muted-foreground">No posts found.</p>
-            <Button variant="link">Create your first post</Button>
+            <p className="text-muted-foreground">No events found.</p>
+            <Button variant="link">Create your first event</Button>
           </div>
         </CardContent>
       </Card>

@@ -3,31 +3,31 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 
-export default function BlogManagementPage() {
+export default function LeaksManagementPage() {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-            <h1 className="text-3xl font-bold tracking-tight">Blog & Guides</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Leaks & Rumors Management</h1>
             <p className="text-muted-foreground">
-            Create, edit, and manage all blog posts and helpful guides.
+            Create, edit, and manage all leaks and rumors.
             </p>
         </div>
         <Button>
             <PlusCircle className="mr-2" />
-            New Post
+            New Leak
         </Button>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>All Posts</CardTitle>
-          <CardDescription>A list of all blog posts and guides in your system.</CardDescription>
+          <CardTitle>All Leaks & Rumors</CardTitle>
+          <CardDescription>A list of all leaks and rumors in your system.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-center py-12 border-2 border-dashed rounded-lg">
-            <p className="text-muted-foreground">No posts found.</p>
-            <Button variant="link">Create your first post</Button>
+            <p className="text-muted-foreground">No items found.</p>
+            <Button variant="link">Create your first leak or rumor</Button>
           </div>
         </CardContent>
       </Card>
