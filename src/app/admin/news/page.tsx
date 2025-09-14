@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle, Sparkles, Loader2, Save } from "lucide-react";
 import Image from 'next/image';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Badge } from '@/components/ui/badge';
+
 
 type GeneratedNews = NewsAndBlogOutput['news'];
 
