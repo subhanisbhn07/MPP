@@ -25,11 +25,15 @@ export default function NewsManagementPage() {
   async function handleGenerate() {
     setLoading(true);
     setStagedNews(null);
+    localStorage.removeItem('stagedNews'); // Clear previous staged data
 
     try {
       const response = await handleGenerateNews();
       if (response.success && response.data) {
         setStagedNews(response.data);
+        // This is a simulation. In a real app, you'd save this to a 'staged' collection in a database.
+        // For now, we use localStorage to persist it across page navigations.
+        localStorage.setItem('stagedNews', JSON.stringify(response.data));
         toast({
           title: 'Success!',
           description: `Staged ${response.data.length} new news articles for review.`,
@@ -59,13 +63,14 @@ export default function NewsManagementPage() {
       description: 'The staged news articles have been published to the live site.',
     });
     setStagedNews(null); // Clear the stage after publishing
+    localStorage.removeItem('stagedNews');
   };
   
   const renderStagedContent = (content: GeneratedNews) => {
      return (
         <div className="space-y-3">
            {content.map((item, index) => (
-               <div key={index} className="grid grid-cols-1 md:grid-cols-5 gap-x-4 items-center text-sm p-3 border rounded-md bg-muted/50">
+               <div key={item.id} className="grid grid-cols-1 md:grid-cols-5 gap-x-4 items-center text-sm p-3 border rounded-md bg-muted/50">
                    <div className="relative aspect-video mb-2 md:mb-0 md:col-span-1">
                       <Image src={item.image} alt={item.title} fill className="object-cover rounded-md" data-ai-hint="mobile technology" />
                    </div>
