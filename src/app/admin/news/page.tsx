@@ -2,13 +2,14 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import { handleGenerateNews } from './actions';
 import type { NewsPost } from '@/ai/schemas/homepage-content';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Sparkles, Loader2, Save } from "lucide-react";
+import { PlusCircle, Sparkles, Loader2, Save, Edit } from "lucide-react";
 import Image from 'next/image';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
@@ -64,7 +65,7 @@ export default function NewsManagementPage() {
      return (
         <div className="space-y-3">
            {content.map((item, index) => (
-               <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-x-4 items-center text-sm p-3 border rounded-md bg-muted/50">
+               <div key={index} className="grid grid-cols-1 md:grid-cols-5 gap-x-4 items-center text-sm p-3 border rounded-md bg-muted/50">
                    <div className="relative aspect-video mb-2 md:mb-0 md:col-span-1">
                       <Image src={item.image} alt={item.title} fill className="object-cover rounded-md" data-ai-hint="mobile technology" />
                    </div>
@@ -74,6 +75,14 @@ export default function NewsManagementPage() {
                         <p className="text-xs font-bold text-primary">{item.badge}</p>
                       </div>
                       <p className="font-semibold mt-1">{item.title}</p>
+                   </div>
+                   <div className="md:col-span-1 flex justify-end">
+                     <Button asChild variant="outline" size="sm">
+                       <Link href={`/admin/news/edit/${item.id}`}>
+                         <Edit className="mr-2 h-4 w-4" />
+                         Edit
+                       </Link>
+                     </Button>
                    </div>
                </div>
            ))}
@@ -112,7 +121,7 @@ export default function NewsManagementPage() {
             <div>
               <CardTitle>Staged Articles for Review</CardTitle>
               <CardDescription>
-                Review the AI-generated articles below before publishing.
+                Review and edit the AI-generated articles below before publishing.
               </CardDescription>
             </div>
             <Button onClick={handlePublish}>

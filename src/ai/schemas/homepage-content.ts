@@ -36,11 +36,15 @@ export const BlogPostSchema = z.object({
 });
 
 export const NewsPostSchema = z.object({
-    image: z.string().describe('A placeholder image URL from picsum.photos.'),
+    id: z.string().uuid().describe("A unique identifier for the news article."),
+    image: z.string().url().describe('A placeholder image URL from picsum.photos.'),
     badge: z.string().describe('A category badge, e.g., "BREAKING", "Industry News", "Events".'),
     title: z.string().describe('The headline of the news article.'),
+    content: z.string().describe('The full content of the news article, formatted in Markdown.'),
     isFeatured: z.boolean().optional().describe('Set to true if this is the main, featured story.')
 })
+export type NewsPost = z.infer<typeof NewsPostSchema>;
+
 
 // Schema for Phone Lists
 export const PhoneListsSchema = z.object({
