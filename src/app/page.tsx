@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from 'next/image';
@@ -881,8 +882,8 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Card>
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+                <Card className="break-inside-avoid">
                   <Image
                     src="https://picsum.photos/600/400?v=1"
                     width={600}
@@ -901,7 +902,7 @@ export default function Home() {
                     </p>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="break-inside-avoid">
                   <Image
                     src="https://picsum.photos/600/400?v=2"
                     width={600}
@@ -920,7 +921,7 @@ export default function Home() {
                     </p>
                   </CardContent>
                 </Card>
-                 <Card>
+                 <Card className="break-inside-avoid">
                   <Image
                     src="https://picsum.photos/600/400?v=3"
                     width={600}
@@ -939,7 +940,7 @@ export default function Home() {
                     </p>
                   </CardContent>
                 </Card>
-                 <Card>
+                 <Card className="break-inside-avoid">
                   <Image
                     src="https://picsum.photos/600/400?v=4"
                     width={600}
@@ -958,7 +959,7 @@ export default function Home() {
                     </p>
                   </CardContent>
                 </Card>
-                 <Card>
+                 <Card className="break-inside-avoid">
                   <Image
                     src="https://picsum.photos/600/400?v=5"
                     width={600}
@@ -977,7 +978,7 @@ export default function Home() {
                     </p>
                   </CardContent>
                 </Card>
-                 <Card>
+                 <Card className="break-inside-avoid">
                   <Image
                     src="https://picsum.photos/600/400?v=6"
                     width={600}
