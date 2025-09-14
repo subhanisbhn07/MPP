@@ -1,10 +1,10 @@
+
 'use server';
 
 import { 
-  generatePhoneLists,
-  generateCommunityContent,
-  generateNewsAndBlog
+  generateSectionContent,
 } from '@/ai/flows/generate-homepage-content';
+import { AllSections, PhoneListsSchema, CommunityContentSchema, NewsAndBlogSchema } from '@/ai/schemas/homepage-content';
 
 type ActionResult = {
   success: boolean;
@@ -12,22 +12,39 @@ type ActionResult = {
   error?: string;
 };
 
+// A map to determine which parent schema a section belongs to.
+const sectionSchemaMap: Record<string, (typeof AllSections)> = {
+    trendingPhones: PhoneListsSchema,
+    latestPhones: PhoneListsSchema,
+    flagshipPhones: PhoneListsSchema,
+    performancePhones: PhoneListsSchema,
+    batteryPhones: PhoneListsSchema,
+    cameraPhones: PhoneListsSchema,
+    foldablePhones: PhoneListsSchema,
+    ruggedPhones: PhoneListsSchema,
+    uniquePhones: PhoneListsSchema,
+    iosPhones: PhoneListsSchema,
+    androidPhones: PhoneListsSchema,
+    upcomingEvents: CommunityContentSchema,
+    guides: CommunityContentSchema,
+    leaks: CommunityContentSchema,
+    blogPosts: NewsAndBlogSchema,
+    news: NewsAndBlogSchema,
+};
+
+
 export async function handleGenerateContent(section: string): Promise<ActionResult> {
   try {
-    let result;
-    switch (section) {
-      case 'phoneLists':
-        result = await generatePhoneLists();
-        break;
-      case 'communityContent':
-        result = await generateCommunityContent();
-        break;
-      case 'newsAndBlog':
-        result = await generateNewsAndBlog();
-        break;
-      default:
-        throw new Error('Invalid section provided.');
+    const parentSchema = sectionSchemaMap[section];
+    if (!parentSchema) {
+         throw new Error('Invalid section provided.');
     }
+
+    const result = await generateSectionContent({
+        section,
+        parentSchema,
+    });
+    
     return { success: true, data: result };
   } catch (error: any) {
     console.error(`Error generating content for section ${section}:`, error);

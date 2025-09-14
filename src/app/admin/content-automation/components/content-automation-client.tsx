@@ -21,24 +21,35 @@ const toTitleCase = (str: string) => {
 };
 
 const SECTIONS = [
-    { id: 'phoneLists', title: 'Phone Categories', icon: Smartphone, description: 'Generates all curated phone lists like Trending, Flagship, iOS, Android, etc.' },
-    { id: 'communityContent', title: 'Community & Events', icon: Calendar, description: 'Generates the Upcoming Calendar, Guides, and Leaks & Rumors sections.' },
-    { id: 'newsAndBlog', title: 'News & Blog', icon: Newspaper, description: 'Generates the main news grid and the list of blog posts.' },
+    { id: 'trendingPhones', title: 'Trending Phones', icon: Smartphone, description: 'A list of 6 trending phones currently popular in the market.' },
+    { id: 'latestPhones', title: 'Latest Launches', icon: Smartphone, description: 'A list of the 6 most recently launched phones.' },
+    { id: 'flagshipPhones', title: 'Flagship Phones', icon: Smartphone, description: 'A list of 6 flagship-tier phones.' },
+    { id: 'performancePhones', title: 'Best for Gaming', icon: Smartphone, description: 'A list of 6 phones best for gaming and performance.' },
+    { id: 'batteryPhones', title: 'Longest Battery Life', icon: Smartphone, description: 'A list of 6 phones with the best battery life.' },
+    { id: 'cameraPhones', title: 'Top Camera Phones', icon: Smartphone, description: 'A list of 6 phones with the best camera systems.' },
+    { id: 'foldablePhones', title: 'Foldable Phones', icon: Smartphone, description: 'A list of 6 popular foldable phones.' },
+    { id: 'iosPhones', title: 'Top iOS Phones', icon: Smartphone, description: 'A list of the top 6 iOS phones available.' },
+    { id: 'androidPhones', title: 'Top Android Phones', icon: Smartphone, description: 'A list of the top 6 Android phones available.' },
+    { id: 'upcomingEvents', title: 'Upcoming Calendar', icon: Calendar, description: 'A list of upcoming mobile phone launch events.' },
+    { id: 'guides', title: 'Guides', icon: BookOpen, description: 'A list of interesting guides or deep-dive topics.' },
+    { id: 'leaks', title: 'Leaks & Rumors', icon: Rss, description: 'A list of recent and interesting leaks or rumors.' },
+    { id: 'blogPosts', title: 'Blog Posts', icon: BookOpen, description: 'A list of blog posts on various topics.' },
+    { id: 'news', title: 'News Articles', icon: Newspaper, description: 'A list of recent news articles.' },
 ];
 
 export function ContentAutomationClient() {
   const [loading, setLoading] = useState<string | null>(null);
-  const [results, setResults] = useState<{ [key: string]: GeneratedContent }>({});
+  const [results, setResults] = useState<{ [key: string]: any }>({});
   const { toast } = useToast();
 
   async function handleGenerate(sectionId: string) {
     setLoading(sectionId);
-    setResults(prev => ({ ...prev, [sectionId]: {} }));
+    setResults(prev => ({ ...prev, [sectionId]: null }));
 
     try {
       const response = await handleGenerateContent(sectionId);
       if (response.success && response.data) {
-        setResults(prev => ({ ...prev, [sectionId]: response.data }));
+        setResults(prev => ({ ...prev, [sectionId]: response.data[sectionId] }));
         toast({
           title: 'Success!',
           description: `New content has been generated for ${SECTIONS.find(s => s.id === sectionId)?.title}.`,
@@ -53,27 +64,19 @@ export function ContentAutomationClient() {
         title: 'An error occurred.',
         description: error.message || `Failed to generate content for ${sectionId}. Please try again.`,
       });
+       setResults(prev => ({ ...prev, [sectionId]: null }));
     } finally {
       setLoading(null);
     }
   }
-  
-  const ICONS: { [key: string]: React.ElementType } = {
-      trendingPhones: Smartphone, latestPhones: Smartphone, flagshipPhones: Smartphone,
-      performancePhones: Smartphone, batteryPhones: Smartphone, cameraPhones: Smartphone,
-      foldablePhones: Smartphone, ruggedPhones: Smartphone, uniquePhones: Smartphone,
-      iosPhones: Smartphone, androidPhones: Smartphone, upcomingEvents: Calendar,
-      guides: BookOpen, leaks: Rss, blogPosts: BookOpen, news: Newspaper,
-  }
 
   const renderContent = (key: string, content: any) => {
-     if (!content || Object.keys(content).length === 0) return null;
-     if (!Array.isArray(content)) return <p>{String(content)}</p>;
+     if (!content || (Array.isArray(content) && content.length === 0)) return null;
 
      if (key.toLowerCase().includes('phone')) {
          return (
              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                 {content.map((phone, index) => (
+                 {content.map((phone: any, index: number) => (
                      <div key={index} className="text-xs p-2 border rounded-md bg-muted/50">
                          <p className="font-bold">{phone.brand}</p>
                          <p className="text-muted-foreground">{phone.model}</p>
@@ -85,7 +88,7 @@ export function ContentAutomationClient() {
 
      return (
         <div className="space-y-3">
-           {content.map((item, index) => (
+           {content.map((item: any, index: number) => (
                <div key={index} className="grid grid-cols-1 md:grid-cols-3 gap-x-4 text-sm p-3 border rounded-md bg-muted/50">
                    {item.image && (
                       <div className="relative aspect-video mb-2 md:mb-0">
@@ -112,75 +115,67 @@ export function ContentAutomationClient() {
         <div className="flex items-start gap-2 text-sm text-muted-foreground mt-4 p-3 bg-muted/50 rounded-md border border-dashed">
             <AlertTriangle className="w-8 h-8 flex-shrink-0" />
             <p>
-                This is a simulation. In a real application, you would connect this to a database (like Firestore) to save and publish the staged content.
+                This is a simulation. In a real application, you would connect this to a database (like Firestore) to save and publish the staged content, which would then be displayed on the homepage. The homepage currently uses static data.
             </p>
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {SECTIONS.map((section) => (
-            <Card key={section.id}>
+            <Card key={section.id} className="flex flex-col">
                 <CardHeader>
-                    <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+                    <div className="flex items-start gap-3">
+                       <section.icon className="w-6 h-6 flex-shrink-0 mt-1" />
                         <div>
-                            <CardTitle className="flex items-center gap-3">
-                                <section.icon className="w-6 h-6" /> {section.title}
-                            </CardTitle>
-                            <CardDescription className="mt-2">{section.description}</CardDescription>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <Button onClick={() => handleGenerate(section.id)} disabled={!!loading} className="w-full sm:w-auto">
-                            {loading === section.id ? (
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            ) : (
-                                <Sparkles className="mr-2 h-4 w-4" />
-                            )}
-                            Generate
-                            </Button>
-                            {results[section.id] && Object.keys(results[section.id]).length > 0 && (
-                                <Button size="sm" variant="secondary">
-                                    <Save className="mr-2 h-4 w-4" />
-                                    Publish
-                                </Button>
-                            )}
+                            <CardTitle>{section.title}</CardTitle>
+                            <CardDescription className="mt-1 text-xs">{section.description}</CardDescription>
                         </div>
                     </div>
                 </CardHeader>
-                <CardContent>
-                    {loading === section.id && (
-                    <div className="flex flex-col items-center justify-center h-60 space-y-4">
-                        <Loader2 className="h-12 w-12 animate-spin text-primary" />
-                        <p className="text-muted-foreground">Generating... this may take a few moments.</p>
-                    </div>
-                    )}
-                    {results[section.id] && Object.keys(results[section.id]).length > 0 && (
-                    <Accordion type="multiple" className="w-full" defaultValue={Object.keys(results[section.id])}>
-                        {Object.entries(results[section.id]).map(([category, content]) => {
-                            const Icon = ICONS[category] || Sparkles;
-                            return (
-                            <AccordionItem value={category} key={category}>
-                                <AccordionTrigger className="text-lg font-semibold capitalize">
-                                    <div className="flex items-center gap-3">
-                                        <Icon className="w-5 h-5 text-primary" />
-                                        {toTitleCase(category)}
-                                    </div>
-                                </AccordionTrigger>
-                                <AccordionContent>
-                                {renderContent(category, content)}
-                                </AccordionContent>
-                            </AccordionItem>
-                            )
-                        })}
-                    </Accordion>
-                    )}
-                    {!loading && (!results[section.id] || Object.keys(results[section.id]).length === 0) && (
+                <CardContent className="flex-grow">
+                    {loading === section.id ? (
+                        <div className="flex flex-col items-center justify-center h-40 space-y-4">
+                            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                            <p className="text-muted-foreground text-sm">Generating...</p>
+                        </div>
+                    ) : results[section.id] ? (
+                       <Accordion type="single" collapsible className="w-full">
+                           <AccordionItem value="item-1">
+                             <AccordionTrigger className="text-sm">View Generated Content</AccordionTrigger>
+                             <AccordionContent>
+                               {renderContent(section.id, results[section.id])}
+                             </AccordionContent>
+                           </AccordionItem>
+                        </Accordion>
+                    ) : (
                         <div className="flex items-center justify-center h-24 text-center border-dashed border-2 rounded-md">
-                            <p className="text-muted-foreground">
-                                Click "Generate" to stage new content for this section.
+                            <p className="text-muted-foreground text-sm">
+                                Click "Generate" to stage new content.
                             </p>
                         </div>
                     )}
                 </CardContent>
+                <div className="p-6 pt-0 mt-auto">
+                   <div className="flex items-center gap-2">
+                        <Button onClick={() => handleGenerate(section.id)} disabled={!!loading} className="w-full">
+                        {loading === section.id ? (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        ) : (
+                            <Sparkles className="mr-2 h-4 w-4" />
+                        )}
+                        {loading === section.id ? 'Generating...' : 'Generate'}
+                        </Button>
+                        {results[section.id] && (
+                            <Button size="sm" variant="secondary">
+                                <Save className="mr-2 h-4 w-4" />
+                                Publish
+                            </Button>
+                        )}
+                   </div>
+                </div>
             </Card>
         ))}
+        </div>
     </div>
   );
 }
+

@@ -73,3 +73,6 @@ export const NewsAndBlogSchema = z.object({
   news: z.array(NewsPostSchema).min(5).describe('A list of recent news articles. The first item in the list should be the most important, featured story.'),
 });
 export type NewsAndBlogOutput = z.infer<typeof NewsAndBlogSchema>;
+
+// Union of all schemas
+export const AllSections = z.union([PhoneListsSchema, CommunityContentSchema, NewsAndBlogSchema]);
