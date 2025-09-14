@@ -3,8 +3,8 @@
 
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { handleGenerateContent } from '../content-automation/actions';
-import type { NewsAndBlogOutput } from '@/ai/schemas/homepage-content';
+import { handleGenerateNews } from './actions';
+import type { NewsPost } from '@/ai/schemas/homepage-content';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -14,7 +14,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Badge } from '@/components/ui/badge';
 
 
-type GeneratedNews = NewsAndBlogOutput['news'];
+type GeneratedNews = NewsPost[];
 
 export default function NewsManagementPage() {
   const [loading, setLoading] = useState(false);
@@ -26,12 +26,12 @@ export default function NewsManagementPage() {
     setStagedNews(null);
 
     try {
-      const response = await handleGenerateContent('news');
-      if (response.success && response.data?.news) {
-        setStagedNews(response.data.news);
+      const response = await handleGenerateNews();
+      if (response.success && response.data) {
+        setStagedNews(response.data);
         toast({
           title: 'Success!',
-          description: `Staged ${response.data.news.length} new news articles for review.`,
+          description: `Staged ${response.data.length} new news articles for review.`,
         });
       } else {
         throw new Error(response.error || 'AI flow did not return news articles.');
