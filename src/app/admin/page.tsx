@@ -1,7 +1,10 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparkles, Smartphone, PenSquare, FileUp, BarChart2, Newspaper, Bot, Calendar, Rss } from 'lucide-react';
+import { Sparkles, Smartphone, PenSquare, FileUp, BarChart2, Newspaper, Bot, Calendar, Rss, ArrowRight, UserPlus, FileText, CheckCircle } from 'lucide-react';
 import Link from "next/link";
 import { allPhones } from "@/lib/data";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function AdminDashboard() {
   
@@ -9,24 +12,41 @@ export default function AdminDashboard() {
   const totalArticles = 57; // Placeholder
   const aiGenerations = 218; // Placeholder
 
-  const navTiles = [
-    { href: '/admin/phones', label: 'Manage Phones', icon: Smartphone, description: 'Add, edit, and view all phone entries.' },
-    { href: '/admin/generate-spec', label: 'AI Spec Generator', icon: Sparkles, description: 'Create new phone specs with AI assistance.' },
-    { href: '/admin/content-automation', label: 'Homepage Content AI', icon: Bot, description: 'Automate homepage content sections.' },
-    { href: '/admin/blog', label: 'Blog & Guides', icon: PenSquare, description: 'Write and manage articles and helpful guides.' },
-    { href: '/admin/news', label: 'News Articles', icon: Newspaper, description: 'Manage breaking news and industry updates.' },
-    { href: '/admin/events', label: 'Upcoming Events', icon: Calendar, description: 'Manage the upcoming events calendar.' },
-    { href: '/admin/leaks', label: 'Leaks & Rumors', icon: Rss, description: 'Manage leaks and rumors for the homepage.' },
-    { href: '/admin/seo', label: 'SEO Management', icon: BarChart2, description: 'Optimize pages for search engines.' },
+  const recentActivity = [
+    {
+      icon: UserPlus,
+      description: "New user signed up: alex@example.com",
+      time: "2m ago",
+      user: { name: "Alex" }
+    },
+    {
+      icon: FileText,
+      description: "AI generated 5 new news articles.",
+      time: "15m ago",
+      user: { name: "Admin" }
+    },
+    {
+      icon: CheckCircle,
+      description: "Published 3 new blog posts.",
+      time: "1h ago",
+      user: { name: "Admin" }
+    },
+    {
+      icon: Smartphone,
+      description: "Specs for 'Galaxy S25' were updated.",
+      time: "3h ago",
+      user: { name: "AI Bot" }
+    },
   ];
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-        <p className="text-muted-foreground">Welcome back! Here's a quick overview and your command center.</p>
+        <p className="text-muted-foreground">Welcome back! Here's a quick overview of your site.</p>
       </div>
 
+      {/* Stats Grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -66,26 +86,53 @@ export default function AdminDashboard() {
         </Card>
       </div>
 
-      <div>
-        <h2 className="text-2xl font-bold tracking-tight mb-4">Admin Tools</h2>
-         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {navTiles.map(tile => (
-              <Link href={tile.href} key={tile.href}>
-                <Card className="hover:bg-muted/50 transition-colors h-full">
-                  <CardHeader className="flex flex-row items-center gap-4">
-                    <div className="p-3 bg-primary/10 rounded-md">
-                        <tile.icon className="h-6 w-6 text-primary" />
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {/* Quick Actions */}
+        <div className="lg:col-span-1">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Quick Actions</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                    <Button asChild className="w-full justify-start">
+                        <Link href="/admin/phones/edit/new"><Smartphone className="mr-2" /> Add New Phone</Link>
+                    </Button>
+                    <Button asChild variant="secondary" className="w-full justify-start">
+                        <Link href="/admin/news"><Newspaper className="mr-2" /> Generate News</Link>
+                    </Button>
+                     <Button asChild variant="secondary" className="w-full justify-start">
+                        <Link href="/admin/blog"><PenSquare className="mr-2" /> Write a Blog Post</Link>
+                    </Button>
+                    <Button asChild variant="secondary" className="w-full justify-start">
+                        <Link href="/admin/content-automation"><Bot className="mr-2" /> Automate Homepage</Link>
+                    </Button>
+                </CardContent>
+            </Card>
+        </div>
+
+        {/* Recent Activity */}
+        <div className="lg:col-span-2">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Recent Activity</CardTitle>
+                    <CardDescription>A log of recent events across the admin panel.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="space-y-4">
+                        {recentActivity.map((activity, index) => (
+                            <div key={index} className="flex items-center gap-4">
+                                <Avatar className="h-9 w-9">
+                                    <AvatarFallback><activity.icon className="h-4 w-4" /></AvatarFallback>
+                                </Avatar>
+                                <div className="flex-1">
+                                    <p className="text-sm font-medium">{activity.description}</p>
+                                    <p className="text-xs text-muted-foreground">{activity.time}</p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                    <div>
-                      <CardTitle>{tile.label}</CardTitle>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">{tile.description}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
+                </CardContent>
+            </Card>
         </div>
       </div>
     </div>
