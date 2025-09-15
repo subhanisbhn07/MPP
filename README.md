@@ -94,10 +94,37 @@ This page provides an exhaustive overview of a single phone.
 
 ### Comparison Pages (`/compare` & `/compare/[slug]`)
 
-The core comparison experience.
-- **`/compare`**: The default view, which shows any phones the user has added to their comparison list from other pages.
-- **`/compare/[slug]`**: A shareable URL that loads a specific set of phones for comparison.
-- **Functionality**: Displays up to four phones side-by-side. The main view is a large table where each row corresponds to a specific technical spec, making it easy to see differences at a glance.
+This is the heart of the application, allowing for granular, side-by-side analysis of multiple devices. It's built to be flexible, shareable, and detailed.
+
+**Page Structure & Routes:**
+
+-   **`/compare` (Default View)**: This is the main comparison page. It automatically loads any phones that the user has added to their "comparison list" from other pages (e.g., by clicking the "Compare" button on a `PhoneCard`). It reflects the user's current session.
+-   **`/compare/[slug]` (Shareable View)**: This route allows for sharing a specific comparison. The `slug` (e.g., `iphone-15-pro-vs-galaxy-s24-ultra`) contains the information needed to load the exact same set of phones for any user who visits the URL.
+
+**Core Components & Functionality:**
+
+1.  **Phone Selection Area**:
+    -   Located at the top of the page, this section displays four slots, representing the maximum number of phones that can be compared simultaneously.
+    -   **Empty Slots**: Appear as dashed-line boxes with a "Add Phone" button. Clicking this opens the `AddPhoneDialog`.
+    -   **Filled Slots**: Display a compact card for each selected phone, showing its image, brand, model, and price. A small `X` button appears on hover, allowing the user to remove that specific phone from the comparison.
+    -   **Add Phone Dialog**: A modal window that allows users to search the entire phone database. It shows a list of all available phones, which can be filtered by a search term. Phones already in the comparison are disabled to prevent duplicates. Clicking "Add" on a phone places it in the next available slot.
+
+2.  **Specification Table**:
+    -   This is the main content of the page, designed for detailed analysis.
+    -   **Categorization**: The table is broken down into the same major categories as the phone details page (Network, Launch, Body, Display, etc.). Each category is a main header for a section of the table.
+    -   **Spec Rows**: Within each category, every individual specification has its own row.
+        -   The first column is the **spec label** (e.g., "Refresh Rate (Hz)").
+        -   Subsequent columns correspond to the phones selected at the top of the page. Each cell in the row displays the value of that spec for that particular phone.
+    -   **Value Rendering**: The table intelligently renders data. For example, boolean "Yes"/"No" values are displayed as green checkmarks and red `X` icons for quick visual scanning.
+
+**User Interaction & Workflow:**
+
+-   A user can start a comparison from anywhere on the site by clicking the "Compare" button on a phone card. This adds the phone to a global state, managed by the `CompareContext`.
+-   When they navigate to `/compare`, the page renders the phones from this global state.
+-   They can add more phones (up to 4) directly on the comparison page.
+-   As phones are added or removed, the main specification table updates in real-time to reflect the changes.
+-   The global `ComparisonBar` at the bottom of the screen also syncs with the comparison list, providing a persistent overview and a "Compare Now" button that leads to this page.
+-   Once a comparison is set up, the URL automatically updates to a shareable slug. This URL can be copied and sent to others, who will see the exact same comparison, making it a powerful collaborative tool.
 
 ### Brand Listing Page (`/brands`)
 
