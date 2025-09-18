@@ -45,15 +45,15 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
     : phone.specs.platform.chipset;
 
   return (
-    <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg rounded-md w-full relative">
-       <Link href={phoneUrl} className="flex items-center gap-4 p-3">
+    <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg rounded-md w-full">
+      <Link href={phoneUrl} className="flex">
         {/* Left Section: Image */}
-        <div className="relative w-28 h-48 flex-shrink-0 border rounded-md p-1">
-             {user && (
+        <div className="relative w-28 flex-shrink-0">
+            {user && (
                 <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="absolute top-0 left-0 h-7 w-7 z-10 bg-background/50 hover:bg-background/80"
+                    className="absolute top-1 left-1 h-7 w-7 z-10 bg-background/50 hover:bg-background/80"
                     onClick={handleWishlistClick}
                 >
                     <Heart className={cn("h-4 w-4", inWishlist && "fill-red-500 text-red-500")} />
@@ -64,35 +64,35 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
             src={phone.image}
             alt={`${phone.brand} ${phone.model}`}
             fill
-            className="object-contain transition-transform duration-300 group-hover:scale-105"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
             data-ai-hint="mobile phone"
             />
         </div>
 
         {/* Right Section: Content */}
-        <div className="flex flex-col justify-between w-full self-stretch">
-            {/* Top part: title, price */}
-             <div>
-                <Badge variant="outline">{phone.brand}</Badge>
-                <h3 className="text-base font-bold leading-tight mt-1">{phone.model}</h3>
-            </div>
-             <div className="text-right flex-shrink-0">
-                <p className="text-lg font-bold text-primary">${phone.price}</p>
-                 <div className="flex items-center justify-end gap-1 text-xs text-muted-foreground">
-                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400"/>
-                    <span className="font-semibold">4.2</span>
-                    <span>(142)</span>
+        <div className="flex flex-col justify-between w-full p-3">
+            <div className="flex justify-between">
+                <div>
+                    <Badge variant="outline">{phone.brand}</Badge>
+                    <h3 className="text-base font-bold leading-tight mt-1">{phone.model}</h3>
+                </div>
+                <div className="text-right flex-shrink-0">
+                    <p className="text-lg font-bold text-primary">${phone.price}</p>
+                    <div className="flex items-center justify-end gap-1 text-xs text-muted-foreground">
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400"/>
+                        <span className="font-semibold">4.2</span>
+                        <span>(142)</span>
+                    </div>
                 </div>
             </div>
 
-            {/* Middle part: specs */}
-             <div className="my-2 space-y-1">
+            <div className="my-2 space-y-1">
                 <div className="grid grid-cols-3 gap-x-3 gap-y-1">
                     <SpecItem icon={Smartphone} value={`${phone.specs.display.size_inches}"`} />
                     <SpecItem icon={Camera} value={phone.specs.main_camera.main_sensor_resolution} />
                     <SpecItem icon={Battery} value={phone.specs.battery.capacity_mah} />
-                    <SpecItem icon={RefreshCw} value={`${phone.specs.display.refresh_rate_hz}Hz`} />
-                    <SpecItem icon={Cpu} value={phone.specs.memory.ram_capacities} />
+                    <SpecItem icon={RefreshCw} value={phone.specs.memory.ram_capacities} />
+                    <SpecItem icon={Cpu} value={`${phone.specs.display.refresh_rate_hz}Hz`} />
                     <SpecItem icon={MemoryStick} value={phone.specs.memory.storage_type} />
                 </div>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -101,7 +101,6 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                 </div>
             </div>
 
-            {/* Bottom part: rating and compare button */}
             <div className="flex justify-end items-end">
                 <Button 
                     size="icon" 
@@ -114,7 +113,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                 </Button>
             </div>
         </div>
-       </Link>
+      </Link>
     </Card>
   );
 }
