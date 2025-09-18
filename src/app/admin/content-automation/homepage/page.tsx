@@ -241,9 +241,9 @@ export default function HomepageContentPage() {
                            {section.selectedPhoneIds.map(id => {
                                const phone = getPhoneById(id);
                                return phone ? (
-                                   <div key={id} className="relative w-12 h-16 border rounded-md p-1 bg-muted/50">
-                                       <Image src={phone.image} alt={phone.model} fill className="object-contain" data-ai-hint="mobile phone" />
-                                   </div>
+                                   <Badge key={id} variant="secondary">
+                                       {phone.brand} {phone.model}
+                                   </Badge>
                                ) : null;
                            })}
                         </div>
