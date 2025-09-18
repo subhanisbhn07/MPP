@@ -1,6 +1,6 @@
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { ArrowRight, LayoutDashboard, Search, Smartphone, Star, Newspaper, FileText, Tag, BarChart, Calendar, Rss } from "lucide-react";
+import { ArrowRight, LayoutDashboard, Search, Smartphone, Star, Newspaper, FileText, Tag, BarChart, Calendar, Rss, Layers } from "lucide-react";
 import Link from "next/link";
 
 const pages = [
@@ -15,6 +15,12 @@ const pages = [
         description: "Manage the database of all phones and their specifications.",
         icon: Smartphone,
         href: "/admin/phones"
+    },
+    {
+        title: "Compare Page",
+        description: "Manage settings for the side-by-side comparison page, such as default phones or featured comparisons.",
+        icon: Layers,
+        href: "/compare"
     },
     {
         title: "Category Pages",
