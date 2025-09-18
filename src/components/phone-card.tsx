@@ -95,13 +95,13 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                     <span>(142)</span>
                 </div>
                 <Button 
-                    size="sm" 
-                    className="rounded-full"
+                    size="icon" 
+                    className="rounded-full h-8 w-8"
                     onClick={handleCompareClick} 
                     aria-label={`Compare ${phone.model}`}
                 >
-                    <Plus className="h-4 w-4 mr-1" />
-                    <span>Compare</span>
+                    <Plus className="h-4 w-4" />
+                    <span className="sr-only">Add to Compare</span>
                 </Button>
             </div>
         </div>
