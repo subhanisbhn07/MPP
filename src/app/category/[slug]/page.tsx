@@ -51,7 +51,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
       </div>
       
       {phones.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
             {phones.map(phone => (
                 <PhoneCard key={phone.id} phone={phone} onAddToCompare={() => {
                   // This is a server component, so interactivity needs client-side logic.
