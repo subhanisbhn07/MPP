@@ -149,7 +149,7 @@ export default function HomepageContentPage() {
                                         <CardContent className="p-3">
                                              {section.isPhoneSection ? (
                                                 <div className="grid grid-cols-1 gap-2">
-                                                {section.selectedPhoneIds.map(id => {
+                                                {section.selectedPhoneIds.slice(0, 6).map(id => {
                                                     const phone = allPhones.find(p => p.id === id);
                                                     if (!phone) return null;
                                                     return <PhoneCard key={id} phone={phone} onAddToCompare={() => {}}/>
