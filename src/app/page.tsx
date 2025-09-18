@@ -191,9 +191,9 @@ export default function Home() {
       ["Sony Xperia 1 VI", "iPhone 15 Pro Max"],
   ];
   
-  const renderPhoneList = (phones: Phone[]) => (
-    <ul role="list" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-      {phones.slice(0, phonesToShow).map((phone) => (
+  const renderPhoneList = (phones: Phone[], sliceCount: number) => (
+    <ul role="list" className="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
+      {phones.slice(0, sliceCount).map((phone) => (
         <li role="listitem" key={phone.id}>
           <article aria-label={`${phone.brand} ${phone.model}`}>
             <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
@@ -333,8 +333,8 @@ export default function Home() {
                 Trending Phones
             </h2>
           </CardHeader>
-          <CardContent>
-            {renderPhoneList(popularPhones)}
+          <CardContent className="p-2">
+            {renderPhoneList(popularPhones, phonesToShow)}
           </CardContent>
         </Card>
 
@@ -345,8 +345,8 @@ export default function Home() {
               Latest Launches
             </h2>
           </CardHeader>
-          <CardContent>
-            {renderPhoneList(latestPhones)}
+          <CardContent className="p-2">
+            {renderPhoneList(latestPhones, phonesToShow)}
           </CardContent>
         </Card>
         
@@ -357,8 +357,8 @@ export default function Home() {
               Top iOS Phones
             </h2>
           </CardHeader>
-          <CardContent>
-            {renderPhoneList(iosPhones)}
+          <CardContent className="p-2">
+            {renderPhoneList(iosPhones, phonesToShow)}
           </CardContent>
         </Card>
 
@@ -369,8 +369,8 @@ export default function Home() {
               Top Android Phones
             </h2>
           </CardHeader>
-          <CardContent>
-            {renderPhoneList(androidPhones)}
+          <CardContent className="p-2">
+            {renderPhoneList(androidPhones, phonesToShow)}
           </CardContent>
         </Card>
         
@@ -381,7 +381,7 @@ export default function Home() {
               Exploring iOS
             </h2>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-2">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
@@ -412,7 +412,7 @@ export default function Home() {
               Diving into Android
             </h2>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-2">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
@@ -443,8 +443,8 @@ export default function Home() {
               Flagship Phones
             </h2>
           </CardHeader>
-          <CardContent>
-            {renderPhoneList(flagshipPhones)}
+          <CardContent className="p-2">
+            {renderPhoneList(flagshipPhones, phonesToShow)}
           </CardContent>
         </Card>
         
@@ -455,8 +455,8 @@ export default function Home() {
               Longest Battery Life
             </h2>
           </CardHeader>
-          <CardContent>
-            {renderPhoneList(batteryPhones)}
+          <CardContent className="p-2">
+            {renderPhoneList(batteryPhones, phonesToShow)}
           </CardContent>
         </Card>
         
@@ -467,8 +467,8 @@ export default function Home() {
               Best for Gaming
             </h2>
           </CardHeader>
-          <CardContent>
-            {renderPhoneList(performancePhones)}
+          <CardContent className="p-2">
+            {renderPhoneList(performancePhones, phonesToShow)}
           </CardContent>
         </Card>
 
@@ -479,8 +479,8 @@ export default function Home() {
               Top Camera Phones
             </h2>
           </CardHeader>
-          <CardContent>
-            {renderPhoneList(cameraPhones)}
+          <CardContent className="p-2">
+            {renderPhoneList(cameraPhones, phonesToShow)}
           </CardContent>
         </Card>
 
@@ -491,8 +491,8 @@ export default function Home() {
               Foldable Phones
             </h2>
           </CardHeader>
-          <CardContent>
-            {renderPhoneList(foldablePhones)}
+          <CardContent className="p-2">
+            {renderPhoneList(foldablePhones, phonesToShow)}
           </CardContent>
         </Card>
 
@@ -503,8 +503,8 @@ export default function Home() {
               Rugged Phones
             </h2>
           </CardHeader>
-          <CardContent>
-            {renderPhoneList(ruggedPhones)}
+          <CardContent className="p-2">
+            {renderPhoneList(ruggedPhones, phonesToShow)}
           </CardContent>
         </Card>
 
@@ -515,8 +515,8 @@ export default function Home() {
               Unique Phones
             </h2>
           </CardHeader>
-          <CardContent>
-            {renderPhoneList(uniquePhones)}
+          <CardContent className="p-2">
+            {renderPhoneList(uniquePhones, phonesToShow)}
           </CardContent>
         </Card>
 
@@ -527,7 +527,7 @@ export default function Home() {
               Quick Compare
             </h2>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-2">
             <div className="max-w-4xl mx-auto">
               <div className="flex flex-col md:flex-row items-stretch gap-4 md:gap-8">
                 <CompareSlot phone={phone1} onAdd={() => handleOpenDialog(1)} onRemove={() => setPhone1(null)} />
@@ -608,7 +608,7 @@ export default function Home() {
               </p>
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-2">
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
               {specCategories.map((cat) => (
                 <li role="listitem" key={cat.label}>
@@ -635,7 +635,7 @@ export default function Home() {
                     </h2>
                   </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-2">
                 <div className="space-y-4">
                       <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
                         <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
@@ -711,7 +711,7 @@ export default function Home() {
                     </h2>
                   </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-2">
                     <div className="space-y-4">
                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
                         <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
@@ -763,7 +763,7 @@ export default function Home() {
                   </h2>
                 </div>
               </CardHeader>
-              <CardContent>
+              <CardContent className="p-2">
                 <div className="space-y-4">
                   <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
                     <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
@@ -813,7 +813,7 @@ export default function Home() {
               From the Blog
             </h2>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-2">
             <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
                 <Card className="break-inside-avoid">
                   <Image
@@ -940,7 +940,7 @@ export default function Home() {
               Latest News
             </h2>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-2">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-fr">
               
               <Card className="lg:col-span-2 lg:row-span-2 group relative overflow-hidden rounded-lg">
