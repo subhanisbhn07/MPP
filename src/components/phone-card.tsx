@@ -48,7 +48,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
     <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg rounded-md w-full">
       <Link href={phoneUrl} className="flex">
         {/* Left Section: Image */}
-        <div className="relative w-28 flex-shrink-0">
+        <div className="relative w-28 flex-shrink-0 p-2 bg-muted/30 border-r">
             {user && (
                 <Button 
                     variant="ghost" 
@@ -60,13 +60,15 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                     <span className="sr-only">Wishlist</span>
                 </Button>
             )}
-            <Image
-            src={phone.image}
-            alt={`${phone.brand} ${phone.model}`}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            data-ai-hint="mobile phone"
-            />
+            <div className="relative w-full h-full">
+              <Image
+                  src={phone.image}
+                  alt={`${phone.brand} ${phone.model}`}
+                  fill
+                  className="object-contain transition-transform duration-300 group-hover:scale-105"
+                  data-ai-hint="mobile phone"
+              />
+            </div>
         </div>
 
         {/* Right Section: Content */}
@@ -91,9 +93,9 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                     <SpecItem icon={Smartphone} value={`${phone.specs.display.size_inches}"`} />
                     <SpecItem icon={Camera} value={phone.specs.main_camera.main_sensor_resolution} />
                     <SpecItem icon={Battery} value={phone.specs.battery.capacity_mah} />
-                    <SpecItem icon={RefreshCw} value={phone.specs.memory.ram_capacities} />
-                    <SpecItem icon={Cpu} value={`${phone.specs.display.refresh_rate_hz}Hz`} />
-                    <SpecItem icon={MemoryStick} value={phone.specs.memory.storage_type} />
+                    <SpecItem icon={MemoryStick} value={phone.specs.memory.ram_capacities} />
+                    <SpecItem icon={RefreshCw} value={`${phone.specs.display.refresh_rate_hz}Hz`} />
+                    <SpecItem icon={Cpu} value={phone.specs.memory.storage_type} />
                 </div>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <Cpu className="h-4 w-4 flex-shrink-0" />
@@ -103,13 +105,13 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
 
             <div className="flex justify-end items-end">
                 <Button 
-                    size="icon" 
-                    className="rounded-full h-8 w-8"
+                    size="sm"
+                    className="h-8 px-3"
                     onClick={handleCompareClick} 
                     aria-label={`Compare ${phone.model}`}
                 >
-                    <Plus className="h-4 w-4" />
-                    <span className="sr-only">Add to Compare</span>
+                    <Plus className="h-4 w-4 mr-1" />
+                    Compare
                 </Button>
             </div>
         </div>
