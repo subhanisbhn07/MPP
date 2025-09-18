@@ -122,7 +122,7 @@ export default function HomepageContentPage() {
         </Button>
       </div>
 
-      <div className="flex-1 grid md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4 overflow-hidden">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4 flex-1 overflow-hidden">
         {/* Left Side: Editor */}
         <div className="lg:col-span-1 flex flex-col gap-4 min-h-0">
           <Card className="flex-1 flex flex-col">
@@ -135,8 +135,6 @@ export default function HomepageContentPage() {
                 {sections.map((section) => (
                   <div 
                       key={section.id}
-                      draggable
-                      onDragStart={(e) => handleDragStart(e, section)}
                       onDragOver={handleDragOver}
                       onDrop={(e) => handleDrop(e, section)}
                       className="border-b"
@@ -144,8 +142,15 @@ export default function HomepageContentPage() {
                       <AccordionItem value={section.id} className="border-b-0">
                            <AccordionTrigger>
                               <div className="flex items-center w-full">
-                                  <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab mr-2" />
-                                  <div className="flex-grow">
+                                  <div 
+                                    draggable 
+                                    onDragStart={(e) => handleDragStart(e, section)} 
+                                    className="p-1 cursor-grab"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <GripVertical className="h-5 w-5 text-muted-foreground" />
+                                  </div>
+                                  <div className="flex-grow ml-2">
                                       <p className="font-semibold text-sm text-left">{section.title}</p>
                                       <p className="text-xs text-muted-foreground text-left">{section.description}</p>
                                   </div>
@@ -176,7 +181,7 @@ export default function HomepageContentPage() {
         </div>
         
         {/* Right Side: Preview */}
-        <main className="lg:col-span-2 flex justify-center items-start overflow-y-auto py-4">
+        <main className="lg:col-span-2 flex justify-center items-start overflow-hidden py-4">
           <div className="w-full max-w-[420px] shrink-0">
               <div className="relative mx-auto border-black dark:border-gray-800 bg-black border-[10px] rounded-[2.5rem] shadow-xl">
                   <div className="w-[140px] h-[18px] bg-black top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute"></div>
