@@ -48,7 +48,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
     <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg rounded-md w-full relative">
        <Link href={phoneUrl} className="flex items-center gap-4 p-3">
         {/* Left Section: Image */}
-        <div className="relative w-28 h-40 flex-shrink-0">
+        <div className="relative w-28 h-48 flex-shrink-0 border rounded-md p-1">
              {user && (
                 <Button 
                     variant="ghost" 
@@ -120,6 +120,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
     </Card>
   );
 }
+
 
 
 
