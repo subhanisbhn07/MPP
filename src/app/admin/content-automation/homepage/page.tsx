@@ -113,116 +113,115 @@ export default function HomepageContentPage() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-6rem)]">
-        <div className="flex items-center justify-between pb-4 border-b">
-             <div>
-                <h1 className="text-3xl font-bold tracking-tight">Homepage Builder</h1>
-                <p className="text-muted-foreground">Drag, drop, and edit sections to build your homepage.</p>
-            </div>
-            <Button size="lg" onClick={handleSaveLayout}>
-                <Save className="mr-2 h-4 w-4" />
-                Save Layout
-            </Button>
+      <div className="flex items-center justify-between pb-4 border-b">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Homepage Builder</h1>
+          <p className="text-muted-foreground">Drag, drop, and edit sections to build your homepage.</p>
         </div>
-        <div className="flex-1 grid md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4 overflow-hidden">
-            
-            {/* Left Side: Editor */}
-            <div className="lg:col-span-1 flex flex-col gap-4">
-                 <Card className="h-full flex flex-col">
-                    <CardHeader>
-                        <CardTitle>Homepage Sections</CardTitle>
-                        <CardDescription>Drag to reorder sections. Click to expand and manage content.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="flex-1 overflow-y-auto px-4">
-                        <Accordion type="multiple" className="w-full">
-                            {sections.map((section) => (
-                                <div 
-                                    key={section.id}
-                                    draggable
-                                    onDragStart={(e) => handleDragStart(e, section)}
-                                    onDragOver={handleDragOver}
-                                    onDrop={(e) => handleDrop(e, section)}
-                                    className="border-b"
-                                >
-                                    <AccordionItem value={section.id} className="border-b-0">
-                                         <AccordionTrigger>
-                                            <div className="flex items-center w-full">
-                                                <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab mr-2" />
-                                                <div className="flex-grow">
-                                                    <p className="font-semibold text-sm text-left">{section.title}</p>
-                                                    <p className="text-xs text-muted-foreground text-left">{section.description}</p>
-                                                </div>
-                                                <div className="flex items-center gap-2 ml-4">
-                                                    <Label htmlFor={`vis-sidebar-${section.id}`} className="sr-only">Visibility</Label>
-                                                    <Switch 
-                                                        id={`vis-sidebar-${section.id}`}
-                                                        checked={section.isVisible}
-                                                        onCheckedChange={() => toggleVisibility(section.id)}
-                                                        onClick={(e) => e.stopPropagation()}
-                                                    />
-                                                     {section.isVisible ? <Eye className="h-4 w-4 text-muted-foreground" /> : <EyeOff className="h-4 w-4 text-muted-foreground" />}
-                                                </div>
-                                            </div>
-                                         </AccordionTrigger>
-                                         <AccordionContent className="pl-2 pr-1">
-                                             <HomepageSectionEditor 
-                                                section={section}
-                                                onUpdate={updateSectionContent}
-                                             />
-                                         </AccordionContent>
-                                    </AccordionItem>
-                                </div>
-                            ))}
-                        </Accordion>
-                    </CardContent>
-                </Card>
-            </div>
-            
-            {/* Right Side: Preview */}
-            <main className="lg:col-span-2 flex justify-center items-start overflow-hidden">
-                <div className="w-full max-w-[420px]">
-                    <div className="relative mx-auto border-black dark:border-gray-800 bg-black border-[10px] rounded-[2.5rem] h-[calc(100vh-10rem)] w-full shadow-xl">
-                        <div className="w-[140px] h-[18px] bg-black top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute"></div>
-                        <div className="h-[46px] w-[3px] bg-black absolute -left-[13px] top-[72px] rounded-l-lg"></div>
-                        <div className="h-[46px] w-[3px] bg-black absolute -left-[13px] top-[124px] rounded-l-lg"></div>
-                        <div className="h-[64px] w-[3px] bg-black absolute -right-[13px] top-[142px] rounded-r-lg"></div>
-                        <div className="rounded-[2rem] overflow-hidden w-full h-full bg-background">
-                             <ScrollArea className="h-full w-full">
-                                <div className="p-2 space-y-2">
-                                     <Alert className="scale-90">
-                                        <AlertTriangle className="h-4 w-4" />
-                                        <AlertTitle>Live Mobile Preview</AlertTitle>
-                                        <AlertDescription>
-                                            This is a preview of the mobile homepage layout.
-                                        </AlertDescription>
-                                    </Alert>
-                                    {visibleSections.map(section => (
-                                        <Card key={section.id} className="overflow-hidden !p-0">
-                                            <CardHeader className="p-3">
-                                                <CardTitle className="text-lg">{section.title}</CardTitle>
-                                            </CardHeader>
-                                            <CardContent className="p-2">
-                                                 {section.isPhoneSection ? (
-                                                    <div className="grid grid-cols-1 gap-2">
-                                                    {section.selectedPhoneIds.slice(0, 6).map(id => {
-                                                        const phone = allPhones.find(p => p.id === id);
-                                                        if (!phone) return null;
-                                                        return <PhoneCard key={id} phone={phone} onAddToCompare={() => {}}/>
-                                                    })}
-                                                    </div>
-                                                ) : (
-                                                    <p className="text-muted-foreground text-center py-8 text-sm">Non-phone section placeholder.</p>
-                                                )}
-                                            </CardContent>
-                                        </Card>
-                                    ))}
-                                </div>
-                            </ScrollArea>
-                        </div>
-                    </div>
-                </div>
-            </main>
+        <Button size="lg" onClick={handleSaveLayout}>
+          <Save className="mr-2 h-4 w-4" />
+          Save Layout
+        </Button>
+      </div>
+
+      <div className="flex-1 grid md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4 overflow-y-hidden">
+        {/* Left Side: Editor */}
+        <div className="lg:col-span-1 flex flex-col gap-4 overflow-y-hidden">
+          <Card className="flex-1 flex flex-col">
+            <CardHeader>
+              <CardTitle>Homepage Sections</CardTitle>
+              <CardDescription>Drag to reorder sections. Click to expand and manage content.</CardDescription>
+            </CardHeader>
+            <CardContent className="flex-1 overflow-y-auto px-4">
+              <Accordion type="multiple" className="w-full">
+                {sections.map((section) => (
+                  <div 
+                      key={section.id}
+                      draggable
+                      onDragStart={(e) => handleDragStart(e, section)}
+                      onDragOver={handleDragOver}
+                      onDrop={(e) => handleDrop(e, section)}
+                      className="border-b"
+                  >
+                      <AccordionItem value={section.id} className="border-b-0">
+                           <AccordionTrigger>
+                              <div className="flex items-center w-full">
+                                  <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab mr-2" />
+                                  <div className="flex-grow">
+                                      <p className="font-semibold text-sm text-left">{section.title}</p>
+                                      <p className="text-xs text-muted-foreground text-left">{section.description}</p>
+                                  </div>
+                                  <div className="flex items-center gap-2 ml-4">
+                                      <Label htmlFor={`vis-sidebar-${section.id}`} className="sr-only">Visibility</Label>
+                                      <Switch 
+                                          id={`vis-sidebar-${section.id}`}
+                                          checked={section.isVisible}
+                                          onCheckedChange={() => toggleVisibility(section.id)}
+                                          onClick={(e) => e.stopPropagation()}
+                                      />
+                                       {section.isVisible ? <Eye className="h-4 w-4 text-muted-foreground" /> : <EyeOff className="h-4 w-4 text-muted-foreground" />}
+                                  </div>
+                              </div>
+                           </AccordionTrigger>
+                           <AccordionContent className="pl-2 pr-1">
+                               <HomepageSectionEditor 
+                                  section={section}
+                                  onUpdate={updateSectionContent}
+                               />
+                           </AccordionContent>
+                      </AccordionItem>
+                  </div>
+                ))}
+              </Accordion>
+            </CardContent>
+          </Card>
         </div>
+        
+        {/* Right Side: Preview */}
+        <main className="lg:col-span-2 flex justify-center items-start overflow-y-auto py-4">
+          <div className="w-full max-w-[420px] shrink-0">
+              <div className="relative mx-auto border-black dark:border-gray-800 bg-black border-[10px] rounded-[2.5rem] shadow-xl">
+                  <div className="w-[140px] h-[18px] bg-black top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute"></div>
+                  <div className="h-[46px] w-[3px] bg-black absolute -left-[13px] top-[72px] rounded-l-lg"></div>
+                  <div className="h-[46px] w-[3px] bg-black absolute -left-[13px] top-[124px] rounded-l-lg"></div>
+                  <div className="h-[64px] w-[3px] bg-black absolute -right-[13px] top-[142px] rounded-r-lg"></div>
+                  <div className="rounded-[2rem] overflow-hidden w-full h-[calc(100vh-14rem)] bg-background">
+                       <ScrollArea className="h-full w-full">
+                          <div className="p-2 space-y-2">
+                               <Alert className="scale-90">
+                                  <AlertTriangle className="h-4 w-4" />
+                                  <AlertTitle>Live Mobile Preview</AlertTitle>
+                                  <AlertDescription>
+                                      This is a preview of the mobile homepage layout.
+                                  </AlertDescription>
+                              </Alert>
+                              {visibleSections.map(section => (
+                                  <Card key={section.id} className="overflow-hidden !p-0">
+                                      <CardHeader className="p-3">
+                                          <CardTitle className="text-lg">{section.title}</CardTitle>
+                                      </CardHeader>
+                                      <CardContent className="p-2">
+                                           {section.isPhoneSection ? (
+                                              <div className="grid grid-cols-1 gap-2">
+                                              {section.selectedPhoneIds.slice(0, 6).map(id => {
+                                                  const phone = allPhones.find(p => p.id === id);
+                                                  if (!phone) return null;
+                                                  return <PhoneCard key={id} phone={phone} onAddToCompare={() => {}}/>
+                                              })}
+                                              </div>
+                                          ) : (
+                                              <p className="text-muted-foreground text-center py-8 text-sm">Non-phone section placeholder.</p>
+                                          )}
+                                      </CardContent>
+                                  </Card>
+                              ))}
+                          </div>
+                      </ScrollArea>
+                  </div>
+              </div>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
-
