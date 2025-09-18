@@ -4,7 +4,7 @@ import type { Phone } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Smartphone, Camera, Battery, Plus, Star, Cpu } from 'lucide-react';
+import { Heart, Smartphone, Camera, Battery, Plus, Star, Cpu, MemoryStick, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/auth-context';
 import { cn } from '@/lib/utils';
@@ -84,12 +84,18 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
             </div>
 
             {/* Middle part: specs */}
-            <div className="my-2 grid grid-cols-2 gap-x-3 gap-y-1">
-                <SpecItem icon={Smartphone} value={`${phone.specs.display.size_inches}"`} />
-                <SpecItem icon={Camera} value={phone.specs.main_camera.main_sensor_resolution} />
-                <SpecItem icon={Battery} value={phone.specs.battery.capacity_mah} />
-                <SpecItem icon={Cpu} value={phone.specs.platform.chipset.split(' ')[0]} />
-                <SpecItem icon={Cpu} value={phone.specs.memory.ram_capacities} />
+            <div className="my-2 space-y-1">
+                <div className="grid grid-cols-4 gap-x-2">
+                    <SpecItem icon={Smartphone} value={`${phone.specs.display.size_inches}"`} />
+                    <SpecItem icon={Camera} value={phone.specs.main_camera.main_sensor_resolution} />
+                    <SpecItem icon={Battery} value={phone.specs.battery.capacity_mah} />
+                    <SpecItem icon={RefreshCw} value={`${phone.specs.display.refresh_rate_hz}Hz`} />
+                </div>
+                 <div className="grid grid-cols-3 gap-x-2">
+                    <SpecItem icon={Cpu} value={phone.specs.platform.chipset.split(' ')[0]} />
+                    <SpecItem icon={Cpu} value={phone.specs.memory.ram_capacities} />
+                    <SpecItem icon={MemoryStick} value={phone.specs.memory.storage_type} />
+                </div>
             </div>
 
             {/* Bottom part: rating and compare button */}
