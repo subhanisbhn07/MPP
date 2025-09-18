@@ -149,13 +149,8 @@ export function HomepageSectionEditor({ section, onUpdate }: { section: Homepage
 
   return (
      <div className='h-full'>
-        <CardHeader className="p-2 pt-0">
-            <CardTitle className="text-base">{section.title}</CardTitle>
-            <CardDescription className="text-xs">{section.description}</CardDescription>
-        </CardHeader>
-        <CardContent className="p-2 h-full">
             {section.isPhoneSection ? (
-              <>
+              <div className="space-y-2">
                 <ScrollArea className="h-64">
                     <div className="space-y-2 pr-4">
                         {selectedPhones.map(phone => (
@@ -180,6 +175,11 @@ export function HomepageSectionEditor({ section, onUpdate }: { section: Homepage
                                 </Button>
                             </div>
                         ))}
+                         {selectedPhones.length === 0 && (
+                            <div className="text-center text-muted-foreground py-10">
+                                <p className="text-sm">No phones selected.</p>
+                            </div>
+                        )}
                     </div>
                 </ScrollArea>
                  <Button variant="outline" className="w-full mt-2" onClick={() => setIsDialogOpen(true)}>
@@ -194,14 +194,13 @@ export function HomepageSectionEditor({ section, onUpdate }: { section: Homepage
                     section={section}
                     currentPhoneIds={section.selectedPhoneIds}
                 />
-              </>
+              </div>
             ) : (
                 <div className="text-center py-12 border-2 border-dashed rounded-lg h-full flex flex-col justify-center items-center">
                     <p className="text-muted-foreground text-sm">This section is managed elsewhere.</p>
                     <Badge variant="secondary" className="mt-2">e.g., News or Blog page</Badge>
                 </div>
             )}
-        </CardContent>
      </div>
   );
 }

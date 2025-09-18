@@ -17,6 +17,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { PhoneCard } from '@/components/phone-card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+
 
 // Type definition for a homepage section
 export type HomepageSection = {
@@ -52,10 +59,8 @@ const initialSections: HomepageSection[] = [
 
 export default function HomepageContentPage() {
   const [sections, setSections] = useState<HomepageSection[]>(initialSections);
-  const [activeSectionId, setActiveSectionId] = useState<string | null>(initialSections[0]?.id || null);
   const { toast } = useToast();
 
-  const activeSection = sections.find(s => s.id === activeSectionId);
   const visibleSections = sections.filter(s => s.isVisible);
 
   const toggleVisibility = (id: string) => {
@@ -125,55 +130,49 @@ export default function HomepageContentPage() {
                  <Card className="h-full flex flex-col">
                     <CardHeader>
                         <CardTitle>Homepage Sections</CardTitle>
-                        <CardDescription>Drag to reorder. Click to edit.</CardDescription>
+                        <CardDescription>Drag to reorder sections. Click to expand and manage content.</CardDescription>
                     </CardHeader>
-                    <CardContent className="flex-1 flex flex-col gap-2 overflow-hidden">
-                        <ScrollArea className="flex-1 pr-4 -mr-4">
-                         <div className="space-y-2">
+                    <CardContent className="flex-1 overflow-y-auto px-4">
+                        <Accordion type="multiple" className="w-full">
                             {sections.map((section) => (
-                                <Card 
-                                    key={section.id} 
-                                    className={cn("p-3 transition-colors cursor-pointer", activeSectionId === section.id ? "bg-primary/10 border-primary" : "hover:bg-muted")}
-                                    onClick={() => setActiveSectionId(section.id)}
+                                <div 
+                                    key={section.id}
                                     draggable
                                     onDragStart={(e) => handleDragStart(e, section)}
                                     onDragOver={handleDragOver}
                                     onDrop={(e) => handleDrop(e, section)}
+                                    className="border-b"
                                 >
-                                    <div className="flex items-center">
-                                        <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
-                                        <div className="flex-grow ml-3">
-                                            <p className="font-semibold text-sm">{section.title}</p>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <Label htmlFor={`vis-sidebar-${section.id}`} className="sr-only">Visibility</Label>
-                                            <Switch 
-                                                id={`vis-sidebar-${section.id}`}
-                                                checked={section.isVisible}
-                                                onCheckedChange={() => toggleVisibility(section.id)}
-                                                onClick={(e) => e.stopPropagation()}
-                                            />
-                                             {section.isVisible ? <Eye className="h-4 w-4 text-muted-foreground" /> : <EyeOff className="h-4 w-4 text-muted-foreground" />}
-                                        </div>
-                                    </div>
-                                </Card>
-                            ))}
-                          </div>
-                        </ScrollArea>
-                        <Separator className="my-4"/>
-                        <div className="flex-shrink-0 h-96">
-                             {activeSection ? (
-                                <HomepageSectionEditor 
-                                    key={activeSection.id}
-                                    section={activeSection}
-                                    onUpdate={updateSectionContent}
-                                />
-                              ) : (
-                                <div className="text-center text-muted-foreground py-12 h-full flex items-center justify-center">
-                                    <p>Select a section to edit its content.</p>
+                                    <AccordionItem value={section.id} className="border-b-0">
+                                         <AccordionTrigger>
+                                            <div className="flex items-center w-full">
+                                                <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab mr-2" />
+                                                <div className="flex-grow">
+                                                    <p className="font-semibold text-sm text-left">{section.title}</p>
+                                                    <p className="text-xs text-muted-foreground text-left">{section.description}</p>
+                                                </div>
+                                                <div className="flex items-center gap-2 ml-4">
+                                                    <Label htmlFor={`vis-sidebar-${section.id}`} className="sr-only">Visibility</Label>
+                                                    <Switch 
+                                                        id={`vis-sidebar-${section.id}`}
+                                                        checked={section.isVisible}
+                                                        onCheckedChange={() => toggleVisibility(section.id)}
+                                                        onClick={(e) => e.stopPropagation()}
+                                                    />
+                                                     {section.isVisible ? <Eye className="h-4 w-4 text-muted-foreground" /> : <EyeOff className="h-4 w-4 text-muted-foreground" />}
+                                                </div>
+                                            </div>
+                                         </AccordionTrigger>
+                                         <AccordionContent className="pl-2 pr-1">
+                                             <HomepageSectionEditor 
+                                                section={section}
+                                                onUpdate={updateSectionContent}
+                                             />
+                                         </AccordionContent>
+                                    </AccordionItem>
                                 </div>
-                              )}
-                        </div>
+                            ))}
+                        </Accordion>
                     </CardContent>
                 </Card>
             </div>
@@ -188,7 +187,7 @@ export default function HomepageContentPage() {
                         <div className="h-[64px] w-[3px] bg-black absolute -right-[13px] top-[142px] rounded-r-lg"></div>
                         <div className="rounded-[2rem] overflow-hidden w-full h-full bg-background">
                              <ScrollArea className="h-full w-full">
-                                <div className="p-2 space-y-4">
+                                <div className="p-2 space-y-2">
                                      <Alert className="scale-90">
                                         <AlertTriangle className="h-4 w-4" />
                                         <AlertTitle>Live Mobile Preview</AlertTitle>
@@ -201,7 +200,7 @@ export default function HomepageContentPage() {
                                             <CardHeader className="p-3">
                                                 <CardTitle className="text-lg">{section.title}</CardTitle>
                                             </CardHeader>
-                                            <CardContent className="p-3">
+                                            <CardContent className="p-2">
                                                  {section.isPhoneSection ? (
                                                     <div className="grid grid-cols-1 gap-2">
                                                     {section.selectedPhoneIds.slice(0, 6).map(id => {
@@ -226,3 +225,4 @@ export default function HomepageContentPage() {
     </div>
   );
 }
+
