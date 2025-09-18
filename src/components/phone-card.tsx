@@ -72,18 +72,16 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
         {/* Right Section: Content */}
         <div className="flex flex-col justify-between w-full self-stretch">
             {/* Top part: title, price */}
-             <div className="flex justify-between items-start">
-                <div>
-                    <Badge variant="outline">{phone.brand}</Badge>
-                    <h3 className="text-base font-bold leading-tight mt-1">{phone.model}</h3>
-                </div>
-                <div className="text-right flex-shrink-0">
-                    <p className="text-lg font-bold text-primary">${phone.price}</p>
-                     <div className="flex items-center justify-end gap-1 text-xs text-muted-foreground">
-                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400"/>
-                        <span className="font-semibold">4.2</span>
-                        <span>(142)</span>
-                    </div>
+             <div>
+                <Badge variant="outline">{phone.brand}</Badge>
+                <h3 className="text-base font-bold leading-tight mt-1">{phone.model}</h3>
+            </div>
+             <div className="text-right flex-shrink-0">
+                <p className="text-lg font-bold text-primary">${phone.price}</p>
+                 <div className="flex items-center justify-end gap-1 text-xs text-muted-foreground">
+                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400"/>
+                    <span className="font-semibold">4.2</span>
+                    <span>(142)</span>
                 </div>
             </div>
 
@@ -94,8 +92,8 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                     <SpecItem icon={Camera} value={phone.specs.main_camera.main_sensor_resolution} />
                     <SpecItem icon={Battery} value={phone.specs.battery.capacity_mah} />
                     <SpecItem icon={RefreshCw} value={`${phone.specs.display.refresh_rate_hz}Hz`} />
-                    <SpecItem icon={Cpu} value={phone.specs.memory.ram_capacities} />
                     <SpecItem icon={MemoryStick} value={phone.specs.memory.storage_type} />
+                    <SpecItem icon={Cpu} value={phone.specs.memory.ram_capacities} />
                 </div>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <Cpu className="h-4 w-4 flex-shrink-0" />
