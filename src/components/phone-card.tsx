@@ -48,24 +48,24 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
     <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg rounded-md w-full">
       <Link href={phoneUrl} className="flex">
         {/* Left Section: Image */}
-        <div className="relative w-28 flex-shrink-0 p-2 bg-muted/30 border-r">
+        <div className="relative w-28 flex-shrink-0 bg-muted/30 border-r">
             {user && (
                 <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="absolute top-1 left-1 h-7 w-7 z-10 bg-background/50 hover:bg-background/80"
+                    className="absolute top-1 left-1 h-7 w-7 z-10 bg-background/50 hover:bg-background/80 rounded-full"
                     onClick={handleWishlistClick}
                 >
                     <Heart className={cn("h-4 w-4", inWishlist && "fill-red-500 text-red-500")} />
                     <span className="sr-only">Wishlist</span>
                 </Button>
             )}
-            <div className="relative w-full h-full min-h-[150px]">
+            <div className="relative w-full h-full">
               <Image
                   src={phone.image}
                   alt={`${phone.brand} ${phone.model}`}
                   fill
-                  className="object-contain transition-transform duration-300 group-hover:scale-105"
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
                   data-ai-hint="mobile phone"
               />
             </div>
@@ -94,8 +94,8 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                     <SpecItem icon={Camera} value={phone.specs.main_camera.main_sensor_resolution} />
                     <SpecItem icon={Battery} value={phone.specs.battery.capacity_mah} />
                     <SpecItem icon={MemoryStick} value={phone.specs.memory.ram_capacities} />
-                    <SpecItem icon={RefreshCw} value={`${phone.specs.display.refresh_rate_hz}Hz`} />
                     <SpecItem icon={Cpu} value={phone.specs.memory.storage_type} />
+                    <SpecItem icon={RefreshCw} value={`${phone.specs.display.refresh_rate_hz}Hz`} />
                 </div>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <Cpu className="h-4 w-4 flex-shrink-0" />
