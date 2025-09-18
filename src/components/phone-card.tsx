@@ -41,7 +41,18 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
   const inWishlist = isPhoneInWishlist(phone.id);
 
   return (
-    <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg rounded-md w-full">
+    <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg rounded-md w-full relative">
+       {user && (
+          <Button 
+              variant="ghost" 
+              size="icon" 
+              className="absolute top-2 left-2 h-7 w-7 z-10 bg-background/50 hover:bg-background/80"
+              onClick={handleWishlistClick}
+          >
+              <Heart className={cn("h-4 w-4", inWishlist && "fill-red-500 text-red-500")} />
+              <span className="sr-only">Wishlist</span>
+          </Button>
+      )}
        <Link href={phoneUrl} className="flex items-center gap-4 p-3">
         {/* Left Section: Image */}
         <div className="relative w-24 h-32 flex-shrink-0">
@@ -56,29 +67,14 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
 
         {/* Right Section: Content */}
         <div className="flex flex-col justify-between w-full self-stretch">
-            {/* Top part: title, price, wishlist */}
+            {/* Top part: title, price */}
              <div className="flex justify-between items-start">
                 <div>
                     <Badge variant="outline">{phone.brand}</Badge>
                     <h3 className="text-base font-bold leading-tight mt-1">{phone.model}</h3>
                 </div>
                 <div className="text-right flex-shrink-0">
-                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400"/>
-                        <span className="font-semibold">4.2</span>
-                        <span>(142)</span>
-                    </div>
-                    {user && (
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-7 w-7 mt-1"
-                            onClick={handleWishlistClick}
-                        >
-                            <Heart className={cn("h-4 w-4", inWishlist && "fill-red-500 text-red-500")} />
-                            <span className="sr-only">Wishlist</span>
-                        </Button>
-                    )}
+                    <p className="text-lg font-bold text-primary">${phone.price}</p>
                 </div>
             </div>
 
@@ -92,7 +88,11 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
 
             {/* Bottom part: rating and compare button */}
             <div className="flex justify-between items-end">
-                <p className="text-lg font-bold text-primary">${phone.price}</p>
+                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400"/>
+                    <span className="font-semibold">4.2</span>
+                    <span>(142)</span>
+                </div>
                 <Button 
                     size="sm" 
                     className="rounded-full"
@@ -108,4 +108,3 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
     </Card>
   );
 }
-
