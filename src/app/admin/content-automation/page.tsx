@@ -1,15 +1,103 @@
-import { ContentAutomationClient } from "./components/content-automation-client";
 
-export default function ContentAutomationPage() {
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { ArrowRight, LayoutDashboard, Search, Smartphone, Star, Newspaper, FileText, Tag, BarChart, Calendar, Rss } from "lucide-react";
+import Link from "next/link";
+
+const pages = [
+    {
+        title: "Homepage",
+        description: "Manage all dynamic sections: trending phones, latest launches, featured content, and more.",
+        icon: LayoutDashboard,
+        href: "/admin/content-automation/homepage"
+    },
+    {
+        title: "Phone Detail Pages",
+        description: "Manage the database of all phones and their specifications.",
+        icon: Smartphone,
+        href: "/admin/phones"
+    },
+    {
+        title: "Category Pages",
+        description: "Define and manage which phones appear in categories like 'Best Camera' or 'Gaming'.",
+        icon: Star,
+        href: "#"
+    },
+    {
+        title: "News Articles",
+        description: "Create, edit, and publish news articles. Use AI to generate content.",
+        icon: Newspaper,
+        href: "/admin/news"
+    },
+    {
+        title: "Blog & Guides",
+        description: "Write and manage long-form blog posts and user guides.",
+        icon: FileText,
+        href: "/admin/blog"
+    },
+    {
+        title: "Deals Page",
+        description: "Manage and display current promotions and discounted phones.",
+        icon: Tag,
+        href: "#"
+    },
+    {
+        title: "Brands Page",
+        description: "Control the list and order of manufacturers displayed on the brands page.",
+        icon: BarChart,
+        href: "/brands"
+    },
+    {
+        title: "Events Page",
+        description: "Update the calendar with upcoming launch events and industry news.",
+        icon: Calendar,
+        href: "/admin/events"
+    },
+    {
+        title: "Leaks & Rumors Page",
+        description: "Post and manage the latest leaks and rumors in the mobile world.",
+        icon: Rss,
+        href: "/admin/leaks"
+    },
+     {
+        title: "Search Page",
+        description: "Configure search filters, sorting options, and featured results.",
+        icon: Search,
+        href: "/search"
+    },
+];
+
+export default function PageManagement() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Homepage Content Automation</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Page & Content Management</h1>
         <p className="text-muted-foreground">
-          Use AI to generate and refresh all dynamic content on your homepage with one click.
+          A central hub to manage the content and settings for all user-facing pages.
         </p>
       </div>
-      <ContentAutomationClient />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {pages.map((page) => (
+            <Card key={page.title} className="flex flex-col hover:border-primary/50 transition-all">
+                <CardHeader>
+                    <div className="flex items-start gap-4">
+                        <div className="p-3 bg-muted rounded-md">
+                           <page.icon className="w-6 h-6 text-primary" />
+                        </div>
+                        <div>
+                            <CardTitle>{page.title}</CardTitle>
+                            <CardDescription className="mt-1 text-xs leading-5">{page.description}</CardDescription>
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent className="flex-grow flex items-end">
+                    <Link href={page.href} className="flex items-center text-sm font-semibold text-primary">
+                        Manage Page <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                </CardContent>
+            </Card>
+        ))}
+      </div>
     </div>
   );
 }

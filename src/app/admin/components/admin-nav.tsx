@@ -21,6 +21,7 @@ import {
   Rss,
   BarChart2,
   Settings,
+  LayoutDashboard,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -28,7 +29,7 @@ const navItems = [
   { href: '/admin', label: 'Dashboard', icon: Home },
   { href: '/admin/phones', label: 'Manage Phones', icon: Smartphone },
   { href: '/admin/generate-spec', label: 'AI Spec Generator', icon: Sparkles },
-  { href: '/admin/content-automation', label: 'Homepage AI', icon: Bot },
+  { href: '/admin/content-automation', label: 'Page Management', icon: LayoutDashboard },
   { href: '/admin/blog', label: 'Blog & Guides', icon: PenSquare },
   { href: '/admin/news', label: 'News Articles', icon: Newspaper },
   { href: '/admin/events', label: 'Events', icon: Calendar },
@@ -55,7 +56,7 @@ export function AdminNav({ isMobile = false }: { isMobile?: boolean }) {
             href={item.href}
             className={cn(
               'flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground',
-              pathname === item.href && 'text-foreground'
+              pathname.startsWith(item.href) && item.href !== '/admin' ? 'text-foreground' : pathname === '/admin' && item.href === '/admin' ? 'text-foreground' : ''
             )}
           >
             <item.icon className="h-5 w-5" />
@@ -83,7 +84,7 @@ export function AdminNav({ isMobile = false }: { isMobile?: boolean }) {
                 href={item.href}
                 className={cn(
                   'flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8',
-                  pathname === item.href && 'bg-accent text-accent-foreground'
+                  pathname.startsWith(item.href) && item.href !== '/admin' ? 'bg-accent text-accent-foreground' : pathname === '/admin' && item.href === '/admin' ? 'bg-accent text-accent-foreground' : ''
                 )}
               >
                 <item.icon className="h-5 w-5" />
