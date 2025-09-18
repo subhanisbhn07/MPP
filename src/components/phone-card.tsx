@@ -75,6 +75,11 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                 </div>
                 <div className="text-right flex-shrink-0">
                     <p className="text-lg font-bold text-primary">${phone.price}</p>
+                    <div className="flex items-center justify-end gap-1 text-xs text-muted-foreground">
+                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400"/>
+                        <span className="font-semibold">4.2</span>
+                        <span>(142)</span>
+                    </div>
                 </div>
             </div>
 
@@ -88,12 +93,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
             </div>
 
             {/* Bottom part: rating and compare button */}
-            <div className="flex justify-between items-end">
-                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400"/>
-                    <span className="font-semibold">4.2</span>
-                    <span>(142)</span>
-                </div>
+            <div className="flex justify-end items-end">
                 <Button 
                     size="icon" 
                     className="rounded-full h-8 w-8"
