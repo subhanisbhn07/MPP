@@ -66,12 +66,12 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
               <div className="flex items-center gap-2 truncate"><Smartphone size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.display.size_inches}" {phone.specs.display.panel_type.split(',')[0]}</span></div>
               <div className="flex items-center gap-2 truncate"><Camera size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.main_camera.main_sensor_resolution} Main</span></div>
               <div className="flex items-center gap-2 truncate"><Battery size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.battery.capacity_mah} mAh</span></div>
-              <div className="flex items-center gap-2 truncate"><Cpu size={14} className="text-primary flex-shrink-0"/> <span>{phone.specs.platform.chipset}</span></div>
+              <div className="flex items-start gap-2"><Cpu size={14} className="text-primary flex-shrink-0 mt-0.5"/> <span>{phone.specs.platform.chipset}</span></div>
             </div>
         </div>
         <div className="flex items-center justify-between mt-2">
             <p className="text-base font-bold text-primary flex-shrink-0">${phone.price}</p>
-            <Button variant="outline" size="sm" onClick={handleCompareClick} aria-label={`Compare ${phone.model}`}>
+            <Button variant="outline" size="sm" onClick={handleCompareClick} aria-label={`Compare ${phone.model}`} className="flex-shrink-0">
               <GitCompare className="h-4 w-4 mr-2" />
               Compare
             </Button>
