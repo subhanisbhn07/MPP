@@ -37,6 +37,24 @@ const pageTemplates = [
             description: 'Side-by-side comparison of the {{phone1_name}} and {{phone2_name}}. See which phone has better specs, camera, and performance.'
         }
     },
+     { 
+        id: 'search-page',
+        title: 'Search Page',
+        description: 'Metadata for the /search page.',
+        placeholders: {
+            title: 'Search & Filter Phones | MobilePhonesPro',
+            description: 'Search for mobile phones by name, brand, or feature. Use advanced filters to find the perfect phone for your needs.'
+        }
+    },
+    { 
+        id: 'category-page',
+        title: 'Category Page Template',
+        description: 'Template for category pages like /category/best-camera-phones. Use {{category_name}}.',
+        placeholders: {
+            title: 'Best {{category_name}} of 2024 | MobilePhonesPro',
+            description: 'Discover the top-rated {{category_name}}. See our curated list based on detailed testing and specifications.'
+        }
+    },
     { 
         id: 'brands-page',
         title: 'Brands Page',
@@ -44,6 +62,15 @@ const pageTemplates = [
         placeholders: {
             title: 'Browse All Phone Brands | MobilePhonesPro',
             description: 'Explore a comprehensive list of all mobile phone manufacturers, from Apple and Samsung to Xiaomi and Google.'
+        }
+    },
+     { 
+        id: 'deals-page',
+        title: 'Deals Page',
+        description: 'Metadata for the /deals page.',
+        placeholders: {
+            title: 'Best Phone Deals & Discounts | MobilePhonesPro',
+            description: 'Find the best deals and limited-time offers on top smartphones from all major brands.'
         }
     },
     {
@@ -81,7 +108,25 @@ const pageTemplates = [
             title: 'Latest Phone Leaks & Rumors | MobilePhonesPro',
             description: 'Get the inside scoop on unreleased phones with the latest leaks, rumors, and renders.'
         }
-    }
+    },
+    { 
+        id: 'profile-page',
+        title: 'User Profile Page',
+        description: 'Metadata for the user /profile page.',
+        placeholders: {
+            title: 'Your Profile | MobilePhonesPro',
+            description: 'Manage your profile, view your wishlist, and see your saved comparisons.'
+        }
+    },
+     { 
+        id: 'login-page',
+        title: 'Login Page',
+        description: 'Metadata for the /login page.',
+        placeholders: {
+            title: 'Sign In | MobilePhonesPro',
+            description: 'Sign in to your MobilePhonesPro account to access your profile, wishlists, and more.'
+        }
+    },
 ]
 
 export default function SeoManagementPage() {
@@ -99,11 +144,11 @@ export default function SeoManagementPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight">SEO Management</h1>
         <p className="text-muted-foreground">
-          Optimize metadata and content for better search engine rankings.
+          Optimize metadata and content for better search engine rankings across all pages.
         </p>
       </div>
 
-      <Accordion type="multiple" className="w-full space-y-4" defaultValue={['homepage', 'phone-page']}>
+      <Accordion type="multiple" className="w-full space-y-4" defaultValue={['homepage']}>
         {pageTemplates.map(template => (
             <Card key={template.id}>
                 <AccordionItem value={template.id} className="border-b-0">
