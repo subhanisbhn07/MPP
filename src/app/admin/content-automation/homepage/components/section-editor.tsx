@@ -8,9 +8,7 @@ import { allPhones } from '@/lib/data';
 import type { HomepageSection } from '../page';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { PlusCircle, Trash2, GripVertical, Eye, EyeOff, Search } from 'lucide-react';
+import { PlusCircle, Trash2, GripVertical, Search } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
@@ -105,7 +103,7 @@ function SelectPhonesDialog({
 }
 
 
-export function HomepageSectionEditor({ section, onUpdate, onToggleVisibility }: { section: HomepageSection; onUpdate: (sectionId: string, phoneIds: number[]) => void; onToggleVisibility: () => void; }) {
+export function HomepageSectionEditor({ section, onUpdate }: { section: HomepageSection; onUpdate: (sectionId: string, phoneIds: number[]) => void;}) {
   const [selectedPhones, setSelectedPhones] = useState<Phone[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -150,54 +148,43 @@ export function HomepageSectionEditor({ section, onUpdate, onToggleVisibility }:
   };
 
   return (
-     <Card>
-        <CardHeader className="flex-row items-start justify-between">
-            <div>
-              <CardTitle>{section.title}</CardTitle>
-              <CardDescription>{section.description}</CardDescription>
-            </div>
-            <div className="flex items-center space-x-2">
-                <Label htmlFor={`visibility-${section.id}`} className="flex items-center gap-2 text-xs">
-                    {section.isVisible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
-                    {section.isVisible ? 'Visible' : 'Hidden'}
-                </Label>
-                <Switch 
-                    id={`visibility-${section.id}`} 
-                    checked={section.isVisible}
-                    onCheckedChange={onToggleVisibility}
-                />
-            </div>
+     <div className='h-full'>
+        <CardHeader className="p-2 pt-0">
+            <CardTitle className="text-base">{section.title}</CardTitle>
+            <CardDescription className="text-xs">{section.description}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-2 h-full">
             {section.isPhoneSection ? (
               <>
-                <div className="space-y-3">
-                    {selectedPhones.map(phone => (
-                        <div 
-                            key={phone.id}
-                            className="flex items-center gap-4 p-2 border rounded-lg bg-muted/50"
-                            draggable
-                            onDragStart={(e) => handleDragStart(e, phone)}
-                            onDragOver={handleDragOver}
-                            onDrop={(e) => handleDrop(e, phone)}
-                        >
-                            <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
-                            <div className="relative w-12 h-16 flex-shrink-0">
-                               <Image src={phone.image} alt={phone.model} fill className="object-contain" data-ai-hint="mobile phone" />
+                <ScrollArea className="h-64">
+                    <div className="space-y-2 pr-4">
+                        {selectedPhones.map(phone => (
+                            <div 
+                                key={phone.id}
+                                className="flex items-center gap-4 p-2 border rounded-lg bg-muted/50"
+                                draggable
+                                onDragStart={(e) => handleDragStart(e, phone)}
+                                onDragOver={handleDragOver}
+                                onDrop={(e) => handleDrop(e, phone)}
+                            >
+                                <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
+                                <div className="relative w-10 h-12 flex-shrink-0">
+                                   <Image src={phone.image} alt={phone.model} fill className="object-contain" data-ai-hint="mobile phone" />
+                                </div>
+                                <div className="flex-grow">
+                                    <p className="font-semibold text-xs">{phone.brand}</p>
+                                    <p className="text-xs text-muted-foreground">{phone.model}</p>
+                                </div>
+                                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => handleRemove(phone.id)}>
+                                    <Trash2 className="h-4 w-4 text-destructive" />
+                                </Button>
                             </div>
-                            <div className="flex-grow">
-                                <p className="font-semibold">{phone.brand}</p>
-                                <p className="text-sm text-muted-foreground">{phone.model}</p>
-                            </div>
-                            <Button variant="ghost" size="icon" onClick={() => handleRemove(phone.id)}>
-                                <Trash2 className="h-4 w-4 text-destructive" />
-                            </Button>
-                        </div>
-                    ))}
-                </div>
-                 <Button variant="dashed" className="w-full mt-4" onClick={() => setIsDialogOpen(true)}>
+                        ))}
+                    </div>
+                </ScrollArea>
+                 <Button variant="outline" className="w-full mt-2" onClick={() => setIsDialogOpen(true)}>
                     <PlusCircle className="mr-2 h-4 w-4" />
-                    Add Phone
+                    Add / Remove Phones
                 </Button>
                 
                 <SelectPhonesDialog 
@@ -209,13 +196,12 @@ export function HomepageSectionEditor({ section, onUpdate, onToggleVisibility }:
                 />
               </>
             ) : (
-                <div className="text-center py-12 border-2 border-dashed rounded-lg">
-                    <p className="text-muted-foreground">This section is managed elsewhere.</p>
-                    <Badge variant="secondary" className="mt-2">e.g., News, Blog, or Events page</Badge>
+                <div className="text-center py-12 border-2 border-dashed rounded-lg h-full flex flex-col justify-center items-center">
+                    <p className="text-muted-foreground text-sm">This section is managed elsewhere.</p>
+                    <Badge variant="secondary" className="mt-2">e.g., News or Blog page</Badge>
                 </div>
             )}
         </CardContent>
-     </Card>
+     </div>
   );
 }
-

@@ -5,15 +5,18 @@ import { useState, useEffect, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { allPhones } from '@/lib/data';
 import type { Phone } from '@/lib/types';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Eye, EyeOff, Save, GripVertical, Settings, ChevronRight } from "lucide-react";
+import { Save, PanelRightOpen, PanelRightClose, Eye, EyeOff, GripVertical } from "lucide-react";
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertTriangle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { HomepageSectionEditor } from './components/section-editor';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { PhoneCard } from '@/components/phone-card';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
 
 // Type definition for a homepage section
 export type HomepageSection = {
@@ -50,16 +53,18 @@ const initialSections: HomepageSection[] = [
 export default function HomepageContentPage() {
   const [sections, setSections] = useState<HomepageSection[]>(initialSections);
   const [activeSectionId, setActiveSectionId] = useState<string | null>(initialSections[0]?.id || null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { toast } = useToast();
 
   const activeSection = sections.find(s => s.id === activeSectionId);
+  const visibleSections = sections.filter(s => s.isVisible);
 
   const toggleVisibility = (id: string) => {
     setSections(sections.map(section => 
       section.id === id ? { ...section, isVisible: !section.isVisible } : section
     ));
   };
-
+  
   const updateSectionContent = useCallback((sectionId: string, newPhoneIds: number[]) => {
     setSections(prevSections => 
         prevSections.map(section => 
@@ -75,78 +80,140 @@ export default function HomepageContentPage() {
       description: 'The new homepage configuration has been saved.',
     });
   };
+  
+  const [draggedItem, setDraggedItem] = useState<HomepageSection | null>(null);
+
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, item: HomepageSection) => {
+    setDraggedItem(item);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, targetItem: HomepageSection) => {
+    if (!draggedItem) return;
+
+    const currentIndex = sections.indexOf(draggedItem);
+    const targetIndex = sections.indexOf(targetItem);
+    
+    if (currentIndex === -1 || targetIndex === -1) return;
+
+    let newSections = [...sections];
+    newSections.splice(currentIndex, 1);
+    newSections.splice(targetIndex, 0, draggedItem);
+
+    setSections(newSections);
+    setDraggedItem(null);
+  };
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <div>
-            <h1 className="text-3xl font-bold tracking-tight">Homepage Content & Layout</h1>
-            <p className="text-muted-foreground">
-            Select a section to manage its content and settings.
-            </p>
-        </div>
-        <Button onClick={handleSaveLayout}>
-            <Save className="mr-2 h-4 w-4" />
-            Save Layout
-        </Button>
-      </div>
-
-       <Alert>
-          <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>Simulation</AlertTitle>
-          <AlertDescription>
-            This is a layout and content manager simulation. Saving will log the new configuration to the console. The live homepage currently uses static data.
-          </AlertDescription>
-        </Alert>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-1">
-          <Card>
-            <CardHeader>
-              <CardTitle>Homepage Sections</CardTitle>
-              <CardDescription>Click a section to edit its content. Drag to reorder.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-                {sections.map((section) => (
-                    <Card 
-                        key={section.id} 
-                        className={cn(
-                            "p-3 transition-colors cursor-pointer",
-                            activeSectionId === section.id ? "bg-primary/10 border-primary" : "hover:bg-muted"
-                        )}
-                        onClick={() => setActiveSectionId(section.id)}
-                    >
-                        <div className="flex items-center">
-                            <GripVertical className="h-5 w-5 text-muted-foreground" />
-                            <div className="flex-grow ml-3">
-                                <p className="font-semibold text-sm">{section.title}</p>
-                                <p className="text-xs text-muted-foreground">{section.description}</p>
-                            </div>
-                            <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                        </div>
+    <div className="flex h-[calc(100vh-10rem)]">
+        <main className={cn("flex-1 transition-all duration-300 overflow-y-auto pr-4", isSidebarOpen ? "lg:mr-[450px]" : "mr-0")}>
+             <div className="flex items-center justify-between mb-4 p-1 sticky top-0 bg-muted/80 backdrop-blur-sm z-10 rounded-md">
+                <div>
+                    <h1 className="text-2xl font-bold tracking-tight">Homepage Live Preview</h1>
+                    <p className="text-sm text-muted-foreground">
+                    Edit content in the sidebar to see it update here.
+                    </p>
+                </div>
+                 <div className="flex items-center gap-2">
+                    <Button onClick={handleSaveLayout}>
+                        <Save className="mr-2 h-4 w-4" />
+                        Save Layout
+                    </Button>
+                    <Button variant="outline" size="icon" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                        {isSidebarOpen ? <PanelRightClose /> : <PanelRightOpen />}
+                    </Button>
+                </div>
+            </div>
+             <Alert>
+                <AlertTriangle className="h-4 w-4" />
+                <AlertTitle>Simulation</AlertTitle>
+                <AlertDescription>
+                    This is a layout and content manager simulation. Saving will log the new configuration to the console.
+                </AlertDescription>
+            </Alert>
+            <div className="space-y-4 mt-4">
+                {visibleSections.map(section => (
+                    <Card key={section.id} className="overflow-hidden">
+                        <CardHeader>
+                            <CardTitle>{section.title}</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                             {section.isPhoneSection ? (
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                                {section.selectedPhoneIds.map(id => {
+                                    const phone = allPhones.find(p => p.id === id);
+                                    if (!phone) return null;
+                                    return <PhoneCard key={id} phone={phone} onAddToCompare={() => {}}/>
+                                })}
+                                </div>
+                            ) : (
+                                <p className="text-muted-foreground text-center py-8">Non-phone section placeholder.</p>
+                            )}
+                        </CardContent>
                     </Card>
                 ))}
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="lg:col-span-2">
-          {activeSection ? (
-            <HomepageSectionEditor 
-                key={activeSection.id}
-                section={activeSection}
-                onUpdate={updateSectionContent}
-                onToggleVisibility={() => toggleVisibility(activeSection.id)}
-            />
-          ) : (
-            <Card className="h-full flex items-center justify-center">
-                <CardContent className="text-center">
-                    <p className="text-muted-foreground">Select a section from the left to begin editing.</p>
+            </div>
+        </main>
+        
+        <aside className={cn("fixed top-[4.5rem] right-4 bottom-4 z-20 transition-transform duration-300 ease-in-out", isSidebarOpen ? "translate-x-0" : "translate-x-[calc(100%+2rem)]")}>
+             <Card className="h-full w-[450px] flex flex-col">
+                <CardHeader>
+                    <CardTitle>Homepage Sections</CardTitle>
+                    <CardDescription>Drag to reorder. Click to edit.</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1 flex flex-col gap-2 overflow-hidden">
+                    <ScrollArea className="flex-1 pr-4 -mr-4">
+                     <div className="space-y-2">
+                        {sections.map((section) => (
+                            <Card 
+                                key={section.id} 
+                                className={cn("p-3 transition-colors cursor-pointer", activeSectionId === section.id ? "bg-primary/10 border-primary" : "hover:bg-muted")}
+                                onClick={() => setActiveSectionId(section.id)}
+                                draggable
+                                onDragStart={(e) => handleDragStart(e, section)}
+                                onDragOver={handleDragOver}
+                                onDrop={(e) => handleDrop(e, section)}
+                            >
+                                <div className="flex items-center">
+                                    <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
+                                    <div className="flex-grow ml-3">
+                                        <p className="font-semibold text-sm">{section.title}</p>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <Label htmlFor={`vis-sidebar-${section.id}`} className="sr-only">Visibility</Label>
+                                        <Switch 
+                                            id={`vis-sidebar-${section.id}`}
+                                            checked={section.isVisible}
+                                            onCheckedChange={() => toggleVisibility(section.id)}
+                                            onClick={(e) => e.stopPropagation()}
+                                        />
+                                         {section.isVisible ? <Eye className="h-4 w-4 text-muted-foreground" /> : <EyeOff className="h-4 w-4 text-muted-foreground" />}
+                                    </div>
+                                </div>
+                            </Card>
+                        ))}
+                      </div>
+                    </ScrollArea>
+                    <Separator className="my-4"/>
+                    <div className="flex-shrink-0">
+                         {activeSection ? (
+                            <HomepageSectionEditor 
+                                key={activeSection.id}
+                                section={activeSection}
+                                onUpdate={updateSectionContent}
+                            />
+                          ) : (
+                            <div className="text-center text-muted-foreground py-12">
+                                <p>Select a section to edit.</p>
+                            </div>
+                          )}
+                    </div>
                 </CardContent>
             </Card>
-          )}
-        </div>
-      </div>
+        </aside>
     </div>
   );
 }
