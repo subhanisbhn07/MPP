@@ -79,11 +79,12 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
             </div>
 
             {/* Middle part: specs */}
-            <div className="my-2 flex flex-wrap gap-x-3 gap-y-1">
+            <div className="my-2 grid grid-cols-2 gap-x-3 gap-y-1">
                 <SpecItem icon={Smartphone} value={`${phone.specs.display.size_inches}"`} />
                 <SpecItem icon={Camera} value={phone.specs.main_camera.main_sensor_resolution} />
                 <SpecItem icon={Battery} value={phone.specs.battery.capacity_mah} />
                 <SpecItem icon={Cpu} value={phone.specs.platform.chipset.split(' ')[0]} />
+                <SpecItem icon={Cpu} value={phone.specs.memory.ram_capacities} />
             </div>
 
             {/* Bottom part: rating and compare button */}
