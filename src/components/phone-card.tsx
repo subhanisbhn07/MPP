@@ -60,7 +60,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                     <span className="sr-only">Wishlist</span>
                 </Button>
             )}
-            <div className="relative w-full h-full">
+            <div className="relative w-full h-full min-h-[150px]">
               <Image
                   src={phone.image}
                   alt={`${phone.brand} ${phone.model}`}
