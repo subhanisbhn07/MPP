@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -122,7 +123,7 @@ export default function HomepageContentPage() {
         </Button>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4 flex-1 overflow-hidden">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4 flex-1 min-h-0">
         {/* Left Side: Editor */}
         <div className="lg:col-span-1 flex flex-col gap-4 min-h-0">
           <Card className="flex-1 flex flex-col">
@@ -135,37 +136,37 @@ export default function HomepageContentPage() {
                 {sections.map((section) => (
                   <div 
                       key={section.id}
-                      onDragOver={handleDragOver}
-                      onDrop={(e) => handleDrop(e, section)}
                       className="border-b"
                   >
                       <AccordionItem value={section.id} className="border-b-0">
-                           <AccordionTrigger>
-                              <div className="flex items-center w-full">
-                                  <div 
-                                    draggable 
-                                    onDragStart={(e) => handleDragStart(e, section)} 
-                                    className="p-1 cursor-grab"
-                                    onClick={(e) => e.stopPropagation()}
-                                  >
-                                    <GripVertical className="h-5 w-5 text-muted-foreground" />
-                                  </div>
-                                  <div className="flex-grow ml-2">
-                                      <p className="font-semibold text-sm text-left">{section.title}</p>
-                                      <p className="text-xs text-muted-foreground text-left">{section.description}</p>
-                                  </div>
-                                  <div className="flex items-center gap-2 ml-4">
-                                      <Label htmlFor={`vis-sidebar-${section.id}`} className="sr-only">Visibility</Label>
-                                      <Switch 
-                                          id={`vis-sidebar-${section.id}`}
-                                          checked={section.isVisible}
-                                          onCheckedChange={() => toggleVisibility(section.id)}
-                                          onClick={(e) => e.stopPropagation()}
-                                      />
-                                       {section.isVisible ? <Eye className="h-4 w-4 text-muted-foreground" /> : <EyeOff className="h-4 w-4 text-muted-foreground" />}
-                                  </div>
+                           <div 
+                              className="flex items-center w-full"
+                              onDragOver={handleDragOver}
+                              onDrop={(e) => handleDrop(e, section)}
+                            >
+                              <div 
+                                draggable 
+                                onDragStart={(e) => handleDragStart(e, section)} 
+                                className="p-1 cursor-grab"
+                              >
+                                <GripVertical className="h-5 w-5 text-muted-foreground" />
                               </div>
-                           </AccordionTrigger>
+                              <AccordionTrigger className="flex-grow pl-2 pr-0 py-2 text-left">
+                                  <div>
+                                      <p className="font-semibold text-sm">{section.title}</p>
+                                      <p className="text-xs text-muted-foreground">{section.description}</p>
+                                  </div>
+                              </AccordionTrigger>
+                              <div className="flex items-center gap-2 pl-4 pr-1">
+                                  <Label htmlFor={`vis-sidebar-${section.id}`} className="sr-only">Visibility</Label>
+                                  <Switch 
+                                      id={`vis-sidebar-${section.id}`}
+                                      checked={section.isVisible}
+                                      onCheckedChange={() => toggleVisibility(section.id)}
+                                  />
+                                   {section.isVisible ? <Eye className="h-4 w-4 text-muted-foreground" /> : <EyeOff className="h-4 w-4 text-muted-foreground" />}
+                              </div>
+                           </div>
                            <AccordionContent className="pl-2 pr-1">
                                <HomepageSectionEditor 
                                   section={section}
