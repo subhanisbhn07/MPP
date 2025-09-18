@@ -73,7 +73,7 @@ export default function ProfilePage() {
                 </CardHeader>
                 <CardContent>
                     {wishlistPhones.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             {wishlistPhones.map(phone => (
                                 <PhoneCard key={phone.id} phone={phone} onAddToCompare={handleAddToCompare} />
                             ))}

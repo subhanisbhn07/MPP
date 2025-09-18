@@ -314,7 +314,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-3">
               {popularPhones.map((phone, index) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -334,7 +334,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-3">
               {latestPhones.map((phone, index) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -354,7 +354,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-3">
               {iosPhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
                    <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -374,7 +374,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-3">
               {androidPhones.map((phone) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -456,7 +456,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-3">
               {flagshipPhones.map((phone, index) => (
                 <li role="listitem" key={phone.id}>
                    <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -476,7 +476,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-3">
               {batteryPhones.map((phone, index) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -496,7 +496,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-3">
               {performancePhones.map((phone, index) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -516,7 +516,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-3">
               {cameraPhones.map((phone, index) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -536,7 +536,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-3">
               {foldablePhones.map((phone, index) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -556,7 +556,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-3">
               {ruggedPhones.map((phone, index) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -576,7 +576,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2 lg:gap-3">
               {uniquePhones.map((phone, index) => (
                 <li role="listitem" key={phone.id}>
                   <article aria-label={`${phone.brand} ${phone.model}`}>
