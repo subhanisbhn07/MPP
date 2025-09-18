@@ -120,8 +120,3 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
     </Card>
   );
 }
-
-
-
-
-
