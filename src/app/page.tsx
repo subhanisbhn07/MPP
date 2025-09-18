@@ -54,6 +54,7 @@ import type { Phone } from '@/lib/types';
 import { AddPhoneDialog } from '@/app/compare/components/add-phone-dialog';
 import { Separator } from '@/components/ui/separator';
 import { specCategories } from '@/lib/categories';
+import { useBreakpoint } from '@/hooks/use-breakpoint';
 
 const CompareSlot = ({ phone, onAdd, onRemove }: { phone: Phone | null, onAdd: () => void, onRemove: () => void }) => {
     if (!phone) {
@@ -121,6 +122,13 @@ export default function Home() {
   const [compareSlot, setCompareSlot] = useState<number | null>(null);
   const [phone1, setPhone1] = useState<Phone | null>(null);
   const [phone2, setPhone2] = useState<Phone | null>(null);
+  const breakpoint = useBreakpoint();
+
+  const phonesToShow = useMemo(() => {
+    if (breakpoint === 'lg') return 12;
+    if (breakpoint === 'md') return 8;
+    return 6;
+  }, [breakpoint]);
 
   const popularPhones = allPhones;
   const latestPhones = [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime());
@@ -183,6 +191,18 @@ export default function Home() {
       ["Sony Xperia 1 VI", "iPhone 15 Pro Max"],
   ];
   
+  const renderPhoneList = (phones: Phone[]) => (
+    <ul role="list" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+      {phones.slice(0, phonesToShow).map((phone) => (
+        <li role="listitem" key={phone.id}>
+          <article aria-label={`${phone.brand} ${phone.model}`}>
+            <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
+          </article>
+        </li>
+      ))}
+    </ul>
+  );
+
   return (
     <div className="px-4 space-y-4 pb-4">
        {/* Skip link */}
@@ -314,15 +334,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {popularPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id}>
-                  <article aria-label={`${phone.brand} ${phone.model}`}>
-                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
-                  </article>
-                </li>
-              ))}
-            </ul>
+            {renderPhoneList(popularPhones)}
           </CardContent>
         </Card>
 
@@ -334,15 +346,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {latestPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id}>
-                  <article aria-label={`${phone.brand} ${phone.model}`}>
-                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
-                  </article>
-                </li>
-              ))}
-            </ul>
+            {renderPhoneList(latestPhones)}
           </CardContent>
         </Card>
         
@@ -354,15 +358,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {iosPhones.map((phone) => (
-                <li role="listitem" key={phone.id}>
-                   <article aria-label={`${phone.brand} ${phone.model}`}>
-                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
-                  </article>
-                </li>
-              ))}
-            </ul>
+            {renderPhoneList(iosPhones)}
           </CardContent>
         </Card>
 
@@ -374,15 +370,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {androidPhones.map((phone) => (
-                <li role="listitem" key={phone.id}>
-                  <article aria-label={`${phone.brand} ${phone.model}`}>
-                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
-                  </article>
-                </li>
-              ))}
-            </ul>
+            {renderPhoneList(androidPhones)}
           </CardContent>
         </Card>
         
@@ -456,15 +444,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {flagshipPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id}>
-                   <article aria-label={`${phone.brand} ${phone.model}`}>
-                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
-                  </article>
-                </li>
-              ))}
-            </ul>
+            {renderPhoneList(flagshipPhones)}
           </CardContent>
         </Card>
         
@@ -476,15 +456,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {batteryPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id}>
-                  <article aria-label={`${phone.brand} ${phone.model}`}>
-                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
-                  </article>
-                </li>
-              ))}
-            </ul>
+            {renderPhoneList(batteryPhones)}
           </CardContent>
         </Card>
         
@@ -496,15 +468,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {performancePhones.map((phone, index) => (
-                <li role="listitem" key={phone.id}>
-                  <article aria-label={`${phone.brand} ${phone.model}`}>
-                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
-                  </article>
-                </li>
-              ))}
-            </ul>
+            {renderPhoneList(performancePhones)}
           </CardContent>
         </Card>
 
@@ -516,15 +480,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {cameraPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id}>
-                  <article aria-label={`${phone.brand} ${phone.model}`}>
-                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
-                  </article>
-                </li>
-              ))}
-            </ul>
+            {renderPhoneList(cameraPhones)}
           </CardContent>
         </Card>
 
@@ -536,15 +492,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {foldablePhones.map((phone, index) => (
-                <li role="listitem" key={phone.id}>
-                  <article aria-label={`${phone.brand} ${phone.model}`}>
-                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
-                  </article>
-                </li>
-              ))}
-            </ul>
+            {renderPhoneList(foldablePhones)}
           </CardContent>
         </Card>
 
@@ -556,15 +504,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {ruggedPhones.map((phone, index) => (
-                <li role="listitem" key={phone.id}>
-                  <article aria-label={`${phone.brand} ${phone.model}`}>
-                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
-                  </article>
-                </li>
-              ))}
-            </ul>
+            {renderPhoneList(ruggedPhones)}
           </CardContent>
         </Card>
 
@@ -576,15 +516,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent>
-            <ul role="list" className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {uniquePhones.map((phone, index) => (
-                <li role="listitem" key={phone.id}>
-                  <article aria-label={`${phone.brand} ${phone.model}`}>
-                    <PhoneCard phone={phone} onAddToCompare={handleAddToCompare} />
-                  </article>
-                </li>
-              ))}
-            </ul>
+            {renderPhoneList(uniquePhones)}
           </CardContent>
         </Card>
 
