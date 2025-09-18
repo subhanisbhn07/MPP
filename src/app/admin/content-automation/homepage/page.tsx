@@ -53,7 +53,6 @@ const initialSections: HomepageSection[] = [
 export default function HomepageContentPage() {
   const [sections, setSections] = useState<HomepageSection[]>(initialSections);
   const [activeSectionId, setActiveSectionId] = useState<string | null>(initialSections[0]?.id || null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { toast } = useToast();
 
   const activeSection = sections.find(s => s.id === activeSectionId);
@@ -108,122 +107,122 @@ export default function HomepageContentPage() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-10rem)]">
-        <main className={cn("flex-1 transition-all duration-300 pr-4 flex justify-center items-center", isSidebarOpen ? "lg:mr-[450px]" : "mr-0")}>
-            <div className="w-full max-w-[420px] mx-auto">
-                 <div className="flex items-center justify-between mb-2 sticky top-0 bg-muted/80 backdrop-blur-sm z-10 rounded-md p-1">
-                    <div>
-                        <h1 className="text-lg font-bold tracking-tight">Mobile Preview</h1>
-                    </div>
-                     <div className="flex items-center gap-2">
-                        <Button size="sm" onClick={handleSaveLayout}>
-                            <Save className="mr-2 h-4 w-4" />
-                            Save
-                        </Button>
-                        <Button variant="outline" size="icon" className="h-9 w-9" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                            {isSidebarOpen ? <PanelRightClose /> : <PanelRightOpen />}
-                        </Button>
-                    </div>
-                </div>
-
-                <div className="relative mx-auto border-black dark:border-gray-800 bg-black border-[10px] rounded-[2.5rem] h-[780px] w-full shadow-xl">
-                    <div className="w-[140px] h-[18px] bg-black top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute"></div>
-                    <div className="h-[46px] w-[3px] bg-black absolute -left-[13px] top-[72px] rounded-l-lg"></div>
-                    <div className="h-[46px] w-[3px] bg-black absolute -left-[13px] top-[124px] rounded-l-lg"></div>
-                    <div className="h-[64px] w-[3px] bg-black absolute -right-[13px] top-[142px] rounded-r-lg"></div>
-                    <div className="rounded-[2rem] overflow-hidden w-full h-full bg-background">
-                         <ScrollArea className="h-full w-full">
-                            <div className="p-2 space-y-4">
-                                 <Alert className="scale-90">
-                                    <AlertTriangle className="h-4 w-4" />
-                                    <AlertTitle>Simulation</AlertTitle>
-                                    <AlertDescription>
-                                        This is a layout and content manager simulation. Saving will log the new configuration to the console.
-                                    </AlertDescription>
-                                </Alert>
-                                {visibleSections.map(section => (
-                                    <Card key={section.id} className="overflow-hidden !p-0">
-                                        <CardHeader className="p-3">
-                                            <CardTitle className="text-lg">{section.title}</CardTitle>
-                                        </CardHeader>
-                                        <CardContent className="p-3">
-                                             {section.isPhoneSection ? (
-                                                <div className="grid grid-cols-1 gap-2">
-                                                {section.selectedPhoneIds.slice(0, 6).map(id => {
-                                                    const phone = allPhones.find(p => p.id === id);
-                                                    if (!phone) return null;
-                                                    return <PhoneCard key={id} phone={phone} onAddToCompare={() => {}}/>
-                                                })}
-                                                </div>
-                                            ) : (
-                                                <p className="text-muted-foreground text-center py-8 text-sm">Non-phone section placeholder.</p>
-                                            )}
-                                        </CardContent>
-                                    </Card>
-                                ))}
-                            </div>
-                        </ScrollArea>
-                    </div>
-                </div>
+    <div className="flex flex-col h-[calc(100vh-6rem)]">
+        <div className="flex items-center justify-between pb-4 border-b">
+             <div>
+                <h1 className="text-3xl font-bold tracking-tight">Homepage Builder</h1>
+                <p className="text-muted-foreground">Drag, drop, and edit sections to build your homepage.</p>
             </div>
-        </main>
-        
-        <aside className={cn("fixed top-[4.5rem] right-4 bottom-4 z-20 transition-transform duration-300 ease-in-out", isSidebarOpen ? "translate-x-0" : "translate-x-[calc(100%+2rem)]")}>
-             <Card className="h-full w-[450px] flex flex-col">
-                <CardHeader>
-                    <CardTitle>Homepage Sections</CardTitle>
-                    <CardDescription>Drag to reorder. Click to edit.</CardDescription>
-                </CardHeader>
-                <CardContent className="flex-1 flex flex-col gap-2 overflow-hidden">
-                    <ScrollArea className="flex-1 pr-4 -mr-4">
-                     <div className="space-y-2">
-                        {sections.map((section) => (
-                            <Card 
-                                key={section.id} 
-                                className={cn("p-3 transition-colors cursor-pointer", activeSectionId === section.id ? "bg-primary/10 border-primary" : "hover:bg-muted")}
-                                onClick={() => setActiveSectionId(section.id)}
-                                draggable
-                                onDragStart={(e) => handleDragStart(e, section)}
-                                onDragOver={handleDragOver}
-                                onDrop={(e) => handleDrop(e, section)}
-                            >
-                                <div className="flex items-center">
-                                    <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
-                                    <div className="flex-grow ml-3">
-                                        <p className="font-semibold text-sm">{section.title}</p>
+            <Button size="lg" onClick={handleSaveLayout}>
+                <Save className="mr-2 h-4 w-4" />
+                Save Layout
+            </Button>
+        </div>
+        <div className="flex-1 grid md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4 overflow-hidden">
+            
+            {/* Left Side: Editor */}
+            <div className="lg:col-span-1 flex flex-col gap-4">
+                 <Card className="h-full flex flex-col">
+                    <CardHeader>
+                        <CardTitle>Homepage Sections</CardTitle>
+                        <CardDescription>Drag to reorder. Click to edit.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex-1 flex flex-col gap-2 overflow-hidden">
+                        <ScrollArea className="flex-1 pr-4 -mr-4">
+                         <div className="space-y-2">
+                            {sections.map((section) => (
+                                <Card 
+                                    key={section.id} 
+                                    className={cn("p-3 transition-colors cursor-pointer", activeSectionId === section.id ? "bg-primary/10 border-primary" : "hover:bg-muted")}
+                                    onClick={() => setActiveSectionId(section.id)}
+                                    draggable
+                                    onDragStart={(e) => handleDragStart(e, section)}
+                                    onDragOver={handleDragOver}
+                                    onDrop={(e) => handleDrop(e, section)}
+                                >
+                                    <div className="flex items-center">
+                                        <GripVertical className="h-5 w-5 text-muted-foreground cursor-grab" />
+                                        <div className="flex-grow ml-3">
+                                            <p className="font-semibold text-sm">{section.title}</p>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <Label htmlFor={`vis-sidebar-${section.id}`} className="sr-only">Visibility</Label>
+                                            <Switch 
+                                                id={`vis-sidebar-${section.id}`}
+                                                checked={section.isVisible}
+                                                onCheckedChange={() => toggleVisibility(section.id)}
+                                                onClick={(e) => e.stopPropagation()}
+                                            />
+                                             {section.isVisible ? <Eye className="h-4 w-4 text-muted-foreground" /> : <EyeOff className="h-4 w-4 text-muted-foreground" />}
+                                        </div>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <Label htmlFor={`vis-sidebar-${section.id}`} className="sr-only">Visibility</Label>
-                                        <Switch 
-                                            id={`vis-sidebar-${section.id}`}
-                                            checked={section.isVisible}
-                                            onCheckedChange={() => toggleVisibility(section.id)}
-                                            onClick={(e) => e.stopPropagation()}
-                                        />
-                                         {section.isVisible ? <Eye className="h-4 w-4 text-muted-foreground" /> : <EyeOff className="h-4 w-4 text-muted-foreground" />}
-                                    </div>
+                                </Card>
+                            ))}
+                          </div>
+                        </ScrollArea>
+                        <Separator className="my-4"/>
+                        <div className="flex-shrink-0 h-96">
+                             {activeSection ? (
+                                <HomepageSectionEditor 
+                                    key={activeSection.id}
+                                    section={activeSection}
+                                    onUpdate={updateSectionContent}
+                                />
+                              ) : (
+                                <div className="text-center text-muted-foreground py-12 h-full flex items-center justify-center">
+                                    <p>Select a section to edit its content.</p>
                                 </div>
-                            </Card>
-                        ))}
-                      </div>
-                    </ScrollArea>
-                    <Separator className="my-4"/>
-                    <div className="flex-shrink-0">
-                         {activeSection ? (
-                            <HomepageSectionEditor 
-                                key={activeSection.id}
-                                section={activeSection}
-                                onUpdate={updateSectionContent}
-                            />
-                          ) : (
-                            <div className="text-center text-muted-foreground py-12">
-                                <p>Select a section to edit.</p>
-                            </div>
-                          )}
+                              )}
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+            
+            {/* Right Side: Preview */}
+            <main className="lg:col-span-2 flex justify-center items-start overflow-hidden">
+                <div className="w-full max-w-[420px]">
+                    <div className="relative mx-auto border-black dark:border-gray-800 bg-black border-[10px] rounded-[2.5rem] h-[calc(100vh-10rem)] w-full shadow-xl">
+                        <div className="w-[140px] h-[18px] bg-black top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute"></div>
+                        <div className="h-[46px] w-[3px] bg-black absolute -left-[13px] top-[72px] rounded-l-lg"></div>
+                        <div className="h-[46px] w-[3px] bg-black absolute -left-[13px] top-[124px] rounded-l-lg"></div>
+                        <div className="h-[64px] w-[3px] bg-black absolute -right-[13px] top-[142px] rounded-r-lg"></div>
+                        <div className="rounded-[2rem] overflow-hidden w-full h-full bg-background">
+                             <ScrollArea className="h-full w-full">
+                                <div className="p-2 space-y-4">
+                                     <Alert className="scale-90">
+                                        <AlertTriangle className="h-4 w-4" />
+                                        <AlertTitle>Live Mobile Preview</AlertTitle>
+                                        <AlertDescription>
+                                            This is a preview of the mobile homepage layout.
+                                        </AlertDescription>
+                                    </Alert>
+                                    {visibleSections.map(section => (
+                                        <Card key={section.id} className="overflow-hidden !p-0">
+                                            <CardHeader className="p-3">
+                                                <CardTitle className="text-lg">{section.title}</CardTitle>
+                                            </CardHeader>
+                                            <CardContent className="p-3">
+                                                 {section.isPhoneSection ? (
+                                                    <div className="grid grid-cols-1 gap-2">
+                                                    {section.selectedPhoneIds.slice(0, 6).map(id => {
+                                                        const phone = allPhones.find(p => p.id === id);
+                                                        if (!phone) return null;
+                                                        return <PhoneCard key={id} phone={phone} onAddToCompare={() => {}}/>
+                                                    })}
+                                                    </div>
+                                                ) : (
+                                                    <p className="text-muted-foreground text-center py-8 text-sm">Non-phone section placeholder.</p>
+                                                )}
+                                            </CardContent>
+                                        </Card>
+                                    ))}
+                                </div>
+                            </ScrollArea>
+                        </div>
                     </div>
-                </CardContent>
-            </Card>
-        </aside>
+                </div>
+            </main>
+        </div>
     </div>
   );
 }
