@@ -91,9 +91,9 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                     <SpecItem icon={Smartphone} value={`${phone.specs.display.size_inches}"`} />
                     <SpecItem icon={Camera} value={phone.specs.main_camera.main_sensor_resolution} />
                     <SpecItem icon={Battery} value={phone.specs.battery.capacity_mah} />
-                    <SpecItem icon={RefreshCw} value={`${phone.specs.display.refresh_rate_hz}Hz`} />
-                    <SpecItem icon={MemoryStick} value={phone.specs.memory.storage_type} />
                     <SpecItem icon={Cpu} value={phone.specs.memory.ram_capacities} />
+                    <SpecItem icon={MemoryStick} value={phone.specs.memory.storage_type} />
+                    <SpecItem icon={RefreshCw} value={`${phone.specs.display.refresh_rate_hz}Hz`} />
                 </div>
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <Cpu className="h-4 w-4 flex-shrink-0" />
