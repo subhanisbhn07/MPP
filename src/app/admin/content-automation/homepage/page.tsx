@@ -6,17 +6,15 @@ import { useToast } from '@/hooks/use-toast';
 import { allPhones } from '@/lib/data';
 import type { Phone } from '@/lib/types';
 import { Button } from "@/components/ui/button";
-import { Save, PanelRightOpen, PanelRightClose, Eye, EyeOff, GripVertical } from "lucide-react";
+import { Save, Eye, EyeOff, GripVertical } from "lucide-react";
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertTriangle } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { HomepageSectionEditor } from './components/section-editor';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { PhoneCard } from '@/components/phone-card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
 import {
   Accordion,
   AccordionContent,
@@ -112,7 +110,7 @@ export default function HomepageContentPage() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-6rem)]">
+    <div className="flex flex-col h-[calc(100vh-5rem)]">
       <div className="flex items-center justify-between pb-4 border-b">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Homepage Builder</h1>
@@ -124,9 +122,9 @@ export default function HomepageContentPage() {
         </Button>
       </div>
 
-      <div className="flex-1 grid md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4 overflow-y-hidden">
+      <div className="flex-1 grid md:grid-cols-2 lg:grid-cols-3 gap-8 pt-4 overflow-hidden">
         {/* Left Side: Editor */}
-        <div className="lg:col-span-1 flex flex-col gap-4 overflow-y-hidden">
+        <div className="lg:col-span-1 flex flex-col gap-4 min-h-0">
           <Card className="flex-1 flex flex-col">
             <CardHeader>
               <CardTitle>Homepage Sections</CardTitle>
@@ -185,7 +183,7 @@ export default function HomepageContentPage() {
                   <div className="h-[46px] w-[3px] bg-black absolute -left-[13px] top-[72px] rounded-l-lg"></div>
                   <div className="h-[46px] w-[3px] bg-black absolute -left-[13px] top-[124px] rounded-l-lg"></div>
                   <div className="h-[64px] w-[3px] bg-black absolute -right-[13px] top-[142px] rounded-r-lg"></div>
-                  <div className="rounded-[2rem] overflow-hidden w-full h-[calc(100vh-14rem)] bg-background">
+                  <div className="rounded-[2rem] overflow-hidden w-full h-[calc(100vh-12rem)] bg-background">
                        <ScrollArea className="h-full w-full">
                           <div className="p-2 space-y-2">
                                <Alert className="scale-90">
