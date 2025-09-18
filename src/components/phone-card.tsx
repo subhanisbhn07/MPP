@@ -18,7 +18,7 @@ const SpecItem = ({ icon: Icon, value, label }: { icon: React.ElementType, value
     <div className="text-center p-2 border rounded-md">
         <Icon className="h-5 w-5 mx-auto mb-1 text-muted-foreground" />
         <p className="text-xs font-bold leading-tight">{value}</p>
-        <p className="text-[10px] text-muted-foreground">{label}</p>
+        <p className="text-[10px] text-muted-foreground h-6 flex items-center justify-center">{label}</p>
     </div>
 );
 
