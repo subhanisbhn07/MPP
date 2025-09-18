@@ -119,17 +119,17 @@ function SelectPhonesDialog({
 
 // Initial configuration for each content section card
 const initialSections: HomepageSection[] = [
-    { id: 'trendingPhones', title: 'Trending Phones', description: 'A list of 6 trending phones currently popular in the market.', isVisible: true, selectedPhoneIds: [1, 2, 3, 4, 5, 6], maxSelect: 6 },
-    { id: 'latestPhones', title: 'Latest Launches', description: 'A list of the 6 most recently launched phones.', isVisible: true, selectedPhoneIds: [10, 9, 8, 7, 5, 2], maxSelect: 6 },
-    { id: 'flagshipPhones', title: 'Flagship Phones', description: 'A list of 6 flagship-tier phones.', isVisible: true, selectedPhoneIds: [], maxSelect: 6 },
-    { id: 'performancePhones', title: 'Best for Gaming', description: 'A list of 6 phones best for gaming and performance.', isVisible: true, selectedPhoneIds: [], maxSelect: 6 },
-    { id: 'batteryPhones', title: 'Longest Battery Life', description: 'A list of 6 phones with the best battery life.', isVisible: true, selectedPhoneIds: [], maxSelect: 6 },
-    { id: 'cameraPhones', title: 'Top Camera Phones', description: 'A list of 6 phones with the best camera systems.', isVisible: true, selectedPhoneIds: [], maxSelect: 6 },
-    { id: 'foldablePhones', title: 'Foldable Phones', description: 'A list of 6 popular foldable phones.', isVisible: true, selectedPhoneIds: [4, 5, 6, 8, 19, 20], maxSelect: 6 },
-    { id: 'ruggedPhones', title: 'Rugged & Durable Phones', description: 'A list of 6 rugged and durable phones.', isVisible: true, selectedPhoneIds: [], maxSelect: 6 },
-    { id: 'uniquePhones', title: 'Unique & Niche Phones', description: 'A list of 6 unique or niche-market phones.', isVisible: true, selectedPhoneIds: [], maxSelect: 6 },
-    { id: 'iosPhones', title: 'Top iOS Phones', description: 'A list of the top 6 iOS phones available.', isVisible: true, selectedPhoneIds: [], maxSelect: 6 },
-    { id: 'androidPhones', title: 'Top Android Phones', description: 'A list of the top 6 Android phones available.', isVisible: true, selectedPhoneIds: [], maxSelect: 6 },
+    { id: 'trendingPhones', title: 'Trending Phones', description: 'A list of 12 trending phones currently popular in the market.', isVisible: true, selectedPhoneIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], maxSelect: 12 },
+    { id: 'latestPhones', title: 'Latest Launches', description: 'A list of the 12 most recently launched phones.', isVisible: true, selectedPhoneIds: [10, 9, 8, 7, 5, 2, 13, 14, 15, 16, 17, 18], maxSelect: 12 },
+    { id: 'flagshipPhones', title: 'Flagship Phones', description: 'A list of 12 flagship-tier phones.', isVisible: true, selectedPhoneIds: [], maxSelect: 12 },
+    { id: 'performancePhones', title: 'Best for Gaming', description: 'A list of 12 phones best for gaming and performance.', isVisible: true, selectedPhoneIds: [], maxSelect: 12 },
+    { id: 'batteryPhones', title: 'Longest Battery Life', description: 'A list of 12 phones with the best battery life.', isVisible: true, selectedPhoneIds: [], maxSelect: 12 },
+    { id: 'cameraPhones', title: 'Top Camera Phones', description: 'A list of 12 phones with the best camera systems.', isVisible: true, selectedPhoneIds: [], maxSelect: 12 },
+    { id: 'foldablePhones', title: 'Foldable Phones', description: 'A list of 12 popular foldable phones.', isVisible: true, selectedPhoneIds: [4, 5, 6, 8, 19, 20], maxSelect: 12 },
+    { id: 'ruggedPhones', title: 'Rugged & Durable Phones', description: 'A list of 12 rugged and durable phones.', isVisible: true, selectedPhoneIds: [], maxSelect: 12 },
+    { id: 'uniquePhones', title: 'Unique & Niche Phones', description: 'A list of 12 unique or niche-market phones.', isVisible: true, selectedPhoneIds: [], maxSelect: 12 },
+    { id: 'iosPhones', title: 'Top iOS Phones', description: 'A list of the top 12 iOS phones available.', isVisible: true, selectedPhoneIds: [], maxSelect: 12 },
+    { id: 'androidPhones', title: 'Top Android Phones', description: 'A list of the top 12 Android phones available.', isVisible: true, selectedPhoneIds: [], maxSelect: 12 },
     { id: 'upcomingEvents', title: 'Upcoming Calendar', description: 'A list of upcoming mobile phone launch events.', isVisible: false, selectedPhoneIds: [], maxSelect: 0 },
     { id: 'guides', title: 'Guides', description: 'A list of interesting guides or deep-dive topics.', isVisible: false, selectedPhoneIds: [], maxSelect: 0 },
     { id: 'leaks', title: 'Leaks & Rumors', description: 'A list of recent and interesting leaks or rumors.', isVisible: false, selectedPhoneIds: [], maxSelect: 0 },
@@ -237,7 +237,7 @@ export default function HomepageContentPage() {
                 </div>
                 {hasPhoneSelection && section.selectedPhoneIds.length > 0 && (
                     <div className="ml-10 mt-3">
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                            {section.selectedPhoneIds.map(id => {
                                const phone = getPhoneById(id);
                                return phone ? (
@@ -264,4 +264,3 @@ export default function HomepageContentPage() {
     </div>
   );
 }
-
