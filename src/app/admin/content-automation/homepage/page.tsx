@@ -109,52 +109,62 @@ export default function HomepageContentPage() {
 
   return (
     <div className="flex h-[calc(100vh-10rem)]">
-        <main className={cn("flex-1 transition-all duration-300 overflow-y-auto pr-4", isSidebarOpen ? "lg:mr-[450px]" : "mr-0")}>
-             <div className="flex items-center justify-between mb-4 p-1 sticky top-0 bg-muted/80 backdrop-blur-sm z-10 rounded-md">
-                <div>
-                    <h1 className="text-2xl font-bold tracking-tight">Homepage Live Preview</h1>
-                    <p className="text-sm text-muted-foreground">
-                    Edit content in the sidebar to see it update here.
-                    </p>
+        <main className={cn("flex-1 transition-all duration-300 pr-4 flex justify-center items-center", isSidebarOpen ? "lg:mr-[450px]" : "mr-0")}>
+            <div className="w-full max-w-[420px] mx-auto">
+                 <div className="flex items-center justify-between mb-2 sticky top-0 bg-muted/80 backdrop-blur-sm z-10 rounded-md p-1">
+                    <div>
+                        <h1 className="text-lg font-bold tracking-tight">Mobile Preview</h1>
+                    </div>
+                     <div className="flex items-center gap-2">
+                        <Button size="sm" onClick={handleSaveLayout}>
+                            <Save className="mr-2 h-4 w-4" />
+                            Save
+                        </Button>
+                        <Button variant="outline" size="icon" className="h-9 w-9" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                            {isSidebarOpen ? <PanelRightClose /> : <PanelRightOpen />}
+                        </Button>
+                    </div>
                 </div>
-                 <div className="flex items-center gap-2">
-                    <Button onClick={handleSaveLayout}>
-                        <Save className="mr-2 h-4 w-4" />
-                        Save Layout
-                    </Button>
-                    <Button variant="outline" size="icon" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                        {isSidebarOpen ? <PanelRightClose /> : <PanelRightOpen />}
-                    </Button>
+
+                <div className="relative mx-auto border-black dark:border-gray-800 bg-black border-[10px] rounded-[2.5rem] h-[780px] w-full shadow-xl">
+                    <div className="w-[140px] h-[18px] bg-black top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute"></div>
+                    <div className="h-[46px] w-[3px] bg-black absolute -left-[13px] top-[72px] rounded-l-lg"></div>
+                    <div className="h-[46px] w-[3px] bg-black absolute -left-[13px] top-[124px] rounded-l-lg"></div>
+                    <div className="h-[64px] w-[3px] bg-black absolute -right-[13px] top-[142px] rounded-r-lg"></div>
+                    <div className="rounded-[2rem] overflow-hidden w-full h-full bg-background">
+                         <ScrollArea className="h-full w-full">
+                            <div className="p-2 space-y-4">
+                                 <Alert className="scale-90">
+                                    <AlertTriangle className="h-4 w-4" />
+                                    <AlertTitle>Simulation</AlertTitle>
+                                    <AlertDescription>
+                                        This is a layout and content manager simulation. Saving will log the new configuration to the console.
+                                    </AlertDescription>
+                                </Alert>
+                                {visibleSections.map(section => (
+                                    <Card key={section.id} className="overflow-hidden !p-0">
+                                        <CardHeader className="p-3">
+                                            <CardTitle className="text-lg">{section.title}</CardTitle>
+                                        </CardHeader>
+                                        <CardContent className="p-3">
+                                             {section.isPhoneSection ? (
+                                                <div className="grid grid-cols-1 gap-2">
+                                                {section.selectedPhoneIds.map(id => {
+                                                    const phone = allPhones.find(p => p.id === id);
+                                                    if (!phone) return null;
+                                                    return <PhoneCard key={id} phone={phone} onAddToCompare={() => {}}/>
+                                                })}
+                                                </div>
+                                            ) : (
+                                                <p className="text-muted-foreground text-center py-8 text-sm">Non-phone section placeholder.</p>
+                                            )}
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                            </div>
+                        </ScrollArea>
+                    </div>
                 </div>
-            </div>
-             <Alert>
-                <AlertTriangle className="h-4 w-4" />
-                <AlertTitle>Simulation</AlertTitle>
-                <AlertDescription>
-                    This is a layout and content manager simulation. Saving will log the new configuration to the console.
-                </AlertDescription>
-            </Alert>
-            <div className="space-y-4 mt-4">
-                {visibleSections.map(section => (
-                    <Card key={section.id} className="overflow-hidden">
-                        <CardHeader>
-                            <CardTitle>{section.title}</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                             {section.isPhoneSection ? (
-                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                                {section.selectedPhoneIds.map(id => {
-                                    const phone = allPhones.find(p => p.id === id);
-                                    if (!phone) return null;
-                                    return <PhoneCard key={id} phone={phone} onAddToCompare={() => {}}/>
-                                })}
-                                </div>
-                            ) : (
-                                <p className="text-muted-foreground text-center py-8">Non-phone section placeholder.</p>
-                            )}
-                        </CardContent>
-                    </Card>
-                ))}
             </div>
         </main>
         
