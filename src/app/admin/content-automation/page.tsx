@@ -91,13 +91,13 @@ const pages = [
     },
 ];
 
-export default function PageManagement() {
+export default function PageBuilder() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Page & Content Management</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Page Builder for MPP</h1>
         <p className="text-muted-foreground">
-          A central hub to manage the content and settings for all user-facing pages.
+          Visually build and manage all pages of your MobilePhonesPro site.
         </p>
       </div>
 
