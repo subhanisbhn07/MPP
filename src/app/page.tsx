@@ -667,7 +667,7 @@ export default function Home() {
 
         {/* Browse by Specs */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="browse-heading">
-          <CardHeader className="p-2">
+          <CardHeader className="p-3">
             <div className="space-y-3 text-center">
               <h2 id="browse-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
                 Browse by Specs
@@ -677,8 +677,8 @@ export default function Home() {
               </p>
             </div>
           </CardHeader>
-          <CardContent className="p-2">
-            <ul role="list" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+          <CardContent className="p-3">
+            <ul role="list" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
               {specCategories.map((cat) => (
                 <li role="listitem" key={cat.label}>
                   <Link href={cat.href}>
@@ -1164,6 +1164,7 @@ export default function Home() {
 }
 
     
+
 
 
 
