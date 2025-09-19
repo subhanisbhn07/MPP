@@ -332,11 +332,9 @@ export default function Home() {
             <h2 id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                 Trending Phones
             </h2>
-            <Button variant="link" asChild className="text-accent-foreground">
-              <Link href="#">
+            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline text-accent-foreground">
                 View all <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            </Link>
           </CardHeader>
           <CardContent className="p-2">
             {renderPhoneList(popularPhones, phonesToShow)}
@@ -349,11 +347,9 @@ export default function Home() {
             <h2 id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Latest Launches
             </h2>
-             <Button variant="link" asChild className="text-primary-foreground">
-              <Link href="#">
+            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline text-primary-foreground">
                 View all <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            </Link>
           </CardHeader>
           <CardContent className="p-2">
             {renderPhoneList(latestPhones, phonesToShow)}
@@ -366,11 +362,9 @@ export default function Home() {
             <h2 id="ios-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top iOS Phones
             </h2>
-             <Button variant="link" asChild className="text-accent-foreground">
-              <Link href="#">
+            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline text-accent-foreground">
                 View all <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            </Link>
           </CardHeader>
           <CardContent className="p-2">
             {renderPhoneList(iosPhones, phonesToShow)}
@@ -383,11 +377,9 @@ export default function Home() {
             <h2 id="android-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top Android Phones
             </h2>
-             <Button variant="link" asChild className="text-primary-foreground">
-              <Link href="#">
+            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline text-primary-foreground">
                 View all <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            </Link>
           </CardHeader>
           <CardContent className="p-2">
             {renderPhoneList(androidPhones, phonesToShow)}
@@ -462,11 +454,9 @@ export default function Home() {
             <h2 id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Flagship Phones
             </h2>
-             <Button variant="link" asChild className="text-accent-foreground">
-              <Link href="#">
+            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline text-accent-foreground">
                 View all <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            </Link>
           </CardHeader>
           <CardContent className="p-2">
             {renderPhoneList(flagshipPhones, phonesToShow)}
@@ -479,11 +469,9 @@ export default function Home() {
             <h2 id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Longest Battery Life
             </h2>
-             <Button variant="link" asChild className="text-primary-foreground">
-              <Link href="#">
+            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline text-primary-foreground">
                 View all <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            </Link>
           </CardHeader>
           <CardContent className="p-2">
             {renderPhoneList(batteryPhones, phonesToShow)}
@@ -496,11 +484,9 @@ export default function Home() {
             <h2 id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Best for Gaming
             </h2>
-             <Button variant="link" asChild className="text-accent-foreground">
-              <Link href="#">
+            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline text-accent-foreground">
                 View all <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            </Link>
           </CardHeader>
           <CardContent className="p-2">
             {renderPhoneList(performancePhones, phonesToShow)}
@@ -513,11 +499,9 @@ export default function Home() {
             <h2 id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top Camera Phones
             </h2>
-             <Button variant="link" asChild className="text-primary-foreground">
-              <Link href="#">
+            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline text-primary-foreground">
                 View all <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            </Link>
           </CardHeader>
           <CardContent className="p-2">
             {renderPhoneList(cameraPhones, phonesToShow)}
@@ -530,11 +514,9 @@ export default function Home() {
             <h2 id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Foldable Phones
             </h2>
-             <Button variant="link" asChild className="text-accent-foreground">
-              <Link href="#">
+            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline text-accent-foreground">
                 View all <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            </Link>
           </CardHeader>
           <CardContent className="p-2">
             {renderPhoneList(foldablePhones, phonesToShow)}
@@ -547,11 +529,9 @@ export default function Home() {
             <h2 id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Rugged Phones
             </h2>
-             <Button variant="link" asChild className="text-primary-foreground">
-              <Link href="#">
+            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline text-primary-foreground">
                 View all <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            </Link>
           </CardHeader>
           <CardContent className="p-2">
             {renderPhoneList(ruggedPhones, phonesToShow)}
@@ -564,11 +544,9 @@ export default function Home() {
             <h2 id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Unique Phones
             </h2>
-             <Button variant="link" asChild className="text-accent-foreground">
-              <Link href="#">
+            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline text-accent-foreground">
                 View all <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            </Link>
           </CardHeader>
           <CardContent className="p-2">
             {renderPhoneList(uniquePhones, phonesToShow)}
