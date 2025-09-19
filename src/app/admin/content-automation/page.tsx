@@ -18,7 +18,7 @@ const pages = [
         href: "#"
     },
     {
-        title: "Homepage & Category Sections",
+        title: "Phone Category Section",
         description: "Manage all dynamic sections for the homepage and define content for category pages like 'Best Camera' or 'Gaming'.",
         icon: LayoutDashboard,
         href: "/admin/content-automation/homepage"
