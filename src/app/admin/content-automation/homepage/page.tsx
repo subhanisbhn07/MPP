@@ -22,6 +22,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { Header } from '@/components/layout/header';
+import { Footer } from '@/components/layout/footer';
 
 
 // Type definition for a homepage section
@@ -191,34 +193,40 @@ export default function HomepageContentPage() {
                   <div className="h-[64px] w-[3px] bg-black absolute -right-[13px] top-[142px] rounded-r-lg"></div>
                   <div className="rounded-[2rem] overflow-hidden w-full h-[calc(100vh-12rem)] bg-background">
                        <ScrollArea className="h-full w-full">
-                          <div className="p-2 space-y-2">
-                               <Alert className="scale-90">
-                                  <AlertTriangle className="h-4 w-4" />
-                                  <AlertTitle>Live Mobile Preview</AlertTitle>
-                                  <AlertDescription>
-                                      This is a preview of the mobile homepage layout.
-                                  </AlertDescription>
-                              </Alert>
-                              {visibleSections.map(section => (
-                                  <Card key={section.id} className="overflow-hidden !p-0">
-                                      <CardHeader className="p-3">
-                                          <CardTitle className="text-lg">{section.title}</CardTitle>
-                                      </CardHeader>
-                                      <CardContent className="p-2">
-                                           {section.isPhoneSection ? (
-                                              <div className="grid grid-cols-1 gap-2">
-                                              {section.selectedPhoneIds.slice(0, 6).map(id => {
-                                                  const phone = allPhones.find(p => p.id === id);
-                                                  if (!phone) return null;
-                                                  return <PhoneCard key={id} phone={phone} onAddToCompare={() => {}}/>
-                                              })}
-                                              </div>
-                                          ) : (
-                                              <p className="text-muted-foreground text-center py-8 text-sm">Non-phone section placeholder.</p>
-                                          )}
-                                      </CardContent>
-                                  </Card>
-                              ))}
+                          <div className="bg-background">
+                            <Header />
+                            <main className="flex-1">
+                                <div className="p-2 space-y-2">
+                                <Alert className="scale-90">
+                                    <AlertTriangle className="h-4 w-4" />
+                                    <AlertTitle>Live Mobile Preview</AlertTitle>
+                                    <AlertDescription>
+                                        This is a preview of the mobile homepage layout.
+                                    </AlertDescription>
+                                </Alert>
+                                {visibleSections.map(section => (
+                                    <Card key={section.id} className="overflow-hidden !p-0">
+                                        <CardHeader className="p-3">
+                                            <CardTitle className="text-lg">{section.title}</CardTitle>
+                                        </CardHeader>
+                                        <CardContent className="p-2">
+                                            {section.isPhoneSection ? (
+                                                <div className="grid grid-cols-1 gap-2">
+                                                {section.selectedPhoneIds.slice(0, 6).map(id => {
+                                                    const phone = allPhones.find(p => p.id === id);
+                                                    if (!phone) return null;
+                                                    return <PhoneCard key={id} phone={phone} onAddToCompare={() => {}}/>
+                                                })}
+                                                </div>
+                                            ) : (
+                                                <p className="text-muted-foreground text-center py-8 text-sm">Non-phone section placeholder.</p>
+                                            )}
+                                        </CardContent>
+                                    </Card>
+                                ))}
+                                </div>
+                            </main>
+                            <Footer />
                           </div>
                       </ScrollArea>
                   </div>
