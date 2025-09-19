@@ -204,7 +204,7 @@ export default function Home() {
   );
 
   return (
-    <div className="px-4 space-y-4 pb-4">
+    <div className="space-y-2 pb-4">
        {/* Skip link */}
       <a
         href="#main"
@@ -259,7 +259,7 @@ export default function Home() {
           </div>
         </div>
       </header>
-      <main id="main" role="main" className="space-y-4">
+      <main id="main" role="main" className="space-y-2">
         {/* Search & Filter */}
         <Card className="bg-primary text-primary-foreground rounded-2xl">
           <section
@@ -382,7 +382,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent className="p-2">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
@@ -413,7 +413,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent className="p-2">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
@@ -609,7 +609,7 @@ export default function Home() {
             </div>
           </CardHeader>
           <CardContent className="p-2">
-            <ul role="list" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+            <ul role="list" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
               {specCategories.map((cat) => (
                 <li role="listitem" key={cat.label}>
                   <Link href={cat.href}>
@@ -624,7 +624,7 @@ export default function Home() {
           </CardContent>
         </Card>
         
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid gap-2 lg:grid-cols-3">
             {/* Upcoming Calendar */}
             <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="upcoming-heading">
               <CardHeader>
@@ -636,7 +636,7 @@ export default function Home() {
                   </div>
               </CardHeader>
               <CardContent className="p-2">
-                <div className="space-y-4">
+                <div className="space-y-2">
                       <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
                         <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
                           <p className="font-bold text-lg">28</p>
@@ -712,7 +712,7 @@ export default function Home() {
                   </div>
                 </CardHeader>
                 <CardContent className="p-2">
-                    <div className="space-y-4">
+                    <div className="space-y-2">
                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
                         <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
                           <Badge variant="secondary">Deep Dive</Badge>
@@ -764,7 +764,7 @@ export default function Home() {
                 </div>
               </CardHeader>
               <CardContent className="p-2">
-                <div className="space-y-4">
+                <div className="space-y-2">
                   <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
                     <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
                       <Badge variant="destructive">Rumor</Badge>
@@ -814,7 +814,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent className="p-2">
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-2 space-y-2">
                 <Card className="break-inside-avoid">
                   <Image
                     src="https://picsum.photos/600/400?v=1"
@@ -941,7 +941,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent className="p-2">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-fr">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 auto-rows-fr">
               
               <Card className="lg:col-span-2 lg:row-span-2 group relative overflow-hidden rounded-lg">
                 <Link href="#" className="block h-full w-full">
