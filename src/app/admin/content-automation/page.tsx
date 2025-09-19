@@ -18,8 +18,8 @@ const pages = [
         href: "#"
     },
     {
-        title: "Homepage Sections",
-        description: "Manage all dynamic sections: trending phones, latest launches, featured content, and more.",
+        title: "Homepage & Category Sections",
+        description: "Manage all dynamic sections for the homepage and define content for category pages like 'Best Camera' or 'Gaming'.",
         icon: LayoutDashboard,
         href: "/admin/content-automation/homepage"
     },
@@ -34,12 +34,6 @@ const pages = [
         description: "Manage settings for the side-by-side comparison page, such as default phones or featured comparisons.",
         icon: Layers,
         href: "/compare"
-    },
-    {
-        title: "Category Pages",
-        description: "Define and manage which phones appear in categories like 'Best Camera' or 'Gaming'.",
-        icon: Star,
-        href: "#"
     },
     {
         title: "News Articles",
