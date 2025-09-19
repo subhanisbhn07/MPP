@@ -1,11 +1,24 @@
 
+
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { ArrowRight, LayoutDashboard, Search, Smartphone, Star, Newspaper, FileText, Tag, BarChart, Calendar, Rss, Layers } from "lucide-react";
+import { ArrowRight, LayoutDashboard, Search, Smartphone, Star, Newspaper, FileText, Tag, BarChart, Calendar, Rss, Layers, Heading, PanelTop, PanelBottom } from "lucide-react";
 import Link from "next/link";
 
 const pages = [
     {
-        title: "Homepage",
+        title: "Header",
+        description: "Manage navigation links, logos, and top-level site actions.",
+        icon: PanelTop,
+        href: "#"
+    },
+    {
+        title: "Hero Banner",
+        description: "Customize the main heading, promotional text, and call-to-action on the homepage.",
+        icon: Heading,
+        href: "#"
+    },
+    {
+        title: "Homepage Sections",
         description: "Manage all dynamic sections: trending phones, latest launches, featured content, and more.",
         icon: LayoutDashboard,
         href: "/admin/content-automation/homepage"
@@ -69,6 +82,12 @@ const pages = [
         description: "Configure search filters, sorting options, and featured results.",
         icon: Search,
         href: "/search"
+    },
+    {
+        title: "Footer",
+        description: "Manage the links, sitemap, and company information in the site footer.",
+        icon: PanelBottom,
+        href: "#"
     },
 ];
 
