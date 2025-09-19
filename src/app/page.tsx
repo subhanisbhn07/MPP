@@ -328,7 +328,7 @@ export default function Home() {
 
         {/* Trending Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="trending-heading">
-          <CardHeader className="p-2 flex items-center justify-between flex-row">
+          <CardHeader className="p-3 flex items-center justify-between flex-row">
             <h2 id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                 Trending Phones
             </h2>
@@ -343,7 +343,7 @@ export default function Home() {
 
         {/* Latest Launches */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="latest-heading">
-          <CardHeader className="p-2 flex items-center justify-between flex-row">
+          <CardHeader className="p-3 flex items-center justify-between flex-row">
             <h2 id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Latest Launches
             </h2>
@@ -358,7 +358,7 @@ export default function Home() {
         
         {/* iOS Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="ios-heading">
-          <CardHeader className="p-2 flex items-center justify-between flex-row">
+          <CardHeader className="p-3 flex items-center justify-between flex-row">
             <h2 id="ios-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top iOS Phones
             </h2>
@@ -373,7 +373,7 @@ export default function Home() {
 
         {/* Android Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="android-heading">
-          <CardHeader className="p-2 flex items-center justify-between flex-row">
+          <CardHeader className="p-3 flex items-center justify-between flex-row">
             <h2 id="android-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top Android Phones
             </h2>
@@ -394,38 +394,38 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent className="p-2">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                <Card className="hover:bg-accent/80 transition-colors bg-accent">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <Card className="hover:bg-primary/80 transition-colors bg-primary">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
                         <h4 className="font-semibold mt-2 text-primary-foreground">Deep Dive into iOS 18's AI Features</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-accent/80 transition-colors bg-accent">
+                <Card className="hover:bg-primary/80 transition-colors bg-primary">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Tips & Tricks</Badge>
                         <h4 className="font-semibold mt-2 text-primary-foreground">Customize Your Lock Screen Like a Pro</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-accent/80 transition-colors bg-accent">
+                <Card className="hover:bg-primary/80 transition-colors bg-primary">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Comparison</Badge>
                         <h4 className="font-semibold mt-2 text-primary-foreground">iOS vs. Android: Which Ecosystem is for You?</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-accent/80 transition-colors bg-accent">
+                <Card className="hover:bg-primary/80 transition-colors bg-primary">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">How-To</Badge>
                         <h4 className="font-semibold mt-2 text-primary-foreground">Mastering the new Action Button</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-accent/80 transition-colors bg-accent">
+                <Card className="hover:bg-primary/80 transition-colors bg-primary">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">App Guide</Badge>
                         <h4 className="font-semibold mt-2 text-primary-foreground">Top 5 Camera Apps for iPhone</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-accent/80 transition-colors bg-accent">
+                <Card className="hover:bg-primary/80 transition-colors bg-primary">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Privacy</Badge>
                         <h4 className="font-semibold mt-2 text-primary-foreground">A Look at Apple's Privacy Features</h4>
@@ -443,38 +443,38 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent className="p-2">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                <Card className="hover:bg-primary/80 transition-colors bg-primary">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <Card className="hover:bg-accent/80 transition-colors bg-accent">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
                         <h4 className="font-semibold mt-2 text-primary-foreground">Android 15's Best Features Explained</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-primary/80 transition-colors bg-primary">
+                <Card className="hover:bg-accent/80 transition-colors bg-accent">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Customization</Badge>
                         <h4 className="font-semibold mt-2 text-primary-foreground">A Guide to Material You Theming</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-primary/80 transition-colors bg-primary">
+                <Card className="hover:bg-accent/80 transition-colors bg-accent">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">How-To</Badge>
                         <h4 className="font-semibold mt-2 text-primary-foreground">Mastering Split-Screen Multitasking</h4>
                     </Link>
                 </Card>
-                 <Card className="hover:bg-primary/80 transition-colors bg-primary">
+                 <Card className="hover:bg-accent/80 transition-colors bg-accent">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Launchers</Badge>
                         <h4 className="font-semibold mt-2 text-primary-foreground">Best Android Launchers for 2024</h4>
                     </Link>
                 </Card>
-                 <Card className="hover:bg-primary/80 transition-colors bg-primary">
+                 <Card className="hover:bg-accent/80 transition-colors bg-accent">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Galaxy AI</Badge>
                         <h4 className="font-semibold mt-2 text-primary-foreground">What is Galaxy AI and How to Use It</h4>
                     </Link>
                 </Card>
-                 <Card className="hover:bg-primary/80 transition-colors bg-primary">
+                 <Card className="hover:bg-accent/80 transition-colors bg-accent">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Security</Badge>
                         <h4 className="font-semibold mt-2 text-primary-foreground">How Secure is Android's Ecosystem?</h4>
@@ -486,7 +486,7 @@ export default function Home() {
 
         {/* Flagship Phones */}
          <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="flagship-heading">
-           <CardHeader className="p-2 flex items-center justify-between flex-row">
+           <CardHeader className="p-3 flex items-center justify-between flex-row">
             <h2 id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Flagship Phones
             </h2>
@@ -501,7 +501,7 @@ export default function Home() {
         
         {/* Battery Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="battery-heading">
-          <CardHeader className="p-2 flex items-center justify-between flex-row">
+          <CardHeader className="p-3 flex items-center justify-between flex-row">
             <h2 id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Longest Battery Life
             </h2>
@@ -516,7 +516,7 @@ export default function Home() {
         
         {/* Gaming Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="gaming-heading">
-          <CardHeader className="p-2 flex items-center justify-between flex-row">
+          <CardHeader className="p-3 flex items-center justify-between flex-row">
             <h2 id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Best for Gaming
             </h2>
@@ -531,7 +531,7 @@ export default function Home() {
 
         {/* Camera Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="camera-heading">
-          <CardHeader className="p-2 flex items-center justify-between flex-row">
+          <CardHeader className="p-3 flex items-center justify-between flex-row">
             <h2 id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top Camera Phones
             </h2>
@@ -546,7 +546,7 @@ export default function Home() {
 
         {/* Foldable Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="foldable-heading">
-          <CardHeader className="p-2 flex items-center justify-between flex-row">
+          <CardHeader className="p-3 flex items-center justify-between flex-row">
             <h2 id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Foldable Phones
             </h2>
@@ -561,7 +561,7 @@ export default function Home() {
 
         {/* Rugged Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="rugged-heading">
-          <CardHeader className="p-2 flex items-center justify-between flex-row">
+          <CardHeader className="p-3 flex items-center justify-between flex-row">
             <h2 id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Rugged Phones
             </h2>
@@ -576,7 +576,7 @@ export default function Home() {
 
         {/* Unique Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="unique-heading">
-          <CardHeader className="p-2 flex items-center justify-between flex-row">
+          <CardHeader className="p-3 flex items-center justify-between flex-row">
             <h2 id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Unique Phones
             </h2>
@@ -1164,6 +1164,7 @@ export default function Home() {
 }
 
     
+
 
 
 
