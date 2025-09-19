@@ -829,7 +829,7 @@ export default function Home() {
                     <h3 className="text-lg font-bold mt-2">
                       How to Choose the Right Phone for You
                     </h3>
-                    <p className="text-sm text-muted-foreground mt-2">
+                    <p className="text-sm text-muted-foreground mt-2 min-h-[2.5rem]">
                       A comprehensive guide to navigating the complex world of smartphones.
                     </p>
                   </CardContent>
@@ -848,7 +848,7 @@ export default function Home() {
                     <h3 className="text-lg font-bold mt-2">
                       Master Your Phone&apos;s Camera: Pro Tips
                     </h3>
-                    <p className="text-sm text-muted-foreground mt-2">
+                    <p className="text-sm text-muted-foreground mt-2 min-h-[2.5rem]">
                       Unlock the full potential of your smartphone&apos;s camera with these expert tips.
                     </p>
                   </CardContent>
@@ -867,7 +867,7 @@ export default function Home() {
                     <h3 className="text-lg font-bold mt-2">
                       Maximize Your Phone's Battery Life
                     </h3>
-                    <p className="text-sm text-muted-foreground mt-2">
+                    <p className="text-sm text-muted-foreground mt-2 min-h-[2.5rem]">
                       Simple but effective tricks to extend your phone's daily endurance.
                     </p>
                   </CardContent>
@@ -886,7 +886,7 @@ export default function Home() {
                     <h3 className="text-lg font-bold mt-2">
                       The Rise of Mobile Esports
                     </h3>
-                    <p className="text-sm text-muted-foreground mt-2">
+                    <p className="text-sm text-muted-foreground mt-2 min-h-[2.5rem]">
                       How competitive gaming on smartphones is taking over the world.
                     </p>
                   </CardContent>
@@ -905,7 +905,7 @@ export default function Home() {
                     <h3 className="text-lg font-bold mt-2">
                       Are Foldable Phones the Future?
                     </h3>
-                    <p className="text-sm text-muted-foreground mt-2">
+                    <p className="text-sm text-muted-foreground mt-2 min-h-[2.5rem]">
                       An in-depth look at the pros and cons of the latest form factor.
                     </p>
                   </CardContent>
@@ -924,7 +924,7 @@ export default function Home() {
                     <h3 className="text-lg font-bold mt-2">
                       Protecting Your Digital Privacy
                     </h3>
-                    <p className="text-sm text-muted-foreground mt-2">
+                    <p className="text-sm text-muted-foreground mt-2 min-h-[2.5rem]">
                       Key steps to secure your personal data on your smartphone.
                     </p>
                   </CardContent>
