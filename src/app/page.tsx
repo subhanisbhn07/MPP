@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from 'next/image';
@@ -394,40 +395,40 @@ export default function Home() {
           </CardHeader>
           <CardContent className="p-2">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">Deep Dive into iOS 18's AI Features</h4>
+                        <h4 className="font-semibold mt-2 text-primary-foreground">Deep Dive into iOS 18's AI Features</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Tips & Tricks</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">Customize Your Lock Screen Like a Pro</h4>
+                        <h4 className="font-semibold mt-2 text-primary-foreground">Customize Your Lock Screen Like a Pro</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Comparison</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">iOS vs. Android: Which Ecosystem is for You?</h4>
+                        <h4 className="font-semibold mt-2 text-primary-foreground">iOS vs. Android: Which Ecosystem is for You?</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">How-To</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">Mastering the new Action Button</h4>
+                        <h4 className="font-semibold mt-2 text-primary-foreground">Mastering the new Action Button</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">App Guide</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">Top 5 Camera Apps for iPhone</h4>
+                        <h4 className="font-semibold mt-2 text-primary-foreground">Top 5 Camera Apps for iPhone</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Privacy</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">A Look at Apple's Privacy Features</h4>
+                        <h4 className="font-semibold mt-2 text-primary-foreground">A Look at Apple's Privacy Features</h4>
                     </Link>
                 </Card>
             </div>
@@ -443,40 +444,40 @@ export default function Home() {
           </CardHeader>
           <CardContent className="p-2">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">What's New</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">Android 15's Best Features Explained</h4>
+                        <h4 className="font-semibold mt-2 text-primary-foreground">Android 15's Best Features Explained</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Customization</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">A Guide to Material You Theming</h4>
+                        <h4 className="font-semibold mt-2 text-primary-foreground">A Guide to Material You Theming</h4>
                     </Link>
                 </Card>
-                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">How-To</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">Mastering Split-Screen Multitasking</h4>
+                        <h4 className="font-semibold mt-2 text-primary-foreground">Mastering Split-Screen Multitasking</h4>
                     </Link>
                 </Card>
-                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                 <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Launchers</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">Best Android Launchers for 2024</h4>
+                        <h4 className="font-semibold mt-2 text-primary-foreground">Best Android Launchers for 2024</h4>
                     </Link>
                 </Card>
-                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                 <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Galaxy AI</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">What is Galaxy AI and How to Use It</h4>
+                        <h4 className="font-semibold mt-2 text-primary-foreground">What is Galaxy AI and How to Use It</h4>
                     </Link>
                 </Card>
-                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                 <Card className="hover:bg-background/20 transition-colors bg-background/10">
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">Security</Badge>
-                        <h4 className="font-semibold mt-2 text-foreground">How Secure is Android's Ecosystem?</h4>
+                        <h4 className="font-semibold mt-2 text-primary-foreground">How Secure is Android's Ecosystem?</h4>
                     </Link>
                 </Card>
             </div>
@@ -1163,3 +1164,4 @@ export default function Home() {
 }
 
     
+
