@@ -412,6 +412,24 @@ export default function Home() {
                         <h4 className="font-semibold mt-2 text-foreground">iOS vs. Android: Which Ecosystem is for You?</h4>
                     </Link>
                 </Card>
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                    <Link href="#" className="block p-4">
+                        <Badge variant="secondary">How-To</Badge>
+                        <h4 className="font-semibold mt-2 text-foreground">Mastering the new Action Button</h4>
+                    </Link>
+                </Card>
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                    <Link href="#" className="block p-4">
+                        <Badge variant="secondary">App Guide</Badge>
+                        <h4 className="font-semibold mt-2 text-foreground">Top 5 Camera Apps for iPhone</h4>
+                    </Link>
+                </Card>
+                <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                    <Link href="#" className="block p-4">
+                        <Badge variant="secondary">Privacy</Badge>
+                        <h4 className="font-semibold mt-2 text-foreground">A Look at Apple's Privacy Features</h4>
+                    </Link>
+                </Card>
             </div>
           </CardContent>
         </Card>
@@ -441,6 +459,24 @@ export default function Home() {
                     <Link href="#" className="block p-4">
                         <Badge variant="secondary">How-To</Badge>
                         <h4 className="font-semibold mt-2 text-foreground">Mastering Split-Screen Multitasking</h4>
+                    </Link>
+                </Card>
+                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                    <Link href="#" className="block p-4">
+                        <Badge variant="secondary">Launchers</Badge>
+                        <h4 className="font-semibold mt-2 text-foreground">Best Android Launchers for 2024</h4>
+                    </Link>
+                </Card>
+                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                    <Link href="#" className="block p-4">
+                        <Badge variant="secondary">Galaxy AI</Badge>
+                        <h4 className="font-semibold mt-2 text-foreground">What is Galaxy AI and How to Use It</h4>
+                    </Link>
+                </Card>
+                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
+                    <Link href="#" className="block p-4">
+                        <Badge variant="secondary">Security</Badge>
+                        <h4 className="font-semibold mt-2 text-foreground">How Secure is Android's Ecosystem?</h4>
                     </Link>
                 </Card>
             </div>
@@ -846,7 +882,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent className="p-2">
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-3 space-y-3">
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-2 space-y-2">
                 <Card className="break-inside-avoid">
                   <Image
                     src="https://picsum.photos/600/400?v=1"
