@@ -204,7 +204,7 @@ export default function Home() {
   );
 
   return (
-    <div className="space-y-2 px-4">
+    <div className="space-y-3 px-4">
        {/* Skip link */}
       <a
         href="#main"
@@ -259,7 +259,7 @@ export default function Home() {
           </div>
         </div>
       </header>
-      <main id="main" role="main" className="space-y-2">
+      <main id="main" role="main" className="space-y-3">
         {/* Search & Filter */}
         <Card className="bg-primary text-primary-foreground rounded-2xl">
           <section
@@ -693,7 +693,7 @@ export default function Home() {
           </CardContent>
         </Card>
         
-        <div className="grid gap-2 lg:grid-cols-3">
+        <div className="grid gap-3 lg:grid-cols-3">
             {/* Upcoming Calendar */}
             <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="upcoming-heading">
               <CardHeader className="p-2">
@@ -883,7 +883,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent className="p-2">
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-2 space-y-2">
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-3 space-y-3">
                 <Card className="break-inside-avoid">
                   <Image
                     src="https://picsum.photos/600/400?v=1"
@@ -1010,7 +1010,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent className="p-2">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 auto-rows-fr">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 auto-rows-fr">
               
               <Card className="lg:col-span-2 lg:row-span-2 group relative overflow-hidden rounded-lg">
                 <Link href="#" className="block h-full w-full">
@@ -1164,5 +1164,6 @@ export default function Home() {
 }
 
     
+
 
 
