@@ -191,7 +191,7 @@ export default function Home() {
   ];
   
   const renderPhoneList = (phones: Phone[], sliceCount: number) => (
-    <ul role="list" className="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
+    <ul role="list" className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
       {phones.slice(0, sliceCount).map((phone) => (
         <li role="listitem" key={phone.id}>
           <article aria-label={`${phone.brand} ${phone.model}`}>
@@ -327,7 +327,7 @@ export default function Home() {
 
         {/* Trending Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="trending-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                 Trending Phones
             </h2>
@@ -342,7 +342,7 @@ export default function Home() {
 
         {/* Latest Launches */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="latest-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Latest Launches
             </h2>
@@ -357,7 +357,7 @@ export default function Home() {
         
         {/* iOS Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="ios-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="ios-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top iOS Phones
             </h2>
@@ -372,7 +372,7 @@ export default function Home() {
 
         {/* Android Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="android-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="android-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top Android Phones
             </h2>
@@ -449,7 +449,7 @@ export default function Home() {
 
         {/* Flagship Phones */}
          <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="flagship-heading">
-           <CardHeader className="p-3 flex items-center justify-between flex-row">
+           <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Flagship Phones
             </h2>
@@ -464,7 +464,7 @@ export default function Home() {
         
         {/* Battery Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="battery-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Longest Battery Life
             </h2>
@@ -479,7 +479,7 @@ export default function Home() {
         
         {/* Gaming Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="gaming-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Best for Gaming
             </h2>
@@ -494,7 +494,7 @@ export default function Home() {
 
         {/* Camera Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="camera-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top Camera Phones
             </h2>
@@ -509,7 +509,7 @@ export default function Home() {
 
         {/* Foldable Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="foldable-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Foldable Phones
             </h2>
@@ -524,7 +524,7 @@ export default function Home() {
 
         {/* Rugged Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="rugged-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Rugged Phones
             </h2>
@@ -539,7 +539,7 @@ export default function Home() {
 
         {/* Unique Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="unique-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Unique Phones
             </h2>
@@ -746,37 +746,37 @@ export default function Home() {
                 <CardContent className="p-2">
                     <div className="space-y-2">
                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                        <Link href="#" className="block p-4">
                           <Badge variant="secondary">Deep Dive</Badge>
                           <h4 className="font-semibold mt-2">iPhone 16 Explained: Everything We Know</h4>
                         </Link>
                       </Card>
                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                        <Link href="#" className="block p-4">
                           <Badge variant="secondary">Industry News</Badge>
                           <h4 className="font-semibold mt-2">Snapdragon 8 Gen 4: What to Expect</h4>
                         </Link>
                       </Card>
                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                        <Link href="#" className="block p-4">
                           <Badge variant="secondary">Guides</Badge>
                           <h4 className="font-semibold mt-2">Top Phones to Buy in September</h4>
                         </Link>
                       </Card>
                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                        <Link href="#" className="block p-4">
                           <Badge variant="secondary">How-To</Badge>
                           <h4 className="font-semibold mt-2">How to Calibrate Your Phone's Display</h4>
                         </Link>
                       </Card>
                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                        <Link href="#" className="block p-4">
                           <Badge variant="secondary">Tips</Badge>
                           <h4 className="font-semibold mt-2">Maximizing Battery Health in 2024</h4>
                         </Link>
                       </Card>
                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                        <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                        <Link href="#" className="block p-4">
                           <Badge variant="secondary">Comparison</Badge>
                           <h4 className="font-semibold mt-2">iOS 18 vs Android 15: AI Features</h4>
                         </Link>
@@ -798,37 +798,37 @@ export default function Home() {
               <CardContent className="p-2">
                 <div className="space-y-2">
                   <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                    <Link href="#" className="block p-4">
                       <Badge variant="destructive">Rumor</Badge>
                       <h4 className="font-semibold mt-2">Pixel 9 Pro to feature a flat display</h4>
                     </Link>
                   </Card>
                   <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                    <Link href="#" className="block p-4">
                       <Badge variant="destructive">Leak</Badge>
                       <h4 className="font-semibold mt-2">Galaxy Z Fold 6 design schematics leaked</h4>
                     </Link>
                   </Card>
                    <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                    <Link href="#" className="block p-4">
                       <Badge variant="destructive">Rumor</Badge>
                       <h4 className="font-semibold mt-2">Next iPhone SE might be cancelled</h4>
                     </Link>
                   </Card>
                   <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                    <Link href="#" className="block p-4">
                       <Badge variant="destructive">Leak</Badge>
                       <h4 className="font-semibold mt-2">OnePlus Fold 2 to have a larger cover screen</h4>
                     </Link>
                   </Card>
                    <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                    <Link href="#" className="block p-4">
                       <Badge variant="destructive">Rumor</Badge>
                       <h4 className="font-semibold mt-2">Google working on a "Pixel Mini"</h4>
                     </Link>
                   </Card>
                    <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
-                    <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
+                    <Link href="#" className="block p-4">
                       <Badge variant="destructive">Leak</Badge>
                       <h4 className="font-semibold mt-2">First real-world photos of Xiaomi Mix Flip surface</h4>
                     </Link>
@@ -846,7 +846,7 @@ export default function Home() {
             </h2>
           </CardHeader>
           <CardContent className="p-2">
-            <div className="columns-1 sm:columns-2 lg:columns-3 gap-2 space-y-2">
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-3 space-y-3">
                 <Card className="break-inside-avoid">
                   <Image
                     src="https://picsum.photos/600/400?v=1"
