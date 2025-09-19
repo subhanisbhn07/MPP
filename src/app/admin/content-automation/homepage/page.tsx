@@ -129,8 +129,8 @@ export default function HomepageContentPage() {
         <div className="lg:col-span-1 flex flex-col gap-4 min-h-0">
           <Card className="flex-1 flex flex-col">
             <CardHeader>
-              <CardTitle>Homepage Sections</CardTitle>
-              <CardDescription>Drag to reorder sections. Click to expand and manage content.</CardDescription>
+              <CardTitle>Phone Sections</CardTitle>
+              <CardDescription>Drag to reorder sections. Click to expand and manage content and formats.</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 overflow-y-auto px-4">
               <Accordion type="multiple" className="w-full">

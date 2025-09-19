@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -8,12 +9,14 @@ import { allPhones } from '@/lib/data';
 import type { HomepageSection } from '../page';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Trash2, GripVertical, Search } from 'lucide-react';
+import { PlusCircle, Trash2, GripVertical, Search, View } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 function SelectPhonesDialog({
   isOpen,
@@ -150,7 +153,20 @@ export function HomepageSectionEditor({ section, onUpdate }: { section: Homepage
   return (
      <div className='h-full'>
             {section.isPhoneSection ? (
-              <div className="space-y-2">
+              <div className="space-y-4">
+                 <div>
+                    <Label className="text-xs font-semibold text-muted-foreground">Display Format</Label>
+                     <Select defaultValue="grid">
+                        <SelectTrigger className="h-9 mt-1">
+                            <SelectValue placeholder="Select format" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="grid">Grid</SelectItem>
+                            <SelectItem value="carousel">Carousel</SelectItem>
+                            <SelectItem value="list">List</SelectItem>
+                        </SelectContent>
+                    </Select>
+                 </div>
                 <ScrollArea className="h-64">
                     <div className="space-y-2 pr-4">
                         {selectedPhones.map(phone => (
