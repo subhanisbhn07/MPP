@@ -328,60 +328,60 @@ export default function Home() {
 
         {/* Trending Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="trending-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                 Trending Phones
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             {renderPhoneList(popularPhones, phonesToShow)}
           </CardContent>
         </Card>
 
         {/* Latest Launches */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="latest-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Latest Launches
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             {renderPhoneList(latestPhones, phonesToShow)}
           </CardContent>
         </Card>
         
         {/* iOS Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="ios-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="ios-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top iOS Phones
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             {renderPhoneList(iosPhones, phonesToShow)}
           </CardContent>
         </Card>
 
         {/* Android Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="android-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="android-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top Android Phones
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             {renderPhoneList(androidPhones, phonesToShow)}
           </CardContent>
         </Card>
         
         {/* iOS Software */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="ios-software-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="ios-software-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Exploring iOS
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
@@ -407,12 +407,12 @@ export default function Home() {
         
         {/* Android Software */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="android-software-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="android-software-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Diving into Android
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                 <Card className="hover:bg-background/20 transition-colors bg-background/10 text-black">
                     <Link href="#" className="block p-4">
@@ -438,96 +438,96 @@ export default function Home() {
 
         {/* Flagship Phones */}
          <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="flagship-heading">
-           <CardHeader className="p-3">
+           <CardHeader className="p-2">
             <h2 id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Flagship Phones
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             {renderPhoneList(flagshipPhones, phonesToShow)}
           </CardContent>
         </Card>
         
         {/* Battery Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="battery-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Longest Battery Life
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             {renderPhoneList(batteryPhones, phonesToShow)}
           </CardContent>
         </Card>
         
         {/* Gaming Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="gaming-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Best for Gaming
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             {renderPhoneList(performancePhones, phonesToShow)}
           </CardContent>
         </Card>
 
         {/* Camera Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="camera-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top Camera Phones
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             {renderPhoneList(cameraPhones, phonesToShow)}
           </CardContent>
         </Card>
 
         {/* Foldable Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="foldable-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Foldable Phones
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             {renderPhoneList(foldablePhones, phonesToShow)}
           </CardContent>
         </Card>
 
         {/* Rugged Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="rugged-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Rugged Phones
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             {renderPhoneList(ruggedPhones, phonesToShow)}
           </CardContent>
         </Card>
 
         {/* Unique Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="unique-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Unique Phones
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             {renderPhoneList(uniquePhones, phonesToShow)}
           </CardContent>
         </Card>
 
         {/* Quick Compare */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="quick-compare-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="quick-compare-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
               Quick Compare
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             <div className="max-w-4xl mx-auto">
               <div className="flex flex-col md:flex-row items-stretch gap-4 md:gap-8">
                 <CompareSlot phone={phone1} onAdd={() => handleOpenDialog(1)} onRemove={() => setPhone1(null)} />
@@ -598,7 +598,7 @@ export default function Home() {
 
         {/* Browse by Specs */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="browse-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <div className="space-y-3 text-center">
               <h2 id="browse-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
                 Browse by Specs
@@ -608,7 +608,7 @@ export default function Home() {
               </p>
             </div>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             <ul role="list" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
               {specCategories.map((cat) => (
                 <li role="listitem" key={cat.label}>
@@ -627,7 +627,7 @@ export default function Home() {
         <div className="grid gap-2 lg:grid-cols-3">
             {/* Upcoming Calendar */}
             <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="upcoming-heading">
-              <CardHeader className="p-3">
+              <CardHeader className="p-2">
                  <div className="flex items-center gap-2">
                     <Calendar className="h-7 w-7" />
                     <h2 id="upcoming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -635,7 +635,7 @@ export default function Home() {
                     </h2>
                   </div>
               </CardHeader>
-              <CardContent className="p-3">
+              <CardContent className="p-2">
                 <div className="space-y-2">
                       <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
                         <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
@@ -703,7 +703,7 @@ export default function Home() {
 
              {/* Guides */}
             <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="guides-heading">
-                <CardHeader className="p-3">
+                <CardHeader className="p-2">
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-7 w-7" />
                     <h2 id="guides-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -711,7 +711,7 @@ export default function Home() {
                     </h2>
                   </div>
                 </CardHeader>
-                <CardContent className="p-3">
+                <CardContent className="p-2">
                     <div className="space-y-2">
                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
                         <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
@@ -755,7 +755,7 @@ export default function Home() {
 
             {/* Leaks & Rumors */}
             <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="leaks-heading">
-              <CardHeader className="p-3">
+              <CardHeader className="p-2">
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-7 w-7" />
                   <h2 id="leaks-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -763,7 +763,7 @@ export default function Home() {
                   </h2>
                 </div>
               </CardHeader>
-              <CardContent className="p-3">
+              <CardContent className="p-2">
                 <div className="space-y-2">
                   <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
                     <Link href="#" aria-disabled tabIndex={-1} className="block p-4">
@@ -808,12 +808,12 @@ export default function Home() {
 
         {/* Blog */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="blog-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
              <h2 id="blog-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
               From the Blog
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             <div className="columns-1 sm:columns-2 lg:columns-3 gap-2 space-y-2">
                 <Card className="break-inside-avoid">
                   <Image
@@ -935,12 +935,12 @@ export default function Home() {
         
         {/* News Section */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="news-heading">
-          <CardHeader className="p-3">
+          <CardHeader className="p-2">
             <h2 id="news-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
               Latest News
             </h2>
           </CardHeader>
-          <CardContent className="p-3">
+          <CardContent className="p-2">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 auto-rows-fr">
               
               <Card className="lg:col-span-2 lg:row-span-2 group relative overflow-hidden rounded-lg">
