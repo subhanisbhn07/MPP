@@ -327,7 +327,7 @@ export default function Home() {
 
         {/* Trending Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="trending-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
                 Trending Phones
             </h2>
@@ -342,7 +342,7 @@ export default function Home() {
 
         {/* Latest Launches */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="latest-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Latest Launches
             </h2>
@@ -357,7 +357,7 @@ export default function Home() {
         
         {/* iOS Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="ios-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="ios-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top iOS Phones
             </h2>
@@ -372,7 +372,7 @@ export default function Home() {
 
         {/* Android Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="android-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="android-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top Android Phones
             </h2>
@@ -485,7 +485,7 @@ export default function Home() {
 
         {/* Flagship Phones */}
          <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="flagship-heading">
-           <CardHeader className="p-3 flex items-center justify-between flex-row">
+           <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Flagship Phones
             </h2>
@@ -500,7 +500,7 @@ export default function Home() {
         
         {/* Battery Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="battery-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Longest Battery Life
             </h2>
@@ -515,7 +515,7 @@ export default function Home() {
         
         {/* Gaming Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="gaming-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Best for Gaming
             </h2>
@@ -530,7 +530,7 @@ export default function Home() {
 
         {/* Camera Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="camera-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Top Camera Phones
             </h2>
@@ -545,7 +545,7 @@ export default function Home() {
 
         {/* Foldable Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="foldable-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Foldable Phones
             </h2>
@@ -560,7 +560,7 @@ export default function Home() {
 
         {/* Rugged Phones */}
         <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="rugged-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Rugged Phones
             </h2>
@@ -575,7 +575,7 @@ export default function Home() {
 
         {/* Unique Phones */}
         <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="unique-heading">
-          <CardHeader className="p-3 flex items-center justify-between flex-row">
+          <CardHeader className="p-2 flex items-center justify-between flex-row">
             <h2 id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Unique Phones
             </h2>
@@ -695,7 +695,7 @@ export default function Home() {
         <div className="grid gap-3 lg:grid-cols-3">
             {/* Upcoming Calendar */}
             <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="upcoming-heading">
-              <CardHeader className="p-2">
+              <CardHeader className="p-3">
                  <div className="flex items-center gap-2">
                     <Calendar className="h-7 w-7" />
                     <h2 id="upcoming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -771,7 +771,7 @@ export default function Home() {
 
              {/* Guides */}
             <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="guides-heading">
-                <CardHeader className="p-2">
+                <CardHeader className="p-3">
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-7 w-7" />
                     <h2 id="guides-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -823,7 +823,7 @@ export default function Home() {
 
             {/* Leaks & Rumors */}
             <Card className="bg-primary text-primary-foreground rounded-2xl" aria-labelledby="leaks-heading">
-              <CardHeader className="p-2">
+              <CardHeader className="p-3">
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-7 w-7" />
                   <h2 id="leaks-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
@@ -1095,54 +1095,54 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
+      </main>
 
-        {/* Trust & Subscribe */}
-        <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="trust-heading">
-            <CardContent className="p-6">
-                <div className="grid items-center justify-center gap-4 text-center">
-                    <div className="space-y-3">
-                      <h2 id="trust-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-                        Your Trusted Source for Mobile Specs
-                      </h2>
-                      <p className="mx-auto max-w-[600px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                        We provide accurate, up-to-date information you can rely on.
-                      </p>
+      {/* Trust & Subscribe */}
+      <Card className="bg-accent text-accent-foreground rounded-2xl" aria-labelledby="trust-heading">
+          <CardContent className="p-6">
+              <div className="grid items-center justify-center gap-4 text-center">
+                  <div className="space-y-3">
+                    <h2 id="trust-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+                      Your Trusted Source for Mobile Specs
+                    </h2>
+                    <p className="mx-auto max-w-[600px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                      We provide accurate, up-to-date information you can rely on.
+                    </p>
+                  </div>
+
+                  <div className="mx-auto grid max-w-sm grid-cols-3 items-start justify-center gap-8 lg:max-w-none lg:grid-cols-3">
+                    <div className="flex flex-col items-center justify-center space-y-2">
+                      <Star className="h-8 w-8 text-current" aria-hidden="true" />
+                      <p className="font-bold">128+ Specs</p>
+                      <p className="text-sm">Per Phone</p>
                     </div>
-
-                    <div className="mx-auto grid max-w-sm grid-cols-3 items-start justify-center gap-8 lg:max-w-none lg:grid-cols-3">
-                      <div className="flex flex-col items-center justify-center space-y-2">
-                        <Star className="h-8 w-8 text-current" aria-hidden="true" />
-                        <p className="font-bold">128+ Specs</p>
-                        <p className="text-sm">Per Phone</p>
-                      </div>
-                      <div className="flex flex-col items-center justify-center space-y-2">
-                        <Info className="h-8 w-8 text-current" aria-hidden="true" />
-                        <p className="font-bold">Verified Sources</p>
-                        <p className="text-sm">Always Accurate</p>
-                      </div>
-                      <div className="flex flex-col items-center justify-center space-y-2">
-                        <Calendar className="h-8 w-8 text-current" aria-hidden="true" />
-                        <p className="font-bold">Daily Updates</p>
-                        <p className="text-sm">
-                          Never Miss a Launch
-                        </p>
-                      </div>
+                    <div className="flex flex-col items-center justify-center space-y-2">
+                      <Info className="h-8 w-8 text-current" aria-hidden="true" />
+                      <p className="font-bold">Verified Sources</p>
+                      <p className="text-sm">Always Accurate</p>
                     </div>
-
-                    <div className="mx-auto w-full max-w-sm space-y-2 mt-8">
-                      <form className="flex space-x-2">
-                        <label htmlFor="email" className="sr-only">Enter your email</label>
-                        <Input id="email" type="email" placeholder="Enter your email" className="max-w-lg flex-1 bg-background text-foreground" />
-                        <Button type="submit" variant="secondary" aria-label="Subscribe for weekly launch alerts">Subscribe</Button>
-                      </form>
-                      <p className="text-xs">
-                        Get weekly launch alerts and top news.
+                    <div className="flex flex-col items-center justify-center space-y-2">
+                      <Calendar className="h-8 w-8 text-current" aria-hidden="true" />
+                      <p className="font-bold">Daily Updates</p>
+                      <p className="text-sm">
+                        Never Miss a Launch
                       </p>
                     </div>
                   </div>
-            </CardContent>
-        </Card>
-      </main>
+
+                  <div className="mx-auto w-full max-w-sm space-y-2 mt-8">
+                    <form className="flex space-x-2">
+                      <label htmlFor="email" className="sr-only">Enter your email</label>
+                      <Input id="email" type="email" placeholder="Enter your email" className="max-w-lg flex-1 bg-background text-foreground" />
+                      <Button type="submit" variant="secondary" aria-label="Subscribe for weekly launch alerts">Subscribe</Button>
+                    </form>
+                    <p className="text-xs">
+                      Get weekly launch alerts and top news.
+                    </p>
+                  </div>
+                </div>
+          </CardContent>
+      </Card>
 
       {/* Compare bar and dialog */}
       <ComparisonBar
@@ -1164,5 +1164,7 @@ export default function Home() {
 
     
 
+
+    
 
     
