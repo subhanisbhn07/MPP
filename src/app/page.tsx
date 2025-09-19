@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Image from 'next/image';
@@ -704,8 +703,8 @@ export default function Home() {
                     </h2>
                   </div>
               </CardHeader>
-              <CardContent className="p-2">
-                <div className="space-y-2">
+              <CardContent className="p-3">
+                <div className="space-y-3">
                       <article className="flex items-center gap-4 p-4 border border-primary-foreground/20 rounded-lg bg-background/10">
                         <div className="text-center bg-background/20 p-2 rounded-md" aria-hidden="true">
                           <p className="font-bold text-lg">28</p>
@@ -780,8 +779,8 @@ export default function Home() {
                     </h2>
                   </div>
                 </CardHeader>
-                <CardContent className="p-2">
-                    <div className="space-y-2">
+                <CardContent className="p-3">
+                    <div className="space-y-3">
                       <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
                         <Link href="#" className="block p-4">
                           <Badge variant="secondary">Deep Dive</Badge>
@@ -832,8 +831,8 @@ export default function Home() {
                   </h2>
                 </div>
               </CardHeader>
-              <CardContent className="p-2">
-                <div className="space-y-2">
+              <CardContent className="p-3">
+                <div className="space-y-3">
                   <Card className="hover:bg-background/20 transition-colors bg-background/10 text-primary-foreground">
                     <Link href="#" className="block p-4">
                       <Badge variant="destructive">Rumor</Badge>
@@ -1166,6 +1165,4 @@ export default function Home() {
     
 
 
-
-
-
+    
