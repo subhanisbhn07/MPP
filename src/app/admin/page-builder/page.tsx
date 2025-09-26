@@ -1,5 +1,4 @@
 
-
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { ArrowRight, LayoutDashboard, Search, Smartphone, Star, Newspaper, FileText, Tag, BarChart, Calendar, Rss, Layers, Heading, PanelTop, PanelBottom, Menu } from "lucide-react";
 import Link from "next/link";
@@ -10,7 +9,7 @@ const pages = [
         title: "Menu Management",
         description: "Manage navigation links, logos, sitemaps, and other menu items for the header and footer.",
         icon: Menu,
-        href: "/admin/content-automation/homepage"
+        href: "/admin/page-builder/menu"
     },
     {
         title: "Hero Banner",
@@ -22,7 +21,7 @@ const pages = [
         title: "Phone Category Section",
         description: "Manage all dynamic sections for the homepage and define content for category pages like 'Best Camera' or 'Gaming'.",
         icon: LayoutDashboard,
-        href: "/admin/content-automation/homepage"
+        href: "/admin/page-builder/homepage"
     },
     {
         title: "Phone Detail Pages",
