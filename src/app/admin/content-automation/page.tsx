@@ -9,7 +9,7 @@ const pages = [
         title: "Menu Management",
         description: "Manage navigation links, logos, sitemaps, and other menu items for the header and footer.",
         icon: Menu,
-        href: "/admin/content-automation/homepage"
+        href: "#"
     },
     {
         title: "Hero Banner",
