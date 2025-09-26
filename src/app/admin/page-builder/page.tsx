@@ -52,7 +52,7 @@ const pages = [
         title: "Deals Page",
         description: "Manage and display current promotions and discounted phones.",
         icon: Tag,
-        href: "#"
+        href: "/deals"
     },
     {
         title: "Brands Page",
