@@ -188,7 +188,7 @@ export default function MenuManagementPage() {
                 </Button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
                 <MenuColumnEditor
                     title="Header Navigation"
                     description="Links that appear in the main site header."
@@ -197,36 +197,13 @@ export default function MenuManagementPage() {
                     onSave={handleSaveChanges}
                 />
                 
-                <div className="lg:col-span-2 xl:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <MenuColumnEditor
-                        title="Footer Column 1"
-                        description="First column of links in the site footer."
-                        items={menuData.footerCol1}
-                        onUpdate={(newItems) => handleUpdateColumn('footerCol1', newItems)}
-                        onSave={handleSaveChanges}
-                    />
-                    <MenuColumnEditor
-                        title="Footer Column 2"
-                        description="Second column of links in the site footer."
-                        items={menuData.footerCol2}
-                        onUpdate={(newItems) => handleUpdateColumn('footerCol2', newItems)}
-                        onSave={handleSaveChanges}
-                    />
-                    <MenuColumnEditor
-                        title="Footer Column 3"
-                        description="Third column of links in the site footer."
-                        items={menuData.footerCol3}
-                        onUpdate={(newItems) => handleUpdateColumn('footerCol3', newItems)}
-                        onSave={handleSaveChanges}
-                    />
-                    <MenuColumnEditor
-                        title="Footer Column 4"
-                        description="Fourth column of links in the site footer."
-                        items={menuData.footerCol4}
-                        onUpdate={(newItems) => handleUpdateColumn('footerCol4', newItems)}
-                        onSave={handleSaveChanges}
-                    />
-                </div>
+                <MenuColumnEditor
+                    title="Footer Navigation"
+                    description="All links that appear in the site footer."
+                    items={menuData.footer}
+                    onUpdate={(newItems) => handleUpdateColumn('footer', newItems)}
+                    onSave={handleSaveChanges}
+                />
             </div>
         </div>
     );
