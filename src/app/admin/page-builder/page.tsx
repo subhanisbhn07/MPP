@@ -1,4 +1,5 @@
 
+
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { ArrowRight, LayoutDashboard, Search, Smartphone, Star, Newspaper, FileText, Tag, BarChart, Calendar, Rss, Layers, Heading, PanelTop, PanelBottom, Menu } from "lucide-react";
 import Link from "next/link";
@@ -15,7 +16,7 @@ const pages = [
         title: "Hero Banner",
         description: "Customize the main heading, promotional text, and call-to-action on the homepage.",
         icon: Heading,
-        href: "#"
+        href: "/admin/page-builder/homepage"
     },
     {
         title: "Phone Category Section",
