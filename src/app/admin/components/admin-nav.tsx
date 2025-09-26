@@ -29,7 +29,7 @@ const navItems = [
   { href: '/admin', label: 'Dashboard', icon: Home },
   { href: '/admin/phones', label: 'Manage Phones', icon: Smartphone },
   { href: '/admin/generate-spec', label: 'AI Spec Generator', icon: Sparkles },
-  { href: '/admin/content-automation', label: 'Page Builder', icon: LayoutDashboard },
+  { href: '/admin/page-builder', label: 'Page Builder', icon: LayoutDashboard },
   { href: '/admin/blog', label: 'Blog & Guides', icon: PenSquare },
   { href: '/admin/news', label: 'News Articles', icon: Newspaper },
   { href: '/admin/events', label: 'Events', icon: Calendar },

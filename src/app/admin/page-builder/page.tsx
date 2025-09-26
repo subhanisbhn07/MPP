@@ -1,15 +1,16 @@
 
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { ArrowRight, LayoutDashboard, Search, Smartphone, Star, Newspaper, FileText, Tag, BarChart, Calendar, Rss, Layers, Heading, PanelTop, PanelBottom, Menu } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const pages = [
     {
         title: "Menu Management",
         description: "Manage navigation links, logos, sitemaps, and other menu items for the header and footer.",
         icon: Menu,
-        href: "#"
+        href: "/admin/content-automation/homepage"
     },
     {
         title: "Hero Banner",
@@ -91,24 +92,26 @@ export default function PageBuilder() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {pages.map((page) => (
-            <Card key={page.title} className="flex flex-col hover:border-primary/50 transition-all">
-                <CardHeader>
-                    <div className="flex items-start gap-4">
-                        <div className="p-3 bg-muted rounded-md">
-                           <page.icon className="w-6 h-6 text-primary" />
+            <Link key={page.title} href={page.href} className={cn("flex", page.href === '#' && "pointer-events-none")}>
+                <Card className="flex flex-col hover:border-primary/50 transition-all w-full">
+                    <CardHeader>
+                        <div className="flex items-start gap-4">
+                            <div className="p-3 bg-muted rounded-md">
+                               <page.icon className="w-6 h-6 text-primary" />
+                            </div>
+                            <div>
+                                <CardTitle>{page.title}</CardTitle>
+                                <CardDescription className="mt-1 text-xs leading-5">{page.description}</CardDescription>
+                            </div>
                         </div>
-                        <div>
-                            <CardTitle>{page.title}</CardTitle>
-                            <CardDescription className="mt-1 text-xs leading-5">{page.description}</CardDescription>
+                    </CardHeader>
+                    <CardFooter className="flex-grow flex items-end mt-auto">
+                        <div className="flex items-center text-sm font-semibold text-primary">
+                            Manage Page <ArrowRight className="ml-2 h-4 w-4" />
                         </div>
-                    </div>
-                </CardHeader>
-                <CardContent className="flex-grow flex items-end">
-                    <Link href={page.href} className="flex items-center text-sm font-semibold text-primary">
-                        Manage Page <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                </CardContent>
-            </Card>
+                    </CardFooter>
+                </Card>
+            </Link>
         ))}
       </div>
     </div>
