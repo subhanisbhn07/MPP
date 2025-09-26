@@ -13,10 +13,11 @@ export default function HeroBannerManagementPage() {
   const [title, setTitle] = useState('Discover. Compare. Decide.');
   const [subtitle, setSubtitle] = useState('AI-updated specs, comparisons & SEO-friendly landing pages.');
   const [buttonText, setButtonText] = useState('Compare Mobiles');
+  const [buttonLink, setButtonLink] = useState('/compare');
   const { toast } = useToast();
 
   const handleSave = () => {
-    console.log("Saving Hero Banner:", { title, subtitle, buttonText });
+    console.log("Saving Hero Banner:", { title, subtitle, buttonText, buttonLink });
     toast({
       title: 'Hero Banner Saved!',
       description: 'The hero banner content has been updated.',
@@ -62,6 +63,10 @@ export default function HeroBannerManagementPage() {
                      <div className="space-y-2">
                         <Label htmlFor="hero-button">Button Text</Label>
                         <Input id="hero-button" value={buttonText} onChange={(e) => setButtonText(e.target.value)} />
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="hero-link">Button Link</Label>
+                        <Input id="hero-link" value={buttonLink} onChange={(e) => setButtonLink(e.target.value)} placeholder="/example-page" />
                     </div>
                 </CardContent>
             </Card>
