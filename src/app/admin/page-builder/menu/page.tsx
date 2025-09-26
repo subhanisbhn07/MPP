@@ -195,8 +195,8 @@ export default function MenuManagementPage() {
                 </Button>
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
-                 <div className="xl:col-span-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                <div className="md:col-span-2">
                     <MenuColumnEditor
                         title="Header Navigation"
                         description="Links that appear in the main site header."
@@ -205,32 +205,30 @@ export default function MenuManagementPage() {
                     />
                 </div>
                 
-                <div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <MenuColumnEditor
-                        title="Footer Column 1: Brands"
-                        description="First column of links in the site footer."
-                        items={menuData.footer.brands}
-                        onUpdate={(newItems) => handleUpdateFooterColumn('brands', newItems)}
-                    />
-                    <MenuColumnEditor
-                        title="Footer Column 2: Categories"
-                        description="Second column of links in the site footer."
-                        items={menuData.footer.categories}
-                        onUpdate={(newItems) => handleUpdateFooterColumn('categories', newItems)}
-                    />
-                    <MenuColumnEditor
-                        title="Footer Column 3: Quick Links"
-                        description="Third column of links in the site footer."
-                        items={menuData.footer.quickLinks}
-                        onUpdate={(newItems) => handleUpdateFooterColumn('quickLinks', newItems)}
-                    />
-                    <MenuColumnEditor
-                        title="Footer Column 4: Company"
-                        description="Fourth column of links in the site footer."
-                        items={menuData.footer.company}
-                        onUpdate={(newItems) => handleUpdateFooterColumn('company', newItems)}
-                    />
-                </div>
+                <MenuColumnEditor
+                    title="Footer Column 1: Brands"
+                    description="First column of links in the site footer."
+                    items={menuData.footer.brands}
+                    onUpdate={(newItems) => handleUpdateFooterColumn('brands', newItems)}
+                />
+                <MenuColumnEditor
+                    title="Footer Column 2: Categories"
+                    description="Second column of links in the site footer."
+                    items={menuData.footer.categories}
+                    onUpdate={(newItems) => handleUpdateFooterColumn('categories', newItems)}
+                />
+                <MenuColumnEditor
+                    title="Footer Column 3: Quick Links"
+                    description="Third column of links in the site footer."
+                    items={menuData.footer.quickLinks}
+                    onUpdate={(newItems) => handleUpdateFooterColumn('quickLinks', newItems)}
+                />
+                <MenuColumnEditor
+                    title="Footer Column 4: Company"
+                    description="Fourth column of links in the site footer."
+                    items={menuData.footer.company}
+                    onUpdate={(newItems) => handleUpdateFooterColumn('company', newItems)}
+                />
             </div>
         </div>
     );
