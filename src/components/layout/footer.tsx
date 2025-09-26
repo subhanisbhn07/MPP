@@ -1,9 +1,21 @@
 
+'use client';
+
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { Card } from '@/components/ui/card';
+import { initialMenuData } from '@/lib/menu-data'; // In a real app, this would be fetched
 
 export function Footer() {
+  const { footer } = initialMenuData;
+
+  const footerColumns = [
+    { title: 'Brands', links: footer.brands },
+    { title: 'Categories', links: footer.categories },
+    { title: 'Quick Links', links: footer.quickLinks },
+    { title: 'Company', links: footer.company },
+  ];
+
   return (
     <footer className="w-full">
       <div className="px-4 pb-4">
@@ -19,30 +31,16 @@ export function Footer() {
               </p>
             </div>
             <div className="col-span-2 grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
-              <div className="grid gap-1">
-                <h3 className="font-semibold">Brands</h3>
-                <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Apple</Link>
-                <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Samsung</Link>
-                <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Google</Link>
-              </div>
-              <div className="grid gap-1">
-                <h3 className="font-semibold">Categories</h3>
-                <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Gaming Phones</Link>
-                <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Camera Phones</Link>
-                <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground">5G Phones</Link>
-              </div>
-              <div className="grid gap-1">
-                <h3 className="font-semibold">Quick Links</h3>
-                <Link href="/compare" className="text-primary-foreground/80 hover:text-primary-foreground">Compare</Link>
-                <Link href="/news" className="text-primary-foreground/80 hover:text-primary-foreground">News</Link>
-                 <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Sitemap</Link>
-              </div>
-              <div className="grid gap-1">
-                <h3 className="font-semibold">Company</h3>
-                <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground">About</Link>
-                <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Contact</Link>
-                <Link href="#" className="text-primary-foreground/80 hover:text-primary-foreground">Privacy</Link>
-              </div>
+              {footerColumns.map(column => (
+                <div key={column.title} className="grid gap-1">
+                  <h3 className="font-semibold">{column.title}</h3>
+                  {column.links.map(link => (
+                    <Link key={link.id} href={link.href} className="text-primary-foreground/80 hover:text-primary-foreground">
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              ))}
             </div>
           </div>
           <div className="border-t border-primary-foreground/20 mx-6">

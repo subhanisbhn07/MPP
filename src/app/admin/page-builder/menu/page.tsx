@@ -7,7 +7,7 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-import type { MenuItem, MenuStructure } from '@/lib/menu-data';
+import type { MenuItem, MenuStructure, FooterMenu } from '@/lib/menu-data';
 import { initialMenuData } from '@/lib/menu-data';
 import { handleUpdateMenu } from './actions';
 
@@ -81,7 +81,7 @@ function AddLinkDialog({ isOpen, onOpenChange, onAdd }: { isOpen: boolean, onOpe
 }
 
 
-function MenuColumnEditor({ title, description, items, onUpdate, onSave }: { title: string, description: string, items: MenuItem[], onUpdate: (newItems: MenuItem[]) => void, onSave: () => void }) {
+function MenuColumnEditor({ title, description, items, onUpdate }: { title: string, description: string, items: MenuItem[], onUpdate: (newItems: MenuItem[]) => void }) {
     const [isAddDialogOpen, setAddDialogOpen] = useState(false);
     
     const sensors = useSensors(
@@ -148,10 +148,17 @@ export default function MenuManagementPage() {
     const [loading, setLoading] = useState(false);
     const { toast } = useToast();
 
-    const handleUpdateColumn = (key: keyof MenuStructure, newItems: MenuItem[]) => {
+    const handleUpdateHeader = (newItems: MenuItem[]) => {
+        setMenuData(prev => ({ ...prev, header: newItems }));
+    };
+
+    const handleUpdateFooterColumn = (key: keyof FooterMenu, newItems: MenuItem[]) => {
         setMenuData(prev => ({
             ...prev,
-            [key]: newItems,
+            footer: {
+                ...prev.footer,
+                [key]: newItems,
+            }
         }));
     };
 
@@ -179,7 +186,7 @@ export default function MenuManagementPage() {
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight">Menu Management</h1>
                     <p className="text-muted-foreground">
-                        Manage navigation links, logos, and other menu items for the header and footer.
+                        Manage navigation links for the header and footer.
                     </p>
                 </div>
                 <Button onClick={handleSaveChanges} disabled={loading}>
@@ -188,22 +195,42 @@ export default function MenuManagementPage() {
                 </Button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-                <MenuColumnEditor
-                    title="Header Navigation"
-                    description="Links that appear in the main site header."
-                    items={menuData.header}
-                    onUpdate={(newItems) => handleUpdateColumn('header', newItems)}
-                    onSave={handleSaveChanges}
-                />
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+                 <div className="xl:col-span-1">
+                    <MenuColumnEditor
+                        title="Header Navigation"
+                        description="Links that appear in the main site header."
+                        items={menuData.header}
+                        onUpdate={handleUpdateHeader}
+                    />
+                </div>
                 
-                <MenuColumnEditor
-                    title="Footer Navigation"
-                    description="All links that appear in the site footer."
-                    items={menuData.footer}
-                    onUpdate={(newItems) => handleUpdateColumn('footer', newItems)}
-                    onSave={handleSaveChanges}
-                />
+                <div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <MenuColumnEditor
+                        title="Footer Column 1: Brands"
+                        description="First column of links in the site footer."
+                        items={menuData.footer.brands}
+                        onUpdate={(newItems) => handleUpdateFooterColumn('brands', newItems)}
+                    />
+                    <MenuColumnEditor
+                        title="Footer Column 2: Categories"
+                        description="Second column of links in the site footer."
+                        items={menuData.footer.categories}
+                        onUpdate={(newItems) => handleUpdateFooterColumn('categories', newItems)}
+                    />
+                    <MenuColumnEditor
+                        title="Footer Column 3: Quick Links"
+                        description="Third column of links in the site footer."
+                        items={menuData.footer.quickLinks}
+                        onUpdate={(newItems) => handleUpdateFooterColumn('quickLinks', newItems)}
+                    />
+                    <MenuColumnEditor
+                        title="Footer Column 4: Company"
+                        description="Fourth column of links in the site footer."
+                        items={menuData.footer.company}
+                        onUpdate={(newItems) => handleUpdateFooterColumn('company', newItems)}
+                    />
+                </div>
             </div>
         </div>
     );
