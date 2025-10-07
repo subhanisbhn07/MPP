@@ -9,7 +9,7 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z, ZodTypeAny, ZodObject, ZodString, ZodNumber, ZodBoolean} from 'zod';
 
 const GenerateMobileSpecInputSchema = z.object({
   name: z.string(),
@@ -348,22 +348,65 @@ const generationConfig = {
   safetySettings,
 };
 
+/**
+ * Converts a Zod schema into a human-readable text description for the AI prompt.
+ * @param schema The Zod schema to describe.
+ * @param indent The current indentation level for pretty-printing.
+ * @returns A string describing the JSON structure.
+ */
+function describeSchemaForPrompt(schema: ZodTypeAny, indent = 0): string {
+  const indentation = '  '.repeat(indent);
+  
+  if (schema instanceof ZodObject) {
+    const shape = schema.shape as { [key: string]: ZodTypeAny };
+    const entries = Object.entries(shape).map(([key, value]) => {
+      const fieldDescription = describeSchemaForPrompt(value, indent + 1);
+      return `${'  '.repeat(indent + 1)}"${key}": ${fieldDescription}`;
+    });
+    return `{\n${entries.join(',\n')}\n${indentation}}`;
+  }
+  if (schema instanceof ZodString) {
+    return '"string"';
+  }
+  if (schema instanceof ZodNumber) {
+    return '"number"';
+  }
+  if (schema instanceof ZodBoolean) {
+    return '"boolean"';
+  }
+  // Add other Zod types as needed (e.g., ZodArray, ZodEnum)
+  return '"unknown"';
+}
+
 async function generateSpecChunk<T extends z.ZodTypeAny>(
   chunkName: string,
   schema: T,
   input: GenerateMobileSpecInput,
   categoryNames: string[]
 ): Promise<z.infer<T>> {
+
+  // Generate the detailed schema description for the prompt
+  const schemaDescription = describeSchemaForPrompt(schema);
+
   const prompt = ai.definePrompt({
     name: `generate${chunkName}SpecPrompt`,
     input: { schema: GenerateMobileSpecInputSchema },
     output: { schema },
-    prompt: `You are a mobile phone expert. Generate the specifications for the following categories: ${categoryNames.join(', ')} for the mobile phone:
+    prompt: `You are a world-class mobile phone specification expert and researcher. Your task is to generate a detailed and accurate list of specifications for a specific mobile phone.
 
-Name: {{{name}}}
-Model: {{{model}}}
+Phone to research:
+- Brand: {{{name}}}
+- Model: {{{model}}}
 
-Ensure the specifications are detailed and accurate. Provide specifications for all fields in the schema. If a value is not available or not applicable, use "N/A". Output should be a valid JSON conforming to the provided schema.`,
+You must generate specifications ONLY for the following categories: ${categoryNames.join(', ')}.
+
+Your output must be a valid JSON object that strictly conforms to the structure and fields outlined below. Do not add any extra fields or deviate from this format. If a specific value is not available or not applicable for this phone model, use the string "N/A".
+
+Required JSON output structure:
+\`\`\`json
+${schemaDescription}
+\`\`\`
+`,
     config: generationConfig,
   });
 
