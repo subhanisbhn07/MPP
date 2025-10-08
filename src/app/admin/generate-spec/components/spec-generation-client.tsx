@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -5,15 +6,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useToast } from '@/hooks/use-toast';
-import { handleGenerateSpec } from '../actions';
+import { handleGenerateSpec, handleSaveToDatabase } from '../actions';
 import type { GenerateMobileSpecOutput } from '@/ai/flows/generate-mobile-spec';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Sparkles, Loader2, Save } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
+import { Sparkles, Loader2, Save, FileJson } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const formSchema = z.object({
@@ -23,6 +23,7 @@ const formSchema = z.object({
 
 // Function to convert camelCase or snake_case to Title Case
 const toTitleCase = (str: string) => {
+  if (!str) return '';
   return str
     .replace(/([A-Z])/g, ' $1') // insert a space before all caps
     .replace(/_/g, ' ') // replace underscores with a space
@@ -35,7 +36,9 @@ const toTitleCase = (str: string) => {
 
 export function SpecGenerationClient() {
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [result, setResult] = useState<GenerateMobileSpecOutput | null>(null);
+  const [generatedPhoneDetails, setGeneratedPhoneDetails] = useState({ name: '', model: ''});
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -49,6 +52,7 @@ export function SpecGenerationClient() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     setResult(null);
+    setGeneratedPhoneDetails(values);
     try {
       const response = await handleGenerateSpec(values);
       if (response.success && response.data) {
@@ -71,6 +75,42 @@ export function SpecGenerationClient() {
       setLoading(false);
     }
   }
+  
+  const handleSave = async () => {
+    if (!result || !generatedPhoneDetails.model) return;
+    setSaving(true);
+
+    const fullPhoneData = {
+        id: Date.now(), // Use a timestamp for a unique ID
+        brand: generatedPhoneDetails.name,
+        model: generatedPhoneDetails.model,
+        image: `https://picsum.photos/seed/${generatedPhoneDetails.model.replace(/ /g, '-')}/400/500`,
+        images: [],
+        youtubeVideoId: '',
+        price: 0, // Admin can edit this later
+        specs: result
+    };
+    
+    try {
+        const response = await handleSaveToDatabase(fullPhoneData);
+        if(response.success){
+            toast({
+                title: "Phone Saved",
+                description: response.message
+            });
+        } else {
+            throw new Error(response.error || 'An unknown error occurred during save.');
+        }
+    } catch (error: any) {
+         toast({
+            variant: "destructive",
+            title: "Save Failed",
+            description: error.message,
+        });
+    } finally {
+        setSaving(false);
+    }
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -108,7 +148,7 @@ export function SpecGenerationClient() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" disabled={loading} className="w-full">
+                <Button type="submit" disabled={loading || saving} className="w-full">
                   {loading ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   ) : (
@@ -124,11 +164,18 @@ export function SpecGenerationClient() {
 
       <div className="lg:col-span-2">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Generated Specifications</CardTitle>
+          <CardHeader className="flex flex-row items-start justify-between">
+            <div>
+                <CardTitle>Generated Specifications</CardTitle>
+                <CardDescription>Review the generated specs below. You can then save to the database.</CardDescription>
+            </div>
             {result && (
-              <Button size="sm">
-                <Save className="mr-2 h-4 w-4" />
+              <Button size="sm" onClick={handleSave} disabled={saving || loading}>
+                {saving ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                    <Save className="mr-2 h-4 w-4" />
+                )}
                 Save to Database
               </Button>
             )}
@@ -141,8 +188,9 @@ export function SpecGenerationClient() {
               </div>
             )}
             {!loading && !result && (
-              <div className="flex items-center justify-center h-96 text-center">
-                <p className="text-muted-foreground">
+              <div className="flex flex-col items-center justify-center h-96 text-center border-2 border-dashed rounded-lg">
+                <FileJson className="h-12 w-12 text-muted-foreground/50" />
+                <p className="text-muted-foreground mt-4">
                   Your generated specifications will appear here.
                 </p>
               </div>
@@ -154,7 +202,7 @@ export function SpecGenerationClient() {
                      <AccordionTrigger className="text-lg font-semibold capitalize">{toTitleCase(category)}</AccordionTrigger>
                      <AccordionContent>
                         <div className="space-y-3 pt-2">
-                           {typeof specs === 'object' && specs !== null ? (
+                           {typeof specs === 'object' && specs !== null && !Array.isArray(specs) ? (
                             Object.entries(specs).map(([key, value]) => (
                                <div key={key} className="grid grid-cols-3 gap-4 text-sm">
                                   <span className="font-medium text-muted-foreground col-span-1">
