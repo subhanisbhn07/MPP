@@ -22,7 +22,6 @@ interface EditNewsPageProps {
 }
 
 export default function EditNewsPage({ params }: EditNewsPageProps) {
-  const { id } = params;
   const [article, setArticle] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -32,7 +31,7 @@ export default function EditNewsPage({ params }: EditNewsPageProps) {
     const stagedNewsRaw = localStorage.getItem('stagedNews');
     if (stagedNewsRaw) {
       const stagedNews = JSON.parse(stagedNewsRaw);
-      const foundArticle = stagedNews.find((a: any) => a.id === id);
+      const foundArticle = stagedNews.find((a: any) => a.id === params.id);
       if (foundArticle) {
         setArticle(foundArticle);
       } else {
@@ -43,7 +42,7 @@ export default function EditNewsPage({ params }: EditNewsPageProps) {
        // For now, we'll just indicate it's not found after loading.
     }
     setLoading(false);
-  }, [id]);
+  }, [params.id]);
   
   const handleSave = (event: React.FormEvent) => {
       event.preventDefault();
