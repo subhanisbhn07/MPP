@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { allPhones } from "@/lib/data";
-import { PlusCircle, Edit, MoreVertical } from "lucide-react";
+import { PlusCircle, Edit, MoreVertical, FileUp } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -50,10 +50,16 @@ export default function ManagePhonesPage() {
                         Here you can add, edit, and manage all phone entries in the catalog.
                     </p>
                 </div>
-                <Button>
-                    <PlusCircle className="mr-2" />
-                    Add New Phone
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Button variant="outline">
+                        <FileUp className="mr-2" />
+                        Bulk Upload
+                    </Button>
+                    <Button>
+                        <PlusCircle className="mr-2" />
+                        Add New Phone
+                    </Button>
+                </div>
             </div>
             
             <Card>
