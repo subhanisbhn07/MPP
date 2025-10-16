@@ -55,7 +55,7 @@ export function Header() {
               <div className="flex items-center">
                 <Sheet>
                   <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon" className="md:hidden mr-2 hover:bg-primary/80">
+                    <Button variant="ghost" size="icon" className="md:hidden mr-2 hover:bg-primary-foreground/10">
                       <Menu className="h-6 w-6" />
                       <span className="sr-only">Open menu</span>
                     </Button>
@@ -109,7 +109,7 @@ export function Header() {
                 <div className="hidden md:flex">
                   <Link href="/" className="mr-6 flex items-center space-x-2">
                     <Logo />
-                    <span className="font-bold">MobilePhonesPro</span>
+                    <span className="font-bold text-primary-foreground">MobilePhonesPro</span>
                   </Link>
                 </div>
                 <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
@@ -127,14 +127,14 @@ export function Header() {
 
               {/* Right side icons */}
               <div className="flex items-center justify-end space-x-2">
-                <Button variant="ghost" size="icon" asChild className="hover:bg-primary/80">
+                <Button variant="ghost" size="icon" asChild className="hover:bg-primary-foreground/10">
                   <Link href="/search">
                     <Search className="h-5 w-5" />
                     <span className="sr-only">Search</span>
                   </Link>
                 </Button>
                 {user && (
-                  <Button variant="ghost" size="icon" asChild className="hover:bg-primary/80">
+                  <Button variant="ghost" size="icon" asChild className="hover:bg-primary-foreground/10">
                     <Link href="/notifications">
                       <Bell className="h-5 w-5" />
                       <span className="sr-only">Notifications</span>
@@ -149,7 +149,7 @@ export function Header() {
                       <DropdownMenuTrigger asChild>
                         <Button
                           variant="ghost"
-                          className="relative h-8 w-8 rounded-full hover:bg-primary/80"
+                          className="relative h-8 w-8 rounded-full hover:bg-primary-foreground/10"
                         >
                           <Avatar className="h-9 w-9">
                             <AvatarImage
@@ -209,5 +209,3 @@ export function Header() {
     </header>
   );
 }
-
-    

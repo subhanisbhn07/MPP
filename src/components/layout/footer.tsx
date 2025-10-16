@@ -24,7 +24,7 @@ export function Footer() {
             <div className="flex flex-col gap-2">
               <Link href="/" className="flex items-center space-x-2">
                 <Logo />
-                <span className="font-bold">MobilePhonesPro</span>
+                <span className="font-bold text-primary-foreground">MobilePhonesPro</span>
               </Link>
               <p className="text-sm text-primary-foreground/80">
                 AI-powered mobile discovery & comparisons.
@@ -33,7 +33,7 @@ export function Footer() {
             <div className="col-span-2 grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
               {footerColumns.map(column => (
                 <div key={column.title} className="grid gap-1">
-                  <h3 className="font-semibold">{column.title}</h3>
+                  <h3 className="font-semibold text-primary-foreground">{column.title}</h3>
                   {column.links.map(link => (
                     <Link key={link.id} href={link.href} className="text-primary-foreground/80 hover:text-primary-foreground">
                       {link.label}
