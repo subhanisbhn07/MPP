@@ -204,7 +204,7 @@ export default function Home() {
   );
 
   return (
-    <div className="space-y-3 px-4">
+    <div className="space-y-3 px-4 mb-3">
        {/* Skip link */}
       <a
         href="#main"
