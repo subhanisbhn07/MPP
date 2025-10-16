@@ -45,7 +45,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
     : phone.specs.platform.chipset;
 
   return (
-    <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg rounded-md w-full">
+    <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg rounded-md w-full border">
       <Link href={phoneUrl} className="flex">
         {/* Left Section: Image */}
         <div className="relative w-28 flex-shrink-0 bg-muted/30 border-r">
