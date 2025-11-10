@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { PhoneCard } from '@/components/phone-card';
+import { PhoneListCard } from '@/components/phone-list-card';
+import { Section } from '@/components/section';
 import { ComparisonBar } from '@/components/comparison-bar';
 import { mockPhones, mockNews } from '@/lib/mock-data';
+import { chunkIntoColumns } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 
 export default function Home() {
@@ -29,9 +31,16 @@ export default function Home() {
     setComparisonPhones([]);
   };
 
+  const trendingPhones = mockPhones.filter(p => p.trending);
+  const latestPhones = mockPhones.filter(p => p.latestLaunch);
+  const featuredPhones = mockPhones.filter(p => p.featured);
+
+  const trendingColumns = chunkIntoColumns(trendingPhones, 3);
+  const latestColumns = chunkIntoColumns(latestPhones, 3);
+  const featuredColumns = chunkIntoColumns(featuredPhones, 3);
+
   return (
     <main className="min-h-screen">
-      {/* Hero Section - Yellow */}
       <section className="bg-[#FFD700] py-16">
         <div className="container text-center">
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
@@ -43,7 +52,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Search Section - Blue */}
       <section className="bg-[#4169E1] py-8">
         <div className="container">
           <div className="max-w-3xl mx-auto">
@@ -62,89 +70,81 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trending Phones Section - Yellow Background */}
-      <section className="bg-[#FFD700] py-12">
-        <div className="container">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Trending Phones</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockPhones.filter(p => p.trending).map(phone => (
-              <PhoneCard
-                key={phone.id}
-                phone={phone}
-                onCompare={handleAddToCompare}
-              />
-            ))}
-          </div>
+      <Section variant="yellow" title="Trending Phones">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {trendingColumns.map((column, colIndex) => (
+            <div key={colIndex} className="flex flex-col gap-3">
+              {column.map(phone => (
+                <PhoneListCard
+                  key={phone.id}
+                  phone={phone}
+                  onCompare={handleAddToCompare}
+                />
+              ))}
+            </div>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Latest Launches Section - Blue Background */}
-      <section className="bg-[#4169E1] py-12">
-        <div className="container">
-          <h2 className="text-3xl font-bold text-white mb-8">Latest Launches</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockPhones.filter(p => p.latestLaunch).map(phone => (
-              <PhoneCard
-                key={phone.id}
-                phone={phone}
-                onCompare={handleAddToCompare}
-              />
-            ))}
-          </div>
+      <Section variant="blue" title="Latest Launches">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {latestColumns.map((column, colIndex) => (
+            <div key={colIndex} className="flex flex-col gap-3">
+              {column.map(phone => (
+                <PhoneListCard
+                  key={phone.id}
+                  phone={phone}
+                  onCompare={handleAddToCompare}
+                />
+              ))}
+            </div>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Featured Phones Section - Yellow Background */}
-      <section className="bg-[#FFD700] py-12">
-        <div className="container">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">Featured Phones</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockPhones.filter(p => p.featured).map(phone => (
-              <PhoneCard
-                key={phone.id}
-                phone={phone}
-                onCompare={handleAddToCompare}
-              />
-            ))}
-          </div>
+      <Section variant="yellow" title="Featured Phones">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {featuredColumns.map((column, colIndex) => (
+            <div key={colIndex} className="flex flex-col gap-3">
+              {column.map(phone => (
+                <PhoneListCard
+                  key={phone.id}
+                  phone={phone}
+                  onCompare={handleAddToCompare}
+                />
+              ))}
+            </div>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* News Section - Blue Background */}
-      <section className="bg-[#4169E1] py-12">
-        <div className="container">
-          <h2 className="text-3xl font-bold text-white mb-8">Latest News</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {mockNews.map(article => (
-              <Card key={article.id} className="overflow-hidden">
-                <div className="aspect-video relative bg-gray-200">
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
-                    News Image
-                  </div>
+      <Section variant="blue" title="Latest News">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {mockNews.map(article => (
+            <Card key={article.id} className="overflow-hidden bg-white">
+              <div className="aspect-video relative bg-gray-200">
+                <div className="w-full h-full flex items-center justify-center text-gray-400">
+                  News Image
                 </div>
-                <div className="p-6">
-                  <div className="text-sm text-blue-600 font-medium mb-2">
-                    {article.category}
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">{article.title}</h3>
-                  <p className="text-gray-600 mb-4">{article.excerpt}</p>
-                  <Link href={`/news/${article.slug}`}>
-                    <Button variant="outline">Read More</Button>
-                  </Link>
+              </div>
+              <div className="p-4">
+                <div className="text-sm text-blue-600 font-medium mb-2">
+                  {article.category}
                 </div>
-              </Card>
-            ))}
-          </div>
+                <h3 className="text-lg font-bold mb-2">{article.title}</h3>
+                <p className="text-gray-600 text-sm mb-4 line-clamp-2">{article.excerpt}</p>
+                <Link href={`/news/${article.slug}`}>
+                  <Button variant="outline" size="sm">Read More</Button>
+                </Link>
+              </div>
+            </Card>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Quick Compare Section - Yellow Background */}
-      <section className="bg-[#FFD700] py-12">
-        <div className="container text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Quick Compare
-          </h2>
-          <p className="text-lg text-gray-800 mb-8">
+      <Section variant="yellow" title="Quick Compare">
+        <div className="text-center">
+          <p className="text-lg text-gray-800 mb-6">
             Select up to 4 phones to compare side by side
           </p>
           <Link href="/compare">
@@ -153,7 +153,7 @@ export default function Home() {
             </Button>
           </Link>
         </div>
-      </section>
+      </Section>
 
       {/* Comparison Bar */}
       <ComparisonBar
