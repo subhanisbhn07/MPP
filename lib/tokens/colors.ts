@@ -1,27 +1,34 @@
 export const colors = {
-  primary: {
-    yellow: '#FFD700',
+  brand: {
     blue: '#4169E1',
+    yellow: '#FFD700',
+  },
+  surface: {
+    primary: 'bg-white',
+    secondary: 'bg-gray-50',
+    tertiary: 'bg-gray-100',
   },
   text: {
-    onYellow: 'text-gray-900',
-    onBlue: 'text-white',
+    primary: 'text-gray-900',
+    secondary: 'text-gray-600',
+    muted: 'text-gray-500',
+    onBrand: 'text-white',
   },
-  background: {
-    yellow: 'bg-[#FFD700]',
-    blue: 'bg-[#4169E1]',
+  border: {
+    light: 'border-gray-200',
+    default: 'border-gray-300',
   },
 } as const;
 
-export type ColorVariant = 'yellow' | 'blue';
+export type ColorVariant = 'primary' | 'secondary';
 
 export const sectionVariants: Record<ColorVariant, { bg: string; text: string }> = {
-  yellow: {
-    bg: colors.background.yellow,
-    text: colors.text.onYellow,
+  primary: {
+    bg: colors.surface.primary,
+    text: colors.text.primary,
   },
-  blue: {
-    bg: colors.background.blue,
-    text: colors.text.onBlue,
+  secondary: {
+    bg: colors.surface.secondary,
+    text: colors.text.primary,
   },
 };

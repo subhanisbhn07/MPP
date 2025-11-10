@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { ChevronRight } from 'lucide-react';
 import { HeroBlock } from '@/components/blocks/HeroBlock';
 import { SearchBarBlock } from '@/components/blocks/SearchBarBlock';
 import { PhoneListBlock } from '@/components/blocks/PhoneListBlock';
@@ -47,56 +48,56 @@ export default function Home() {
 
       <PhoneListBlock
         title="Trending Phones"
-        variant="yellow"
+        variant="primary"
         phones={trendingPhones}
         onCompare={handleAddToCompare}
       />
 
       <PhoneListBlock
         title="Latest Launches"
-        variant="blue"
+        variant="secondary"
         phones={latestPhones}
         onCompare={handleAddToCompare}
       />
 
       <PhoneListBlock
         title="Top Offers"
-        variant="yellow"
+        variant="primary"
         phones={allPhones}
         onCompare={handleAddToCompare}
       />
 
       <PhoneListBlock
         title="Best of Today"
-        variant="blue"
+        variant="secondary"
         phones={featuredPhones}
         onCompare={handleAddToCompare}
       />
 
       <PhoneListBlock
         title="Highest Battery Life"
-        variant="yellow"
+        variant="primary"
         phones={allPhones}
         onCompare={handleAddToCompare}
       />
 
       <PhoneListBlock
         title="Best for Gaming"
-        variant="blue"
+        variant="secondary"
         phones={trendingPhones}
         onCompare={handleAddToCompare}
       />
 
       <PhoneListBlock
         title="Top Camera Phones"
-        variant="yellow"
+        variant="primary"
         phones={featuredPhones}
         onCompare={handleAddToCompare}
       />
 
       <PhoneListBlock
         title="Budget Phones"
-        variant="blue"
+        variant="secondary"
         phones={allPhones}
         onCompare={handleAddToCompare}
       />
@@ -109,23 +110,26 @@ export default function Home() {
 
       <BrowseBySpecs />
 
-      <section className="bg-[#FFD700] py-6 sm:py-8">
+      <section className="bg-white py-12 sm:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-4 sm:mb-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Buying Guides</h2>
-            <button className="text-xs sm:text-sm text-gray-900 hover:underline">View all →</button>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Buying Guides</h2>
+            <button className="flex items-center gap-1 text-sm font-medium text-gray-900 hover:text-[#4169E1] transition-colors group">
+              View all
+              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
-              <Card key={i} className="overflow-hidden bg-white">
-                <div className="aspect-video relative bg-gray-200">
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+              <Card key={i} className="group overflow-hidden bg-white border border-gray-200 rounded-xl hover:shadow-lg hover:border-gray-300 transition-all duration-200 cursor-pointer">
+                <div className="aspect-video relative bg-gray-100">
+                  <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
                     Guide Image
                   </div>
                 </div>
-                <div className="p-4">
-                  <h3 className="text-lg font-bold mb-2">Best Phones Under $500</h3>
-                  <p className="text-sm text-gray-600 line-clamp-2">
+                <div className="p-5">
+                  <h3 className="text-lg font-semibold mb-2 text-gray-900 group-hover:text-[#4169E1] transition-colors">Best Phones Under $500</h3>
+                  <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
                     Discover the top budget-friendly smartphones that offer great value for money.
                   </p>
                 </div>
@@ -135,26 +139,29 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#4169E1] py-6 sm:py-8">
+      <section className="bg-gray-50 py-12 sm:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-4 sm:mb-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-white">Latest News</h2>
-            <button className="text-xs sm:text-sm text-white hover:underline">View all →</button>
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">Latest News</h2>
+            <button className="flex items-center gap-1 text-sm font-medium text-gray-900 hover:text-[#4169E1] transition-colors group">
+              View all
+              <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {mockNews.map(article => (
-              <Card key={article.id} className="overflow-hidden bg-white">
-                <div className="aspect-video relative bg-gray-200">
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+              <Card key={article.id} className="group overflow-hidden bg-white border border-gray-200 rounded-xl hover:shadow-lg hover:border-gray-300 transition-all duration-200 cursor-pointer">
+                <div className="aspect-video relative bg-gray-100">
+                  <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
                     News Image
                   </div>
                 </div>
-                <div className="p-4">
-                  <div className="text-xs text-blue-600 font-medium mb-2">
+                <div className="p-5">
+                  <div className="inline-block px-2.5 py-1 bg-blue-50 text-[#4169E1] text-xs font-medium rounded-full mb-3">
                     {article.category}
                   </div>
-                  <h3 className="text-base font-bold mb-2 line-clamp-2">{article.title}</h3>
-                  <p className="text-sm text-gray-600 line-clamp-2">{article.excerpt}</p>
+                  <h3 className="text-base font-semibold mb-2 line-clamp-2 text-gray-900 group-hover:text-[#4169E1] transition-colors">{article.title}</h3>
+                  <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">{article.excerpt}</p>
                 </div>
               </Card>
             ))}
@@ -162,15 +169,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#FFD700] py-8 sm:py-10">
+      <section className="bg-gradient-to-b from-white to-gray-50 py-16 sm:py-20 border-t border-gray-200">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 sm:mb-6 tracking-tight">
             Your Trusted Source for Phone Comparisons
           </h2>
-          <p className="text-base sm:text-lg text-gray-800 mb-4 sm:mb-6">
+          <p className="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto font-light">
             Join thousands of users who trust MobilePhonesPro for their smartphone research
           </p>
-          <Button size="lg" className="bg-[#4169E1] text-white hover:bg-[#4169E1]/90 px-6 sm:px-8 text-sm sm:text-base">
+          <Button size="lg" className="bg-[#4169E1] hover:bg-[#3557c9] text-white px-10 h-12 text-base font-medium rounded-lg shadow-md hover:shadow-lg transition-all">
             Get Started
           </Button>
         </div>

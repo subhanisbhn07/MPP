@@ -3,6 +3,7 @@
 import { PhoneSpec } from '@/lib/types';
 import { PhoneCard } from '@/components/phone/PhoneCard';
 import { ColorVariant, sectionVariants } from '@/lib/tokens/colors';
+import { ChevronRight } from 'lucide-react';
 
 interface PhoneListBlockProps {
   title: string;
@@ -21,12 +22,13 @@ export function PhoneListBlock({
   const displayPhones = phones.slice(0, 12);
 
   return (
-    <section className={`${bg} py-6 sm:py-8`}>
+    <section className={`${bg} py-12 sm:py-16`}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-4 sm:mb-6">
-          <h2 className={`text-xl sm:text-2xl font-bold ${text}`}>{title}</h2>
-          <button className={`text-xs sm:text-sm ${text} hover:underline`}>
-            View all →
+        <div className="flex items-center justify-between mb-8">
+          <h2 className={`text-2xl sm:text-3xl font-bold ${text} tracking-tight`}>{title}</h2>
+          <button className={`flex items-center gap-1 text-sm font-medium ${text} hover:text-[#4169E1] transition-colors group`}>
+            View all
+            <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">

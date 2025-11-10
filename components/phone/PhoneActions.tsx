@@ -11,10 +11,10 @@ export function PhoneActions({ phoneId, onCompare, className = '' }: PhoneAction
     <div className={className}>
       <Button
         onClick={() => onCompare?.(phoneId)}
-        className="bg-[#4169E1] hover:bg-[#4169E1]/90 text-white text-sm sm:text-base px-3 sm:px-4"
+        className="bg-[#4169E1] hover:bg-[#3557c9] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors shadow-sm hover:shadow-md"
         size="sm"
       >
-        + Compare
+        Compare
       </Button>
     </div>
   );
