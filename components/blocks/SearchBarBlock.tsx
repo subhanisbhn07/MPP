@@ -6,8 +6,8 @@ import { Input } from '@/components/ui/input';
 
 export function SearchBarBlock() {
   return (
-    <section className="bg-[#4169E1] py-4 sm:py-6">
-      <div className="container px-4">
+    <section className="bg-[#4169E1] py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
             <Input

@@ -22,14 +22,14 @@ export function PhoneListBlock({
 
   return (
     <section className={`${bg} py-6 sm:py-8`}>
-      <div className="container">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-4 sm:mb-6">
           <h2 className={`text-xl sm:text-2xl font-bold ${text}`}>{title}</h2>
           <button className={`text-xs sm:text-sm ${text} hover:underline`}>
             View all →
           </button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {displayPhones.map(phone => (
             <PhoneCard
               key={phone.id}

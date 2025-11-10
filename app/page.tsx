@@ -110,12 +110,12 @@ export default function Home() {
       <BrowseBySpecs />
 
       <section className="bg-[#FFD700] py-6 sm:py-8">
-        <div className="container px-4">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-4 sm:mb-6">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Buying Guides</h2>
             <button className="text-xs sm:text-sm text-gray-900 hover:underline">View all →</button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {[1, 2, 3].map((i) => (
               <Card key={i} className="overflow-hidden bg-white">
                 <div className="aspect-video relative bg-gray-200">
@@ -136,12 +136,12 @@ export default function Home() {
       </section>
 
       <section className="bg-[#4169E1] py-6 sm:py-8">
-        <div className="container px-4">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-4 sm:mb-6">
             <h2 className="text-xl sm:text-2xl font-bold text-white">Latest News</h2>
             <button className="text-xs sm:text-sm text-white hover:underline">View all →</button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {mockNews.map(article => (
               <Card key={article.id} className="overflow-hidden bg-white">
                 <div className="aspect-video relative bg-gray-200">
@@ -163,7 +163,7 @@ export default function Home() {
       </section>
 
       <section className="bg-[#FFD700] py-8 sm:py-10">
-        <div className="container text-center px-4">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
             Your Trusted Source for Phone Comparisons
           </h2>

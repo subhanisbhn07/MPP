@@ -6,7 +6,7 @@ interface HeroBlockProps {
 export function HeroBlock({ title, subtitle }: HeroBlockProps) {
   return (
     <section className="bg-[#FFD700] py-10 sm:py-16">
-      <div className="container text-center px-4">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
           {title}
         </h1>
