@@ -2,14 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Search } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { PhoneCardFeatured } from '@/components/phone-card-featured';
+import { HeroBlock } from '@/components/blocks/HeroBlock';
+import { SearchBarBlock } from '@/components/blocks/SearchBarBlock';
+import { PhoneListBlock } from '@/components/blocks/PhoneListBlock';
+import { QuickCompareBlock } from '@/components/blocks/QuickCompareBlock';
 import { BrowseBySpecs } from '@/components/browse-by-specs';
 import { ComparisonBar } from '@/components/comparison-bar';
 import { mockPhones, mockNews } from '@/lib/mock-data';
-import { chunkIntoColumns } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
 
 export default function Home() {
@@ -31,152 +30,81 @@ export default function Home() {
     setComparisonPhones([]);
   };
 
-  const trendingPhones = mockPhones.filter(p => p.trending).slice(0, 15);
-  const latestPhones = mockPhones.filter(p => p.latestLaunch).slice(0, 15);
-  const featuredPhones = mockPhones.filter(p => p.featured).slice(0, 15);
-  const allPhones = mockPhones.slice(0, 15);
-
-  const trendingColumns = chunkIntoColumns(trendingPhones, 3);
-  const latestColumns = chunkIntoColumns(latestPhones, 3);
-  const featuredColumns = chunkIntoColumns(featuredPhones, 3);
-  const topOffersColumns = chunkIntoColumns(allPhones, 3);
-
-  const PhoneSection = ({ title, variant, columns, onCompare }: {
-    title: string;
-    variant: 'yellow' | 'blue';
-    columns: any[][];
-    onCompare: (id: string) => void;
-  }) => {
-    const bgColor = variant === 'yellow' ? 'bg-[#FFD700]' : 'bg-[#4169E1]';
-    const textColor = variant === 'yellow' ? 'text-gray-900' : 'text-white';
-
-    return (
-      <section className={`${bgColor} py-6 sm:py-8`}>
-        <div className="container">
-          <div className="flex items-center justify-between mb-4 sm:mb-6">
-            <h2 className={`text-xl sm:text-2xl font-bold ${textColor}`}>{title}</h2>
-            <button className={`text-xs sm:text-sm ${textColor} hover:underline`}>View all →</button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-            {columns.map((column, colIndex) => (
-              <div key={colIndex} className="flex flex-col gap-3 sm:gap-4">
-                {column.map(phone => (
-                  <PhoneCardFeatured
-                    key={phone.id}
-                    phone={phone}
-                    onCompare={onCompare}
-                  />
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  };
+  const trendingPhones = mockPhones.filter(p => p.trending);
+  const latestPhones = mockPhones.filter(p => p.latestLaunch);
+  const featuredPhones = mockPhones.filter(p => p.featured);
+  const allPhones = mockPhones;
 
   return (
     <main className="min-h-screen">
-      <section className="bg-[#FFD700] py-10 sm:py-16">
-        <div className="container text-center px-4">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
-            Discover. Compare. Decide.
-          </h1>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-800">
-            Find your perfect smartphone with our comprehensive comparison tool
-          </p>
-        </div>
-      </section>
+      <HeroBlock 
+        title="Discover. Compare. Decide."
+        subtitle="Find your perfect smartphone with our comprehensive comparison tool"
+      />
 
-      <section className="bg-[#4169E1] py-4 sm:py-6">
-        <div className="container px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-              <Input
-                type="search"
-                placeholder="Search phones..."
-                className="flex-1 h-10 sm:h-12 bg-white text-sm sm:text-base"
-              />
-              <Button size="lg" className="bg-[#FFD700] text-gray-900 hover:bg-[#FFD700]/90 px-6 sm:px-8 h-10 sm:h-12 text-sm sm:text-base">
-                <Search className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
-                Search
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SearchBarBlock />
 
-      <PhoneSection
+      <PhoneListBlock
         title="Trending Phones"
         variant="yellow"
-        columns={trendingColumns}
+        phones={trendingPhones}
         onCompare={handleAddToCompare}
       />
 
-      <PhoneSection
+      <PhoneListBlock
         title="Latest Launches"
         variant="blue"
-        columns={latestColumns}
+        phones={latestPhones}
         onCompare={handleAddToCompare}
       />
 
-      <PhoneSection
+      <PhoneListBlock
         title="Top Offers"
         variant="yellow"
-        columns={topOffersColumns}
+        phones={allPhones}
         onCompare={handleAddToCompare}
       />
 
-      <PhoneSection
+      <PhoneListBlock
         title="Best of Today"
         variant="blue"
-        columns={featuredColumns}
+        phones={featuredPhones}
         onCompare={handleAddToCompare}
       />
 
-      <PhoneSection
+      <PhoneListBlock
         title="Highest Battery Life"
         variant="yellow"
-        columns={topOffersColumns}
+        phones={allPhones}
         onCompare={handleAddToCompare}
       />
 
-      <PhoneSection
+      <PhoneListBlock
         title="Best for Gaming"
         variant="blue"
-        columns={trendingColumns}
+        phones={trendingPhones}
         onCompare={handleAddToCompare}
       />
 
-      <PhoneSection
+      <PhoneListBlock
         title="Top Camera Phones"
         variant="yellow"
-        columns={featuredColumns}
+        phones={featuredPhones}
         onCompare={handleAddToCompare}
       />
 
-      <PhoneSection
+      <PhoneListBlock
         title="Budget Phones"
         variant="blue"
-        columns={chunkIntoColumns(allPhones.slice(0, 12), 3)}
+        phones={allPhones}
         onCompare={handleAddToCompare}
       />
 
-      <section className="bg-[#FFD700] py-8 sm:py-10">
-        <div className="container text-center px-4">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
-            Quick Compare
-          </h2>
-          <p className="text-base sm:text-lg text-gray-800 mb-4 sm:mb-6">
-            Select up to 4 phones to compare side by side
-          </p>
-          <Link href="/compare">
-            <Button size="lg" className="bg-[#4169E1] text-white hover:bg-[#4169E1]/90 px-6 sm:px-8 text-sm sm:text-base">
-              Start Comparing
-            </Button>
-          </Link>
-        </div>
-      </section>
+      <QuickCompareBlock
+        title="Quick Compare"
+        description="Select up to 4 phones to compare side by side"
+        ctaText="Start Comparing"
+      />
 
       <BrowseBySpecs />
 
