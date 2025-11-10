@@ -1,6 +1,6 @@
 import { PhoneSpec, NewsArticle } from './types';
 
-export const mockPhones: PhoneSpec[] = [
+const basePhones: PhoneSpec[] = [
   {
     id: 'iphone-15-pro',
     brand: 'Apple',
@@ -205,6 +205,19 @@ export const mockPhones: PhoneSpec[] = [
     trending: true,
     latestLaunch: true
   }
+];
+
+export const mockPhones: PhoneSpec[] = [
+  ...basePhones,
+  ...basePhones.map((p, i) => ({ ...p, id: `${p.id}-dup1-${i}`, trending: true, featured: false, latestLaunch: false })),
+  ...basePhones.map((p, i) => ({ ...p, id: `${p.id}-dup2-${i}`, trending: false, featured: true, latestLaunch: false })),
+  ...basePhones.map((p, i) => ({ ...p, id: `${p.id}-dup3-${i}`, trending: false, featured: false, latestLaunch: true })),
+  ...basePhones.map((p, i) => ({ ...p, id: `${p.id}-dup4-${i}`, trending: true, featured: true, latestLaunch: false })),
+  ...basePhones.map((p, i) => ({ ...p, id: `${p.id}-dup5-${i}`, trending: true, featured: false, latestLaunch: true })),
+  ...basePhones.map((p, i) => ({ ...p, id: `${p.id}-dup6-${i}`, trending: false, featured: true, latestLaunch: true })),
+  ...basePhones.map((p, i) => ({ ...p, id: `${p.id}-dup7-${i}`, trending: true, featured: true, latestLaunch: true })),
+  ...basePhones.map((p, i) => ({ ...p, id: `${p.id}-dup8-${i}`, trending: true, featured: false, latestLaunch: false })),
+  ...basePhones.map((p, i) => ({ ...p, id: `${p.id}-dup9-${i}`, trending: false, featured: true, latestLaunch: false })),
 ];
 
 export const mockNews: NewsArticle[] = [
