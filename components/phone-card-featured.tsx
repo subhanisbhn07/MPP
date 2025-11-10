@@ -14,7 +14,7 @@ export function PhoneCardFeatured({ phone, onCompare }: PhoneCardFeaturedProps) 
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 flex gap-4 hover:shadow-md transition-shadow">
-      <div className="w-36 h-36 bg-gray-100 rounded flex-shrink-0 flex items-center justify-center overflow-hidden">
+      <div className="w-32 h-40 bg-gray-100 rounded flex-shrink-0 flex items-center justify-center overflow-hidden">
         <span className="text-xs text-gray-400">Phone Image</span>
       </div>
       
