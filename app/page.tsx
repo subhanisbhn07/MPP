@@ -158,12 +158,7 @@ export default function Home() {
       <PhoneSection
         title="Budget Phones"
         variant="blue"
-        columns={allPhones.slice(0, 12).reduce((acc, phone, i) => {
-          const colIndex = i % 3;
-          if (!acc[colIndex]) acc[colIndex] = [];
-          acc[colIndex].push(phone);
-          return acc;
-        }, [] as any[][]), 3)}
+        columns={chunkIntoColumns(allPhones.slice(0, 12), 3)}
         onCompare={handleAddToCompare}
       />
 
