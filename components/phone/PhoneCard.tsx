@@ -18,10 +18,10 @@ export function PhoneCard({ phone, onCompare, variant = 'featured' }: PhoneCardP
 
   if (variant === 'featured') {
     return (
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4 flex flex-col sm:flex-row gap-3 sm:gap-4 hover:shadow-md transition-shadow">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4 flex flex-row gap-3 sm:gap-4 hover:shadow-md transition-shadow">
         <PhoneImage 
           alt={`${phone.brand} ${phone.model}`}
-          className="w-full sm:w-32 h-48 sm:h-40 mx-auto sm:mx-0"
+          className="w-28 h-44 flex-shrink-0"
         />
         
         <div className="flex-1 flex flex-col">
