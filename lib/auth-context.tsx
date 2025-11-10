@@ -1,87 +1,71 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  signInWithPopup,
-  GoogleAuthProvider,
-  signOut as firebaseSignOut,
-  onAuthStateChanged
-} from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from './firebase';
-import { User } from './types';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { storage } from './storage';
+
+interface User {
+  id: string;
+  email: string;
+  displayName: string;
+  photoURL: string;
+  wishlist: string[];
+  createdAt: string;
+  isAdmin: boolean;
+}
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  signInWithGoogle: () => Promise<void>;
-  signOut: () => Promise<void>;
+  wishlist: string[];
+  addToWishlist: (phoneId: string) => void;
+  removeFromWishlist: (phoneId: string) => void;
+  isInWishlist: (phoneId: string) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
-  loading: true,
-  signInWithGoogle: async () => {},
-  signOut: async () => {},
+  loading: false,
+  wishlist: [],
+  addToWishlist: () => {},
+  removeFromWishlist: () => {},
+  isInWishlist: () => false,
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [wishlist, setWishlist] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!auth || !db) {
-      setLoading(false);
-      return;
-    }
-
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-        if (userDoc.exists()) {
-          setUser(userDoc.data() as User);
-        } else {
-          const newUser: User = {
-            id: firebaseUser.uid,
-            email: firebaseUser.email || '',
-            displayName: firebaseUser.displayName || '',
-            photoURL: firebaseUser.photoURL || '',
-            wishlist: [],
-            createdAt: new Date().toISOString(),
-            isAdmin: false,
-          };
-          await setDoc(doc(db, 'users', firebaseUser.uid), newUser);
-          setUser(newUser);
-        }
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
+    const savedWishlist = storage.getWishlist();
+    setWishlist(savedWishlist);
+    setLoading(false);
   }, []);
 
-  const signInWithGoogle = async () => {
-    if (!auth) {
-      console.warn('Firebase authentication is not configured. Running in demo mode.');
-      alert('Authentication is disabled in demo mode. Please configure Firebase credentials to enable login.');
-      return;
-    }
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+  const addToWishlist = (phoneId: string) => {
+    storage.addToWishlist(phoneId);
+    setWishlist(storage.getWishlist());
   };
 
-  const signOut = async () => {
-    if (!auth) {
-      console.warn('Firebase authentication is not configured. Running in demo mode.');
-      return;
-    }
-    await firebaseSignOut(auth);
+  const removeFromWishlist = (phoneId: string) => {
+    storage.removeFromWishlist(phoneId);
+    setWishlist(storage.getWishlist());
+  };
+
+  const isInWishlist = (phoneId: string) => {
+    return wishlist.includes(phoneId);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signOut }}>
+    <AuthContext.Provider 
+      value={{ 
+        user: null,
+        loading,
+        wishlist,
+        addToWishlist,
+        removeFromWishlist,
+        isInWishlist,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
