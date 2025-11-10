@@ -224,7 +224,7 @@ export default function Home() {
               AI-updated specs, comparisons &amp; SEO-friendly landing pages.
             </p>
             <div className="mt-4">
-              <Button asChild size="lg" variant="secondary">
+              <Button asChild size="lg" variant="default">
                 <Link href="/compare">Compare Mobiles</Link>
               </Button>
             </div>
