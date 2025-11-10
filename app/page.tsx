@@ -10,6 +10,7 @@ import { BrowseBySpecs } from '@/components/browse-by-specs';
 import { ComparisonBar } from '@/components/comparison-bar';
 import { mockPhones, mockNews } from '@/lib/mock-data';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
   const [comparisonPhones, setComparisonPhones] = useState<string[]>([]);
