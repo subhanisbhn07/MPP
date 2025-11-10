@@ -51,15 +51,15 @@ export default function Home() {
     const textColor = variant === 'yellow' ? 'text-gray-900' : 'text-white';
 
     return (
-      <section className={`${bgColor} py-8`}>
+      <section className={`${bgColor} py-6 sm:py-8`}>
         <div className="container">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className={`text-2xl font-bold ${textColor}`}>{title}</h2>
-            <button className={`text-sm ${textColor} hover:underline`}>View all →</button>
+          <div className="flex items-center justify-between mb-4 sm:mb-6">
+            <h2 className={`text-xl sm:text-2xl font-bold ${textColor}`}>{title}</h2>
+            <button className={`text-xs sm:text-sm ${textColor} hover:underline`}>View all →</button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {columns.map((column, colIndex) => (
-              <div key={colIndex} className="flex flex-col gap-4">
+              <div key={colIndex} className="flex flex-col gap-3 sm:gap-4">
                 {column.map(phone => (
                   <PhoneCardFeatured
                     key={phone.id}
@@ -77,28 +77,28 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
-      <section className="bg-[#FFD700] py-16">
-        <div className="container text-center">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+      <section className="bg-[#FFD700] py-10 sm:py-16">
+        <div className="container text-center px-4">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4">
             Discover. Compare. Decide.
           </h1>
-          <p className="text-xl text-gray-800">
+          <p className="text-base sm:text-lg lg:text-xl text-gray-800">
             Find your perfect smartphone with our comprehensive comparison tool
           </p>
         </div>
       </section>
 
-      <section className="bg-[#4169E1] py-6">
-        <div className="container">
+      <section className="bg-[#4169E1] py-4 sm:py-6">
+        <div className="container px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
               <Input
                 type="search"
-                placeholder="Search for phones by brand, model, or specs..."
-                className="flex-1 h-12 bg-white"
+                placeholder="Search phones..."
+                className="flex-1 h-10 sm:h-12 bg-white text-sm sm:text-base"
               />
-              <Button size="lg" className="bg-[#FFD700] text-gray-900 hover:bg-[#FFD700]/90 px-8">
-                <Search className="h-5 w-5 mr-2" />
+              <Button size="lg" className="bg-[#FFD700] text-gray-900 hover:bg-[#FFD700]/90 px-6 sm:px-8 h-10 sm:h-12 text-sm sm:text-base">
+                <Search className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                 Search
               </Button>
             </div>
@@ -162,16 +162,16 @@ export default function Home() {
         onCompare={handleAddToCompare}
       />
 
-      <section className="bg-[#FFD700] py-10">
-        <div className="container text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+      <section className="bg-[#FFD700] py-8 sm:py-10">
+        <div className="container text-center px-4">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
             Quick Compare
           </h2>
-          <p className="text-lg text-gray-800 mb-6">
+          <p className="text-base sm:text-lg text-gray-800 mb-4 sm:mb-6">
             Select up to 4 phones to compare side by side
           </p>
           <Link href="/compare">
-            <Button size="lg" className="bg-[#4169E1] text-white hover:bg-[#4169E1]/90 px-8">
+            <Button size="lg" className="bg-[#4169E1] text-white hover:bg-[#4169E1]/90 px-6 sm:px-8 text-sm sm:text-base">
               Start Comparing
             </Button>
           </Link>
@@ -180,13 +180,13 @@ export default function Home() {
 
       <BrowseBySpecs />
 
-      <section className="bg-[#FFD700] py-8">
-        <div className="container">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Buying Guides</h2>
-            <button className="text-sm text-gray-900 hover:underline">View all →</button>
+      <section className="bg-[#FFD700] py-6 sm:py-8">
+        <div className="container px-4">
+          <div className="flex items-center justify-between mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Buying Guides</h2>
+            <button className="text-xs sm:text-sm text-gray-900 hover:underline">View all →</button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {[1, 2, 3].map((i) => (
               <Card key={i} className="overflow-hidden bg-white">
                 <div className="aspect-video relative bg-gray-200">
@@ -206,13 +206,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#4169E1] py-8">
-        <div className="container">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-white">Latest News</h2>
-            <button className="text-sm text-white hover:underline">View all →</button>
+      <section className="bg-[#4169E1] py-6 sm:py-8">
+        <div className="container px-4">
+          <div className="flex items-center justify-between mb-4 sm:mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-white">Latest News</h2>
+            <button className="text-xs sm:text-sm text-white hover:underline">View all →</button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {mockNews.map(article => (
               <Card key={article.id} className="overflow-hidden bg-white">
                 <div className="aspect-video relative bg-gray-200">
@@ -233,15 +233,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-[#FFD700] py-10">
-        <div className="container text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+      <section className="bg-[#FFD700] py-8 sm:py-10">
+        <div className="container text-center px-4">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
             Your Trusted Source for Phone Comparisons
           </h2>
-          <p className="text-lg text-gray-800 mb-6">
+          <p className="text-base sm:text-lg text-gray-800 mb-4 sm:mb-6">
             Join thousands of users who trust MobilePhonesPro for their smartphone research
           </p>
-          <Button size="lg" className="bg-[#4169E1] text-white hover:bg-[#4169E1]/90 px-8">
+          <Button size="lg" className="bg-[#4169E1] text-white hover:bg-[#4169E1]/90 px-6 sm:px-8 text-sm sm:text-base">
             Get Started
           </Button>
         </div>
