@@ -215,7 +215,7 @@ export default function Home() {
 
       {/* Header / Hero */}
       <header role="banner" className="w-full">
-        <div className="text-center py-16 bg-accent rounded-lg">
+        <div className="text-center py-16 bg-accent rounded-lg p-6">
           <div className="flex flex-col items-center justify-center space-y-4">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-foreground">
               Discover. Compare. Decide.
@@ -224,7 +224,7 @@ export default function Home() {
               AI-updated specs, comparisons &amp; SEO-friendly landing pages.
             </p>
             <div className="mt-4">
-              <Button asChild size="lg" variant="primary">
+              <Button asChild size="lg" variant="default">
                 <Link href="/compare">Compare Mobiles</Link>
               </Button>
             </div>
@@ -234,11 +234,11 @@ export default function Home() {
         {/* News Ticker with live region + reduced motion support */}
         <div className="pb-4 mt-8">
           <div
-            className="relative flex items-center bg-card border rounded-lg p-2 text-sm overflow-hidden"
+            className="relative flex items-center bg-primary text-primary-foreground rounded-lg p-2 text-sm overflow-hidden"
             onMouseEnter={() => setTickerPaused(true)}
             onMouseLeave={() => setTickerPaused(false)}
           >
-            <Megaphone className="h-5 w-5 mr-2 flex-shrink-0 text-primary" aria-hidden="true" />
+            <Megaphone className="h-5 w-5 mr-2 flex-shrink-0 text-accent" aria-hidden="true" />
             <div
               className="flex-1 overflow-hidden"
             >
@@ -250,12 +250,12 @@ export default function Home() {
                   tickerPaused && "motion-safe:[animation-play-state:paused]"
                 )}
               >
-                <p className="whitespace-nowrap pr-12 text-muted-foreground">Pixel 9a announced with new Tensor G4 chip.</p>
-                <p className="whitespace-nowrap pr-12 text-muted-foreground">iPhone 16 Pro leaks suggest a larger display.</p>
-                <p className="whitespace-nowrap pr-12 text-muted-foreground">Samsung Galaxy S25 to feature satellite connectivity.</p>
-                <p className="whitespace-nowrap pr-12 text-muted-foreground">Pixel 9a announced with new Tensor G4 chip.</p>
-                <p className="whitespace-nowrap pr-12 text-muted-foreground">iPhone 16 Pro leaks suggest a larger display.</p>
-                <p className="whitespace-nowrap pr-12 text-muted-foreground">Samsung Galaxy S25 to feature satellite connectivity.</p>
+                <p className="whitespace-nowrap pr-12">Pixel 9a announced with new Tensor G4 chip.</p>
+                <p className="whitespace-nowrap pr-12">iPhone 16 Pro leaks suggest a larger display.</p>
+                <p className="whitespace-nowrap pr-12">Samsung Galaxy S25 to feature satellite connectivity.</p>
+                <p className="whitespace-nowrap pr-12">Pixel 9a announced with new Tensor G4 chip.</p>
+                <p className="whitespace-nowrap pr-12">iPhone 16 Pro leaks suggest a larger display.</p>
+                <p className="whitespace-nowrap pr-12">Samsung Galaxy S25 to feature satellite connectivity.</p>
               </div>
             </div>
           </div>
@@ -1166,4 +1166,5 @@ export default function Home() {
 }
 
     
+
 
