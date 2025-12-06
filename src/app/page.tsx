@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Image from 'next/image';
@@ -297,7 +298,7 @@ export default function Home() {
                   <div className="w-full">
                     <label htmlFor="sort" className="sr-only">Sort by</label>
                     <Select value={sortBy} onValueChange={setSortBy} name="sort">
-                      <SelectTrigger id="sort" className="h-12 w-full bg-background text-foreground border-input focus:ring-ring data-[placeholder]:text-muted-foreground" aria-label="Sort By">
+                      <SelectTrigger id="sort" className="h-12 w-full bg-accent text-foreground border-accent-foreground/20 focus:ring-accent-foreground data-[placeholder]:text-foreground/80" aria-label="Sort By">
                         <ArrowUpDown className="mr-2 h-5 w-5" aria-hidden="true" />
                         <SelectValue placeholder="Sort By" />
                       </SelectTrigger>
@@ -1163,5 +1164,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
