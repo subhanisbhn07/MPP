@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Image from 'next/image';
@@ -287,9 +286,9 @@ export default function Home() {
                 <div className="grid grid-cols-2 gap-2 md:flex md:flex-row">
                   <Button
                     type="button"
-                    variant="secondary"
+                    variant="accent"
                     size="lg"
-                    className="h-12 w-full"
+                    className="h-12 w-full text-foreground"
                     aria-label="Open filters"
                   >
                     <Filter className="mr-2 h-5 w-5" aria-hidden="true" /> Filters
@@ -1166,5 +1165,3 @@ export default function Home() {
 }
 
     
-
-
