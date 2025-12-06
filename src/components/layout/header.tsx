@@ -47,10 +47,9 @@ export function Header() {
   const navLinks = user ? [...baseNavLinks, { href: '/admin', label: 'Admin' }] : baseNavLinks;
 
   return (
-    <header className="w-full">
-      <div className="px-4 pt-4">
-         <Card className="rounded-2xl shadow-sm bg-primary text-primary-foreground">
-            <div className="flex h-16 items-center justify-between px-4">
+    <header className="w-full bg-primary text-primary-foreground">
+      <div className="container px-4">
+         <div className="flex h-16 items-center justify-between">
               {/* Mobile Menu & Logo */}
               <div className="flex items-center">
                 <Sheet>
@@ -195,7 +194,7 @@ export function Header() {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   ) : (
-                    <Button asChild style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }} className="hover:opacity-90">
+                    <Button asChild variant="accent" className="hover:opacity-90">
                       <Link href="/login">
                         <User className="mr-2 h-4 w-4" />
                         Login
@@ -204,7 +203,6 @@ export function Header() {
                   ))}
               </div>
             </div>
-         </Card>
       </div>
     </header>
   );

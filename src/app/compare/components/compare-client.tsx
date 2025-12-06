@@ -72,7 +72,7 @@ const PhoneSelection = ({ phone, onAdd, onRemove }: { phone: Phone | null, onAdd
         </div>
         <div>
           <p className="text-sm font-bold mt-1 truncate w-full">{phone.brand} {phone.model}</p>
-          <p className="text-sm text-muted-foreground">${phone.price}</p>
+          <p className="text-sm text-primary">${phone.price}</p>
         </div>
       </Link>
     </Card>
@@ -114,8 +114,8 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
   const valueGridColsClass = `grid-cols-${numPhones > 0 ? numPhones : 1}`;
 
   return (
-    <div className="container mx-auto py-8 px-4 md:px-6">
-       <div className="space-y-4 text-center mb-8">
+    <div className="container mx-auto py-12 px-4 md:px-6">
+       <div className="space-y-4 text-center mb-12">
         <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
           Compare Phones
         </h1>
@@ -124,7 +124,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
         </p>
       </div>
 
-       <div className="grid grid-cols-2 md:grid-cols-4 items-stretch gap-2 mb-8">
+       <div className="grid grid-cols-2 md:grid-cols-4 items-stretch gap-2 mb-8 sticky top-4 z-20 bg-background/80 backdrop-blur-sm p-4 rounded-lg border">
           {[...Array(MAX_COMPARE_PHONES)].map((_, index) => {
             const phone = compareList[index];
             return (
@@ -140,34 +140,38 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
       
       
       {/* Spec Categories and Rows */}
-      <div className="mt-4 border rounded-lg overflow-hidden">
-        {specCategoryGroups.map((group: SpecCategory) => (
-          <div key={group.title} id={group.category} className="border-b last:border-b-0">
-              <h2 className="p-3 font-bold text-lg text-center bg-primary text-primary-foreground">
+      <div className="mt-8 border rounded-lg overflow-hidden">
+        {specCategoryGroups.map((group: SpecCategory, groupIndex) => (
+          <div key={group.title} id={group.category} className={cn(groupIndex > 0 && "border-t")}>
+              <h2 className="p-3 font-bold text-lg text-center bg-primary text-primary-foreground sticky top-[150px] z-10">
                   {group.title}
               </h2>
 
-              {group.specs.map(spec => {
+              {group.specs.map((spec, specIndex) => {
                 const category = group.category as keyof PhoneSpec;
                 const specKey = spec.key as keyof PhoneSpec[typeof category];
                 
                 return (
-                  <div key={spec.key} className="border-b last:border-b-0">
+                  <div key={spec.key} className={cn("border-t", specIndex === 0 && "border-t-0")}>
                     {/* Spec Label Row */}
-                    <div className="bg-muted/50 p-3">
+                    <div className="p-3 bg-card">
                       <h3 className="font-semibold text-sm">{spec.label}</h3>
                     </div>
                     
                     {/* Spec Value Row */}
                      <div className={cn(
                         "grid items-start",
-                        `grid-cols-${Math.max(1, numPhones)}`
+                        `grid-cols-${Math.max(1, numPhones)}`,
+                        specIndex % 2 === 0 ? 'bg-background' : 'bg-card'
                      )}>
                       {compareList.map((phone, index) => (
                         <div key={phone.id} className={cn("text-left p-3 text-sm", index > 0 && "border-l")}>
                             {renderSpecValue((phone.specs[category] as any)?.[specKey])}
                         </div>
                       ))}
+                       {numPhones === 0 && (
+                          <div className="text-left p-3 text-sm text-muted-foreground">Add a phone to see specs</div>
+                        )}
                     </div>
                   </div>
                 )
