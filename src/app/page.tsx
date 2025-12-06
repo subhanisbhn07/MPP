@@ -217,10 +217,10 @@ export default function Home() {
       <header role="banner" className="w-full">
         <div className="text-center py-16 bg-accent rounded-lg">
           <div className="flex flex-col items-center justify-center space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-accent-foreground">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-foreground">
               Discover. Compare. Decide.
             </h1>
-            <p className="max-w-[600px] md:text-xl text-accent-foreground/80">
+            <p className="max-w-[600px] md:text-xl text-foreground/80">
               AI-updated specs, comparisons &amp; SEO-friendly landing pages.
             </p>
             <div className="mt-4">
@@ -1166,3 +1166,4 @@ export default function Home() {
 }
 
     
+
