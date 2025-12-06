@@ -214,7 +214,7 @@ export default function Home() {
 
       {/* Header / Hero */}
       <header role="banner" className="w-full">
-        <div className="text-center py-16">
+        <div className="text-center py-16 bg-accent/20 rounded-lg">
           <div className="flex flex-col items-center justify-center space-y-4">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
               Discover. Compare. Decide.
@@ -231,7 +231,7 @@ export default function Home() {
         </div>
 
         {/* News Ticker with live region + reduced motion support */}
-        <div className="pb-4">
+        <div className="pb-4 mt-8">
           <div
             className="relative flex items-center bg-card border rounded-lg p-2 text-sm overflow-hidden"
             onMouseEnter={() => setTickerPaused(true)}
@@ -1163,3 +1163,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
