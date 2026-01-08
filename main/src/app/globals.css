@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 220 20% 97%;      /* #F2F5F9 - Soft Tech Grey */
+    --foreground: 0 0% 10%;         /* #1A1A1A - Text Primary */
+    --card: 0 0% 100%;              /* #FFFFFF - Pure White */
+    --card-foreground: 0 0% 10%;    /* #1A1A1A - Text Primary */
+    --popover: 0 0% 100%;           /* #FFFFFF - Pure White */
+    --popover-foreground: 0 0% 10%; /* #1A1A1A - Text Primary */
+    --primary: 217 87% 30%;         /* #0A3D91 - mPP Trust Blue */
+    --primary-foreground: 0 0% 100%; /* #FFFFFF - Pure White */
+    --secondary: 216 28% 90%;       /* #E0E5EC - Divider Grey */
+    --secondary-foreground: 0 0% 33%; /* #555555 - Text Secondary */
+    --muted: 216 28% 90%;           /* #E0E5EC - Divider Grey */
+    --muted-foreground: 0 0% 33%;   /* #555555 - Text Secondary */
+    --accent: 51 88% 49%;           /* #eccc0f - Ripe Lemon */
+    --accent-foreground: 0 0% 10%; /* #1A1A1A - Text Primary (was #0A3D91) */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 216 28% 90%;          /* #E0E5EC - Divider Grey */
+    --input: 216 28% 90%;           /* #E0E5EC - Divider Grey */
+    --ring: 217 87% 30%;            /* #0A3D91 - mPP Trust Blue */
+    --chart-1: 195 100% 50%;        /* #00C3FF - mPP Cyan Signal */
+    --chart-2: 51 88% 49%;          /* #eccc0f - Ripe Lemon */
+    --chart-3: 217 87% 30%;         /* #0A3D91 - mPP Trust Blue */
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Keeping dark mode consistent with the new light theme for now */
+    --background: 222 24% 8%; 
+    --foreground: 0 0% 100%;
+    --card: 222 24% 8%;
+    --card-foreground: 0 0% 100%;
+    --popover: 222 24% 8%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 217 87% 30%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 51 88% 49%;
+    --accent-foreground: 0 0% 10%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 217 33% 27%;
+    --input: 217 33% 27%;
+    --ring: 217 87% 30%;
+    --chart-1: 195 100% 50%;
+    --chart-2: 51 88% 49%;
+    --chart-3: 217 87% 30%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+    .animate-ticker {
+        animation: ticker 30s linear infinite;
+    }
+
+    @keyframes ticker {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+}
