@@ -9,12 +9,35 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import {AllSections} from '@/ai/schemas/homepage-content';
+import type {ZodTypeAny} from 'zod';
+import {PhoneListsSchema, CommunityContentSchema, NewsAndBlogSchema} from '@/ai/schemas/homepage-content';
+
+// Map of section names to their schemas
+const sectionSchemaMap: Record<string, ZodTypeAny> = {
+  // Phone Lists
+  trendingPhones: PhoneListsSchema.shape.trendingPhones,
+  latestPhones: PhoneListsSchema.shape.latestPhones,
+  flagshipPhones: PhoneListsSchema.shape.flagshipPhones,
+  performancePhones: PhoneListsSchema.shape.performancePhones,
+  batteryPhones: PhoneListsSchema.shape.batteryPhones,
+  cameraPhones: PhoneListsSchema.shape.cameraPhones,
+  foldablePhones: PhoneListsSchema.shape.foldablePhones,
+  ruggedPhones: PhoneListsSchema.shape.ruggedPhones,
+  uniquePhones: PhoneListsSchema.shape.uniquePhones,
+  iosPhones: PhoneListsSchema.shape.iosPhones,
+  androidPhones: PhoneListsSchema.shape.androidPhones,
+  // Community Content
+  upcomingEvents: CommunityContentSchema.shape.upcomingEvents,
+  guides: CommunityContentSchema.shape.guides,
+  leaks: CommunityContentSchema.shape.leaks,
+  // News and Blog
+  blogPosts: NewsAndBlogSchema.shape.blogPosts,
+  news: NewsAndBlogSchema.shape.news,
+};
 
 // Input schema for the generic content generation flow
 const SectionContentInputSchema = z.object({
   section: z.string().describe('The specific section key to generate content for (e.g., "trendingPhones", "blogPosts").'),
-  parentSchema: AllSections.describe('The parent Zod schema that contains the definition for the target section.'),
 });
 
 // Generic prompt for generating content based on a given schema and description
@@ -24,10 +47,13 @@ const generateSectionContentFlow = ai.defineFlow(
     inputSchema: SectionContentInputSchema,
     outputSchema: z.any(), // Output is dynamic, so we use z.any() here and validate later
   },
-  async ({ section, parentSchema }) => {
-    // Extract the specific field and its description from the parent schema
-    const sectionSchema = parentSchema.shape[section];
-    const sectionDescription = sectionSchema?.description || `Content for the ${section} section.`;
+  async ({ section }) => {
+    // Extract the specific field and its description from the schema map
+    const sectionSchema = sectionSchemaMap[section];
+    if (!sectionSchema) {
+      throw new Error(`Unknown section: ${section}`);
+    }
+    const sectionDescription = sectionSchema.description || `Content for the ${section} section.`;
 
     // Create a dynamic output schema for only the requested section
     const dynamicOutputSchema = z.object({
