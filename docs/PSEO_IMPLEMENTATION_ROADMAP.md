@@ -323,6 +323,639 @@ Firecrawl is a web scraping API that converts websites to LLM-ready markdown. It
 
 ---
 
+## Part 0.8: Geo-Based Pricing Architecture
+
+### Business Model Overview
+
+MPP is a **free global platform** with two revenue streams:
+1. **Affiliate Commissions**: Earn when users click "Buy Now" and purchase from retailers
+2. **Ad Revenue**: Google AdSense and premium ad networks
+
+### Target Markets (Tier 1 Countries)
+
+| Country | Code | Currency | Primary Retailers | Secondary Retailers |
+|---------|------|----------|-------------------|---------------------|
+| India | IN | INR (₹) | Amazon.in, Flipkart | Croma, Reliance Digital, Vijay Sales |
+| USA | US | USD ($) | Amazon.com, Best Buy | Walmart, Target, B&H Photo |
+| UK | GB | GBP (£) | Amazon.co.uk, Currys | Argos, John Lewis, Carphone Warehouse |
+| Canada | CA | CAD ($) | Amazon.ca, Best Buy Canada | Walmart Canada, The Source |
+| Australia | AU | AUD ($) | Amazon.com.au, JB Hi-Fi | Harvey Norman, Officeworks |
+| Germany | DE | EUR (€) | Amazon.de, MediaMarkt | Saturn, Otto, Cyberport |
+| UAE | AE | AED | Amazon.ae, Noon | Sharaf DG, Jumbo Electronics |
+
+### Geo-Detection System
+
+```typescript
+// src/lib/geo.ts
+import { headers } from 'next/headers';
+
+export interface GeoInfo {
+  countryCode: string;
+  countryName: string;
+  currency: string;
+  currencySymbol: string;
+}
+
+const COUNTRY_CONFIG: Record<string, GeoInfo> = {
+  IN: { countryCode: 'IN', countryName: 'India', currency: 'INR', currencySymbol: '₹' },
+  US: { countryCode: 'US', countryName: 'United States', currency: 'USD', currencySymbol: '$' },
+  GB: { countryCode: 'GB', countryName: 'United Kingdom', currency: 'GBP', currencySymbol: '£' },
+  CA: { countryCode: 'CA', countryName: 'Canada', currency: 'CAD', currencySymbol: 'CA$' },
+  AU: { countryCode: 'AU', countryName: 'Australia', currency: 'AUD', currencySymbol: 'A$' },
+  DE: { countryCode: 'DE', countryName: 'Germany', currency: 'EUR', currencySymbol: '€' },
+  AE: { countryCode: 'AE', countryName: 'UAE', currency: 'AED', currencySymbol: 'AED' },
+};
+
+export async function getGeoInfo(): Promise<GeoInfo> {
+  const headersList = headers();
+  
+  // Vercel provides geo info in headers
+  const country = headersList.get('x-vercel-ip-country') || 'US';
+  
+  return COUNTRY_CONFIG[country] || COUNTRY_CONFIG['US'];
+}
+
+// Client-side fallback using browser timezone
+export function getCountryFromTimezone(): string {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const timezoneToCountry: Record<string, string> = {
+    'Asia/Kolkata': 'IN',
+    'America/New_York': 'US',
+    'America/Los_Angeles': 'US',
+    'Europe/London': 'GB',
+    'America/Toronto': 'CA',
+    'Australia/Sydney': 'AU',
+    'Europe/Berlin': 'DE',
+    'Asia/Dubai': 'AE',
+  };
+  return timezoneToCountry[timezone] || 'US';
+}
+```
+
+### Database Schema for Pricing
+
+```sql
+-- Countries and currencies
+CREATE TABLE countries (
+  code VARCHAR(2) PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  currency_code VARCHAR(3) NOT NULL,
+  currency_symbol VARCHAR(5) NOT NULL,
+  is_active BOOLEAN DEFAULT true
+);
+
+-- Insert Tier 1 countries
+INSERT INTO countries (code, name, currency_code, currency_symbol) VALUES
+  ('IN', 'India', 'INR', '₹'),
+  ('US', 'United States', 'USD', '$'),
+  ('GB', 'United Kingdom', 'GBP', '£'),
+  ('CA', 'Canada', 'CAD', 'CA$'),
+  ('AU', 'Australia', 'AUD', 'A$'),
+  ('DE', 'Germany', 'EUR', '€'),
+  ('AE', 'UAE', 'AED', 'AED');
+
+-- Retailers per country
+CREATE TABLE retailers (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  slug VARCHAR(100) NOT NULL,
+  country_code VARCHAR(2) REFERENCES countries(code),
+  logo_url TEXT,
+  base_url TEXT NOT NULL,
+  affiliate_program VARCHAR(100),
+  affiliate_network VARCHAR(100), -- 'amazon', 'cj', 'impact', etc.
+  is_active BOOLEAN DEFAULT true,
+  priority INTEGER DEFAULT 1, -- Display order
+  UNIQUE(slug, country_code)
+);
+
+-- Insert retailers
+INSERT INTO retailers (name, slug, country_code, base_url, affiliate_program, affiliate_network, priority) VALUES
+  -- India
+  ('Amazon India', 'amazon-in', 'IN', 'https://www.amazon.in', 'Amazon Associates India', 'amazon', 1),
+  ('Flipkart', 'flipkart', 'IN', 'https://www.flipkart.com', 'Flipkart Affiliate', 'flipkart', 2),
+  ('Croma', 'croma', 'IN', 'https://www.croma.com', 'Croma Affiliate', 'impact', 3),
+  -- USA
+  ('Amazon US', 'amazon-us', 'US', 'https://www.amazon.com', 'Amazon Associates', 'amazon', 1),
+  ('Best Buy', 'bestbuy', 'US', 'https://www.bestbuy.com', 'Best Buy Affiliate', 'impact', 2),
+  ('Walmart', 'walmart', 'US', 'https://www.walmart.com', 'Walmart Affiliate', 'impact', 3),
+  -- UK
+  ('Amazon UK', 'amazon-uk', 'GB', 'https://www.amazon.co.uk', 'Amazon Associates UK', 'amazon', 1),
+  ('Currys', 'currys', 'GB', 'https://www.currys.co.uk', 'Currys Affiliate', 'awin', 2),
+  ('Argos', 'argos', 'GB', 'https://www.argos.co.uk', 'Argos Affiliate', 'awin', 3),
+  -- Canada
+  ('Amazon Canada', 'amazon-ca', 'CA', 'https://www.amazon.ca', 'Amazon Associates Canada', 'amazon', 1),
+  ('Best Buy Canada', 'bestbuy-ca', 'CA', 'https://www.bestbuy.ca', 'Best Buy Canada Affiliate', 'cj', 2),
+  -- Australia
+  ('Amazon Australia', 'amazon-au', 'AU', 'https://www.amazon.com.au', 'Amazon Associates AU', 'amazon', 1),
+  ('JB Hi-Fi', 'jbhifi', 'AU', 'https://www.jbhifi.com.au', 'JB Hi-Fi Affiliate', 'commission-factory', 2),
+  -- Germany
+  ('Amazon Germany', 'amazon-de', 'DE', 'https://www.amazon.de', 'Amazon Associates DE', 'amazon', 1),
+  ('MediaMarkt', 'mediamarkt', 'DE', 'https://www.mediamarkt.de', 'MediaMarkt Affiliate', 'awin', 2),
+  -- UAE
+  ('Amazon UAE', 'amazon-ae', 'AE', 'https://www.amazon.ae', 'Amazon Associates UAE', 'amazon', 1),
+  ('Noon', 'noon', 'AE', 'https://www.noon.com', 'Noon Affiliate', 'noon', 2);
+
+-- Phone prices per retailer
+CREATE TABLE phone_prices (
+  id SERIAL PRIMARY KEY,
+  phone_id INTEGER REFERENCES phones(id),
+  retailer_id INTEGER REFERENCES retailers(id),
+  price DECIMAL(12,2) NOT NULL,
+  original_price DECIMAL(12,2), -- For showing discounts
+  product_url TEXT NOT NULL, -- Direct product URL (without affiliate tag)
+  product_id VARCHAR(100), -- ASIN for Amazon, SKU for others
+  in_stock BOOLEAN DEFAULT true,
+  last_updated TIMESTAMP DEFAULT NOW(),
+  UNIQUE(phone_id, retailer_id)
+);
+
+-- Price history for charts
+CREATE TABLE price_history (
+  id SERIAL PRIMARY KEY,
+  phone_id INTEGER REFERENCES phones(id),
+  retailer_id INTEGER REFERENCES retailers(id),
+  price DECIMAL(12,2) NOT NULL,
+  recorded_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Indexes for performance
+CREATE INDEX idx_phone_prices_phone ON phone_prices(phone_id);
+CREATE INDEX idx_phone_prices_retailer ON phone_prices(retailer_id);
+CREATE INDEX idx_price_history_phone ON price_history(phone_id);
+CREATE INDEX idx_price_history_date ON price_history(recorded_at);
+```
+
+### Price Display Component
+
+```typescript
+// src/components/price-display.tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+import { getCountryFromTimezone } from '@/lib/geo';
+
+interface PriceInfo {
+  retailer: string;
+  price: number;
+  originalPrice?: number;
+  currency: string;
+  currencySymbol: string;
+  affiliateUrl: string;
+  inStock: boolean;
+}
+
+interface PriceDisplayProps {
+  phoneId: number;
+  serverCountry?: string;
+}
+
+export function PriceDisplay({ phoneId, serverCountry }: PriceDisplayProps) {
+  const [prices, setPrices] = useState<PriceInfo[]>([]);
+  const [country, setCountry] = useState(serverCountry || 'US');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Use client-side detection as fallback
+    if (!serverCountry) {
+      setCountry(getCountryFromTimezone());
+    }
+  }, [serverCountry]);
+
+  useEffect(() => {
+    async function fetchPrices() {
+      setLoading(true);
+      const res = await fetch(`/api/prices/${phoneId}?country=${country}`);
+      const data = await res.json();
+      setPrices(data.prices);
+      setLoading(false);
+    }
+    fetchPrices();
+  }, [phoneId, country]);
+
+  if (loading) return <PriceSkeleton />;
+
+  return (
+    <div className="space-y-3">
+      <h3 className="font-semibold">Buy from:</h3>
+      {prices.map((price) => (
+        <a
+          key={price.retailer}
+          href={price.affiliateUrl}
+          target="_blank"
+          rel="noopener sponsored"
+          className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/10 transition"
+        >
+          <span className="font-medium">{price.retailer}</span>
+          <div className="text-right">
+            {price.originalPrice && price.originalPrice > price.price && (
+              <span className="text-sm text-muted-foreground line-through mr-2">
+                {price.currencySymbol}{price.originalPrice.toLocaleString()}
+              </span>
+            )}
+            <span className="font-bold text-lg">
+              {price.currencySymbol}{price.price.toLocaleString()}
+            </span>
+            {!price.inStock && (
+              <span className="ml-2 text-xs text-red-500">Out of Stock</span>
+            )}
+          </div>
+        </a>
+      ))}
+      <p className="text-xs text-muted-foreground">
+        * Prices may vary. Click to see current price.
+      </p>
+    </div>
+  );
+}
+```
+
+---
+
+## Part 0.9: Affiliate Integration Strategy
+
+### Affiliate Programs to Join
+
+| Program | Countries | Commission | Cookie Duration | Requirements |
+|---------|-----------|------------|-----------------|--------------|
+| Amazon Associates | All 7 | 1-4% | 24 hours | Website with content |
+| Flipkart Affiliate | India | 2-5% | 30 days | Indian bank account |
+| Best Buy Affiliate | US, CA | 0.5-1% | 1 day | Impact Radius account |
+| Currys/Argos (Awin) | UK | 1-3% | 30 days | Awin account |
+| JB Hi-Fi | Australia | 1-2% | 30 days | Commission Factory |
+| MediaMarkt (Awin) | Germany | 1-2% | 30 days | Awin account |
+| Noon | UAE | 2-4% | 7 days | Direct application |
+
+### Affiliate Link Generation
+
+```typescript
+// src/lib/affiliate.ts
+
+interface AffiliateConfig {
+  amazon: {
+    IN: string; // mpp-21
+    US: string; // mpp0a-20
+    GB: string; // mpp-21
+    CA: string; // mpp0a-20
+    AU: string; // mpp-22
+    DE: string; // mpp0a-21
+    AE: string; // mpp-21
+  };
+  flipkart: string;
+  impact: string; // For Best Buy, Walmart
+  awin: string; // For Currys, Argos, MediaMarkt
+  commissionFactory: string; // For JB Hi-Fi
+  noon: string;
+}
+
+// Store affiliate IDs securely in environment variables
+const AFFILIATE_IDS: AffiliateConfig = {
+  amazon: {
+    IN: process.env.AMAZON_AFFILIATE_IN || '',
+    US: process.env.AMAZON_AFFILIATE_US || '',
+    GB: process.env.AMAZON_AFFILIATE_GB || '',
+    CA: process.env.AMAZON_AFFILIATE_CA || '',
+    AU: process.env.AMAZON_AFFILIATE_AU || '',
+    DE: process.env.AMAZON_AFFILIATE_DE || '',
+    AE: process.env.AMAZON_AFFILIATE_AE || '',
+  },
+  flipkart: process.env.FLIPKART_AFFILIATE || '',
+  impact: process.env.IMPACT_AFFILIATE || '',
+  awin: process.env.AWIN_AFFILIATE || '',
+  commissionFactory: process.env.CF_AFFILIATE || '',
+  noon: process.env.NOON_AFFILIATE || '',
+};
+
+export function generateAffiliateUrl(
+  productUrl: string,
+  retailerSlug: string,
+  countryCode: string
+): string {
+  // Amazon - different tag per country
+  if (retailerSlug.startsWith('amazon')) {
+    const tag = AFFILIATE_IDS.amazon[countryCode as keyof typeof AFFILIATE_IDS.amazon];
+    if (!tag) return productUrl;
+    
+    const url = new URL(productUrl);
+    url.searchParams.set('tag', tag);
+    return url.toString();
+  }
+
+  // Flipkart
+  if (retailerSlug === 'flipkart') {
+    const url = new URL(productUrl);
+    url.searchParams.set('affid', AFFILIATE_IDS.flipkart);
+    return url.toString();
+  }
+
+  // Impact Radius (Best Buy, Walmart)
+  if (['bestbuy', 'bestbuy-ca', 'walmart'].includes(retailerSlug)) {
+    return `https://goto.target.com/c/${AFFILIATE_IDS.impact}/url?u=${encodeURIComponent(productUrl)}`;
+  }
+
+  // Awin (Currys, Argos, MediaMarkt)
+  if (['currys', 'argos', 'mediamarkt'].includes(retailerSlug)) {
+    return `https://www.awin1.com/cread.php?awinmid=MERCHANT_ID&awinaffid=${AFFILIATE_IDS.awin}&ued=${encodeURIComponent(productUrl)}`;
+  }
+
+  // Commission Factory (JB Hi-Fi)
+  if (retailerSlug === 'jbhifi') {
+    return `https://t.cfjump.com/${AFFILIATE_IDS.commissionFactory}/t/MERCHANT_ID?url=${encodeURIComponent(productUrl)}`;
+  }
+
+  // Noon
+  if (retailerSlug === 'noon') {
+    const url = new URL(productUrl);
+    url.searchParams.set('utm_source', 'affiliate');
+    url.searchParams.set('utm_medium', AFFILIATE_IDS.noon);
+    return url.toString();
+  }
+
+  return productUrl;
+}
+```
+
+### API Endpoint for Prices
+
+```typescript
+// src/app/api/prices/[phoneId]/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase-server';
+import { generateAffiliateUrl } from '@/lib/affiliate';
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { phoneId: string } }
+) {
+  const searchParams = request.nextUrl.searchParams;
+  const country = searchParams.get('country') || 'US';
+  
+  const supabase = createClient();
+  
+  const { data: prices, error } = await supabase
+    .from('phone_prices')
+    .select(`
+      price,
+      original_price,
+      product_url,
+      in_stock,
+      retailers (
+        name,
+        slug,
+        country_code
+      )
+    `)
+    .eq('phone_id', params.phoneId)
+    .eq('retailers.country_code', country)
+    .order('retailers.priority', { ascending: true });
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  const { data: countryInfo } = await supabase
+    .from('countries')
+    .select('currency_code, currency_symbol')
+    .eq('code', country)
+    .single();
+
+  const formattedPrices = prices.map((p) => ({
+    retailer: p.retailers.name,
+    price: p.price,
+    originalPrice: p.original_price,
+    currency: countryInfo?.currency_code || 'USD',
+    currencySymbol: countryInfo?.currency_symbol || '$',
+    affiliateUrl: generateAffiliateUrl(p.product_url, p.retailers.slug, country),
+    inStock: p.in_stock,
+  }));
+
+  return NextResponse.json({ prices: formattedPrices });
+}
+```
+
+### FTC Disclosure Requirements
+
+```typescript
+// src/components/affiliate-disclosure.tsx
+export function AffiliateDisclosure() {
+  return (
+    <p className="text-xs text-muted-foreground mt-4 p-3 bg-muted/50 rounded">
+      <strong>Affiliate Disclosure:</strong> MobilePhonesPro may earn a commission 
+      when you click on retailer links and make a purchase. This helps support our 
+      free comparison service. Prices shown are for reference only and may vary.
+    </p>
+  );
+}
+```
+
+---
+
+## Part 0.10: Ad Revenue Integration
+
+### Ad Strategy
+
+**Phase 1 (0-50K monthly visitors)**: Google AdSense
+- Easy approval process
+- RPM: $1-3 for tech content
+- Estimated revenue: $50-150/month at 50K visitors
+
+**Phase 2 (50K-100K monthly visitors)**: Ezoic
+- AI-optimized ad placements
+- RPM: $5-10 for tech content
+- Estimated revenue: $250-1000/month
+
+**Phase 3 (100K+ monthly visitors)**: Mediavine or AdThrive
+- Premium ad networks
+- RPM: $15-30 for tech content
+- Estimated revenue: $1500-3000+/month
+
+### Ad Placement Strategy
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ HEADER (Sticky)                                              │
+├─────────────────────────────────────────────────────────────┤
+│ [LEADERBOARD AD - 728x90]                                   │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  PHONE SPECS / COMPARISON CONTENT                           │
+│                                                              │
+├─────────────────────────────────────────────────────────────┤
+│ [IN-CONTENT AD - 300x250] (after specs table)               │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  MORE CONTENT (Related phones, internal links)              │
+│                                                              │
+│  ┌──────────────┐                                           │
+│  │ SIDEBAR AD   │  (Desktop only - sticky)                  │
+│  │ 300x600      │                                           │
+│  └──────────────┘                                           │
+│                                                              │
+├─────────────────────────────────────────────────────────────┤
+│ [FOOTER AD - 728x90]                                        │
+├─────────────────────────────────────────────────────────────┤
+│ FOOTER                                                       │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### AdSense Implementation
+
+```typescript
+// src/components/ads/adsense-unit.tsx
+'use client';
+
+import { useEffect } from 'react';
+
+interface AdUnitProps {
+  slot: string;
+  format?: 'auto' | 'rectangle' | 'horizontal' | 'vertical';
+  className?: string;
+}
+
+export function AdSenseUnit({ slot, format = 'auto', className }: AdUnitProps) {
+  useEffect(() => {
+    try {
+      // @ts-ignore
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (e) {
+      console.error('AdSense error:', e);
+    }
+  }, []);
+
+  return (
+    <div className={className}>
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'block' }}
+        data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}
+        data-ad-slot={slot}
+        data-ad-format={format}
+        data-full-width-responsive="true"
+      />
+    </div>
+  );
+}
+
+// Usage in layout
+// <AdSenseUnit slot="1234567890" format="horizontal" className="my-4" />
+```
+
+### Revenue Projections
+
+| Traffic | AdSense RPM | Affiliate Conv. | Monthly Revenue |
+|---------|-------------|-----------------|-----------------|
+| 10K | $2 | 0.5% | $20 + $50 = $70 |
+| 50K | $3 | 0.8% | $150 + $400 = $550 |
+| 100K | $8 (Ezoic) | 1% | $800 + $1000 = $1800 |
+| 500K | $20 (Mediavine) | 1.5% | $10000 + $7500 = $17500 |
+
+*Assumptions: Average order value $500, affiliate commission 2%*
+
+---
+
+## Part 0.11: Multi-Currency Support
+
+### Currency Conversion
+
+```typescript
+// src/lib/currency.ts
+
+interface ExchangeRates {
+  [key: string]: number;
+}
+
+// Cache exchange rates (update daily)
+let cachedRates: ExchangeRates | null = null;
+let lastFetch: number = 0;
+
+export async function getExchangeRates(): Promise<ExchangeRates> {
+  const now = Date.now();
+  const ONE_DAY = 24 * 60 * 60 * 1000;
+  
+  if (cachedRates && now - lastFetch < ONE_DAY) {
+    return cachedRates;
+  }
+
+  // Use free exchange rate API
+  const res = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+  const data = await res.json();
+  
+  cachedRates = data.rates;
+  lastFetch = now;
+  
+  return cachedRates;
+}
+
+export async function convertPrice(
+  amount: number,
+  fromCurrency: string,
+  toCurrency: string
+): Promise<number> {
+  if (fromCurrency === toCurrency) return amount;
+  
+  const rates = await getExchangeRates();
+  
+  // Convert to USD first, then to target currency
+  const usdAmount = amount / rates[fromCurrency];
+  const targetAmount = usdAmount * rates[toCurrency];
+  
+  return Math.round(targetAmount * 100) / 100;
+}
+
+export function formatPrice(
+  amount: number,
+  currency: string,
+  locale?: string
+): string {
+  const localeMap: Record<string, string> = {
+    INR: 'en-IN',
+    USD: 'en-US',
+    GBP: 'en-GB',
+    CAD: 'en-CA',
+    AUD: 'en-AU',
+    EUR: 'de-DE',
+    AED: 'ar-AE',
+  };
+
+  return new Intl.NumberFormat(locale || localeMap[currency] || 'en-US', {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
+```
+
+### Price Scraping Strategy
+
+```typescript
+// src/scripts/scrape-prices.ts
+// Run as cron job every 6-24 hours
+
+import { createClient } from '@supabase/supabase-js';
+
+interface ScrapingConfig {
+  retailer: string;
+  method: 'api' | 'scrape';
+  rateLimit: number; // requests per minute
+}
+
+const SCRAPING_CONFIG: ScrapingConfig[] = [
+  // Amazon - Use Product Advertising API (PA-API)
+  { retailer: 'amazon', method: 'api', rateLimit: 1 },
+  // Flipkart - Use Affiliate API
+  { retailer: 'flipkart', method: 'api', rateLimit: 10 },
+  // Others - Scrape with Firecrawl or Selenium (headless)
+  { retailer: 'bestbuy', method: 'scrape', rateLimit: 5 },
+  { retailer: 'currys', method: 'scrape', rateLimit: 5 },
+  { retailer: 'jbhifi', method: 'scrape', rateLimit: 5 },
+];
+
+// Note: Use headless Selenium + ChromeDriver for scraping
+// Firecrawl Standard ($83/month) for 100K pages/month
+```
+
+---
+
 ## Part 1: Strategic Foundation
 
 ### 1.1 Source Context (Why MPP Exists in SERPs)
@@ -1223,9 +1856,40 @@ export const revalidate = 86400; // Revalidate every 24 hours
 - [ ] Set up monitoring
 - [ ] Launch and monitor indexing
 
+### Week 11-12: Geo-Based Pricing & Affiliate Integration
+- [ ] Set up countries and retailers tables in Supabase
+- [ ] Implement geo-detection system (Vercel headers + timezone fallback)
+- [ ] Create price display component with geo-aware pricing
+- [ ] Join affiliate programs (Amazon Associates for all 7 countries)
+- [ ] Implement affiliate link generation for each retailer
+- [ ] Add FTC disclosure component
+- [ ] Set up price scraping scripts (headless Selenium + ChromeDriver)
+- [ ] Create API endpoint for fetching prices by country
+
+### Week 13: Ad Revenue Integration
+- [ ] Apply for Google AdSense
+- [ ] Implement AdSense components
+- [ ] Add ad placements (header, in-content, sidebar, footer)
+- [ ] Test ad rendering and responsiveness
+- [ ] Set up ad performance tracking
+
+### Week 14: Multi-Currency & Price Updates
+- [ ] Implement currency conversion utilities
+- [ ] Set up exchange rate caching (daily updates)
+- [ ] Create price history tracking
+- [ ] Build price comparison charts
+- [ ] Set up cron jobs for price updates (every 6-24 hours)
+
+### Week 15: Monetization Optimization
+- [ ] A/B test affiliate button placements
+- [ ] Optimize ad placements for RPM
+- [ ] Set up conversion tracking
+- [ ] Monitor affiliate earnings dashboard
+- [ ] Plan migration to Ezoic/Mediavine at 50K+ traffic
+
 ---
 
-## Appendix: File Structure
+## Appendix A: File Structure
 
 ```
 src/
@@ -1257,19 +1921,51 @@ src/
 │   ├── guides/
 │   │   └── [topic]/
 │   │       └── page.tsx
+│   ├── api/
+│   │   └── prices/
+│   │       └── [phoneId]/
+│   │           └── route.ts      # Geo-based pricing API
 │   ├── sitemap.ts
 │   └── robots.ts
 ├── lib/
 │   ├── db.ts
 │   ├── schema.ts
 │   ├── types.ts
-│   └── utils.ts
-└── components/
-    ├── internal-links.tsx
-    ├── phone-card.tsx
-    └── comparison-table.tsx
+│   ├── utils.ts
+│   ├── geo.ts                    # Geo-detection utilities
+│   ├── affiliate.ts              # Affiliate link generation
+│   ├── currency.ts               # Multi-currency support
+│   └── scoring.ts                # Spec-based scoring system
+├── components/
+│   ├── internal-links.tsx
+│   ├── phone-card.tsx
+│   ├── comparison-table.tsx
+│   ├── price-display.tsx         # Geo-aware price display
+│   ├── affiliate-disclosure.tsx  # FTC disclosure
+│   └── ads/
+│       └── adsense-unit.tsx      # Google AdSense component
+└── scripts/
+    └── scrape-prices.ts          # Price scraping cron job
 ```
 
 ---
 
-*This roadmap follows Koray Tugberk Gubur's Semantic SEO framework, emphasizing Topical Authority through comprehensive coverage, Cost of Retrieval optimization, and Semantic Content Networks.*
+## Appendix B: Affiliate Program Links
+
+| Program | Sign Up URL | Requirements |
+|---------|-------------|--------------|
+| Amazon Associates (US) | https://affiliate-program.amazon.com | Website with content |
+| Amazon Associates (IN) | https://affiliate-program.amazon.in | Indian address |
+| Amazon Associates (UK) | https://affiliate-program.amazon.co.uk | UK address |
+| Amazon Associates (CA) | https://affiliate-program.amazon.ca | Canadian address |
+| Amazon Associates (AU) | https://affiliate-program.amazon.com.au | Australian address |
+| Amazon Associates (DE) | https://partnernet.amazon.de | German address |
+| Amazon Associates (AE) | https://affiliate-program.amazon.ae | UAE address |
+| Flipkart Affiliate | https://affiliate.flipkart.com | Indian bank account |
+| Impact Radius | https://impact.com | For Best Buy, Walmart |
+| Awin | https://www.awin.com | For Currys, MediaMarkt |
+| Commission Factory | https://www.commissionfactory.com | For JB Hi-Fi |
+
+---
+
+*This roadmap follows Koray Tugberk Gubur's Semantic SEO framework, emphasizing Topical Authority through comprehensive coverage, Cost of Retrieval optimization, and Semantic Content Networks. The monetization strategy focuses on geo-based affiliate commissions and ad revenue across 7 Tier 1 countries.*
