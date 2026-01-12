@@ -2,11 +2,12 @@
 
 'use client';
 
-import { allPhones } from "@/lib/data";
+import { allPhones as staticPhones } from "@/lib/data";
+import { fetchPhonesFromSupabase } from "@/lib/supabase";
 import { PhoneCard } from "@/components/phone-card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, SlidersHorizontal, ArrowUpDown, X, ChevronDown } from "lucide-react";
+import { Search, SlidersHorizontal, ArrowUpDown, X, ChevronDown, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -87,6 +88,33 @@ function SearchPageContent() {
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [sortBy, setSortBy] = useState<string>('relevance');
+  
+  // State for phones from Supabase
+  const [allPhones, setAllPhones] = useState<Phone[]>(staticPhones);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Fetch phones from Supabase on mount
+  useEffect(() => {
+    async function loadPhones() {
+      setIsLoading(true);
+      try {
+        const supabasePhones = await fetchPhonesFromSupabase();
+        if (supabasePhones.length > 0) {
+          setAllPhones(supabasePhones);
+        } else {
+          // Fallback to static data if no phones in Supabase
+          setAllPhones(staticPhones);
+        }
+      } catch (error) {
+        console.error('Error loading phones from Supabase:', error);
+        // Fallback to static data on error
+        setAllPhones(staticPhones);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadPhones();
+  }, []);
   
   const uniqueBrands = useMemo(() => {
     return brandsData;
@@ -212,7 +240,7 @@ function SearchPageContent() {
 
       return matchesQuery && matchesBrand && matchesPrice && matchesRam && matchesStorage && matchesBattery && matchesCamera && matchesRefreshRate && matchesProcessor && matchesWaterResistance && matches5g && matchesQuickCharging && matchesNFC;
     });
-  }, [query, filters, sortBy]);
+  }, [allPhones, query, filters, sortBy]);
   
   const FilterSection = ({ title, children, defaultOpen = true }: { title: string, children: React.ReactNode, defaultOpen?: boolean }) => (
      <Collapsible defaultOpen={defaultOpen} className="py-2">
@@ -433,10 +461,17 @@ function SearchPageContent() {
       <div className="grid grid-cols-1 gap-8">
         <main>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">Showing {filteredPhones.length} results</h2>
+            <h2 className="text-lg font-semibold">
+              {isLoading ? 'Loading phones...' : `Showing ${filteredPhones.length} results`}
+            </h2>
           </div>
           
-          {filteredPhones.length > 0 ? (
+          {isLoading ? (
+            <div className="flex items-center justify-center py-16">
+              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+              <span className="ml-2 text-muted-foreground">Loading phones from database...</span>
+            </div>
+          ) : filteredPhones.length > 0 ? (
              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-2">
                 {filteredPhones.map(phone => (
                   <PhoneCard key={phone.id} phone={phone} onAddToCompare={() => handleAddToCompare(phone)} />

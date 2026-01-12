@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import Image from "next/image"
-import { Heart, Share2, Award, Star, CheckCircle, XCircle } from 'lucide-react'
+import { Heart, Share2, Award, Star, CheckCircle, XCircle, Cpu, Smartphone, Zap, Shield, Clock, TrendingUp, DollarSign } from 'lucide-react'
 import { specCategoryGroups } from "@/lib/types";
 import React, { useState, useEffect } from "react";
 import { Separator } from "@/components/ui/separator";
@@ -20,6 +20,7 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel"
+import { calculatePhoneRating, getRatingColor, getRatingLabel, formatPriceSegment } from "@/lib/rating";
 
 interface PhoneDetailsClientProps {
     phone: Phone;
@@ -44,6 +45,21 @@ export function PhoneDetailsClient({ phone }: PhoneDetailsClientProps) {
   }, [api])
   
   const allImages = [phone.image, ...(phone.images || [])];
+
+  // Calculate dynamic rating
+  const rating = calculatePhoneRating(phone, phone.releaseDate);
+  const ratingColor = getRatingColor(rating.overall);
+  const ratingLabel = getRatingLabel(rating.overall);
+
+  // Rating component scores for display
+  const ratingComponents = [
+    { label: 'Hardware', score: rating.hardware, icon: Cpu, color: getRatingColor(rating.hardware) },
+    { label: 'Software', score: rating.software, icon: Smartphone, color: getRatingColor(rating.software) },
+    { label: 'Value', score: rating.value, icon: DollarSign, color: getRatingColor(rating.value) },
+    { label: 'Ecosystem', score: rating.ecosystem, icon: Shield, color: getRatingColor(rating.ecosystem) },
+    { label: 'Longevity', score: rating.longevity, icon: Clock, color: getRatingColor(rating.longevity) },
+    { label: 'Freshness', score: rating.freshness, icon: TrendingUp, color: getRatingColor(rating.freshness) },
+  ];
 
   const renderSpecValue = (value: string | undefined | null) => {
     if(!value) return 'N/A';
@@ -138,6 +154,58 @@ export function PhoneDetailsClient({ phone }: PhoneDetailsClientProps) {
                         </CardContent>
                     </Card>
                 </div>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-bold mb-4">MPP Rating</h2>
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="flex flex-col sm:flex-row items-center gap-6 mb-6">
+                      <div className="flex flex-col items-center">
+                        <div 
+                          className="flex items-center justify-center w-24 h-24 rounded-full text-white text-3xl font-bold shadow-lg"
+                          style={{ backgroundColor: ratingColor }}
+                        >
+                          {rating.overall.toFixed(0)}
+                        </div>
+                        <span className="text-lg font-semibold mt-2">{ratingLabel}</span>
+                        <span className="text-sm text-muted-foreground">{formatPriceSegment(rating.priceSegment)}</span>
+                      </div>
+                      <div className="flex-1 w-full">
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Our dynamic rating algorithm evaluates this phone across multiple dimensions including hardware performance, 
+                          software experience, value proposition, brand ecosystem, expected longevity, and market freshness.
+                        </p>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                          {ratingComponents.map((component) => (
+                            <div key={component.label} className="flex items-center gap-2 p-2 rounded-lg bg-muted/50">
+                              <component.icon className="h-4 w-4 text-muted-foreground" />
+                              <div className="flex-1">
+                                <div className="flex justify-between items-center">
+                                  <span className="text-xs font-medium">{component.label}</span>
+                                  <span 
+                                    className="text-xs font-bold px-1.5 py-0.5 rounded text-white"
+                                    style={{ backgroundColor: component.color }}
+                                  >
+                                    {component.score.toFixed(0)}
+                                  </span>
+                                </div>
+                                <Progress value={component.score} className="h-1.5 mt-1" />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <Separator className="my-4" />
+                    <div className="text-xs text-muted-foreground">
+                      <p><strong>How we calculate ratings:</strong> Hardware (30%) evaluates processor, camera, display, and battery. 
+                      Software (15%) considers OS optimization and update policy. Value (15%) compares price-to-specs ratio. 
+                      Ecosystem (10%) rates brand integration. Longevity (10%) projects software support lifespan. 
+                      Freshness (10%) applies time decay - newer phones score higher.</p>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
              
               <div>

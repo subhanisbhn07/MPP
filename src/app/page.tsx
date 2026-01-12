@@ -6,7 +6,8 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { PhoneCard } from '@/components/phone-card';
-import { allPhones } from '@/lib/data';
+import { allPhones as staticPhones } from '@/lib/data';
+import { fetchPhonesFromSupabase } from '@/lib/supabase';
 import {
   Search,
   Sparkles,
@@ -123,6 +124,24 @@ export default function Home() {
   const [phone1, setPhone1] = useState<Phone | null>(null);
   const [phone2, setPhone2] = useState<Phone | null>(null);
   const breakpoint = useBreakpoint();
+  
+  // State for phones from Supabase
+  const [allPhones, setAllPhones] = useState<Phone[]>(staticPhones);
+  
+  // Fetch phones from Supabase on mount
+  useEffect(() => {
+    async function loadPhones() {
+      try {
+        const supabasePhones = await fetchPhonesFromSupabase();
+        if (supabasePhones.length > 0) {
+          setAllPhones(supabasePhones);
+        }
+      } catch (error) {
+        console.error('Error loading phones from Supabase:', error);
+      }
+    }
+    loadPhones();
+  }, []);
 
   const phonesToShow = useMemo(() => {
     if (breakpoint === 'lg') return 12;
@@ -131,16 +150,16 @@ export default function Home() {
   }, [breakpoint]);
 
   const popularPhones = allPhones;
-  const latestPhones = [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime());
-  const flagshipPhones = allPhones.filter(p => p.price > 900);
-  const performancePhones = allPhones.filter(p => p.specs.platform.chipset.includes('Snapdragon 8 Gen 3') || p.specs.platform.chipset.includes('Apple A17 Pro') || p.specs.platform.chipset.includes('Snapdragon 8 Gen 2'));
-  const batteryPhones = [...allPhones].sort((a,b) => parseInt(b.specs.battery.capacity_mah) - parseInt(a.specs.battery.capacity_mah));
-  const cameraPhones = [...allPhones].sort((a,b) => parseInt(a.specs.main_camera.main_sensor_resolution) - parseInt(b.specs.main_camera.main_sensor_resolution));
-  const foldablePhones = allPhones.filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip') || p.model.toLowerCase().includes('razr'));
-  const ruggedPhones = allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H"));
-  const uniquePhones = allPhones.filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony");
-  const iosPhones = allPhones.filter(p => p.brand === 'Apple');
-  const androidPhones = allPhones.filter(p => p.brand !== 'Apple');
+  const latestPhones = useMemo(() => [...allPhones].sort((a, b) => new Date(b.specs.launch.announced_date).getTime() - new Date(a.specs.launch.announced_date).getTime()), [allPhones]);
+  const flagshipPhones = useMemo(() => allPhones.filter(p => p.price > 900), [allPhones]);
+  const performancePhones = useMemo(() => allPhones.filter(p => p.specs.platform.chipset.includes('Snapdragon 8 Gen 3') || p.specs.platform.chipset.includes('Apple A17 Pro') || p.specs.platform.chipset.includes('Snapdragon 8 Gen 2')), [allPhones]);
+  const batteryPhones = useMemo(() => [...allPhones].sort((a,b) => parseInt(b.specs.battery.capacity_mah) - parseInt(a.specs.battery.capacity_mah)), [allPhones]);
+  const cameraPhones = useMemo(() => [...allPhones].sort((a,b) => parseInt(a.specs.main_camera.main_sensor_resolution) - parseInt(b.specs.main_camera.main_sensor_resolution)), [allPhones]);
+  const foldablePhones = useMemo(() => allPhones.filter((p) => p.specs.body.form_factor.toLowerCase().includes('fold') || p.specs.body.form_factor.toLowerCase().includes('flip') || p.model.toLowerCase().includes('razr')), [allPhones]);
+  const ruggedPhones = useMemo(() => allPhones.filter(p => p.specs.body.rugged_certifications.includes("MIL-STD-810H")), [allPhones]);
+  const uniquePhones = useMemo(() => allPhones.filter(p => p.brand === "Nothing" || p.brand === "Asus" || p.brand === "Fairphone" || p.brand === "Sony"), [allPhones]);
+  const iosPhones = useMemo(() => allPhones.filter(p => p.brand === 'Apple'), [allPhones]);
+  const androidPhones = useMemo(() => allPhones.filter(p => p.brand !== 'Apple'), [allPhones]);
   
   const onSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
