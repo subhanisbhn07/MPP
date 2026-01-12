@@ -536,13 +536,20 @@ export async function fetchPhoneByBrandAndModel(brand: string, model: string): P
       phone_specs (*)
     `)
     .eq('brand_id', brandData.id)
-    .ilike('model', modelPattern);
+    .ilike('model', `%${modelPattern}%`);
 
   if (error || !data || data.length === 0) {
     console.error('Error fetching phone by brand and model:', error);
     return null;
   }
 
-  // Return the first match
-  return transformDbPhoneToPhone(data[0] as DbPhone, 0);
+  // If multiple matches, prefer the one with phone_specs data
+  // This handles cases where there are duplicate records (seed data vs scraped data)
+  const phoneWithSpecs = data.find((phone: DbPhone) => 
+    phone.phone_specs && phone.phone_specs.length > 0 && 
+    phone.phone_specs[0].network && Object.keys(phone.phone_specs[0].network).length > 0
+  );
+  
+  const selectedPhone = phoneWithSpecs || data[0];
+  return transformDbPhoneToPhone(selectedPhone as DbPhone, 0);
 }

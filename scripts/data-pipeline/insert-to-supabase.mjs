@@ -81,7 +81,8 @@ async function insertToSupabase(phonesData) {
         slug: slug,
         image_url: imageUrl,
         images: phone.images || [],
-        announced_date: phone.announced || null,
+        // Don't set announced_date - GSMArena format "2023, June" is not a valid date
+        // The announced info is stored in phone_specs.launch.announced instead
         market_status: phone.status || 'Available',
       };
       

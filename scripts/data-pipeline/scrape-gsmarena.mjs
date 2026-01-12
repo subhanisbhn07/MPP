@@ -52,6 +52,20 @@ const PHONE_URLS = [
   { url: 'https://www.gsmarena.com/sony_xperia_1_vi-12761.php', brand: 'Sony' },
 ];
 
+// Helper function to strip markdown links and clean text
+function cleanMarkdownText(text) {
+  if (!text) return '';
+  return text
+    // Remove markdown links: [text](url) -> text
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    // Remove standalone URLs
+    .replace(/https?:\/\/[^\s|]+/g, '')
+    // Clean up extra whitespace and pipes
+    .replace(/\s*\|\s*/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 // Parse GSMArena markdown content to extract specs
 function parseGSMArenaSpecs(markdown, url, brand) {
   const specs = {
@@ -83,76 +97,82 @@ function parseGSMArenaSpecs(markdown, url, brand) {
     specs.model = specs.name.replace(new RegExp(`^${brand}\\s*`, 'i'), '').trim();
   }
   
-  // Common spec patterns to extract
+  // GSMArena markdown table format:
+  // | SectionName | [FieldName](link) | Value |
+  // | [FieldName](link) | Value |
+  // We need patterns that match both formats and extract the value
+  
+  // Common spec patterns to extract - updated for GSMArena's markdown table format
   const specPatterns = {
-    // Network
-    'network_technology': /Technology\s*\|\s*(.+?)(?:\n|$)/i,
-    'network_2g_bands': /2G bands\s*\|\s*(.+?)(?:\n|$)/i,
-    'network_3g_bands': /3G bands\s*\|\s*(.+?)(?:\n|$)/i,
-    'network_4g_bands': /4G bands\s*\|\s*(.+?)(?:\n|$)/i,
-    'network_5g_bands': /5G bands\s*\|\s*(.+?)(?:\n|$)/i,
+    // Network - format: | Network | [Technology](link) | Value | or | [Technology](link) | Value |
+    'network_technology': /\|\s*(?:Network\s*\|)?\s*\[?Technology\]?[^|]*\|\s*([^|\n]+)/i,
+    'network_2g_bands': /\|\s*\[?2G bands?\]?[^|]*\|\s*([^|\n]+)/i,
+    'network_3g_bands': /\|\s*\[?3G bands?\]?[^|]*\|\s*([^|\n]+)/i,
+    'network_4g_bands': /\|\s*\[?4G bands?\]?[^|]*\|\s*([^|\n]+)/i,
+    'network_5g_bands': /\|\s*\[?5G bands?\]?[^|]*\|\s*([^|\n]+)/i,
     
     // Launch
-    'announced': /Announced\s*\|\s*(.+?)(?:\n|$)/i,
-    'status': /Status\s*\|\s*(.+?)(?:\n|$)/i,
+    'announced': /\|\s*\[?Announced\]?[^|]*\|\s*([^|\n]+)/i,
+    'status': /\|\s*\[?Status\]?[^|]*\|\s*([^|\n]+)/i,
     
     // Body
-    'dimensions': /Dimensions\s*\|\s*(.+?)(?:\n|$)/i,
-    'weight': /Weight\s*\|\s*(.+?)(?:\n|$)/i,
-    'build': /Build\s*\|\s*(.+?)(?:\n|$)/i,
-    'sim': /SIM\s*\|\s*(.+?)(?:\n|$)/i,
+    'dimensions': /\|\s*\[?Dimensions\]?[^|]*\|\s*([^|\n]+)/i,
+    'weight': /\|\s*\[?Weight\]?[^|]*\|\s*([^|\n]+)/i,
+    'build': /\|\s*\[?Build\]?[^|]*\|\s*([^|\n]+)/i,
+    'sim': /\|\s*\[?SIM\]?[^|]*\|\s*([^|\n]+)/i,
     
     // Display
-    'display_type': /Type\s*\|\s*(.+?)(?:\n|$)/i,
-    'display_size': /Size\s*\|\s*(.+?)(?:\n|$)/i,
-    'display_resolution': /Resolution\s*\|\s*(.+?)(?:\n|$)/i,
-    'display_protection': /Protection\s*\|\s*(.+?)(?:\n|$)/i,
+    'display_type': /\|\s*(?:Display\s*\|)?\s*\[?Type\]?[^|]*\|\s*([^|\n]+)/i,
+    'display_size': /\|\s*\[?Size\]?[^|]*\|\s*([^|\n]+)/i,
+    'display_resolution': /\|\s*\[?Resolution\]?[^|]*\|\s*([^|\n]+)/i,
+    'display_protection': /\|\s*\[?Protection\]?[^|]*\|\s*([^|\n]+)/i,
     
     // Platform
-    'os': /OS\s*\|\s*(.+?)(?:\n|$)/i,
-    'chipset': /Chipset\s*\|\s*(.+?)(?:\n|$)/i,
-    'cpu': /CPU\s*\|\s*(.+?)(?:\n|$)/i,
-    'gpu': /GPU\s*\|\s*(.+?)(?:\n|$)/i,
+    'os': /\|\s*(?:Platform\s*\|)?\s*\[?OS\]?[^|]*\|\s*([^|\n]+)/i,
+    'chipset': /\|\s*\[?Chipset\]?[^|]*\|\s*([^|\n]+)/i,
+    'cpu': /\|\s*\[?CPU\]?[^|]*\|\s*([^|\n]+)/i,
+    'gpu': /\|\s*\[?GPU\]?[^|]*\|\s*([^|\n]+)/i,
     
     // Memory
-    'card_slot': /Card slot\s*\|\s*(.+?)(?:\n|$)/i,
-    'internal_storage': /Internal\s*\|\s*(.+?)(?:\n|$)/i,
+    'card_slot': /\|\s*\[?Card slot\]?[^|]*\|\s*([^|\n]+)/i,
+    'internal_storage': /\|\s*\[?Internal\]?[^|]*\|\s*([^|\n]+)/i,
     
-    // Main Camera
-    'main_camera': /(?:Main Camera|Rear Camera|Camera)\s*(?:Single|Dual|Triple|Quad)?\s*\|\s*(.+?)(?:\n|$)/i,
-    'camera_features': /Features\s*\|\s*(.+?)(?:\n|$)/i,
-    'camera_video': /Video\s*\|\s*(.+?)(?:\n|$)/i,
+    // Main Camera - look for camera specs with MP values
+    'main_camera': /\|\s*(?:Main Camera\s*\|)?\s*\[?(?:Single|Dual|Triple|Quad)\]?[^|]*\|\s*([^|\n]+)/i,
+    'camera_features': /\|\s*\[?Features\]?[^|]*\|\s*([^|\n]+)/i,
+    'camera_video': /\|\s*\[?Video\]?[^|]*\|\s*([^|\n]+)/i,
     
     // Selfie Camera
-    'selfie_camera': /Selfie camera\s*(?:Single|Dual)?\s*\|\s*(.+?)(?:\n|$)/i,
+    'selfie_camera': /\|\s*(?:Selfie camera\s*\|)?\s*\[?(?:Single|Dual)\]?[^|]*\|\s*([^|\n]+)/i,
     
     // Sound
-    'loudspeaker': /Loudspeaker\s*\|\s*(.+?)(?:\n|$)/i,
-    'audio_jack': /3\.5mm jack\s*\|\s*(.+?)(?:\n|$)/i,
+    'loudspeaker': /\|\s*\[?Loudspeaker\]?[^|]*\|\s*([^|\n]+)/i,
+    'audio_jack': /\|\s*\[?3\.5mm jack\]?[^|]*\|\s*([^|\n]+)/i,
     
     // Connectivity
-    'wlan': /WLAN\s*\|\s*(.+?)(?:\n|$)/i,
-    'bluetooth': /Bluetooth\s*\|\s*(.+?)(?:\n|$)/i,
-    'positioning': /Positioning\s*\|\s*(.+?)(?:\n|$)/i,
-    'nfc': /NFC\s*\|\s*(.+?)(?:\n|$)/i,
-    'usb': /USB\s*\|\s*(.+?)(?:\n|$)/i,
+    'wlan': /\|\s*\[?WLAN\]?[^|]*\|\s*([^|\n]+)/i,
+    'bluetooth': /\|\s*\[?Bluetooth\]?[^|]*\|\s*([^|\n]+)/i,
+    'positioning': /\|\s*\[?(?:Positioning|GPS)\]?[^|]*\|\s*([^|\n]+)/i,
+    'nfc': /\|\s*\[?NFC\]?[^|]*\|\s*([^|\n]+)/i,
+    'usb': /\|\s*\[?USB\]?[^|]*\|\s*([^|\n]+)/i,
     
     // Features
-    'sensors': /Sensors\s*\|\s*(.+?)(?:\n|$)/i,
+    'sensors': /\|\s*\[?Sensors\]?[^|]*\|\s*([^|\n]+)/i,
     
-    // Battery
-    'battery_type': /(?:Battery\s*)?Type\s*\|\s*(.+?mAh.+?)(?:\n|$)/i,
-    'battery_charging': /Charging\s*\|\s*(.+?)(?:\n|$)/i,
+    // Battery - look for mAh in the value
+    'battery_type': /\|\s*(?:Battery\s*\|)?\s*\[?Type\]?[^|]*\|\s*([^|\n]*mAh[^|\n]*)/i,
+    'battery_charging': /\|\s*\[?Charging\]?[^|]*\|\s*([^|\n]+)/i,
     
     // Misc
-    'colors': /Colors\s*\|\s*(.+?)(?:\n|$)/i,
-    'price': /Price\s*\|\s*(.+?)(?:\n|$)/i,
+    'colors': /\|\s*\[?Colors\]?[^|]*\|\s*([^|\n]+)/i,
+    'price': /\|\s*\[?Price\]?[^|]*\|\s*([^|\n]+)/i,
   };
   
   for (const [key, pattern] of Object.entries(specPatterns)) {
     const match = markdown.match(pattern);
     if (match) {
-      specs[key] = match[1].trim();
+      // Clean the extracted value (remove markdown links, extra whitespace)
+      specs[key] = cleanMarkdownText(match[1]);
     }
   }
   
@@ -330,7 +350,8 @@ async function insertToSupabase(phonesData) {
         slug: phone.slug,
         image_url: phone.images?.[0] || null,
         images: phone.images || [],
-        announced_date: phone.announced || null,
+        // Don't set announced_date - GSMArena format "2023, June" is not a valid date
+        // The announced info is stored in phone_specs.launch.announced instead
         market_status: phone.status || 'Available',
       };
       
@@ -363,7 +384,7 @@ async function insertToSupabase(phonesData) {
         continue;
       }
       
-      // Insert phone specs
+      // Insert phone specs - matching actual database schema
       const specsRecord = {
         phone_id: phoneData.id,
         network: {
@@ -407,7 +428,7 @@ async function insertToSupabase(phonesData) {
         selfie_camera: {
           specs: phone.selfie_camera,
         },
-        sound: {
+        audio: {
           loudspeaker: phone.loudspeaker,
           audio_jack: phone.audio_jack,
         },
@@ -418,17 +439,22 @@ async function insertToSupabase(phonesData) {
           nfc: phone.nfc,
           usb: phone.usb,
         },
-        features: {
-          sensors: phone.sensors,
+        sensors: {
+          list: phone.sensors,
         },
         battery: {
           type: phone.battery_type,
           charging: phone.battery_charging,
         },
-        misc: {
+        pricing_retail: {
           colors: phone.colors,
           price: phone.price,
         },
+        data_sources: [{
+          source: 'gsmarena',
+          url: phone.source_url,
+          scraped_at: new Date().toISOString(),
+        }],
       };
       
       const { error: specsError } = await supabase
