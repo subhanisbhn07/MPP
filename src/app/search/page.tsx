@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, Suspense } from "react";
 import { ComparisonBar } from "@/components/comparison-bar";
 import { useCompare } from "@/contexts/compare-context";
 import { useSearchParams } from "next/navigation";
@@ -78,7 +78,7 @@ const initialFilters: Filters = {
 };
 
 
-export default function SearchPage() {
+function SearchPageContent() {
   const { compareList, handleAddToCompare, handleRemoveFromCompare, handleClearCompare } = useCompare();
   
   const searchParams = useSearchParams();
@@ -457,6 +457,30 @@ export default function SearchPage() {
       onClear={handleClearCompare}
     />
     </>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto py-8 px-4 md:px-6">
+        <div className="space-y-4 mb-8">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            Search Phones
+          </h1>
+          <div className="animate-pulse">
+            <div className="h-11 bg-gray-200 rounded w-full mb-4"></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="h-64 bg-gray-200 rounded"></div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    }>
+      <SearchPageContent />
+    </Suspense>
   );
 }
 
