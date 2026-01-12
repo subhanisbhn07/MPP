@@ -48,7 +48,7 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
     <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg rounded-md w-full border border-border">
       <Link href={phoneUrl} className="flex">
         {/* Left Section: Image */}
-        <div className="relative w-28 flex-shrink-0 bg-muted/30 border-r">
+        <div className="relative w-28 flex-shrink-0 bg-gradient-to-b from-muted/20 to-muted/40 border-r">
             {user && (
                 <Button 
                     variant="ghost" 
@@ -60,12 +60,12 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                     <span className="sr-only">Wishlist</span>
                 </Button>
             )}
-            <div className="relative w-full h-full">
+            <div className="relative w-full h-full p-2">
               <Image
                   src={phone.image}
                   alt={`${phone.brand} ${phone.model}`}
                   fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="object-contain transition-transform duration-300 group-hover:scale-105"
                   data-ai-hint="mobile phone"
               />
             </div>
