@@ -156,9 +156,26 @@ function parseGSMArenaSpecs(markdown, url, brand) {
     }
   }
   
-  // Extract images
-  const imageMatches = markdown.matchAll(/!\[.*?\]\((https?:\/\/[^\s)]+\.(?:jpg|jpeg|png|webp)[^\s)]*)\)/gi);
-  specs.images = [...imageMatches].map(m => m[1]).slice(0, 5);
+  // Extract the main phone image from GSMArena
+  // GSMArena main phone images are in format: https://fdn2.gsmarena.com/vv/bigpic/phone-name.jpg
+  // The FIRST bigpic image on the page is always the main phone image
+  // Later bigpic images are from "related phones" section and should be ignored
+  const allImageMatches = [...markdown.matchAll(/!\[.*?\]\((https?:\/\/[^\s)]+\.(?:jpg|jpeg|png|webp)[^\s)]*)\)/gi)];
+  const allImages = allImageMatches.map(m => m[1]);
+  
+  // Find the FIRST bigpic image - this is always the main phone image on GSMArena
+  const bigpicImages = allImages.filter(img => img.includes('/bigpic/'));
+  
+  // The first bigpic image is the main phone image
+  // Only use the first one to avoid getting "related phones" images
+  if (bigpicImages.length > 0) {
+    specs.image_url = bigpicImages[0];
+    specs.images = [bigpicImages[0]];
+  } else {
+    // Fallback to first image if no bigpic found
+    specs.image_url = allImages[0] || null;
+    specs.images = allImages.slice(0, 1);
+  }
   
   // Try to extract price from various formats
   if (!specs.price) {

@@ -71,17 +71,8 @@ async function insertToSupabase(phonesData) {
         continue;
       }
       
-      // Get first valid image
-      let imageUrl = null;
-      if (phone.images && phone.images.length > 0) {
-        // Filter out images that don't match the phone (GSMArena sometimes includes related phone images)
-        const phoneSlug = slug.toLowerCase();
-        imageUrl = phone.images.find(img => {
-          const imgLower = img.toLowerCase();
-          return imgLower.includes(phoneSlug.split('-')[0]) || 
-                 imgLower.includes(phone.brand.toLowerCase());
-        }) || phone.images[0];
-      }
+      // Get the primary image URL - prefer image_url field set by scraper, then first image
+      let imageUrl = phone.image_url || (phone.images && phone.images.length > 0 ? phone.images[0] : null);
       
       // Insert phone - first check if it exists
       const phoneRecord = {
