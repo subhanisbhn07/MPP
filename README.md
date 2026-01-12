@@ -71,17 +71,47 @@ India, USA, UK, Canada, Australia, Germany, UAE (Tier 1 countries)
 Phone specifications are **static** - once a phone is released, its hardware specs never change. Therefore, we scrape specs **once per phone**, not on a recurring schedule.
 
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│   Firecrawl     │────▶│   Normalizer    │────▶│    Supabase     │
-│   (Scraping)    │     │   (Transform)   │     │   (Storage)     │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   XML Sitemap   │────▶│   Firecrawl     │────▶│   Markdown      │────▶│    Supabase     │
+│   (URL Source)  │     │   (Scraping)    │     │   Parser        │     │   (Storage)     │
+└─────────────────┘     └─────────────────┘     └─────────────────┘     └─────────────────┘
 ```
 
-### 4.2 Data Sources
+### 4.2 Primary Data Source: 91mobiles
+
+We use **91mobiles.com** as our primary data source for the following reasons:
+
+| Advantage | Description |
+|-----------|-------------|
+| **Higher Success Rate** | 79% success rate vs GSMArena's 58% |
+| **Comprehensive Specs** | 107 spec fields per phone |
+| **Clean Page Structure** | No "Related phones" sections that cause data contamination |
+| **XML Sitemap** | Complete phone list at `/sitemap/mobilelist_forgoogle.xml` |
+| **URL Parameters** | Direct specs access via `?ty=specs` parameter |
+| **Daily Updates** | Sitemap shows "Daily" update frequency |
+
+### 4.3 Sitemap-Based Scraping Strategy
+
+The 91mobiles XML sitemap provides a complete list of all phones:
+
+| Sitemap | Purpose | URL |
+|---------|---------|-----|
+| `mobilelist_forgoogle.xml` | Main phone list (2000+ phones) | `/sitemap/mobilelist_forgoogle.xml` |
+| `mobilelist_upcom_forgoogle.xml` | Upcoming phones | `/sitemap/mobilelist_upcom_forgoogle.xml` |
+| `top10mobilelist_forgoogle.xml` | Top 10 lists | `/sitemap/top10mobilelist_forgoogle.xml` |
+
+**URL Pattern**: `/{phone-slug}-price-in-india?ty=specs`
+
+**Priority Levels**:
+- 100%: Homepage only
+- 90%: High-priority phones (popular/new models)
+- 80%: Standard phones
+
+### 4.4 Data Sources
 
 | Source | Data Type | Frequency |
 |--------|-----------|-----------|
-| **GSMArena** | Hardware specs, dimensions, display, battery, camera, images | Once per phone |
+| **91mobiles** | Hardware specs, dimensions, display, battery, camera, images, prices (INR) | Once per phone |
 | **NanoReview** | Benchmark scores (AnTuTu, Geekbench) | Once per phone |
 | **Official Sites** | Launch date, MSRP, official images | Once per phone |
 | **Gemini AI** | 77 MPP-unique specs (thermal, gaming, security) | Once per phone |
@@ -307,12 +337,16 @@ See [Admin README](./src/app/admin/README.md) for details.
 - [x] Supabase database schema
 - [x] Vercel deployment
 
-### Phase 2: Data Pipeline (Completed)
+### Phase 2: Data Pipeline (In Progress)
 - [x] GSMArena scraper for specs (`scripts/data-pipeline/scrape-gsmarena.mjs`)
 - [x] High-quality image hosting on Supabase Storage (453x620px)
 - [x] Dynamic phone rating system with multi-factor scoring
 - [x] Frontend integration with Supabase data source
 - [x] 24 phones scraped and live with real specs and HQ images
+- [x] 91mobiles scraper with sitemap-based URL extraction (`scripts/data-pipeline/scrape-91mobiles.mjs`)
+- [x] Comprehensive 107-field spec schema
+- [ ] Batch scraping with 2 concurrent browsers
+- [ ] Gemini AI validation and gap-filling
 
 ### Phase 3: Monetization (Next)
 - [ ] Amazon PA-API integration for real-time pricing
