@@ -8,6 +8,7 @@ import { Heart, Smartphone, Camera, Battery, Plus, Star, Cpu, MemoryStick, Refre
 import Link from 'next/link';
 import { useAuth } from '@/contexts/auth-context';
 import { cn } from '@/lib/utils';
+import { calculatePhoneRating, getRatingColor, getRatingLabel } from '@/lib/rating';
 
 interface PhoneCardProps {
   phone: Phone;
@@ -43,6 +44,11 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
   const truncatedChipset = phone.specs.platform.chipset.length > 30 
     ? `${phone.specs.platform.chipset.substring(0, 27)}...`
     : phone.specs.platform.chipset;
+
+  // Calculate dynamic rating
+  const rating = calculatePhoneRating(phone, phone.releaseDate);
+  const ratingColor = getRatingColor(rating.overall);
+  const ratingLabel = getRatingLabel(rating.overall);
 
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg rounded-md w-full border border-border">
@@ -80,12 +86,16 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                     <h3 className="text-base font-bold leading-tight mt-1">{phone.model}</h3>
                 </div>
                 <div className="text-right flex-shrink-0">
-                    
-                    <div className="flex items-center justify-end gap-1 text-xs text-muted-foreground">
-                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400"/>
-                        <span className="font-semibold">4.2</span>
-                        <span>(142)</span>
+                    <div className="flex items-center justify-end gap-1">
+                        <div 
+                          className="flex items-center justify-center w-8 h-8 rounded-full text-white text-xs font-bold"
+                          style={{ backgroundColor: ratingColor }}
+                          title={`${ratingLabel} - Hardware: ${rating.hardware.toFixed(0)}, Software: ${rating.software.toFixed(0)}, Value: ${rating.value.toFixed(0)}`}
+                        >
+                          {rating.overall.toFixed(0)}
+                        </div>
                     </div>
+                    <span className="text-[10px] text-muted-foreground mt-0.5">{ratingLabel}</span>
                 </div>
             </div>
 

@@ -462,6 +462,7 @@ function transformDbPhoneToPhone(dbPhone: DbPhone, index: number): Phone {
     image: dbPhone.image_url || `https://picsum.photos/400/500?phone=${index + 1}`,
     images: dbPhone.images || [],
     price: dbPhone.price_usd || 0,
+    releaseDate: dbPhone.release_date || undefined,
     specs: defaultSpec,
   };
 }
