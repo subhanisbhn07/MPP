@@ -177,39 +177,71 @@ function parseGSMArenaSpecs(markdown, url, brand) {
   }
   
   // Extract the main phone image from GSMArena
-  // PROBLEM: "Related phones" sections appear in markdown BEFORE the main phone image
-  // SOLUTION: Construct the image URL directly from the phone URL slug
-  // GSMArena image URL pattern: https://fdn2.gsmarena.com/vv/bigpic/{brand}-{model}.jpg
+  // Use HIGH-RESOLUTION images from the /pics/ folder instead of /bigpic/
+  // bigpic = 160x212 pixels (8KB) - LOW RESOLUTION
+  // pics = 453x620 pixels (22KB) - HIGH RESOLUTION (almost 3x better)
   
   // Extract phone identifier from URL
   // URL format: gsmarena.com/samsung_galaxy_s24_ultra-12771.php
-  // We extract: samsung_galaxy_s24_ultra -> samsung-galaxy-s24-ultra
   const imageUrlMatch = url.match(/gsmarena\.com\/([^-]+(?:_[^-]+)*)-\d+\.php/);
   const phoneSlugFromUrl = imageUrlMatch ? imageUrlMatch[1] : '';
   
   // Convert URL slug to image filename format (underscores to hyphens)
   const imageSlug = phoneSlugFromUrl.toLowerCase().replace(/_/g, '-');
   
-  // Construct the expected image URL
-  const constructedImageUrl = `https://fdn2.gsmarena.com/vv/bigpic/${imageSlug}.jpg`;
-  
-  // Also extract all images from markdown for fallback
+  // Extract all images from markdown to find high-res pics
   const allImageMatches = [...markdown.matchAll(/!\[.*?\]\((https?:\/\/[^\s)]+\.(?:jpg|jpeg|png|webp)[^\s)]*)\)/gi)];
   const allImages = allImageMatches.map(m => m[1]);
+  
+  // Prioritize /pics/ folder images (high resolution) over /bigpic/ (low resolution)
+  const picsImages = allImages.filter(img => img.includes('/pics/'));
   const bigpicImages = allImages.filter(img => img.includes('/bigpic/'));
   
-  // Try to find a bigpic image that contains the phone slug keywords
-  // This handles cases where the image has additional suffixes (e.g., -5g-sm-s928-stylus)
+  // Get the phone keywords for matching
   const phoneKeywords = imageSlug.split('-').filter(w => w.length > 1);
+  const brandKeyword = phoneKeywords[0]; // e.g., "samsung", "apple", "google"
   
-  function findBestMatchingImage() {
-    // First, look for an image that starts with the brand name and contains key model identifiers
-    const brandKeyword = phoneKeywords[0]; // e.g., "samsung", "apple", "google"
+  // Brand name mapping for pics folder (some brands have different folder names)
+  const brandFolderMap = {
+    'samsung': 'samsung',
+    'apple': 'apple',
+    'google': 'google',
+    'oneplus': 'oneplus',
+    'xiaomi': 'xiaomi',
+    'nothing': 'nothing',
+    'motorola': 'motorola',
+    'oppo': 'oppo',
+    'vivo': 'vivo',
+    'asus': 'asus',
+    'sony': 'sony',
+    'huawei': 'huawei',
+    'realme': 'realme',
+    'poco': 'xiaomi', // Poco is under Xiaomi
+    'redmi': 'xiaomi', // Redmi is under Xiaomi
+  };
+  
+  function findBestHighResImage() {
+    // First, try to find a matching image in the /pics/ folder (high resolution)
+    for (const img of picsImages) {
+      const filename = img.split('/').pop().toLowerCase().replace('.jpg', '').replace('.png', '');
+      
+      // Check if filename contains the brand and model keywords
+      let matchCount = 0;
+      for (const keyword of phoneKeywords) {
+        if (filename.includes(keyword)) {
+          matchCount++;
+        }
+      }
+      // If at least 60% of keywords match, it's likely the correct image
+      if (matchCount >= Math.ceil(phoneKeywords.length * 0.6)) {
+        return img;
+      }
+    }
     
+    // Fallback: try bigpic images
     for (const img of bigpicImages) {
       const filename = img.split('/').pop().toLowerCase().replace('.jpg', '').replace('.png', '');
       
-      // Check if filename starts with brand and contains most of the model keywords
       if (filename.startsWith(brandKeyword)) {
         let matchCount = 0;
         for (const keyword of phoneKeywords) {
@@ -217,7 +249,6 @@ function parseGSMArenaSpecs(markdown, url, brand) {
             matchCount++;
           }
         }
-        // If at least 70% of keywords match, it's likely the correct image
         if (matchCount >= Math.ceil(phoneKeywords.length * 0.7)) {
           return img;
         }
@@ -226,18 +257,30 @@ function parseGSMArenaSpecs(markdown, url, brand) {
     return null;
   }
   
-  const matchedImage = findBestMatchingImage();
+  const matchedImage = findBestHighResImage();
   
-  if (matchedImage) {
-    // Found a matching image in the scraped content
+  // Construct high-res URL from pics folder as fallback
+  // Pattern: https://fdn2.gsmarena.com/vv/pics/{brand}/{brand}-{model}-1.jpg
+  const brandFolder = brandFolderMap[brandKeyword] || brandKeyword;
+  const constructedHighResUrl = `https://fdn2.gsmarena.com/vv/pics/${brandFolder}/${imageSlug}-1.jpg`;
+  const constructedLowResUrl = `https://fdn2.gsmarena.com/vv/bigpic/${imageSlug}.jpg`;
+  
+  if (matchedImage && matchedImage.includes('/pics/')) {
+    // Found a high-res image in the scraped content
     specs.image_url = matchedImage;
     specs.images = [matchedImage];
-    console.log(`  Image: Found matching bigpic for ${imageSlug}`);
+    console.log(`  Image: Found HIGH-RES pics image for ${imageSlug}`);
+  } else if (matchedImage) {
+    // Found a bigpic image (low-res fallback)
+    specs.image_url = matchedImage;
+    specs.images = [matchedImage];
+    console.log(`  Image: Found bigpic image for ${imageSlug} (low-res)`);
   } else {
-    // Use the constructed URL - GSMArena's naming is consistent
-    specs.image_url = constructedImageUrl;
-    specs.images = [constructedImageUrl];
-    console.log(`  Image: Using constructed URL for ${imageSlug}`);
+    // Use constructed high-res URL - will verify it exists
+    specs.image_url = constructedHighResUrl;
+    specs.images = [constructedHighResUrl];
+    specs.fallback_image_url = constructedLowResUrl;
+    console.log(`  Image: Using constructed HIGH-RES URL for ${imageSlug}`);
   }
   
   // Try to extract price from various formats
@@ -260,12 +303,13 @@ function generateSlug(name) {
     .replace(/^-+|-+$/g, '');
 }
 
-// Scrape a single phone
+// Scrape a single phone (specs page + pictures page for high-res images)
 async function scrapePhone(phoneInfo, index) {
   const { url, brand } = phoneInfo;
   console.log(`\n[${index + 1}/${PHONE_URLS.length}] Scraping: ${url}`);
   
   try {
+    // First, scrape the main specs page
     const result = await firecrawl.scrape(url, {
       formats: ['markdown'],
     });
@@ -283,11 +327,42 @@ async function scrapePhone(phoneInfo, index) {
       specs.slug = generateSlug(specs.name);
     }
     
+    // Also scrape the pictures page for high-resolution images
+    // URL pattern: samsung_galaxy_s24_ultra-12771.php -> samsung_galaxy_s24_ultra-pictures-12771.php
+    const picturesUrl = url.replace(/(-\d+\.php)$/, '-pictures$1');
+    console.log(`  Fetching high-res images from: ${picturesUrl}`);
+    
+    try {
+      // Wait a bit before the second request to avoid rate limiting
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      const picturesResult = await firecrawl.scrape(picturesUrl, {
+        formats: ['markdown'],
+      });
+      
+      if (picturesResult && picturesResult.markdown) {
+        // Extract high-res images from pictures page
+        // Pattern: https://fdn2.gsmarena.com/vv/pics/{brand}/{phone}-{n}.jpg
+        const picsMatches = [...picturesResult.markdown.matchAll(/!\[.*?\]\((https:\/\/fdn2\.gsmarena\.com\/vv\/pics\/[^)]+\.jpg)\)/gi)];
+        const highResImages = picsMatches.map(m => m[1]).filter(img => !img.includes('reviewsimg'));
+        
+        if (highResImages.length > 0) {
+          // Use the first high-res image as the main image
+          specs.image_url = highResImages[0];
+          specs.images = highResImages.slice(0, 5); // Store up to 5 images
+          console.log(`  Found ${highResImages.length} HIGH-RES images from pictures page`);
+        }
+      }
+    } catch (picturesError) {
+      console.log(`  Could not fetch pictures page: ${picturesError.message}`);
+      // Continue with whatever image we have from the specs page
+    }
+    
     console.log(`  Scraped: ${specs.name || 'Unknown'}`);
     console.log(`  - Display: ${specs.display_size || 'N/A'}`);
     console.log(`  - Chipset: ${specs.chipset || 'N/A'}`);
     console.log(`  - Battery: ${specs.battery_type || 'N/A'}`);
-    console.log(`  - Images: ${specs.images?.length || 0} found`);
+    console.log(`  - Image URL: ${specs.image_url || 'N/A'}`);
     
     return specs;
   } catch (error) {
