@@ -476,7 +476,6 @@ export async function fetchPhonesFromSupabase(): Promise<Phone[]> {
       brands (id, name, slug),
       phone_specs (*)
     `)
-    .eq('is_active', true)
     .order('name');
 
   if (error) {
