@@ -508,3 +508,41 @@ export async function fetchPhoneBySlug(slug: string): Promise<Phone | null> {
 
   return transformDbPhoneToPhone(data as DbPhone, 0);
 }
+
+// Fetch a single phone by brand and model (for detail pages)
+export async function fetchPhoneByBrandAndModel(brand: string, model: string): Promise<Phone | null> {
+  // First, find the brand
+  const { data: brandData, error: brandError } = await supabase
+    .from('brands')
+    .select('id, name, slug')
+    .ilike('name', brand)
+    .single();
+
+  if (brandError || !brandData) {
+    console.error('Error fetching brand:', brandError);
+    return null;
+  }
+
+  // Convert model URL slug back to model name format for matching
+  // e.g., "14-ultra" -> matches "14 Ultra" or "14 ultra"
+  const modelPattern = model.replace(/-/g, ' ');
+
+  // Fetch phone by brand_id and model (case-insensitive)
+  const { data, error } = await supabase
+    .from('phones')
+    .select(`
+      *,
+      brands (id, name, slug),
+      phone_specs (*)
+    `)
+    .eq('brand_id', brandData.id)
+    .ilike('model', modelPattern);
+
+  if (error || !data || data.length === 0) {
+    console.error('Error fetching phone by brand and model:', error);
+    return null;
+  }
+
+  // Return the first match
+  return transformDbPhoneToPhone(data[0] as DbPhone, 0);
+}
