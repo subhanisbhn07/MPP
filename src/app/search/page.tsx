@@ -244,7 +244,7 @@ function SearchPageContent() {
 
       return matchesQuery && matchesBrand && matchesPrice && matchesRam && matchesStorage && matchesBattery && matchesCamera && matchesRefreshRate && matchesProcessor && matchesWaterResistance && matches5g && matchesQuickCharging && matchesNFC;
     });
-  }, [query, filters, sortBy]);
+  }, [allPhones, query, filters, sortBy]);
   
   const FilterSection = ({ title, children, defaultOpen = true }: { title: string, children: React.ReactNode, defaultOpen?: boolean }) => (
      <Collapsible defaultOpen={defaultOpen} className="py-2">
