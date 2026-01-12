@@ -2,6 +2,14 @@ import Firecrawl from '@mendable/firecrawl-js';
 import { createClient } from '@supabase/supabase-js';
 import * as fs from 'fs';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+
+// Load .env file from project root
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const projectRoot = path.resolve(__dirname, '../..');
+dotenv.config({ path: path.join(projectRoot, '.env') });
 
 // Initialize Firecrawl with API key
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
@@ -64,6 +72,98 @@ function cleanMarkdownText(text) {
     .replace(/\s*\|\s*/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
+}
+
+// Parse GSMArena announced/status date to ISO date format
+// Handles formats like: "2024, January 17", "2023, June", "Available. Released 2024, January 24"
+function parseAnnouncedDate(announced, status) {
+  if (!announced && !status) return null;
+  
+  // Month name to number mapping
+  const months = {
+    'january': '01', 'february': '02', 'march': '03', 'april': '04',
+    'may': '05', 'june': '06', 'july': '07', 'august': '08',
+    'september': '09', 'october': '10', 'november': '11', 'december': '12'
+  };
+  
+  // Try to extract date from status first (usually has release date)
+  // Format: "Available. Released 2024, January 24"
+  const statusMatch = status?.match(/released\s+(\d{4}),?\s*(\w+)\s*(\d{1,2})?/i);
+  if (statusMatch) {
+    const year = statusMatch[1];
+    const month = months[statusMatch[2].toLowerCase()] || '01';
+    const day = statusMatch[3] ? statusMatch[3].padStart(2, '0') : '15'; // Default to 15th if no day
+    return `${year}-${month}-${day}`;
+  }
+  
+  // Try to extract from announced field
+  // Format: "2024, January 17" or "2023, June"
+  const announcedMatch = announced?.match(/(\d{4}),?\s*(\w+)\s*(\d{1,2})?/i);
+  if (announcedMatch) {
+    const year = announcedMatch[1];
+    const month = months[announcedMatch[2].toLowerCase()] || '01';
+    const day = announcedMatch[3] ? announcedMatch[3].padStart(2, '0') : '15'; // Default to 15th if no day
+    return `${year}-${month}-${day}`;
+  }
+  
+  return null;
+}
+
+// Parse GSMArena price to USD numeric value
+// Handles formats like: "$ 1199.99 / € 1099", "About 1200 EUR", "₹ 79,999"
+function parsePriceToUSD(priceStr) {
+  if (!priceStr) return null;
+  
+  // Currency conversion rates (approximate)
+  const conversionRates = {
+    'USD': 1,
+    '$': 1,
+    'EUR': 1.08,
+    '€': 1.08,
+    'GBP': 1.27,
+    '£': 1.27,
+    'INR': 0.012,
+    '₹': 0.012,
+  };
+  
+  // Try to find USD price first
+  const usdMatch = priceStr.match(/\$\s*([\d,]+(?:\.\d{2})?)/);
+  if (usdMatch) {
+    return parseFloat(usdMatch[1].replace(/,/g, ''));
+  }
+  
+  // Try EUR
+  const eurMatch = priceStr.match(/€\s*([\d,]+(?:\.\d{2})?)|(\d[\d,]*)\s*EUR/i);
+  if (eurMatch) {
+    const value = parseFloat((eurMatch[1] || eurMatch[2]).replace(/,/g, ''));
+    return Math.round(value * conversionRates['EUR']);
+  }
+  
+  // Try GBP
+  const gbpMatch = priceStr.match(/£\s*([\d,]+(?:\.\d{2})?)|(\d[\d,]*)\s*GBP/i);
+  if (gbpMatch) {
+    const value = parseFloat((gbpMatch[1] || gbpMatch[2]).replace(/,/g, ''));
+    return Math.round(value * conversionRates['GBP']);
+  }
+  
+  // Try INR
+  const inrMatch = priceStr.match(/₹\s*([\d,]+)|(\d[\d,]*)\s*INR/i);
+  if (inrMatch) {
+    const value = parseFloat((inrMatch[1] || inrMatch[2]).replace(/,/g, ''));
+    return Math.round(value * conversionRates['INR']);
+  }
+  
+  // Try to extract any number as fallback (assume USD)
+  const numMatch = priceStr.match(/(\d[\d,]*(?:\.\d{2})?)/);
+  if (numMatch) {
+    const value = parseFloat(numMatch[1].replace(/,/g, ''));
+    // Only use if it's a reasonable phone price (100-3000 USD)
+    if (value >= 100 && value <= 3000) {
+      return value;
+    }
+  }
+  
+  return null;
 }
 
 // Parse GSMArena markdown content to extract specs
@@ -419,14 +519,22 @@ async function insertToSupabase(phonesData) {
         .eq('slug', phone.slug)
         .single();
       
+      // Parse release date from announced/status fields
+      const releaseDate = parseAnnouncedDate(phone.announced, phone.status);
+      
+      // Parse price to USD
+      const priceUSD = parsePriceToUSD(phone.price);
+      
+      console.log(`  Parsed: release_date=${releaseDate}, price_usd=${priceUSD}`);
+      
       const phoneRecord = {
         brand_id: brandData.id,
         model: phone.name.replace(phone.brand, '').trim(),
         slug: phone.slug,
         image_url: phone.images?.[0] || null,
         images: phone.images || [],
-        // Don't set announced_date - GSMArena format "2023, June" is not a valid date
-        // The announced info is stored in phone_specs.launch.announced instead
+        release_date: releaseDate,
+        price_usd: priceUSD,
         market_status: phone.status || 'Available',
       };
       
