@@ -527,29 +527,52 @@ export async function fetchPhoneByBrandAndModel(brand: string, model: string): P
   // e.g., "14-ultra" -> matches "14 Ultra" or "14 ultra"
   const modelPattern = model.replace(/-/g, ' ');
 
-  // Fetch phone by brand_id and model (case-insensitive)
-  const { data, error } = await supabase
+  // Fetch phones by brand_id and model (case-insensitive)
+  const { data: phones, error: phonesError } = await supabase
     .from('phones')
     .select(`
       *,
-      brands (id, name, slug),
-      phone_specs (*)
+      brands (id, name, slug)
     `)
     .eq('brand_id', brandData.id)
     .ilike('model', `%${modelPattern}%`);
 
-  if (error || !data || data.length === 0) {
-    console.error('Error fetching phone by brand and model:', error);
+  if (phonesError || !phones || phones.length === 0) {
+    console.error('Error fetching phone by brand and model:', phonesError);
     return null;
   }
 
-  // If multiple matches, prefer the one with phone_specs data
-  // This handles cases where there are duplicate records (seed data vs scraped data)
-  const phoneWithSpecs = data.find((phone: DbPhone) => 
-    phone.phone_specs && phone.phone_specs.length > 0 && 
-    phone.phone_specs[0].network && Object.keys(phone.phone_specs[0].network).length > 0
-  );
+  // Fetch phone_specs separately for each phone (Supabase join not working reliably)
+  // and find the phone that has specs data
+  let selectedPhone: DbPhone | null = null;
   
-  const selectedPhone = phoneWithSpecs || data[0];
-  return transformDbPhoneToPhone(selectedPhone as DbPhone, 0);
+  for (const phone of phones) {
+    const { data: specs } = await supabase
+      .from('phone_specs')
+      .select('*')
+      .eq('phone_id', phone.id);
+    
+    // Attach specs to phone object
+    const phoneWithSpecs = {
+      ...phone,
+      phone_specs: specs || []
+    } as DbPhone;
+    
+    // If this phone has specs with network data, prefer it
+    if (specs && specs.length > 0 && specs[0].network && Object.keys(specs[0].network).length > 0) {
+      selectedPhone = phoneWithSpecs;
+      break; // Found a phone with specs, use it
+    }
+    
+    // Keep track of first phone as fallback
+    if (!selectedPhone) {
+      selectedPhone = phoneWithSpecs;
+    }
+  }
+  
+  if (!selectedPhone) {
+    return null;
+  }
+  
+  return transformDbPhoneToPhone(selectedPhone, 0);
 }
