@@ -157,24 +157,67 @@ function parseGSMArenaSpecs(markdown, url, brand) {
   }
   
   // Extract the main phone image from GSMArena
-  // GSMArena main phone images are in format: https://fdn2.gsmarena.com/vv/bigpic/phone-name.jpg
-  // The FIRST bigpic image on the page is always the main phone image
-  // Later bigpic images are from "related phones" section and should be ignored
+  // PROBLEM: "Related phones" sections appear in markdown BEFORE the main phone image
+  // SOLUTION: Construct the image URL directly from the phone URL slug
+  // GSMArena image URL pattern: https://fdn2.gsmarena.com/vv/bigpic/{brand}-{model}.jpg
+  
+  // Extract phone identifier from URL
+  // URL format: gsmarena.com/samsung_galaxy_s24_ultra-12771.php
+  // We extract: samsung_galaxy_s24_ultra -> samsung-galaxy-s24-ultra
+  const imageUrlMatch = url.match(/gsmarena\.com\/([^-]+(?:_[^-]+)*)-\d+\.php/);
+  const phoneSlugFromUrl = imageUrlMatch ? imageUrlMatch[1] : '';
+  
+  // Convert URL slug to image filename format (underscores to hyphens)
+  const imageSlug = phoneSlugFromUrl.toLowerCase().replace(/_/g, '-');
+  
+  // Construct the expected image URL
+  const constructedImageUrl = `https://fdn2.gsmarena.com/vv/bigpic/${imageSlug}.jpg`;
+  
+  // Also extract all images from markdown for fallback
   const allImageMatches = [...markdown.matchAll(/!\[.*?\]\((https?:\/\/[^\s)]+\.(?:jpg|jpeg|png|webp)[^\s)]*)\)/gi)];
   const allImages = allImageMatches.map(m => m[1]);
-  
-  // Find the FIRST bigpic image - this is always the main phone image on GSMArena
   const bigpicImages = allImages.filter(img => img.includes('/bigpic/'));
   
-  // The first bigpic image is the main phone image
-  // Only use the first one to avoid getting "related phones" images
-  if (bigpicImages.length > 0) {
-    specs.image_url = bigpicImages[0];
-    specs.images = [bigpicImages[0]];
+  // Try to find a bigpic image that contains the phone slug keywords
+  // This handles cases where the image has additional suffixes (e.g., -5g-sm-s928-stylus)
+  const phoneKeywords = imageSlug.split('-').filter(w => w.length > 1);
+  
+  function findBestMatchingImage() {
+    // First, look for an image that starts with the brand name and contains key model identifiers
+    const brandKeyword = phoneKeywords[0]; // e.g., "samsung", "apple", "google"
+    
+    for (const img of bigpicImages) {
+      const filename = img.split('/').pop().toLowerCase().replace('.jpg', '').replace('.png', '');
+      
+      // Check if filename starts with brand and contains most of the model keywords
+      if (filename.startsWith(brandKeyword)) {
+        let matchCount = 0;
+        for (const keyword of phoneKeywords) {
+          if (filename.includes(keyword)) {
+            matchCount++;
+          }
+        }
+        // If at least 70% of keywords match, it's likely the correct image
+        if (matchCount >= Math.ceil(phoneKeywords.length * 0.7)) {
+          return img;
+        }
+      }
+    }
+    return null;
+  }
+  
+  const matchedImage = findBestMatchingImage();
+  
+  if (matchedImage) {
+    // Found a matching image in the scraped content
+    specs.image_url = matchedImage;
+    specs.images = [matchedImage];
+    console.log(`  Image: Found matching bigpic for ${imageSlug}`);
   } else {
-    // Fallback to first image if no bigpic found
-    specs.image_url = allImages[0] || null;
-    specs.images = allImages.slice(0, 1);
+    // Use the constructed URL - GSMArena's naming is consistent
+    specs.image_url = constructedImageUrl;
+    specs.images = [constructedImageUrl];
+    console.log(`  Image: Using constructed URL for ${imageSlug}`);
   }
   
   // Try to extract price from various formats
@@ -274,7 +317,13 @@ async function insertToSupabase(phonesData) {
         continue;
       }
       
-      // Insert phone
+      // Check if phone already exists by slug
+      const { data: existingPhone } = await supabase
+        .from('phones')
+        .select('id')
+        .eq('slug', phone.slug)
+        .single();
+      
       const phoneRecord = {
         brand_id: brandData.id,
         model: phone.name.replace(phone.brand, '').trim(),
@@ -285,14 +334,32 @@ async function insertToSupabase(phonesData) {
         market_status: phone.status || 'Available',
       };
       
-      const { data: phoneData, error: phoneError } = await supabase
-        .from('phones')
-        .upsert(phoneRecord, { onConflict: 'slug' })
-        .select()
-        .single();
+      let phoneData;
+      let phoneError;
+      
+      if (existingPhone) {
+        // Update existing phone
+        const result = await supabase
+          .from('phones')
+          .update(phoneRecord)
+          .eq('id', existingPhone.id)
+          .select()
+          .single();
+        phoneData = result.data;
+        phoneError = result.error;
+      } else {
+        // Insert new phone
+        const result = await supabase
+          .from('phones')
+          .insert(phoneRecord)
+          .select()
+          .single();
+        phoneData = result.data;
+        phoneError = result.error;
+      }
       
       if (phoneError) {
-        console.error(`  Error upserting phone ${phone.name}:`, phoneError.message);
+        console.error(`  Error saving phone ${phone.name}:`, phoneError.message);
         continue;
       }
       
