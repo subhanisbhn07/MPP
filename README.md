@@ -8,12 +8,14 @@ A comprehensive mobile phone comparison platform built with Next.js, designed fo
 2. [Key Differentiators](#2-key-differentiators)
 3. [Technology Stack](#3-technology-stack)
 4. [Data Pipeline](#4-data-pipeline)
-5. [Database Schema](#5-database-schema)
-6. [Monetization Strategy](#6-monetization-strategy)
-7. [Getting Started](#7-getting-started)
-8. [Frontend Pages](#8-frontend-pages)
-9. [Admin Panel](#9-admin-panel)
-10. [Roadmap](#10-roadmap)
+5. [Dynamic Rating System](#5-dynamic-rating-system)
+6. [Image Hosting Solution](#6-image-hosting-solution)
+7. [Database Schema](#7-database-schema)
+8. [Monetization Strategy](#8-monetization-strategy)
+9. [Getting Started](#9-getting-started)
+10. [Frontend Pages](#10-frontend-pages)
+11. [Admin Panel](#11-admin-panel)
+12. [Roadmap](#12-roadmap)
 
 ---
 
@@ -96,14 +98,7 @@ Phone specifications are **static** - once a phone is released, its hardware spe
 
 Prices are fetched **on-demand** when users view a phone page, ensuring always-accurate pricing.
 
-### 4.4 Image Handling
-
-| Approach | Description |
-|----------|-------------|
-| **MVP** | Store image URLs from GSMArena |
-| **Production** | Download and host in Supabase Storage |
-
-### 4.5 When We Scrape
+### 4.4 When We Scrape
 
 1. **Initial bulk scrape** - One-time to populate all existing phones
 2. **New phone launches** - Scrape only when a new phone is announced
@@ -111,7 +106,107 @@ Prices are fetched **on-demand** when users view a phone page, ensuring always-a
 
 ---
 
-## 5. Database Schema
+## 5. Dynamic Rating System
+
+MPP features a sophisticated **dynamic phone rating system** that automatically calculates scores (0-100) for every phone based on multiple factors. Unlike competitor sites that use static or subjective ratings, our system is transparent, algorithmic, and auto-adjusts as new phones enter the market.
+
+### 5.1 Rating Components
+
+| Component | Weight | Description |
+|-----------|--------|-------------|
+| **Hardware** | 30% | Chipset performance, RAM, storage, display quality |
+| **Software** | 15% | OS version, update policy, software features |
+| **Value** | 15% | Price-to-performance ratio within segment |
+| **Ecosystem** | 10% | Brand ecosystem value (Apple, Samsung, Google bonus) |
+| **Longevity** | 10% | Expected software support duration |
+| **Freshness** | 10% | Time decay - newer phones score higher |
+| **Market Position** | 10% | Segment leadership and competitive standing |
+
+### 5.2 Key Features
+
+The rating system includes several intelligent features:
+
+**Relative Scoring**: Phones are rated against current best-in-class specs, not absolute values. A phone with 12GB RAM scores relative to the current maximum available (e.g., 24GB).
+
+**Time Decay**: Older phones naturally lose freshness points over time using an exponential decay function. Phones older than 24 months receive progressively lower freshness scores.
+
+**Segment-Aware**: Budget phones aren't penalized for lacking flagship features. Value scoring considers price segment (budget, mid-range, flagship).
+
+**Brand Ecosystem Bonus**: Recognizes the intrinsic value of strong ecosystems (Apple +15, Samsung +10, Google +10).
+
+### 5.3 Visual Display
+
+Ratings are displayed with color-coded badges throughout the platform:
+
+| Score Range | Color | Label |
+|-------------|-------|-------|
+| 80-100 | Green | Excellent |
+| 60-79 | Yellow | Above Average |
+| 40-59 | Orange | Average |
+| 0-39 | Red | Below Average |
+
+### 5.4 Implementation
+
+The rating calculation is implemented in TypeScript (`src/lib/rating.ts`) and runs client-side for instant display. This approach allows:
+- No database changes required for algorithm updates
+- Real-time recalculation as specs are loaded
+- Easy A/B testing of different weighting schemes
+
+---
+
+## 6. Image Hosting Solution
+
+### 6.1 The Challenge
+
+Phone images from GSMArena come in two quality levels:
+- **`/bigpic/` folder**: Low resolution (160x212 pixels, ~8KB) - works with hotlinking
+- **`/pics/` folder**: High resolution (453x620 pixels, ~40-90KB) - **blocks hotlinking**
+
+Direct hotlinking from GSMArena's high-resolution `/pics/` folder fails in browsers due to their anti-hotlinking protection, even though the URLs return 200 OK when tested server-side.
+
+### 6.2 Our Solution: Supabase Storage
+
+We implemented a **self-hosted image solution** using Supabase Storage:
+
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   GSMArena      │────▶│   Download      │────▶│   Supabase      │
+│   /pics/ folder │     │   Server-side   │     │   Storage       │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+                                                        │
+                                                        ▼
+                                               ┌─────────────────┐
+                                               │   Next.js       │
+                                               │   Image Optim   │
+                                               └─────────────────┘
+```
+
+### 6.3 Implementation Details
+
+| Component | Description |
+|-----------|-------------|
+| **Storage Bucket** | `phone-images` - Public bucket on Supabase Storage |
+| **Image Format** | JPEG, 453x620 pixels, 40-90KB per image |
+| **Upload Script** | `scripts/data-pipeline/upload-hq-images-to-supabase.mjs` |
+| **Next.js Config** | `*.supabase.co` added to `remotePatterns` for image optimization |
+
+### 6.4 Benefits
+
+This approach provides several advantages:
+
+**No Hotlinking Issues**: Images are served from our own Supabase Storage bucket, bypassing GSMArena's anti-hotlinking protection.
+
+**Consistent Quality**: All images are high-resolution (453x620 pixels), providing a premium user experience.
+
+**CDN Delivery**: Supabase Storage uses Cloudflare CDN for fast global delivery.
+
+**Next.js Optimization**: Images are automatically optimized by Next.js Image component for different screen sizes.
+
+**Future-Proof**: We control the image assets, so they won't break if GSMArena changes their URL structure.
+
+---
+
+## 7. Database Schema
 
 ### Core Tables
 
@@ -129,7 +224,7 @@ Prices are fetched **on-demand** when users view a phone page, ensuring always-a
 
 ---
 
-## 6. Monetization Strategy
+## 8. Monetization Strategy
 
 ### Affiliate Revenue
 
@@ -146,7 +241,7 @@ Prices are fetched **on-demand** when users view a phone page, ensuring always-a
 
 ---
 
-## 7. Getting Started
+## 9. Getting Started
 
 ### Prerequisites
 
@@ -177,7 +272,7 @@ The application will be available at `http://localhost:9002`.
 
 ---
 
-## 8. Frontend Pages
+## 10. Frontend Pages
 
 | Page | Route | Description |
 |------|-------|-------------|
@@ -190,7 +285,7 @@ The application will be available at `http://localhost:9002`.
 
 ---
 
-## 9. Admin Panel (`/admin`)
+## 11. Admin Panel (`/admin`)
 
 The admin panel provides:
 - **Phone Management**: Add, edit, delete phones
@@ -203,7 +298,7 @@ See [Admin README](./src/app/admin/README.md) for details.
 
 ---
 
-## 10. Roadmap
+## 12. Roadmap
 
 ### Phase 1: Foundation (Completed)
 - [x] Next.js frontend with all page templates
@@ -212,28 +307,38 @@ See [Admin README](./src/app/admin/README.md) for details.
 - [x] Supabase database schema
 - [x] Vercel deployment
 
-### Phase 2: Data Pipeline (Current)
-- [ ] GSMArena scraper for specs + images
+### Phase 2: Data Pipeline (Completed)
+- [x] GSMArena scraper for specs (`scripts/data-pipeline/scrape-gsmarena.mjs`)
+- [x] High-quality image hosting on Supabase Storage (453x620px)
+- [x] Dynamic phone rating system with multi-factor scoring
+- [x] Frontend integration with Supabase data source
+- [x] 24 phones scraped and live with real specs and HQ images
+
+### Phase 3: Monetization (Next)
+- [ ] Amazon PA-API integration for real-time pricing
+- [ ] Flipkart Affiliate integration (India market)
 - [ ] Affiliate link mapping (Amazon ASINs)
-- [ ] Real-time pricing API endpoint
-- [ ] Benchmark scraper (NanoReview)
+- [ ] Ad network setup (Google AdSense)
 
-### Phase 3: Monetization
-- [ ] Amazon PA-API integration
-- [ ] Flipkart Affiliate integration
-- [ ] Ad network setup
+### Phase 4: Scale & Content
+- [ ] Bulk scrape remaining phones (12,000+ models)
+- [ ] Benchmark scraper (NanoReview, Geekbench)
+- [ ] AI-generated unique specs (77 MPP-exclusive fields)
+- [ ] User reviews and ratings system
 
-### Phase 4: SEO & Scale
-- [ ] Programmatic page generation
-- [ ] Sitemap optimization
-- [ ] Schema markup (JSON-LD)
+### Phase 5: SEO & Growth
+- [ ] Programmatic page generation at scale
+- [ ] Sitemap optimization for 100K+ pages
+- [ ] Schema markup (JSON-LD) for rich snippets
+- [ ] Comparison page pre-generation
 
 ---
 
 ## Links
 
-- **Live Site**: https://mpp-beige.vercel.app
+- **Live Site**: https://mpp-git-devin-17682067-1539f8-mahabushaiksubhani-9059s-projects.vercel.app
 - **Repository**: https://github.com/subhanisbhn07/MPP
+- **Supabase Dashboard**: https://supabase.com/dashboard/project/hyakqulbrtvphtetxeme
 
 ---
 
