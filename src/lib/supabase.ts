@@ -459,7 +459,7 @@ function transformDbPhoneToPhone(dbPhone: DbPhone, index: number): Phone {
   return {
     id: index + 1,
     brand: dbPhone.brands?.name || 'Unknown',
-    model: dbPhone.name,
+    model: dbPhone.model,
     image: dbPhone.image_url || `https://picsum.photos/400/500?phone=${index + 1}`,
     images: dbPhone.images || [],
     price: dbPhone.price_usd || 0,
@@ -476,7 +476,7 @@ export async function fetchPhonesFromSupabase(): Promise<Phone[]> {
       brands (id, name, slug),
       phone_specs (*)
     `)
-    .order('name');
+    .order('model');
 
   if (error) {
     console.error('Error fetching phones from Supabase:', error);
