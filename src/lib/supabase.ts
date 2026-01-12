@@ -39,13 +39,12 @@ interface DbPhoneSpecs {
 interface DbPhone {
   id: string;
   brand_id: string;
-  name: string;
+  model: string;
   slug: string;
   image_url?: string;
   images?: string[];
   price_usd?: number;
   release_date?: string;
-  is_active: boolean;
   brands?: {
     id: string;
     name: string;
