@@ -97,20 +97,16 @@ function SearchPageContent() {
   useEffect(() => {
     async function loadPhones() {
       setIsLoading(true);
-      console.log('[MPP Debug] Starting to fetch phones from Supabase...');
       try {
         const supabasePhones = await fetchPhonesFromSupabase();
-        console.log('[MPP Debug] Supabase returned', supabasePhones.length, 'phones');
         if (supabasePhones.length > 0) {
-          console.log('[MPP Debug] First phone:', supabasePhones[0]?.model, 'image:', supabasePhones[0]?.image);
           setAllPhones(supabasePhones);
         } else {
-          console.log('[MPP Debug] No phones from Supabase, using static data');
           // Fallback to static data if no phones in Supabase
           setAllPhones(staticPhones);
         }
       } catch (error) {
-        console.error('[MPP Debug] Error loading phones from Supabase:', error);
+        console.error('Error loading phones from Supabase:', error);
         // Fallback to static data on error
         setAllPhones(staticPhones);
       } finally {
