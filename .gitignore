@@ -32,3 +32,4 @@ firebase-debug.log
 # Genkit
 .genkit/
 .genkit-cache/
+scripts/data-pipeline/output/
