@@ -4,10 +4,11 @@ import type { Phone } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Smartphone, Camera, Battery, Plus, Star, Cpu, MemoryStick, RefreshCw } from 'lucide-react';
+import { Heart, Smartphone, Camera, Battery, Plus, Cpu, MemoryStick, RefreshCw, TrendingUp, Sparkles, Award } from 'lucide-react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/auth-context';
 import { cn } from '@/lib/utils';
+import { calculatePhoneRating, getRatingColor, getRatingLabel, getPercentileText, isNewPhone, isBestValue } from '@/lib/rating';
 
 interface PhoneCardProps {
   phone: Phone;
@@ -44,11 +45,34 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
     ? `${phone.specs.platform.chipset.substring(0, 27)}...`
     : phone.specs.platform.chipset;
 
+  // Calculate dynamic rating
+  const rating = calculatePhoneRating(phone);
+  const ratingColor = getRatingColor(rating.overall);
+  const ratingLabel = getRatingLabel(rating.overall);
+  const percentileText = getPercentileText(rating.overall);
+  const isNew = isNewPhone(phone);
+  const bestValue = isBestValue(phone);
+
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg rounded-md w-full border border-border">
       <Link href={phoneUrl} className="flex">
         {/* Left Section: Image */}
-        <div className="relative w-28 flex-shrink-0 bg-muted/30 border-r">
+        <div className="relative w-28 min-h-[140px] flex-shrink-0 bg-gradient-to-b from-muted/20 to-muted/40 border-r">
+            {/* Status Badges */}
+            <div className="absolute top-1 right-1 z-10 flex flex-col gap-1">
+              {isNew && (
+                <Badge className="bg-orange-500 text-white text-[10px] px-1.5 py-0.5">
+                  <Sparkles className="w-3 h-3 mr-0.5" />
+                  New
+                </Badge>
+              )}
+              {bestValue && (
+                <Badge className="bg-green-500 text-white text-[10px] px-1.5 py-0.5">
+                  <Award className="w-3 h-3 mr-0.5" />
+                  Best Value
+                </Badge>
+              )}
+            </div>
             {user && (
                 <Button 
                     variant="ghost" 
@@ -60,13 +84,14 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                     <span className="sr-only">Wishlist</span>
                 </Button>
             )}
-            <div className="relative w-full h-full">
+            <div className="absolute inset-2">
               <Image
                   src={phone.image}
                   alt={`${phone.brand} ${phone.model}`}
                   fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  className="object-contain transition-transform duration-300 group-hover:scale-105"
                   data-ai-hint="mobile phone"
+                  sizes="96px"
               />
             </div>
         </div>
@@ -79,12 +104,16 @@ export function PhoneCard({ phone, onAddToCompare }: PhoneCardProps) {
                     <h3 className="text-base font-bold leading-tight mt-1">{phone.model}</h3>
                 </div>
                 <div className="text-right flex-shrink-0">
-                    
-                    <div className="flex items-center justify-end gap-1 text-xs text-muted-foreground">
-                        <Star className="w-3 h-3 fill-yellow-400 text-yellow-400"/>
-                        <span className="font-semibold">4.2</span>
-                        <span>(142)</span>
+                    <div className="flex items-center justify-end gap-1">
+                        <div 
+                          className="flex items-center justify-center w-9 h-9 rounded-full text-white text-sm font-bold"
+                          style={{ backgroundColor: ratingColor }}
+                          title={`${ratingLabel} - Hardware: ${rating.hardware.toFixed(0)}, Software: ${rating.software.toFixed(0)}, Value: ${rating.value.toFixed(0)}`}
+                        >
+                          {rating.overall.toFixed(0)}
+                        </div>
                     </div>
+                    <span className="text-[10px] text-muted-foreground mt-0.5 block">{ratingLabel}</span>
                 </div>
             </div>
 
