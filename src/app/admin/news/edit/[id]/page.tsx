@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -12,37 +12,30 @@ import { Save, Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 
-// In a real app, you would fetch this data from your 'staged' store (e.g., Firestore or a local file)
-// For this simulation, we'll use localStorage to persist the staged data across reloads.
-
 interface EditNewsPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default function EditNewsPage({ params }: EditNewsPageProps) {
+  const { id } = use(params);
   const [article, setArticle] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // This is a simulation. In a real app, you would fetch the staged article by its ID.
-    // Here, we try to retrieve it from localStorage.
     const stagedNewsRaw = localStorage.getItem('stagedNews');
     if (stagedNewsRaw) {
       const stagedNews = JSON.parse(stagedNewsRaw);
-      const foundArticle = stagedNews.find((a: any) => a.id === params.id);
+      const foundArticle = stagedNews.find((a: any) => a.id === id);
       if (foundArticle) {
         setArticle(foundArticle);
       } else {
         notFound();
       }
-    } else {
-       // If no staged data, you might redirect or show an error.
-       // For now, we'll just indicate it's not found after loading.
     }
     setLoading(false);
-  }, [params.id]);
+  }, [id]);
   
   const handleSave = (event: React.FormEvent) => {
       event.preventDefault();

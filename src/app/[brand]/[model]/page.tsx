@@ -4,15 +4,15 @@ import { PhoneDetailsClient } from "./components/phone-details-client";
 import { notFound } from "next/navigation";
 
 interface PhoneDetailsPageProps {
-  params: {
+  params: Promise<{
     brand: string;
     model: string;
-  };
+  }>;
 }
 
 // This is now a Server Component
-export default function PhoneDetailsPage({ params }: PhoneDetailsPageProps) {
-  const { brand, model } = params;
+export default async function PhoneDetailsPage({ params }: PhoneDetailsPageProps) {
+  const { brand, model } = await params;
 
   if (!brand || !model) {
     notFound();

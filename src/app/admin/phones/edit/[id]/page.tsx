@@ -11,13 +11,14 @@ import { Save } from 'lucide-react';
 import { handleUpdatePhone } from './actions';
 
 interface EditPhonePageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default function EditPhonePage({ params }: EditPhonePageProps) {
-  const phoneId = parseInt(params.id, 10);
+export default async function EditPhonePage({ params }: EditPhonePageProps) {
+  const { id } = await params;
+  const phoneId = parseInt(id, 10);
   const phone = allPhones.find((p) => p.id === phoneId);
 
   if (!phone) {

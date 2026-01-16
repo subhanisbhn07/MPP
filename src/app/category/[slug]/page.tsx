@@ -7,9 +7,9 @@ import { ComparisonBar } from '@/components/comparison-bar';
 import { useCompare } from '@/contexts/compare-context';
 
 interface CategoryPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 const getPhonesForCategory = (slug: string): Phone[] => {
@@ -29,8 +29,8 @@ const getPhonesForCategory = (slug: string): Phone[] => {
   }
 };
 
-export default function CategoryPage({ params }: CategoryPageProps) {
-  const { slug } = params;
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  const { slug } = await params;
   const category = specCategories.find((cat) => cat.slug === slug);
 
   if (!category) {

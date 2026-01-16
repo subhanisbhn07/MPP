@@ -3,15 +3,15 @@ import { CompareClient } from "../components/compare-client";
 import type { Phone } from "@/lib/types";
 
 interface CompareSlugPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // This is the server-rendered page for a shared comparison URL.
 // It fetches the initial phones from the slug on the server.
-export default function CompareSlugPage({ params }: CompareSlugPageProps) {
-  const { slug } = params;
+export default async function CompareSlugPage({ params }: CompareSlugPageProps) {
+  const { slug } = await params;
   let initialPhones: Phone[] = [];
 
   if (slug) {
