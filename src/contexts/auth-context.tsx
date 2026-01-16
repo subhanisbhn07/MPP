@@ -9,16 +9,10 @@ import {
   ReactNode,
   useCallback,
 } from 'react';
-import {
-  onAuthStateChanged,
-  signInWithPopup,
-  GoogleAuthProvider,
-  User as FirebaseUser,
-} from 'firebase/auth';
-import { auth, db } from '@/lib/firebase';
+import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
-import { doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove, onSnapshot } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 interface User {
   uid: string;
@@ -46,56 +40,112 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const { toast } = useToast();
 
-  useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
-      if (firebaseUser) {
-        const userData = {
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-          displayName: firebaseUser.displayName,
-          photoURL: firebaseUser.photoURL,
-        };
-        setUser(userData);
-        
-        // Ensure user document exists
-        const userDocRef = doc(db, 'users', firebaseUser.uid);
-        const userDocSnap = await getDoc(userDocRef);
-        if (!userDocSnap.exists()) {
-          await setDoc(userDocRef, { email: firebaseUser.email, wishlist: [] });
-        }
+  const mapSupabaseUser = (supabaseUser: SupabaseUser): User => ({
+    uid: supabaseUser.id,
+    email: supabaseUser.email ?? null,
+    displayName: supabaseUser.user_metadata?.full_name ?? supabaseUser.user_metadata?.name ?? null,
+    photoURL: supabaseUser.user_metadata?.avatar_url ?? supabaseUser.user_metadata?.picture ?? null,
+  });
 
-      } else {
-        setUser(null);
-        setWishlist([]);
+  const fetchWishlist = async (userId: string) => {
+    const { data, error } = await supabase
+      .from('users')
+      .select('wishlist')
+      .eq('id', userId)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        const { error: insertError } = await supabase
+          .from('users')
+          .insert({ id: userId, wishlist: [] });
+        if (insertError) {
+          console.error('Error creating user:', insertError);
+        }
+        return [];
+      }
+      console.error('Error fetching wishlist:', error);
+      return [];
+    }
+
+    return data?.wishlist || [];
+  };
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (session?.user) {
+          const userData = mapSupabaseUser(session.user);
+          setUser(userData);
+          const userWishlist = await fetchWishlist(session.user.id);
+          setWishlist(userWishlist);
+        } else {
+          setUser(null);
+          setWishlist([]);
+        }
+        setLoading(false);
+      }
+    );
+
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (session?.user) {
+        const userData = mapSupabaseUser(session.user);
+        setUser(userData);
+        const userWishlist = await fetchWishlist(session.user.id);
+        setWishlist(userWishlist);
       }
       setLoading(false);
     });
 
-    return () => unsubscribeAuth();
+    return () => subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
-    if (user?.uid) {
-        const userDocRef = doc(db, 'users', user.uid);
-        const unsubscribeFirestore = onSnapshot(userDocRef, (docSnap) => {
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                setWishlist(data.wishlist || []);
-            }
-        });
-        return () => unsubscribeFirestore();
-    }
-  }, [user]);
+    if (!user?.uid) return;
 
+    const channel = supabase
+      .channel('wishlist-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'users',
+          filter: `id=eq.${user.uid}`,
+        },
+        (payload) => {
+          if (payload.new && 'wishlist' in payload.new) {
+            setWishlist((payload.new as { wishlist: number[] }).wishlist || []);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user?.uid]);
 
   const signInWithGoogle = async () => {
     setLoading(true);
-    const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
-      // onAuthStateChanged will handle setting the user and routing
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+      if (error) {
+        console.error('Error signing in with Google:', error);
+        toast({
+          variant: 'destructive',
+          title: 'Sign in failed',
+          description: error.message,
+        });
+      }
     } catch (error) {
-      console.error('Error signing in with Google', error);
+      console.error('Error signing in with Google:', error);
+    } finally {
       setLoading(false);
     }
   };
@@ -103,54 +153,62 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = async () => {
     setLoading(true);
     try {
-      await auth.signOut();
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error('Error signing out:', error);
+      }
       router.push('/');
     } catch (error) {
-      console.error('Error signing out', error);
+      console.error('Error signing out:', error);
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
 
   const isPhoneInWishlist = useCallback((phoneId: number) => {
-      return wishlist.includes(phoneId);
+    return wishlist.includes(phoneId);
   }, [wishlist]);
 
   const toggleWishlist = async (phoneId: number) => {
     if (!user) {
-        toast({
-            variant: 'destructive',
-            title: 'Please log in',
-            description: 'You need to be logged in to manage your wishlist.',
-        });
-        return;
+      toast({
+        variant: 'destructive',
+        title: 'Please log in',
+        description: 'You need to be logged in to manage your wishlist.',
+      });
+      return;
     }
 
-    const userDocRef = doc(db, 'users', user.uid);
     const inWishlist = isPhoneInWishlist(phoneId);
+    const newWishlist = inWishlist
+      ? wishlist.filter((id) => id !== phoneId)
+      : [...wishlist, phoneId];
+
+    setWishlist(newWishlist);
 
     try {
-        if (inWishlist) {
-            await updateDoc(userDocRef, {
-                wishlist: arrayRemove(phoneId)
-            });
-            toast({ description: 'Removed from wishlist.' });
-        } else {
-            await updateDoc(userDocRef, {
-                wishlist: arrayUnion(phoneId)
-            });
-            toast({ description: 'Added to wishlist.' });
-        }
+      const { error } = await supabase
+        .from('users')
+        .update({ wishlist: newWishlist })
+        .eq('id', user.uid);
+
+      if (error) {
+        setWishlist(wishlist);
+        throw error;
+      }
+
+      toast({
+        description: inWishlist ? 'Removed from wishlist.' : 'Added to wishlist.',
+      });
     } catch (error) {
-        console.error("Error updating wishlist: ", error);
-        toast({
-            variant: 'destructive',
-            title: 'An error occurred',
-            description: 'Could not update your wishlist. Please try again.',
-        });
+      console.error('Error updating wishlist:', error);
+      toast({
+        variant: 'destructive',
+        title: 'An error occurred',
+        description: 'Could not update your wishlist. Please try again.',
+      });
     }
   };
-
 
   const value = {
     user,
