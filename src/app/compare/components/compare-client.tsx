@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { PlusCircle, X, CheckCircle, XCircle } from 'lucide-react'
 import { specCategoryGroups } from "@/lib/types";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { AddPhoneDialog } from "./add-phone-dialog";
 import { useCompare } from "@/contexts/compare-context";
 import { Separator } from "@/components/ui/separator";
@@ -28,19 +28,28 @@ const renderSpecValue = (value: string | undefined | null) => {
     return <span className="break-words">{value}</span>;
 }
 
-const PhoneSelection = ({ phone, onAdd, onRemove }: { phone: Phone | null, onAdd: () => void, onRemove: () => void }) => {
+const PhoneSelection = ({ phone, onAdd, onRemove, isCompact }: { phone: Phone | null, onAdd: () => void, onRemove: () => void, isCompact: boolean }) => {
   if (!phone) {
     return (
-      <Card className="border-2 border-dashed h-full">
-        <CardContent className="p-2 sm:p-4 h-full">
+      <Card className={cn(
+        "border-2 border-dashed transition-all duration-300",
+        isCompact ? "h-auto" : "h-full"
+      )}>
+        <CardContent className={cn(
+          "transition-all duration-300",
+          isCompact ? "p-1" : "p-2 sm:p-4 h-full"
+        )}>
           <Button
             variant="ghost"
-            className="flex flex-col items-center justify-center w-full h-full text-muted-foreground"
+            className={cn(
+              "flex items-center justify-center w-full text-muted-foreground transition-all duration-300",
+              isCompact ? "flex-row h-8 gap-1" : "flex-col h-full"
+            )}
             onClick={onAdd}
             aria-label="Add phone to compare"
           >
-            <PlusCircle className="h-8 w-8" aria-hidden="true" />
-            <span className="mt-2 text-xs font-semibold">Add Phone</span>
+            <PlusCircle className={cn("transition-all duration-300", isCompact ? "h-4 w-4" : "h-8 w-8")} aria-hidden="true" />
+            <span className={cn("font-semibold transition-all duration-300", isCompact ? "text-[8px]" : "mt-2 text-xs")}>Add</span>
           </Button>
         </CardContent>
       </Card>
@@ -50,18 +59,30 @@ const PhoneSelection = ({ phone, onAdd, onRemove }: { phone: Phone | null, onAdd
   const phoneUrl = `/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`;
 
   return (
-    <Card className="relative group/card h-full overflow-hidden">
+    <Card className={cn(
+      "relative group/card overflow-hidden transition-all duration-300",
+      isCompact ? "h-auto" : "h-full"
+    )}>
       <Button
         variant="ghost"
         size="icon"
-        className="absolute top-1 right-1 h-6 w-6 bg-background/50 backdrop-blur-sm rounded-full opacity-0 group-hover/card:opacity-100 transition-opacity z-10"
+        className={cn(
+          "absolute bg-background/50 backdrop-blur-sm rounded-full opacity-0 group-hover/card:opacity-100 transition-all z-10",
+          isCompact ? "top-0 right-0 h-4 w-4" : "top-1 right-1 h-6 w-6"
+        )}
         onClick={onRemove}
         aria-label={`Remove ${phone.brand} ${phone.model}`}
       >
-        <X className="h-4 w-4" aria-hidden="true" />
+        <X className={cn("transition-all duration-300", isCompact ? "h-3 w-3" : "h-4 w-4")} aria-hidden="true" />
       </Button>
-      <Link href={phoneUrl} className="flex flex-col items-center p-2 text-center h-full justify-between">
-        <div className="relative w-full aspect-square max-h-[120px]">
+      <Link href={phoneUrl} className={cn(
+        "flex items-center text-center transition-all duration-300",
+        isCompact ? "flex-row p-1 gap-1" : "flex-col p-1 sm:p-2 h-full justify-between"
+      )}>
+        <div className={cn(
+          "relative transition-all duration-300 flex-shrink-0",
+          isCompact ? "w-[28px] h-[28px]" : "w-full aspect-square max-h-[60px] sm:max-h-[100px] md:max-h-[120px]"
+        )}>
           <Image
             src={phone.image}
             alt={phone.model}
@@ -70,9 +91,18 @@ const PhoneSelection = ({ phone, onAdd, onRemove }: { phone: Phone | null, onAdd
             data-ai-hint="mobile phone"
           />
         </div>
-        <div>
-          <p className="text-sm font-bold mt-1 truncate w-full">{phone.brand} {phone.model}</p>
-          <p className="text-sm text-primary">${phone.price}</p>
+        <div className={cn(
+          "transition-all duration-300",
+          isCompact ? "flex-1 text-left min-w-0" : "w-full"
+        )}>
+          <p className={cn(
+            "font-bold truncate transition-all duration-300",
+            isCompact ? "text-[8px] leading-tight" : "text-[10px] sm:text-xs md:text-sm mt-1"
+          )}>{phone.brand} {phone.model}</p>
+          <p className={cn(
+            "text-primary transition-all duration-300",
+            isCompact ? "text-[7px] leading-tight" : "text-[10px] sm:text-xs md:text-sm"
+          )}>${phone.price}</p>
         </div>
       </Link>
     </Card>
@@ -90,6 +120,23 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
   
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [phoneSlotToAdd, setPhoneSlotToAdd] = useState<number | null>(null);
+  const [isCompactHeader, setIsCompactHeader] = useState(false);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
+
+  // Scroll detection for compact header mode (91mobiles-style)
+  useEffect(() => {
+    const handleScroll = () => {
+      if (triggerRef.current) {
+        const triggerRect = triggerRef.current.getBoundingClientRect();
+        // When the trigger element scrolls past the top of the viewport, enable compact mode
+        setIsCompactHeader(triggerRect.top < 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     if (initialPhones.length > 0) {
@@ -124,7 +171,16 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
         </p>
       </div>
 
-       <div className="grid grid-cols-2 md:grid-cols-4 items-stretch gap-2 mb-8 sticky top-4 z-20 bg-background/80 backdrop-blur-sm p-4 rounded-lg border">
+      {/* Trigger element for scroll detection - when this scrolls out of view, header becomes compact */}
+      <div ref={triggerRef} className="h-0" />
+
+       <div 
+         ref={headerRef}
+         className={cn(
+           "grid grid-cols-4 gap-1 sm:gap-2 mb-4 sm:mb-8 sticky top-0 z-20 bg-background/95 backdrop-blur-sm rounded-lg border transition-all duration-300",
+           isCompactHeader ? "p-1 items-center" : "p-2 sm:p-4 items-stretch"
+         )}
+       >
           {[...Array(MAX_COMPARE_PHONES)].map((_, index) => {
             const phone = compareList[index];
             return (
@@ -133,6 +189,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
                 phone={phone || null}
                 onAdd={() => handleAddPhoneClick(index)}
                 onRemove={() => handleRemoveFromCompare(phone.id)}
+                isCompact={isCompactHeader}
               />
             )
           })}
@@ -143,7 +200,10 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
       <div className="mt-8 border rounded-lg overflow-hidden">
         {specCategoryGroups.map((group: SpecCategory, groupIndex) => (
           <div key={group.title} id={group.category} className={cn(groupIndex > 0 && "border-t")}>
-              <h2 className="p-3 font-bold text-lg text-center bg-primary text-primary-foreground sticky top-[150px] z-10">
+              <h2 className={cn(
+                  "p-3 font-bold text-lg text-center bg-primary text-primary-foreground sticky z-10 transition-all duration-300",
+                  isCompactHeader ? "top-[52px]" : "top-[140px] sm:top-[160px]"
+                )}>
                   {group.title}
               </h2>
 
@@ -154,24 +214,23 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
                 return (
                   <div key={spec.key} className={cn("border-t", specIndex === 0 && "border-t-0")}>
                     {/* Spec Label Row */}
-                    <div className="p-3 bg-card">
-                      <h3 className="font-semibold text-sm">{spec.label}</h3>
+                    <div className="p-1.5 sm:p-2 md:p-3 bg-card">
+                      <h3 className="font-semibold text-[10px] sm:text-xs md:text-sm">{spec.label}</h3>
                     </div>
                     
-                    {/* Spec Value Row */}
+                    {/* Spec Value Row - Always 4 columns to match header */}
                      <div className={cn(
-                        "grid items-start",
-                        `grid-cols-${Math.max(1, numPhones)}`,
+                        "grid items-start grid-cols-4",
                         specIndex % 2 === 0 ? 'bg-background' : 'bg-card'
                      )}>
-                      {compareList.map((phone, index) => (
-                        <div key={phone.id} className={cn("text-left p-3 text-sm", index > 0 && "border-l")}>
-                            {renderSpecValue((phone.specs[category] as any)?.[specKey])}
-                        </div>
-                      ))}
-                       {numPhones === 0 && (
-                          <div className="text-left p-3 text-sm text-muted-foreground">Add a phone to see specs</div>
-                        )}
+                      {[...Array(MAX_COMPARE_PHONES)].map((_, index) => {
+                        const phone = compareList[index];
+                        return (
+                          <div key={phone?.id || `empty-${index}`} className={cn("text-left p-1.5 sm:p-2 md:p-3 text-[10px] sm:text-xs md:text-sm", index > 0 && "border-l")}>
+                            {phone ? renderSpecValue((phone.specs[category] as any)?.[specKey]) : <span className="text-muted-foreground">-</span>}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )

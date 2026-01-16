@@ -142,6 +142,27 @@ export default function Home() {
   const iosPhones = allPhones.filter(p => p.brand === 'Apple');
   const androidPhones = allPhones.filter(p => p.brand !== 'Apple');
   
+  // Price range categories for Phase 3
+  const budgetPhones = allPhones.filter(p => p.price > 0 && p.price < 300);
+  const midRangePhones = allPhones.filter(p => p.price >= 300 && p.price < 700);
+  const premiumPhones = allPhones.filter(p => p.price >= 700);
+  
+  // Brand list for Phase 4 navigation
+  const brands = [
+    { name: 'Apple', slug: 'apple', logo: '/brands/apple.svg' },
+    { name: 'Samsung', slug: 'samsung', logo: '/brands/samsung.svg' },
+    { name: 'Google', slug: 'google', logo: '/brands/google.svg' },
+    { name: 'OnePlus', slug: 'oneplus', logo: '/brands/oneplus.svg' },
+    { name: 'Xiaomi', slug: 'xiaomi', logo: '/brands/xiaomi.svg' },
+    { name: 'Oppo', slug: 'oppo', logo: '/brands/oppo.svg' },
+    { name: 'Vivo', slug: 'vivo', logo: '/brands/vivo.svg' },
+    { name: 'Motorola', slug: 'motorola', logo: '/brands/motorola.svg' },
+    { name: 'Sony', slug: 'sony', logo: '/brands/sony.svg' },
+    { name: 'Asus', slug: 'asus', logo: '/brands/asus.svg' },
+    { name: 'Nothing', slug: 'nothing', logo: '/brands/nothing.svg' },
+    { name: 'Realme', slug: 'realme', logo: '/brands/realme.svg' },
+  ];
+  
   const onSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const params = new URLSearchParams();
@@ -218,14 +239,17 @@ export default function Home() {
         <div className="text-center py-16 bg-accent rounded-lg p-6">
           <div className="flex flex-col items-center justify-center space-y-4">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-foreground">
-              Discover. Compare. Decide.
+              Compare Mobile Phones Side-by-Side
             </h1>
-            <p className="max-w-[600px] md:text-xl text-foreground/80">
-              AI-updated specs, comparisons &amp; SEO-friendly landing pages.
+            <p className="max-w-[700px] md:text-xl text-foreground/80">
+              Compare 12,000+ smartphones across 212 specifications. Find the perfect phone with detailed specs, ratings, and prices from 117 brands.
             </p>
-            <div className="mt-4">
+            <div className="mt-4 flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" variant="default">
-                <Link href="/compare">Compare Mobiles</Link>
+                <Link href="/compare">Start Comparing Phones</Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="bg-background/80">
+                <Link href="/search">Browse All Phones</Link>
               </Button>
             </div>
           </div>
@@ -327,16 +351,53 @@ export default function Home() {
           </section>
         </Card>
 
+        {/* Phase 4: Brand Navigation Grid */}
+        <Card className="rounded-lg" aria-labelledby="brands-heading">
+          <CardHeader className="p-6">
+            <div className="space-y-3 text-center">
+              <h2 id="brands-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+                Browse Phones by Brand
+              </h2>
+              <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed">
+                Explore smartphones from the world's leading manufacturers
+              </p>
+            </div>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
+              {brands.map((brand) => (
+                <Link key={brand.slug} href={`/brands/${brand.slug}`}>
+                  <Card className="p-4 flex flex-col items-center justify-center text-center hover:shadow-lg hover:border-primary transition-all h-full border-2 group">
+                    <div className="w-12 h-12 flex items-center justify-center mb-2 bg-muted rounded-full group-hover:bg-primary/10 transition-colors">
+                      <Smartphone className="h-6 w-6 text-primary" />
+                    </div>
+                    <span className="font-semibold text-sm">{brand.name}</span>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+            <div className="text-center mt-6">
+              <Link href="/brands" className="inline-flex items-center text-primary hover:underline font-medium">
+                View all 117 brands <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Trending Phones */}
         <Card className="rounded-lg" aria-labelledby="trending-heading">
-          <CardHeader className="p-6 flex items-center justify-between flex-row bg-primary text-primary-foreground rounded-t-lg">
-            <h2 id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
-                Trending Phones
-            </h2>
-            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
-                View all <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+          <CardHeader className="p-6 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 id="trending-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                  Trending Phones This Week
+                </h2>
+                <p className="text-primary-foreground/80 text-sm mt-1">Most viewed and compared by our users</p>
+              </div>
+              <Link href="/category/trending" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
+                See all trending phones <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent className="p-6">
             {renderPhoneList(popularPhones, phonesToShow)}
@@ -345,28 +406,200 @@ export default function Home() {
 
         {/* Latest Launches */}
         <Card className="rounded-lg" aria-labelledby="latest-heading">
-          <CardHeader className="p-6 flex items-center justify-between flex-row bg-primary text-primary-foreground rounded-t-lg">
-            <h2 id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Latest Launches
-            </h2>
-            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
-                View all <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+          <CardHeader className="p-6 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 id="latest-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                  Latest Mobile Phones 2026
+                </h2>
+                <p className="text-primary-foreground/80 text-sm mt-1">Fresh releases from the last 30 days</p>
+              </div>
+              <Link href="/category/latest" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
+                See all new releases <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent className="p-6">
             {renderPhoneList(latestPhones, phonesToShow)}
           </CardContent>
         </Card>
+
+        {/* Phase 3: Most Compared Phones Section */}
+        <Card className="rounded-lg bg-muted/30" aria-labelledby="most-compared-heading">
+          <CardHeader className="p-6">
+            <div className="space-y-3 text-center">
+              <h2 id="most-compared-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+                Most Compared Phones 2026
+              </h2>
+              <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed">
+                See which phones users are comparing the most this month
+              </p>
+            </div>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="font-semibold mb-4 text-lg">Popular Matchups</h3>
+                <ul className="space-y-3">
+                  {popularComparisons.slice(0, 6).map((comp, i) => {
+                    const phoneA = getPhoneByName(comp[0]);
+                    const phoneB = getPhoneByName(comp[1]);
+                    if (!phoneA || !phoneB) return null;
+                    const url = generateCompareUrl([phoneA, phoneB]);
+                    return (
+                      <li key={i}>
+                        <Link href={url} className="flex items-center justify-between p-3 rounded-lg bg-background hover:bg-primary/5 border transition-colors">
+                          <div className="flex items-center gap-2">
+                            <Badge variant="outline" className="text-xs">{i + 1}</Badge>
+                            <span><span className="font-semibold">{comp[0]}</span> vs <span className="font-semibold">{comp[1]}</span></span>
+                          </div>
+                          <ArrowRight size={16} className="text-primary" />
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-4 text-lg">Trending This Week</h3>
+                <ul className="space-y-3">
+                  {trendingComparisons.slice(0, 6).map((comp, i) => {
+                    const phoneA = getPhoneByName(comp[0]);
+                    const phoneB = getPhoneByName(comp[1]);
+                    if (!phoneA || !phoneB) return null;
+                    const url = generateCompareUrl([phoneA, phoneB]);
+                    return (
+                      <li key={i}>
+                        <Link href={url} className="flex items-center justify-between p-3 rounded-lg bg-background hover:bg-primary/5 border transition-colors">
+                          <div className="flex items-center gap-2">
+                            <Badge variant="outline" className="text-xs">{i + 1}</Badge>
+                            <span><span className="font-semibold">{comp[0]}</span> vs <span className="font-semibold">{comp[1]}</span></span>
+                          </div>
+                          <ArrowRight size={16} className="text-primary" />
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+            <div className="text-center mt-6">
+              <Link href="/compare" className="inline-flex items-center text-primary hover:underline font-medium">
+                Start your own comparison <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Phase 3: Phones by Price Range Section */}
+        <Card className="rounded-lg" aria-labelledby="price-range-heading">
+          <CardHeader className="p-6 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="space-y-3 text-center">
+              <h2 id="price-range-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
+                Phones by Price Range
+              </h2>
+              <p className="text-primary-foreground/80 md:text-xl/relaxed">
+                Find the perfect phone for your budget
+              </p>
+            </div>
+          </CardHeader>
+          <CardContent className="p-6">
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Budget Phones */}
+              <Card className="border-2 hover:border-green-500 transition-colors">
+                <CardHeader className="p-4 bg-green-500/10">
+                  <div className="text-center">
+                    <Badge className="bg-green-500 text-white mb-2">Budget</Badge>
+                    <h3 className="text-xl font-bold">Under $300</h3>
+                    <p className="text-sm text-muted-foreground mt-1">Great value for everyday use</p>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <ul className="space-y-2">
+                    {budgetPhones.slice(0, 5).map((phone) => (
+                      <li key={phone.id}>
+                        <Link href={`/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/\s+/g, '-')}`} className="flex items-center justify-between p-2 rounded hover:bg-muted transition-colors">
+                          <span className="text-sm font-medium truncate">{phone.brand} {phone.model}</span>
+                          <span className="text-sm text-green-600 font-semibold">${phone.price}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href="/category/budget" className="block text-center mt-4 text-primary hover:underline text-sm font-medium">
+                    See all budget phones <ArrowRight className="inline ml-1 h-3 w-3" />
+                  </Link>
+                </CardContent>
+              </Card>
+
+              {/* Mid-Range Phones */}
+              <Card className="border-2 hover:border-amber-500 transition-colors">
+                <CardHeader className="p-4 bg-amber-500/10">
+                  <div className="text-center">
+                    <Badge className="bg-amber-500 text-white mb-2">Mid-Range</Badge>
+                    <h3 className="text-xl font-bold">$300 - $700</h3>
+                    <p className="text-sm text-muted-foreground mt-1">Best balance of features and price</p>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <ul className="space-y-2">
+                    {midRangePhones.slice(0, 5).map((phone) => (
+                      <li key={phone.id}>
+                        <Link href={`/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/\s+/g, '-')}`} className="flex items-center justify-between p-2 rounded hover:bg-muted transition-colors">
+                          <span className="text-sm font-medium truncate">{phone.brand} {phone.model}</span>
+                          <span className="text-sm text-amber-600 font-semibold">${phone.price}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href="/category/mid-range" className="block text-center mt-4 text-primary hover:underline text-sm font-medium">
+                    See all mid-range phones <ArrowRight className="inline ml-1 h-3 w-3" />
+                  </Link>
+                </CardContent>
+              </Card>
+
+              {/* Premium Phones */}
+              <Card className="border-2 hover:border-primary transition-colors">
+                <CardHeader className="p-4 bg-primary/10">
+                  <div className="text-center">
+                    <Badge className="bg-primary text-white mb-2">Premium</Badge>
+                    <h3 className="text-xl font-bold">$700+</h3>
+                    <p className="text-sm text-muted-foreground mt-1">Top-tier flagship experience</p>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <ul className="space-y-2">
+                    {premiumPhones.slice(0, 5).map((phone) => (
+                      <li key={phone.id}>
+                        <Link href={`/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/\s+/g, '-')}`} className="flex items-center justify-between p-2 rounded hover:bg-muted transition-colors">
+                          <span className="text-sm font-medium truncate">{phone.brand} {phone.model}</span>
+                          <span className="text-sm text-primary font-semibold">${phone.price}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href="/category/premium" className="block text-center mt-4 text-primary hover:underline text-sm font-medium">
+                    See all premium phones <ArrowRight className="inline ml-1 h-3 w-3" />
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+          </CardContent>
+        </Card>
         
-        {/* iOS Phones */}
-        <Card className="rounded-lg" aria-labelledby="ios-heading">
-          <CardHeader className="p-6 flex items-center justify-between flex-row bg-primary text-primary-foreground rounded-t-lg">
-            <h2 id="ios-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Top iOS Phones
-            </h2>
-            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
-                View all <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+        {/* iOS Phones - Phase 5: alternating background */}
+        <Card className="rounded-lg bg-muted/20" aria-labelledby="ios-heading">
+          <CardHeader className="p-6 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 id="ios-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                  Best iPhone Models 2026
+                </h2>
+                <p className="text-primary-foreground/80 text-sm mt-1">Apple's premium smartphone lineup</p>
+              </div>
+              <Link href="/brands/apple" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
+                See all Apple phones <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent className="p-6">
             {renderPhoneList(iosPhones, phonesToShow)}
@@ -375,21 +608,26 @@ export default function Home() {
 
         {/* Android Phones */}
         <Card className="rounded-lg" aria-labelledby="android-heading">
-          <CardHeader className="p-6 flex items-center justify-between flex-row bg-primary text-primary-foreground rounded-t-lg">
-            <h2 id="android-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Top Android Phones
-            </h2>
-            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
-                View all <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+          <CardHeader className="p-6 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 id="android-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                  Best Android Phones 2026
+                </h2>
+                <p className="text-primary-foreground/80 text-sm mt-1">Top-rated smartphones running Android</p>
+              </div>
+              <Link href="/category/android" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
+                See all Android phones <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent className="p-6">
             {renderPhoneList(androidPhones, phonesToShow)}
           </CardContent>
         </Card>
         
-        {/* iOS Software */}
-        <Card className="rounded-lg" aria-labelledby="ios-software-heading">
+        {/* iOS Software - Phase 5: alternating background */}
+        <Card className="rounded-lg bg-muted/20" aria-labelledby="ios-software-heading">
           <CardHeader className="p-6 bg-primary text-primary-foreground rounded-t-lg">
             <h2 id="ios-software-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
               Exploring iOS
@@ -486,15 +724,20 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        {/* Flagship Phones */}
-         <Card className="rounded-lg" aria-labelledby="flagship-heading">
-           <CardHeader className="p-6 flex items-center justify-between flex-row bg-primary text-primary-foreground rounded-t-lg">
-            <h2 id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Flagship Phones
-            </h2>
-            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
-                View all <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+        {/* Flagship Phones - Phase 5: alternating background */}
+         <Card className="rounded-lg bg-muted/20" aria-labelledby="flagship-heading">
+           <CardHeader className="p-6 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 id="flagship-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                  Best Flagship Phones 2026
+                </h2>
+                <p className="text-primary-foreground/80 text-sm mt-1">Premium features, premium performance</p>
+              </div>
+              <Link href="/category/flagship" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
+                Explore all flagship phones <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent className="p-6">
             {renderPhoneList(flagshipPhones, phonesToShow)}
@@ -503,13 +746,18 @@ export default function Home() {
         
         {/* Battery Phones */}
         <Card className="rounded-lg" aria-labelledby="battery-heading">
-          <CardHeader className="p-6 flex items-center justify-between flex-row bg-primary text-primary-foreground rounded-t-lg">
-            <h2 id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Longest Battery Life
-            </h2>
-            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
-                View all <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+          <CardHeader className="p-6 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 id="battery-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                  Best Battery Life Phones
+                </h2>
+                <p className="text-primary-foreground/80 text-sm mt-1">Never worry about running out of charge</p>
+              </div>
+              <Link href="/category/battery" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
+                Explore all battery champions <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent className="p-6">
             {renderPhoneList(batteryPhones, phonesToShow)}
@@ -518,13 +766,18 @@ export default function Home() {
         
         {/* Gaming Phones */}
         <Card className="rounded-lg" aria-labelledby="gaming-heading">
-          <CardHeader className="p-6 flex items-center justify-between flex-row bg-primary text-primary-foreground rounded-t-lg">
-            <h2 id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Best for Gaming
-            </h2>
-            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
-                View all <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+          <CardHeader className="p-6 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 id="gaming-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                  Best Gaming Phones 2026
+                </h2>
+                <p className="text-primary-foreground/80 text-sm mt-1">Which one dominates mobile gaming benchmarks?</p>
+              </div>
+              <Link href="/category/gaming" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
+                Compare all gaming phones <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent className="p-6">
             {renderPhoneList(performancePhones, phonesToShow)}
@@ -533,13 +786,18 @@ export default function Home() {
 
         {/* Camera Phones */}
         <Card className="rounded-lg" aria-labelledby="camera-heading">
-          <CardHeader className="p-6 flex items-center justify-between flex-row bg-primary text-primary-foreground rounded-t-lg">
-            <h2 id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Top Camera Phones
-            </h2>
-            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
-                View all <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+          <CardHeader className="p-6 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 id="camera-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                  Best Camera Phones 2026
+                </h2>
+                <p className="text-primary-foreground/80 text-sm mt-1">For photography enthusiasts who won't compromise</p>
+              </div>
+              <Link href="/category/camera" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
+                Explore all camera phones <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent className="p-6">
             {renderPhoneList(cameraPhones, phonesToShow)}
@@ -548,13 +806,18 @@ export default function Home() {
 
         {/* Foldable Phones */}
         <Card className="rounded-lg" aria-labelledby="foldable-heading">
-          <CardHeader className="p-6 flex items-center justify-between flex-row bg-primary text-primary-foreground rounded-t-lg">
-            <h2 id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Foldable Phones
-            </h2>
-            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
-                View all <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+          <CardHeader className="p-6 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 id="foldable-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                  Best Foldable Phones 2026
+                </h2>
+                <p className="text-primary-foreground/80 text-sm mt-1">The future of smartphones is here</p>
+              </div>
+              <Link href="/category/foldable" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
+                See all foldable phones <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent className="p-6">
             {renderPhoneList(foldablePhones, phonesToShow)}
@@ -563,13 +826,18 @@ export default function Home() {
 
         {/* Rugged Phones */}
         <Card className="rounded-lg" aria-labelledby="rugged-heading">
-          <CardHeader className="p-6 flex items-center justify-between flex-row bg-primary text-primary-foreground rounded-t-lg">
-            <h2 id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Rugged Phones
-            </h2>
-            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
-                View all <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+          <CardHeader className="p-6 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 id="rugged-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                  Best Rugged Phones 2026
+                </h2>
+                <p className="text-primary-foreground/80 text-sm mt-1">Built tough for extreme conditions</p>
+              </div>
+              <Link href="/category/rugged" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
+                See all rugged phones <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent className="p-6">
             {renderPhoneList(ruggedPhones, phonesToShow)}
@@ -578,13 +846,18 @@ export default function Home() {
 
         {/* Unique Phones */}
         <Card className="rounded-lg" aria-labelledby="unique-heading">
-          <CardHeader className="p-6 flex items-center justify-between flex-row bg-primary text-primary-foreground rounded-t-lg">
-            <h2 id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
-              Unique Phones
-            </h2>
-            <Link href="#" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
-                View all <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+          <CardHeader className="p-6 bg-primary text-primary-foreground rounded-t-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 id="unique-heading" className="text-2xl font-bold tracking-tighter sm:text-3xl">
+                  Unique Design Phones 2026
+                </h2>
+                <p className="text-primary-foreground/80 text-sm mt-1">Stand out from the crowd with distinctive designs</p>
+              </div>
+              <Link href="/category/unique" className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors h-10 px-4 py-2 hover:underline">
+                Explore unique phones <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </div>
           </CardHeader>
           <CardContent className="p-6">
             {renderPhoneList(uniquePhones, phonesToShow)}
@@ -593,10 +866,11 @@ export default function Home() {
 
         {/* Quick Compare */}
         <Card className="rounded-lg" aria-labelledby="quick-compare-heading">
-          <CardHeader className="p-6">
-            <h2 id="quick-compare-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">
-              Quick Compare
+          <CardHeader className="p-6 text-center">
+            <h2 id="quick-compare-heading" className="text-3xl font-bold tracking-tighter sm:text-4xl">
+              Compare Mobile Phones Side-by-Side
             </h2>
+            <p className="text-muted-foreground mt-2">Compare up to 4 phones across 212 specifications</p>
           </CardHeader>
           <CardContent className="p-6">
             <div className="max-w-4xl mx-auto">
@@ -672,10 +946,10 @@ export default function Home() {
           <CardHeader className="p-6">
             <div className="space-y-3 text-center">
               <h2 id="browse-heading" className="text-3xl font-bold tracking-tighter md:text-4xl/tight">
-                Browse by Specs
+                Find Phones by Specifications
               </h2>
               <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed">
-                Find the perfect phone tailored to your needs.
+                Filter and discover phones based on the features that matter most to you
               </p>
             </div>
           </CardHeader>
