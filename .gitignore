@@ -25,10 +25,15 @@
 .env.test.local
 .env.production.local
 
-# Firebase
-firebase-debug.log
-.firebase
-
 # Genkit
 .genkit/
 .genkit-cache/
+
+# Data pipeline output
+scripts/data-pipeline/output/
+
+# TypeScript build info
+tsconfig.tsbuildinfo
+
+# Local env
+.env
