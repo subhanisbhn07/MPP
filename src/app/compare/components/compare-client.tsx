@@ -218,20 +218,19 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
                       <h3 className="font-semibold text-[10px] sm:text-xs md:text-sm">{spec.label}</h3>
                     </div>
                     
-                    {/* Spec Value Row */}
+                    {/* Spec Value Row - Always 4 columns to match header */}
                      <div className={cn(
-                        "grid items-start",
-                        `grid-cols-${Math.max(1, numPhones)}`,
+                        "grid items-start grid-cols-4",
                         specIndex % 2 === 0 ? 'bg-background' : 'bg-card'
                      )}>
-                      {compareList.map((phone, index) => (
-                        <div key={phone.id} className={cn("text-left p-1.5 sm:p-2 md:p-3 text-[10px] sm:text-xs md:text-sm", index > 0 && "border-l")}>
-                            {renderSpecValue((phone.specs[category] as any)?.[specKey])}
-                        </div>
-                      ))}
-                       {numPhones === 0 && (
-                          <div className="text-left p-1.5 sm:p-2 md:p-3 text-[10px] sm:text-xs md:text-sm text-muted-foreground">Add a phone to see specs</div>
-                        )}
+                      {[...Array(MAX_COMPARE_PHONES)].map((_, index) => {
+                        const phone = compareList[index];
+                        return (
+                          <div key={phone?.id || `empty-${index}`} className={cn("text-left p-1.5 sm:p-2 md:p-3 text-[10px] sm:text-xs md:text-sm", index > 0 && "border-l")}>
+                            {phone ? renderSpecValue((phone.specs[category] as any)?.[specKey]) : <span className="text-muted-foreground">-</span>}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )
