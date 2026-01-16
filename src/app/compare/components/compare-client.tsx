@@ -60,8 +60,8 @@ const PhoneSelection = ({ phone, onAdd, onRemove }: { phone: Phone | null, onAdd
       >
         <X className="h-4 w-4" aria-hidden="true" />
       </Button>
-      <Link href={phoneUrl} className="flex flex-col items-center p-2 text-center h-full justify-between">
-        <div className="relative w-full aspect-square max-h-[120px]">
+      <Link href={phoneUrl} className="flex flex-col items-center p-1 sm:p-2 text-center h-full justify-between">
+        <div className="relative w-full aspect-square max-h-[60px] sm:max-h-[100px] md:max-h-[120px]">
           <Image
             src={phone.image}
             alt={phone.model}
@@ -70,9 +70,9 @@ const PhoneSelection = ({ phone, onAdd, onRemove }: { phone: Phone | null, onAdd
             data-ai-hint="mobile phone"
           />
         </div>
-        <div>
-          <p className="text-sm font-bold mt-1 truncate w-full">{phone.brand} {phone.model}</p>
-          <p className="text-sm text-primary">${phone.price}</p>
+        <div className="w-full">
+          <p className="text-[10px] sm:text-xs md:text-sm font-bold mt-1 truncate">{phone.brand} {phone.model}</p>
+          <p className="text-[10px] sm:text-xs md:text-sm text-primary">${phone.price}</p>
         </div>
       </Link>
     </Card>
@@ -124,7 +124,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
         </p>
       </div>
 
-       <div className="grid grid-cols-2 md:grid-cols-4 items-stretch gap-2 mb-8 sticky top-4 z-20 bg-background/80 backdrop-blur-sm p-4 rounded-lg border">
+       <div className="grid grid-cols-2 md:grid-cols-4 items-stretch gap-1 sm:gap-2 mb-4 sm:mb-8 sticky top-2 sm:top-4 z-20 bg-background/80 backdrop-blur-sm p-2 sm:p-4 rounded-lg border">
           {[...Array(MAX_COMPARE_PHONES)].map((_, index) => {
             const phone = compareList[index];
             return (
@@ -154,8 +154,8 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
                 return (
                   <div key={spec.key} className={cn("border-t", specIndex === 0 && "border-t-0")}>
                     {/* Spec Label Row */}
-                    <div className="p-3 bg-card">
-                      <h3 className="font-semibold text-sm">{spec.label}</h3>
+                    <div className="p-1.5 sm:p-2 md:p-3 bg-card">
+                      <h3 className="font-semibold text-[10px] sm:text-xs md:text-sm">{spec.label}</h3>
                     </div>
                     
                     {/* Spec Value Row */}
@@ -165,12 +165,12 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
                         specIndex % 2 === 0 ? 'bg-background' : 'bg-card'
                      )}>
                       {compareList.map((phone, index) => (
-                        <div key={phone.id} className={cn("text-left p-3 text-sm", index > 0 && "border-l")}>
+                        <div key={phone.id} className={cn("text-left p-1.5 sm:p-2 md:p-3 text-[10px] sm:text-xs md:text-sm", index > 0 && "border-l")}>
                             {renderSpecValue((phone.specs[category] as any)?.[specKey])}
                         </div>
                       ))}
                        {numPhones === 0 && (
-                          <div className="text-left p-3 text-sm text-muted-foreground">Add a phone to see specs</div>
+                          <div className="text-left p-1.5 sm:p-2 md:p-3 text-[10px] sm:text-xs md:text-sm text-muted-foreground">Add a phone to see specs</div>
                         )}
                     </div>
                   </div>
