@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { JsonLd, generateComparisonSchema, Breadcrumb } from "@/components/seo";
 
 
 interface CompareClientProps {
@@ -113,16 +114,36 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
   const gridColsClass = `grid-cols-2 md:grid-cols-${Math.max(2, numPhones === 3 ? 4 : numPhones)}`;
   const valueGridColsClass = `grid-cols-${numPhones > 0 ? numPhones : 1}`;
 
+  const breadcrumbItems = compareList.length > 0 
+    ? [
+        { label: 'Compare', href: '/compare' },
+        { label: compareList.map(p => p.model).join(' vs '), href: '#' },
+      ]
+    : [{ label: 'Compare', href: '/compare' }];
+
+  const comparisonSchema = compareList.length > 0 ? generateComparisonSchema(compareList) : null;
+
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
-       <div className="space-y-4 text-center mb-12">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-          Compare Phones
-        </h1>
-        <p className="max-w-[700px] mx-auto text-muted-foreground md:text-xl">
-          Select up to {MAX_COMPARE_PHONES} phones and compare their specs side-by-side.
-        </p>
-      </div>
+    <>
+      {comparisonSchema && <JsonLd data={comparisonSchema} />}
+      
+      <div className="container mx-auto py-12 px-4 md:px-6">
+        <Breadcrumb items={breadcrumbItems} className="mb-6" />
+        
+        <div className="space-y-4 text-center mb-12">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            {compareList.length > 0 
+              ? `${compareList.map(p => `${p.brand} ${p.model}`).join(' vs ')}`
+              : 'Compare Phones'
+            }
+          </h1>
+          <p className="max-w-[700px] mx-auto text-muted-foreground md:text-xl">
+            {compareList.length > 0
+              ? `Side-by-side comparison of ${compareList.length} phones with detailed specifications.`
+              : `Select up to ${MAX_COMPARE_PHONES} phones and compare their specs side-by-side.`
+            }
+          </p>
+        </div>
 
        <div className="grid grid-cols-2 md:grid-cols-4 items-stretch gap-2 mb-8 sticky top-4 z-20 bg-background/80 backdrop-blur-sm p-4 rounded-lg border">
           {[...Array(MAX_COMPARE_PHONES)].map((_, index) => {
@@ -187,6 +208,7 @@ export function CompareClient({ initialPhones = [] }: CompareClientProps) {
         allPhones={allPhones}
         currentPhones={compareList}
       />
-    </div>
+      </div>
+    </>
   )
 }

@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table"
 import Image from "next/image"
-import { Heart, Share2, Award, Star, CheckCircle, XCircle } from 'lucide-react'
+import Link from "next/link"
+import { Heart, Share2, Award, Star, CheckCircle, XCircle, ArrowRight } from 'lucide-react'
 import { specCategoryGroups } from "@/lib/types";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Separator } from "@/components/ui/separator";
 import { Progress } from "@/components/ui/progress"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -20,6 +21,10 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel"
+import { allPhones } from "@/lib/data"
+import { PhoneCard } from "@/components/phone-card"
+import { useCompare } from "@/contexts/compare-context"
+import { Breadcrumb, JsonLd, generateProductSchema, generateFAQSchema } from "@/components/seo"
 
 interface PhoneDetailsClientProps {
     phone: Phone;
@@ -29,6 +34,7 @@ export function PhoneDetailsClient({ phone }: PhoneDetailsClientProps) {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
   const [count, setCount] = useState(0)
+  const { handleAddToCompare } = useCompare()
 
   useEffect(() => {
     if (!api) {
@@ -44,6 +50,48 @@ export function PhoneDetailsClient({ phone }: PhoneDetailsClientProps) {
   }, [api])
   
   const allImages = [phone.image, ...(phone.images || [])];
+
+  const similarPhones = useMemo(() => {
+    const priceRange = 0.3;
+    const minPrice = phone.price * (1 - priceRange);
+    const maxPrice = phone.price * (1 + priceRange);
+    
+    return allPhones
+      .filter(p => p.id !== phone.id && p.price >= minPrice && p.price <= maxPrice)
+      .slice(0, 4);
+  }, [phone]);
+
+  const sameBrandPhones = useMemo(() => {
+    return allPhones
+      .filter(p => p.id !== phone.id && p.brand === phone.brand)
+      .slice(0, 4);
+  }, [phone]);
+
+  const phoneName = `${phone.brand} ${phone.model}`;
+  const phoneUrl = `/${phone.brand.toLowerCase()}/${phone.model.toLowerCase().replace(/ /g, '-')}`;
+  
+  const breadcrumbItems = [
+    { label: 'Phones', href: '/search' },
+    { label: phone.brand, href: `/search?q=${phone.brand}` },
+    { label: phone.model, href: phoneUrl },
+  ];
+
+  const productSchema = generateProductSchema(phone);
+  
+  const faqs = [
+    {
+      question: `What is the price of ${phoneName}?`,
+      answer: `The ${phoneName} is priced at $${phone.price}. Prices may vary by retailer and region.`,
+    },
+    {
+      question: `What are the key specs of ${phoneName}?`,
+      answer: `The ${phoneName} features a ${phone.specs.display.size_inches}" display, ${phone.specs.main_camera.main_sensor_resolution} main camera, ${phone.specs.platform.chipset} processor, ${phone.specs.memory.ram_capacities} RAM, and ${phone.specs.battery.capacity_mah}mAh battery.`,
+    },
+    {
+      question: `Is ${phoneName} worth buying?`,
+      answer: `The ${phoneName} offers ${phone.specs.display.panel_type} display, ${phone.specs.battery.wired_charging_wattage || 'standard'} charging, and runs on ${phone.specs.software.os_version_at_ship}. Consider your needs and budget when making a decision.`,
+    },
+  ];
 
   const renderSpecValue = (value: string | undefined | null) => {
     if(!value) return 'N/A';
@@ -61,12 +109,17 @@ export function PhoneDetailsClient({ phone }: PhoneDetailsClientProps) {
   const ratingDistribution = [120, 45, 11, 5, 5];
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
-      <div className="grid md:grid-cols-3 gap-8">
-        <div className="md:col-span-1">
-          <Card className="sticky top-24">
-            <CardContent className="p-6">
-              <Carousel setApi={setApi} className="relative mb-4">
+    <>
+      <JsonLd data={[productSchema, generateFAQSchema(faqs)]} />
+      
+      <div className="container mx-auto py-12 px-4 md:px-6">
+        <Breadcrumb items={breadcrumbItems} className="mb-6" />
+        
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="md:col-span-1">
+            <Card className="sticky top-24">
+              <CardContent className="p-6">
+                <Carousel setApi={setApi} className="relative mb-4">
                   <CarouselContent>
                     {allImages.map((img, index) => (
                       <CarouselItem key={index}>
@@ -225,6 +278,79 @@ export function PhoneDetailsClient({ phone }: PhoneDetailsClientProps) {
             </div>
         </div>
       </div>
-    </div>
+
+        {similarPhones.length > 0 && (
+          <section className="mt-12">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold">Similar Phones</h2>
+              <Button variant="outline" asChild>
+                <Link href={`${phoneUrl}/alternatives`}>
+                  View All Alternatives
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Link>
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {similarPhones.map((p) => (
+                <PhoneCard key={p.id} phone={p} onAddToCompare={handleAddToCompare} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {sameBrandPhones.length > 0 && (
+          <section className="mt-12">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold">More from {phone.brand}</h2>
+              <Button variant="outline" asChild>
+                <Link href={`/search?q=${phone.brand}`}>
+                  View All {phone.brand} Phones
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Link>
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {sameBrandPhones.map((p) => (
+                <PhoneCard key={p.id} phone={p} onAddToCompare={handleAddToCompare} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <section className="mt-12">
+          <h2 className="text-2xl font-bold mb-6">Explore More</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Link 
+              href={`${phoneUrl}/alternatives`}
+              className="p-4 border rounded-lg hover:bg-muted transition-colors text-center"
+            >
+              <h3 className="font-medium">{phoneName} Alternatives</h3>
+              <p className="text-sm text-muted-foreground mt-1">Find similar phones</p>
+            </Link>
+            <Link 
+              href={`/phones-under-${Math.ceil(phone.price / 100) * 100}`}
+              className="p-4 border rounded-lg hover:bg-muted transition-colors text-center"
+            >
+              <h3 className="font-medium">Phones Under ${Math.ceil(phone.price / 100) * 100}</h3>
+              <p className="text-sm text-muted-foreground mt-1">Budget options</p>
+            </Link>
+            <Link 
+              href="/compare"
+              className="p-4 border rounded-lg hover:bg-muted transition-colors text-center"
+            >
+              <h3 className="font-medium">Compare Phones</h3>
+              <p className="text-sm text-muted-foreground mt-1">Side-by-side comparison</p>
+            </Link>
+            <Link 
+              href="/category/best-camera-phones"
+              className="p-4 border rounded-lg hover:bg-muted transition-colors text-center"
+            >
+              <h3 className="font-medium">Best Camera Phones</h3>
+              <p className="text-sm text-muted-foreground mt-1">Top photography picks</p>
+            </Link>
+          </div>
+        </section>
+      </div>
+    </>
   )
 }
